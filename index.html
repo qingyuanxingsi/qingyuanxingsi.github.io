@@ -137,7 +137,21 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 </p>
       </div>
       <div class="summary span8">
-	<p>挖坑待填</p> 
+	<p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
+<h1>概述</h1>
+<blockquote>
+<p>无论是云计算、大数据还是互联网公司的各种应用，其后台基础设施的主要目标都
+是构建<strong>低成本、高性能、可扩展、易用</strong>的分布式存储系统。(阿里日照)</p>
+</blockquote>
+<p>分布式存储面临的数据需求比较复杂，大致可以分为三类：</p>
+<ul>
+<li>非结构化数据 ：包括所有格式的办公文档、文本、图片、图像、音频和视频信
+息等。</li>
+<li>结构化数据：一般存储在关系数据库中，可以用二维关系表结构来表示。结构化
+数据的模式（Schema，包括属性、数据类型以及数据之间的联系）和内容是分
+开的，数据的模式需要预先定义。</li>
+<li>半结构化数据：介于非结构化数据和结构化数据之间，HTML 文档就属于半结构
+化数据。它一般是自描述的，与结构化数据最大的区别在于，半结构化数据的模 ...</li></ul> 
 	<a class="btn btn-mini xsmall" href="/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
