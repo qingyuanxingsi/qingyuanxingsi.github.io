@@ -159,7 +159,7 @@ p(X=j|D) = \int P(X=j|\theta)p(\theta|D)d\theta \
 <p><img alt="token_count" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/APPLE/Markdown/token_count_zps1876920b.png?t=1393987078" /></p>
 <p>将以上每个计数值记为$N_j$,如果对于$\theta$我们采用Dirichlet先验分布，则有:</p>
 <p>\begin{equation}
-P(\bar{X}<em j_prime="j\prime">j|D)=E[\theta_j|D]=\frac{\alpha_j+N_j}{\sum</em>}\alpha_{j\prime+N_{j\prime}}=\frac{1+N_j}{10+17}
+P(\bar{X}_j|D)=E[\theta_j|D]=\frac{\alpha_j+N_j}{\sum_t \alpha_t+N_t}=\frac{1+N_j}{10+17}
 \end{equation}</p>
 <p>通过代入每一个计数值，我们便能得出每个词出现的概率。至此，我们得到了该语言模型的所有参数，进而可以进行各种预测。</p>
 <h1>Naive Bayes Classifier</h1>
@@ -193,8 +193,7 @@ p(x|y=c,\theta) = \prod_{j=1}^{D} p(x_j|y=c,\theta{jc})
 <p>这里不给出针对具体数据的计算过程，想了解具体每一步怎么算的亲们请参考<a href="http://www.cnblogs.com/leoo2sk/archive/2010/09/17/naive-bayesian-classifier.html">算法杂货铺——分类算法之朴素贝叶斯分类(Naive Bayesian classification)</a>。</p>
 <h1>Mutual Information</h1>
 <hr />
-<p>引子
-NBC需要计算关于很多特征的联合概率分布，可能会导致过拟合；此外，算法的运行时间是$O(CD)$,对于有些应用来说可能计算量太大了。一个解决上述问题的普遍被采用的方案是进行特征选取，去掉和分类无关的无用属性。最简单的方法是考察每个特征与分类属性之间的相关性，并权衡复杂性以及准确度选取K个最相关的属性用于训练。该方法被称为<code>variable ranking,filtering,or screening</code></p>
+<p>NBC需要计算关于很多特征的联合概率分布，可能会导致过拟合；此外，算法的运行时间是$O(CD)$,对于有些应用来说可能计算量太大了。一个解决上述问题的普遍被采用的方案是进行特征选取，去掉和分类无关的无用属性。最简单的方法是考察每个特征与分类属性之间的相关性，并权衡复杂性以及准确度选取K个最相关的属性用于训练。该方法被称为<code>variable ranking,filtering,or screening</code></p>
 <p>衡量相关性的一种方式是通过互信息，如下:
 \begin{equation}
 I(X,Y)=\sum_{x_j}\sum_{Y}P(x_j,y)log\frac{p(x_j,Y)}{p(x_j)p(y)}
