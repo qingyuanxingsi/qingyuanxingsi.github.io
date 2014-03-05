@@ -4,84 +4,84 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>/index.html</loc>
-<lastmod>2014-03-05T19:13:51-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/index.html</loc>
+<lastmod>2014-03-05T19:30:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/archives.html</loc>
-<lastmod>2014-03-05T19:13:51-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/archives.html</loc>
+<lastmod>2014-03-05T19:30:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tags.html</loc>
-<lastmod>2014-03-05T19:13:51-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tags.html</loc>
+<lastmod>2014-03-05T19:30:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/categories.html</loc>
-<lastmod>2014-03-05T19:13:51-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/categories.html</loc>
+<lastmod>2014-03-05T19:30:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</loc>
+<loc>http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/Decision Tree.html</loc>
+<loc>http://www.qingyuanxingsi.com/Decision Tree.html</loc>
 <lastmod>2013-03-03T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/category/machine-learning.html</loc>
+<loc>http://www.qingyuanxingsi.com/category/machine-learning.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/classfication.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/classfication.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/generative-model.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/generative-model.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/machine-learning.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/machine-learning.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/mutual-information.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/mutual-information.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/author/qingyuanxingsi.html</loc>
+<loc>http://www.qingyuanxingsi.com/author/qingyuanxingsi.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
