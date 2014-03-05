@@ -5,30 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/index.html</loc>
-<lastmod>2014-03-05T10:54:18-00:00</lastmod>
+<lastmod>2014-03-05T16:35:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/archives.html</loc>
-<lastmod>2014-03-05T10:54:18-00:00</lastmod>
+<lastmod>2014-03-05T16:35:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/tags.html</loc>
-<lastmod>2014-03-05T10:54:18-00:00</lastmod>
+<lastmod>2014-03-05T16:35:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/categories.html</loc>
-<lastmod>2014-03-05T10:54:18-00:00</lastmod>
+<lastmod>2014-03-05T16:35:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
+</url>
+
+<url>
+<loc>/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</loc>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -40,21 +47,42 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/category/machine-learning.html</loc>
-<lastmod>2013-03-03T00:00:00-00:00</lastmod>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/classfication.html</loc>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/generative-model.html</loc>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/tag/machine-learning.html</loc>
-<lastmod>2013-03-03T00:00:00-00:00</lastmod>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/mutual-information.html</loc>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/author/qingyuanxingsi.html</loc>
-<lastmod>2013-03-03T00:00:00-00:00</lastmod>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
