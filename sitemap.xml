@@ -5,44 +5,30 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/index.html</loc>
-<lastmod>2014-03-06T01:08:35-00:00</lastmod>
+<lastmod>2014-03-06T18:52:32-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/archives.html</loc>
-<lastmod>2014-03-06T01:08:35-00:00</lastmod>
+<lastmod>2014-03-06T18:52:32-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/tags.html</loc>
-<lastmod>2014-03-06T01:08:35-00:00</lastmod>
+<lastmod>2014-03-06T18:52:32-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/categories.html</loc>
-<lastmod>2014-03-06T01:08:35-00:00</lastmod>
+<lastmod>2014-03-06T18:52:32-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
-</url>
-
-<url>
-<loc>/wo-de-jia-wu.html</loc>
-<lastmod>2014-06-30T00:00:00-00:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
-</url>
-
-<url>
-<loc>/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html</loc>
-<lastmod>2014-04-15T00:00:00-00:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
 </url>
 
 <url>
@@ -55,6 +41,20 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>/wo-de-jia-wu.html</loc>
+<lastmod>2013-06-30T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html</loc>
+<lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
@@ -75,7 +75,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/category/life.html</loc>
-<lastmod>2014-06-30T00:00:00-00:00</lastmod>
+<lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -89,7 +89,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/category/viewpoint.html</loc>
-<lastmod>2014-04-15T00:00:00-00:00</lastmod>
+<lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -103,14 +103,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/tag/sui-bi.html</loc>
-<lastmod>2014-06-30T00:00:00-00:00</lastmod>
+<lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/tag/hu-lian-wang.html</loc>
-<lastmod>2014-04-15T00:00:00-00:00</lastmod>
+<lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -131,7 +131,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/tag/o2o.html</loc>
-<lastmod>2014-04-15T00:00:00-00:00</lastmod>
+<lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -152,7 +152,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/tag/jia-wu.html</loc>
-<lastmod>2014-06-30T00:00:00-00:00</lastmod>
+<lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -173,7 +173,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/author/qingyuanxingsi.html</loc>
-<lastmod>2014-06-30T00:00:00-00:00</lastmod>
+<lastmod>2014-03-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

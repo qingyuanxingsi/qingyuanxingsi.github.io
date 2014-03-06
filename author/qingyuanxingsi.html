@@ -54,74 +54,8 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="/wo-de-jia-wu.html"><h1>我的甲午</h1></a>
+            <a href="/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing.html"><h1>分布式计算与存储系列(I):初入门径</h1></a>
         </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>一 30 六月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="/category/life.html">Life</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="/tag/jia-wu.html">甲午</a> <a href="/tag/sui-bi.html">随笔</a> </p>
-<p>
-</p>
-      </div>
-      <div class="article-content span8">
-	<p>挖坑待填。</p> 
-	<a class="btn btn-mini xsmall" href="/wo-de-jia-wu.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html"><h1>闲话O2O:写在互联网时代的边上</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 15 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="/category/viewpoint.html">Viewpoint</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="/tag/o2o.html">O2O</a> <a href="/tag/hu-lian-wang.html">互联网</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>我们先挖个坑，以后再填<sup id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back"><a title="这只是一篇测试文档，顺便测试一下脚注功能" href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1" class="simple-footnote">1</a></sup>。</p><ol class="simple-footnotes"><li id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1">这只是一篇测试文档，顺便测试一下脚注功能 <a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back" class="simple-footnote-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing.html"><h1>分布式计算与存储系列(I):初入门径</h1></a>
-      </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
@@ -136,7 +70,7 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <p>
 </p>
       </div>
-      <div class="summary span8">
+      <div class="article-content span8">
 	<p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
 <h1>概述</h1>
 <blockquote>
@@ -151,14 +85,42 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 数据的模式（Schema，包括属性、数据类型以及数据之间的联系）和内容是分
 开的，数据的模式需要预先定义。</li>
 <li>半结构化数据：介于非结构化数据和结构化数据之间，HTML 文档就属于半结构
-化数据。它一般是自描述的，与结构化数据最大的区别在于，半结构化数据的模 ...</li></ul> 
+化数据。它一般是自描述的，与结构化数据最大的区别在于，半结构化数据的模
+式结构和内容混在一起，没有明显的区分，也不需要预先定义数据的模式结构。</li>
+</ul>
+<p>不同的分布式存储系统适合处理不同类型的数据，本书将分布式存储系统分为四类：
+分布式文件系统、分布式键值（Key-Value）系统、分布式表格系统和分布式数据库。</p>
+<ul>
+<li>分布式文件系统</li>
+</ul>
+<p>互联网应用需要存储大量的图片、照片、视频等非结构化数据对象，这类数据以对象的形式组织，对象之间没有关联，这样的数据一般称为<strong>Blob</strong>（Binary Large Object，二进制大对象）数据。分布式文件系统用于存储Blob 对象，典型的系统有<em>Facebook Haystack</em>。另外，分布式文件系统也常作为分布式表格系统以及分布式数据库的底层存储，如谷歌的 GFS（<em>Google File System</em>，存储大文件）可以作为分布式表格系统Google Bigtable 的底层存储，Amazon 的EBS（<em>Elastic Block Store</em>，弹性块存储）系统可以作为分布式数据库（<em>Amazon RDS</em>）的底层存储。</p>
+<ul>
+<li>分布式键值系统</li>
+</ul>
+<p>分布式键值系统用于存储关系简单的半结构化数据，它只提供基于主键的CRUD（Create/Read/Update/Delete)功能，即根据主键创建、读取、更新或者删除一条键值记录。典型的系统有<em>Amazon Dynamo</em>。从数据结构的角度看，分布式键值系统与传统的哈希表比较类似，不同的是，分布式键值系统支持将数据分布到集群中的多个存储节点。分布式键值系统是分布式表格系统的一种简化实现，<strong>一般用作缓存</strong>，比如<em>Memcache</em>。一致性哈希是分布式键值系统中常用的数据分布技术，因其被<em>Amazon DynamoDB</em> 系统使用而变得相当有名。</p>
+<ul>
+<li>分布式表格系统</li>
+</ul>
+<p>用于存储关系较为复杂的半结构化数据，与分布式键值系统相比,分布式表格系统不仅仅支持简单的CRUD 操作，而且<strong>支持扫描某个主键范围</strong>。分布式表格系统以<code>表格</code>为单位组织数据，每个表格包括很多行，通过主键标识一行，支持根据主键的CRUD 功能以及范围查找功能。典型的系统包括Google Bigtable 以及Megastore，Microsoft Azure Table Storage，Amazon DynamoDB 等。与分布式数据库相比，分布式表格系统主要支持针对单张表格的操作，不支持一些特别复杂的操作，比如多表关联，多表联接，嵌套子查询；另外，在分布式表格系统中，同一个表格的多个数据行也不要求包含相同类型的列，适合半结构化数据。分布式表格系统是一种很好的权衡，这类系统可以做到超大规模，而且支持较多的功能，但实现往往比较复杂，而且有一定的使用门槛。</p>
+<ul>
+<li>分布式数据库</li>
+</ul>
+<p>分布式数据库一般是从单机关系数据库扩展而来，用于存储结构化数据。分布式数据库采用二维表格组织数据，提供SQL 关系查询语言，支持多表关联，嵌套子查询等复杂操作，并提供数据库事务以及并发控制。典型的系统包括MySQL数据库分片（MySQL Sharding）集群，Amazon RDS 以及Microsoft SQL Azure。分布式数据库支持的功能最为丰富，符合用户使用习惯，但可扩展性往往受到限制。当然，这一点并不是绝对的.Google Spanner系统是一个支持多数据中心的分布式数据库，它不仅支持丰富的关系数据库功能，还能扩展到多个数据中心的成千上万台机器。</p>
+<blockquote>
+<p>NOTE:
+传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back"><a title="关于NoSQL的详细资料参见NoSQL数据库笔谈" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1" class="simple-footnote">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL 系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
+</blockquote>
+<h1>单机存储系统</h1>
+<h1>分布式系统</h1>
+<h1>Bonus</h1>
+<h1>参考文献</h1><ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing.html">
-          <i class="icon-plus-sign"></i> Read More </a>
+          <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
-      
+    
 
  
         
@@ -186,6 +148,72 @@ Filed under <a href="/category/machine-learning.html">Machine Learning</a>
       <div class="summary span8">
 	<p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p> 
 	<a class="btn btn-mini xsmall" href="/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="/wo-de-jia-wu.html"><h1>我的甲午</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>日 30 六月 2013 </p>
+
+<p style="text-align: left;">
+Filed under <a href="/category/life.html">Life</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="/tag/jia-wu.html">甲午</a> <a href="/tag/sui-bi.html">随笔</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>挖坑待填。</p> 
+	<a class="btn btn-mini xsmall" href="/wo-de-jia-wu.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html"><h1>闲话O2O:写在互联网时代的边上</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>一 15 四月 2013 </p>
+
+<p style="text-align: left;">
+Filed under <a href="/category/viewpoint.html">Viewpoint</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="/tag/o2o.html">O2O</a> <a href="/tag/hu-lian-wang.html">互联网</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>我们先挖个坑，以后再填<sup id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back"><a title="这只是一篇测试文档，顺便测试一下脚注功能" href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1" class="simple-footnote">1</a></sup>。</p><ol class="simple-footnotes"><li id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1">这只是一篇测试文档，顺便测试一下脚注功能 <a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back" class="simple-footnote-back">↩</a></li></ol> 
+	<a class="btn btn-mini xsmall" href="/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>
