@@ -108,9 +108,22 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <p>分布式数据库一般是从单机关系数据库扩展而来，用于存储结构化数据。分布式数据库采用二维表格组织数据，提供SQL 关系查询语言，支持多表关联，嵌套子查询等复杂操作，并提供数据库事务以及并发控制。典型的系统包括MySQL数据库分片（MySQL Sharding）集群，Amazon RDS 以及Microsoft SQL Azure。分布式数据库支持的功能最为丰富，符合用户使用习惯，但可扩展性往往受到限制。当然，这一点并不是绝对的.Google Spanner系统是一个支持多数据中心的分布式数据库，它不仅支持丰富的关系数据库功能，还能扩展到多个数据中心的成千上万台机器。</p>
 <blockquote>
 <p>NOTE:
-传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back"><a title="关于NoSQL的详细资料参见NoSQL数据库笔谈" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1" class="simple-footnote">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL 系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
+传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1" class="simple-footnote" title="关于NoSQL的详细资料参见NoSQL数据库笔谈">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL 系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
 </blockquote>
 <h1>单机存储系统</h1>
+<p>单机存储引擎就是哈希表、B 树等数据结构在机械磁盘、SSD等持久化介质上的实现。单机存储系统是单机存储引擎的一种封装,对外提供文件、键值、表格或者关系模型。单机存储系统的理论来源于关系数据库。数据库将一个或多个操作组成一组,称作事务,事务必须满足原子性(Atomicity)、一致性(Consistency)、隔离性(Isolation)以及持久性(Durability),简称为 ACID 特性。多个事务并发执行时,数据库的并发控制管理器必须能够保证多个事务的执行结果不能破坏某种约定,如不能出现事务执行到一半的情况,不能读取到未提交的事务,等等。为了保证持久性,对于数据库的每一个变化都要在磁盘上记录日志,当数据库系统突然发生故障,重启后能够恢复到之前一致的状态。</p>
+<h2>硬件基础</h2>
+<h3>CPU架构</h3>
+<p>早期的 CPU 为单核芯片,工程师们很快意识到,仅仅提高单核的速度会产生过多的热量且无法带来相应的性能改善。因此,现代服务器基本为多核或多个 CPU。经典的多CPU 架构为对称多处理结构(Symmetric Multi-Processing,SMP),即在一个计算机上汇
+集了一组处理器,它们之间对称工作,无主次或从属关系,共享相同的物理内存及总线。SMP架构的主要特征是共享,系统中所有资源(CPU、内存、I/O 等)都是共享的,由于多CPU对前端总线的竞争,SMP的扩展能力非常有限。为了提高可扩展性,现在的主流服务器架构一般为 NUMA(Non-Uniform Memory Access,非一致存储访问)架构。它具有多个 NUMA 节点,每个 NUMA 节点是一个 SMP 结构,一般由多个 CPU(如 4 个)组成,并且具有独立的本地内存、IO槽口等。NUMA节点可以直接快速访问本地内存,也可以通过NUMA 互联互通模块访问其他 NUMA 节点的内存,<strong>访问本地内存的速度远远高于远程访问的速度</strong>。由于这个特点,为了更好地发挥系统性能,开发应用程序时需要尽量减少不同 NUMA 节点之间的信息交互。</p>
+<h3>存储层次架构</h3>
+<p>从分布式系统的角度看,整个集群中所有服务器上的存储介质(内存、机械硬盘,SSD)构成一个整体,其他服务器上的存储介质与本机存储介质一样都是可访问的,区别仅仅在于需要额外的网络传输及网络协议栈等访问开销。</p>
+<p>存储系统的性能主要包括两个维度:<strong>吞吐量以及访问延时</strong>,设计系统时要求能够在保证访问延时的基础上,通过最低的成本实现尽可能高的吞吐量。磁盘和 SSD的访问延时差别很大,但带宽差别不大,因此,磁盘适合大块顺序访问的存储系统,SSD适合随机访问较多或者对延时比较敏感的关键系统。二者也常常组合在一起进行混合存储,热数据(访问频繁)存储到SSD中,冷数据(访问不频繁)存储到磁盘中。</p>
+<h2>单机存储引擎</h2>
+<p>存储引擎是存储系统的发动机,直接决定了存储系统能够提供的性能和功能。存储系统的基本功能包括:增、删、读、改,其中,读取操作又分为随机读取和顺序扫描。哈希存储引擎是哈希表的持久化实现,支持增、删、改,以及随机读取操作,但不支持顺序扫描,对应的存储系统为键值(Key-Value)存储系统;<strong>B树</strong>(B-Tree)存储引擎是B树的持久化实现,不仅支持单条记录的增、删、读、改操作,还支持顺序扫描,对应的存储系统是关系数据库。当然,键值系统也可以通过 B 树存储引擎实现;LSM树(Log-Structured Merge Tree)存储引擎和 B 树存储引擎一样,支持增、删、改、随机读取以及顺序扫描。它通过<code>批量转储技术规避磁盘随机写入</code>问题,广泛应用于互联网的后台 存 储 系 统, 例 如 Google Bigtable、Google LevelDB 以 及 Facebook 开 源 的Cassandra
+系统。本节分别以 Bitcask、MySQL InnoDB 以及 Google LevelDB 系统为例介绍这三种存储引擎。</p>
+<h3>哈希存储引擎</h3>
+<p>Bitcask是一个基于哈希表结构的键值存储系统,它仅支持追加操作(Append-only),即所有的写操作只追加而不修改老的数据。在 Bitcask 系统中,每个文件有一定的大小限制,当文件增加到相应的大小时,就会产生一个新的文件,老的文件只读不写。在任意时刻,只有一个文件是可写的,用于数据追加,称为活跃数据文件(active data file)。而其他达到大小限制的文件，称为老数据文件(older data file)。</p>
 <h1>分布式系统</h1>
 <h1>Bonus</h1>
 <h1>参考文献</h1><ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li></ol> 
@@ -245,7 +258,7 @@ Filed under <a href="/category/viewpoint.html">Viewpoint</a>
 </p>
       </div>
       <div class="summary span8">
-	<p>我们先挖个坑，以后再填<sup id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back"><a title="这只是一篇测试文档，顺便测试一下脚注功能" href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1" class="simple-footnote">1</a></sup>。</p><ol class="simple-footnotes"><li id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1">这只是一篇测试文档，顺便测试一下脚注功能 <a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back" class="simple-footnote-back">↩</a></li></ol> 
+	<p>我们先挖个坑，以后再填<sup id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back"><a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1" class="simple-footnote" title="这只是一篇测试文档，顺便测试一下脚注功能">1</a></sup>。</p><ol class="simple-footnotes"><li id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1">这只是一篇测试文档，顺便测试一下脚注功能 <a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
