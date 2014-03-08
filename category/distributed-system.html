@@ -124,6 +124,7 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 系统。本节分别以 Bitcask、MySQL InnoDB 以及 Google LevelDB 系统为例介绍这三种存储引擎。</p>
 <h3>哈希存储引擎</h3>
 <p>Bitcask是一个基于哈希表结构的键值存储系统,它仅支持追加操作(Append-only),即所有的写操作只追加而不修改老的数据。在 Bitcask 系统中,每个文件有一定的大小限制,当文件增加到相应的大小时,就会产生一个新的文件,老的文件只读不写。在任意时刻,只有一个文件是可写的,用于数据追加,称为活跃数据文件(active data file)。而其他达到大小限制的文件，称为老数据文件(older data file)。</p>
+<p><img alt="Structure for Bitcask" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/DS1_1_zps07d562a0.png"></p>
 <h1>分布式系统</h1>
 <h1>Bonus</h1>
 <h1>参考文献</h1><ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li></ol> 
