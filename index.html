@@ -276,8 +276,8 @@ hash(cache C) = key C;</p>
 <p>考虑假设cache B挂掉了，根据上面讲到的映射方法，这时受影响的将仅是那些沿 cache B 逆时针遍历直到下一个cache（cache C）之间的对象，也即是本来映射到 cache B上的那些对象。</p>
 <p>因此这里仅需要变动对象object4,将其重新映射到 cache C 上即可,如下图所示:</p>
 <p><img alt="移除Cache" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash4_zpsf41b0bf7.jpg" /></p>
-<p>(2)添加 cache
-再考虑添加一台新的cache D的情况，假设在这个环形hash空间中，cache D被映射在对象object2和object3之间。这时受影响的将仅是那些沿cache D逆时针遍历直到下一个cache （cache B ）之间的对象（它们是也本来映射到cache C上对象的一部分),将这些对象重新映射到cache D上即可。因此这里仅需要变动对象 object2,将其重新映射到cache D上,如下图所示:</p>
+<p>(2)添加 cache</p>
+<p>再考虑添加一台新的cache D的情况，假设在这个环形hash空间中，cache D被映射在对象object2和object3之间。这时受影响的将仅是那些沿cache D逆时针遍历直到下一个cache （cache B ）之间的对象（它们是也本来映射到cache C上对象的一部分),将这些对象重新映射到cache D上即可。因此这里仅需要变动对象 object2,将其重新映射到cache D上,如下图所示:</p>
 <p><img alt="添加Cache" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash5_zpsc28b2bf6.jpg" /></p>
 <ul>
 <li>虚拟节点
