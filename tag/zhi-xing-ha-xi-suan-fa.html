@@ -262,7 +262,9 @@ hash(cache C) = key C;</p>
 <blockquote>
 <p>说到这里，顺便提一下 cache 的 hash 计算，一般的方法可以使用 cache 机器的 IP 地址或者机器名作为 hash 输入。</p>
 </blockquote>
-<h2>- 把对象映射到cache</h2>
+<ul>
+<li>把对象映射到cache</li>
+</ul>
 <p>现在cache 和对象都已经通过同一个 hash 算法映射到 hash 数值空间中了，接下来要考虑的就是如何将对象映射到 cache 上面了。</p>
 <p>在这个环形空间中，如果沿着顺时针方向从对象的key值出发，直到遇见一个cache，那么就将该对象存储在这个cache上，因为对象和cache的hash值是固定的，因此这个cache必然是唯一和确定的。这样不就找到了对象和 cache 的映射方法了吗？！</p>
 <p>依然继续上面的例子（参见上图），那么根据上面的方法，对象 object1 将被存储到cache A上；object2和object3对应到cache C；object4 对应到cache B ；</p>
@@ -295,11 +297,15 @@ hash(cache C) = key C;</p>
 objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cache C2；因此对象 object1 和 object2 都被映射到了 cache A 上，而 object3 和 object4 映射到了 cache C 上；平衡性有了很大提高。引入“虚拟节点”后，映射关系就从 { 对象 -&gt; 节点 } 转换到了 { 对象 -&gt; 虚拟节点 } 。查询物体所在cache时的映射关系如下图所示。</p>
 <p><img alt="Query Cache" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash7_zps66159090.jpg" /></p>
 <p>“虚拟节点”的hash计算可以采用对应节点的IP地址加数字后缀的方式。例如假设cache A的IP地址为 202.168.14.241。
-引入“虚拟节点”前，计算 cache A 的 hash 值：
-Hash(“202.168.14.241”);
-引入“虚拟节点”后，计算“虚拟节”点 cache A1 和 cache A2 的 hash 值：
-Hash(“202.168.14.241#1”);  // cache A1
-Hash(“202.168.14.241#2”);  // cache A2</p><script type= "text/javascript">
+引入“虚拟节点”前，计算 cache A 的 hash 值：</p>
+<div class="highlight"><pre><span class="n">Hash</span><span class="p">(</span><span class="err">“</span><span class="mf">202.168.14.241</span><span class="err">”</span><span class="p">);</span>
+</pre></div>
+
+
+<p>引入“虚拟节点”后，计算“虚拟节”点 cache A1 和 cache A2 的 hash 值：</p>
+<div class="highlight"><pre><span class="n">Hash</span><span class="p">(</span><span class="err">“</span><span class="mf">202.168.14.241</span><span class="err">#</span><span class="mi">1</span><span class="err">”</span><span class="p">);</span>  <span class="c1">// cache A1</span>
+<span class="n">Hash</span><span class="p">(</span><span class="err">“</span><span class="mf">202.168.14.241</span><span class="err">#</span><span class="mi">2</span><span class="err">”</span><span class="p">);</span>  <span class="c1">// cache A2</span>
+</pre></div><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
