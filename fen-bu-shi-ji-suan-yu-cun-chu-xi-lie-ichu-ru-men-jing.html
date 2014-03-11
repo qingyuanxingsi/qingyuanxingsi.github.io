@@ -73,66 +73,56 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <h1>概述</h1>
 <hr>
 <blockquote>
-<p>无论是云计算、大数据还是互联网公司的各种应用，其后台基础设施的主要目标都
-是构建<strong>低成本、高性能、可扩展、易用</strong>的分布式存储系统。(阿里日照)</p>
+<p>无论是云计算、大数据还是互联网公司的各种应用，其后台基础设施的主要目标都是构建<strong>低成本、高性能、可扩展、易用</strong>的分布式存储系统。(阿里日照)</p>
 </blockquote>
 <p>分布式存储面临的数据需求比较复杂，大致可以分为三类：</p>
 <ul>
-<li>非结构化数据 ：包括所有格式的办公文档、文本、图片、图像、音频和视频信
-息等。</li>
-<li>结构化数据：一般存储在关系数据库中，可以用二维关系表结构来表示。结构化
-数据的模式（Schema，包括属性、数据类型以及数据之间的联系）和内容是分
-开的，数据的模式需要预先定义。</li>
-<li>半结构化数据：介于非结构化数据和结构化数据之间，HTML 文档就属于半结构
-化数据。它一般是自描述的，与结构化数据最大的区别在于，半结构化数据的模
-式结构和内容混在一起，没有明显的区分，也不需要预先定义数据的模式结构。</li>
+<li>非结构化数据 ：包括所有格式的办公文档、文本、图片、图像、音频和视频信息等。</li>
+<li>结构化数据：一般存储在关系数据库中，可以用二维关系表结构来表示。结构化数据的模式（Schema，包括属性、数据类型以及数据之间的联系）和内容是分开的，数据的模式需要预先定义。</li>
+<li>半结构化数据：介于非结构化数据和结构化数据之间，HTML 文档就属于半结构化数据。它一般是自描述的，与结构化数据最大的区别在于，半结构化数据的模式结构和内容混在一起，没有明显的区分，也不需要预先定义数据的模式结构。</li>
 </ul>
-<p>不同的分布式存储系统适合处理不同类型的数据，本书将分布式存储系统分为四类：
-分布式文件系统、分布式键值（Key-Value）系统、分布式表格系统和分布式数据库。</p>
+<p>不同的分布式存储系统适合处理不同类型的数据，本书将分布式存储系统分为四类：分布式文件系统、分布式键值（Key-Value）系统、分布式表格系统和分布式数据库。</p>
 <ul>
 <li>分布式文件系统</li>
 </ul>
-<p>互联网应用需要存储大量的图片、照片、视频等非结构化数据对象，这类数据以对象的形式组织，对象之间没有关联，这样的数据一般称为<strong>Blob</strong>（Binary Large Object，二进制大对象）数据。分布式文件系统用于存储Blob 对象，典型的系统有<em>Facebook Haystack</em>。另外，分布式文件系统也常作为分布式表格系统以及分布式数据库的底层存储，如谷歌的 GFS（<em>Google File System</em>，存储大文件）可以作为分布式表格系统Google Bigtable 的底层存储，Amazon 的EBS（<em>Elastic Block Store</em>，弹性块存储）系统可以作为分布式数据库（<em>Amazon RDS</em>）的底层存储。</p>
+<p>互联网应用需要存储大量的图片、照片、视频等非结构化数据对象，这类数据以对象的形式组织，对象之间没有关联，这样的数据一般称为<strong>Blob</strong>（Binary Large Object，二进制大对象）数据。分布式文件系统用于存储Blob 对象，典型的系统有<em>Facebook Haystack</em>。另外，分布式文件系统也常作为分布式表格系统以及分布式数据库的底层存储，如谷歌的GFS（<em>Google File System</em>，存储大文件）可以作为分布式表格系统Google Bigtable 的底层存储，Amazon的EBS（<em>Elastic Block Store</em>，弹性块存储）系统可以作为分布式数据库（<em>Amazon RDS</em>）的底层存储。</p>
 <ul>
 <li>分布式键值系统</li>
 </ul>
-<p>分布式键值系统用于存储关系简单的半结构化数据，它只提供基于主键的CRUD（Create/Read/Update/Delete)功能，即根据主键创建、读取、更新或者删除一条键值记录。典型的系统有<em>Amazon Dynamo</em>。从数据结构的角度看，分布式键值系统与传统的哈希表比较类似，不同的是，分布式键值系统支持将数据分布到集群中的多个存储节点。分布式键值系统是分布式表格系统的一种简化实现，<strong>一般用作缓存</strong>，比如<em>Memcache</em>。一致性哈希是分布式键值系统中常用的数据分布技术，因其被<em>Amazon DynamoDB</em> 系统使用而变得相当有名。</p>
+<p>分布式键值系统用于存储关系简单的半结构化数据，它只提供基于主键的CRUD(Create/Read/Update/Delete)功能，即根据主键创建、读取、更新或者删除一条键值记录。典型的系统有<em>Amazon Dynamo</em>。从数据结构的角度看，分布式键值系统与传统的哈希表比较类似，不同的是，分布式键值系统支持将数据分布到集群中的多个存储节点。分布式键值系统是分布式表格系统的一种简化实现，<strong>一般用作缓存</strong>，比如<em>Memcache</em>。一致性哈希是分布式键值系统中常用的数据分布技术，因其被<em>Amazon DynamoDB</em> 系统使用而变得相当有名。</p>
 <ul>
 <li>分布式表格系统</li>
 </ul>
-<p>用于存储关系较为复杂的半结构化数据，与分布式键值系统相比,分布式表格系统不仅仅支持简单的CRUD 操作，而且<strong>支持扫描某个主键范围</strong>。分布式表格系统以<code>表格</code>为单位组织数据，每个表格包括很多行，通过主键标识一行，支持根据主键的CRUD 功能以及范围查找功能。典型的系统包括Google Bigtable 以及Megastore，Microsoft Azure Table Storage，Amazon DynamoDB 等。与分布式数据库相比，分布式表格系统主要支持针对单张表格的操作，不支持一些特别复杂的操作，比如多表关联，多表联接，嵌套子查询；另外，在分布式表格系统中，同一个表格的多个数据行也不要求包含相同类型的列，适合半结构化数据。分布式表格系统是一种很好的权衡，这类系统可以做到超大规模，而且支持较多的功能，但实现往往比较复杂，而且有一定的使用门槛。</p>
+<p>用于存储关系较为复杂的半结构化数据，与分布式键值系统相比,分布式表格系统不仅仅支持简单的CRUD操作，而且<strong>支持扫描某个主键范围</strong>。分布式表格系统以<code>表格</code>为单位组织数据，每个表格包括很多行，通过主键标识一行，支持根据主键的CRUD 功能以及范围查找功能。典型的系统包括Google Bigtable 以及Megastore，Microsoft Azure Table Storage，Amazon DynamoDB 等。与分布式数据库相比，分布式表格系统主要支持针对单张表格的操作，不支持一些特别复杂的操作，比如多表关联，多表联接，嵌套子查询；另外，在分布式表格系统中，同一个表格的多个数据行也不要求包含相同类型的列，适合半结构化数据。分布式表格系统是一种很好的权衡，这类系统可以做到超大规模，而且支持较多的功能，但实现往往比较复杂，而且有一定的使用门槛。</p>
 <ul>
 <li>分布式数据库</li>
 </ul>
 <p>分布式数据库一般是从单机关系数据库扩展而来，用于存储结构化数据。分布式数据库采用二维表格组织数据，提供SQL 关系查询语言，支持多表关联，嵌套子查询等复杂操作，并提供数据库事务以及并发控制。典型的系统包括MySQL数据库分片（MySQL Sharding）集群，Amazon RDS 以及Microsoft SQL Azure。分布式数据库支持的功能最为丰富，符合用户使用习惯，但可扩展性往往受到限制。当然，这一点并不是绝对的.Google Spanner系统是一个支持多数据中心的分布式数据库，它不仅支持丰富的关系数据库功能，还能扩展到多个数据中心的成千上万台机器。</p>
 <blockquote>
 <p>NOTE:
-传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1" class="simple-footnote" title="关于NoSQL的详细资料参见NoSQL数据库笔谈">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL 系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
+传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-1" class="simple-footnote" title="关于NoSQL的详细资料参见NoSQL数据库笔谈">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
 </blockquote>
 <h1>单机存储系统</h1>
 <hr>
 <p>单机存储引擎就是哈希表、B 树等数据结构在机械磁盘、SSD等持久化介质上的实现。单机存储系统是单机存储引擎的一种封装,对外提供文件、键值、表格或者关系模型。单机存储系统的理论来源于关系数据库。数据库将一个或多个操作组成一组,称作事务,事务必须满足原子性(Atomicity)、一致性(Consistency)、隔离性(Isolation)以及持久性(Durability),简称为 ACID 特性。多个事务并发执行时,数据库的并发控制管理器必须能够保证多个事务的执行结果不能破坏某种约定,如不能出现事务执行到一半的情况,不能读取到未提交的事务,等等。为了保证持久性,对于数据库的每一个变化都要在磁盘上记录日志,当数据库系统突然发生故障,重启后能够恢复到之前一致的状态。</p>
 <h2>硬件基础</h2>
 <h3>CPU架构</h3>
-<p>早期的 CPU 为单核芯片,工程师们很快意识到,仅仅提高单核的速度会产生过多的热量且无法带来相应的性能改善。因此,现代服务器基本为多核或多个 CPU。经典的多CPU 架构为对称多处理结构(Symmetric Multi-Processing,SMP),即在一个计算机上汇
-集了一组处理器,它们之间对称工作,无主次或从属关系,共享相同的物理内存及总线。SMP架构的主要特征是共享,系统中所有资源(CPU、内存、I/O 等)都是共享的,由于多CPU对前端总线的竞争,SMP的扩展能力非常有限。为了提高可扩展性,现在的主流服务器架构一般为 NUMA(Non-Uniform Memory Access,非一致存储访问)架构。它具有多个 NUMA 节点,每个 NUMA 节点是一个 SMP 结构,一般由多个 CPU(如 4 个)组成,并且具有独立的本地内存、IO槽口等。NUMA节点可以直接快速访问本地内存,也可以通过NUMA 互联互通模块访问其他 NUMA 节点的内存,<strong>访问本地内存的速度远远高于远程访问的速度</strong>。由于这个特点,为了更好地发挥系统性能,开发应用程序时需要尽量减少不同 NUMA 节点之间的信息交互。</p>
+<p>早期的 CPU 为单核芯片,工程师们很快意识到,仅仅提高单核的速度会产生过多的热量且无法带来相应的性能改善。因此,现代服务器基本为多核或多个 CPU。经典的多CPU 架构为对称多处理结构(Symmetric Multi-Processing,SMP),即在一个计算机上汇集了一组处理器,它们之间对称工作,无主次或从属关系,共享相同的物理内存及总线。SMP架构的主要特征是共享,系统中所有资源(CPU、内存、I/O 等)都是共享的,由于多CPU对前端总线的竞争,SMP的扩展能力非常有限。为了提高可扩展性,现在的主流服务器架构一般为 NUMA(Non-Uniform Memory Access,非一致存储访问)架构。它具有多个 NUMA 节点,每个 NUMA 节点是一个 SMP 结构,一般由多个 CPU(如 4 个)组成,并且具有独立的本地内存、IO槽口等。NUMA节点可以直接快速访问本地内存,也可以通过NUMA 互联互通模块访问其他 NUMA 节点的内存,<strong>访问本地内存的速度远远高于远程访问的速度</strong>。由于这个特点,为了更好地发挥系统性能,开发应用程序时需要尽量减少不同 NUMA 节点之间的信息交互。</p>
 <h3>存储层次架构</h3>
 <p>从分布式系统的角度看,整个集群中所有服务器上的存储介质(内存、机械硬盘,SSD)构成一个整体,其他服务器上的存储介质与本机存储介质一样都是可访问的,区别仅仅在于需要额外的网络传输及网络协议栈等访问开销。</p>
 <p>存储系统的性能主要包括两个维度:<strong>吞吐量以及访问延时</strong>,设计系统时要求能够在保证访问延时的基础上,通过最低的成本实现尽可能高的吞吐量。磁盘和 SSD的访问延时差别很大,但带宽差别不大,因此,磁盘适合大块顺序访问的存储系统,SSD适合随机访问较多或者对延时比较敏感的关键系统。二者也常常组合在一起进行混合存储,热数据(访问频繁)存储到SSD中,冷数据(访问不频繁)存储到磁盘中。</p>
 <h2>单机存储引擎</h2>
-<p>存储引擎是存储系统的发动机,直接决定了存储系统能够提供的性能和功能。存储系统的基本功能包括:增、删、读、改,其中,读取操作又分为随机读取和顺序扫描。哈希存储引擎是哈希表的持久化实现,支持增、删、改,以及随机读取操作,但不支持顺序扫描,对应的存储系统为键值(Key-Value)存储系统;<strong>B树</strong>(B-Tree)存储引擎是B树的持久化实现,不仅支持单条记录的增、删、读、改操作,还支持顺序扫描,对应的存储系统是关系数据库。当然,键值系统也可以通过 B 树存储引擎实现;LSM树(Log-Structured Merge Tree)存储引擎和 B 树存储引擎一样,支持增、删、改、随机读取以及顺序扫描。它通过<code>批量转储技术规避磁盘随机写入</code>问题,广泛应用于互联网的后台 存 储 系 统, 例 如 Google Bigtable、Google LevelDB 以 及 Facebook 开 源 的Cassandra
-系统。本节分别以 Bitcask、MySQL InnoDB 以及 Google LevelDB 系统为例介绍这三种存储引擎。</p>
+<p>存储引擎是存储系统的发动机,直接决定了存储系统能够提供的性能和功能。存储系统的基本功能包括:增、删、读、改,其中,读取操作又分为随机读取和顺序扫描。哈希存储引擎是哈希表的持久化实现,支持增、删、改,以及随机读取操作,但不支持顺序扫描,对应的存储系统为键值(Key-Value)存储系统;<strong>B树</strong>(B-Tree)存储引擎是B树的持久化实现,不仅支持单条记录的增、删、读、改操作,还支持顺序扫描,对应的存储系统是关系数据库。当然,键值系统也可以通过 B 树存储引擎实现;LSM树(Log-Structured Merge Tree)存储引擎和 B 树存储引擎一样,支持增、删、改、随机读取以及顺序扫描。它通过<code>批量转储技术规避磁盘随机写入</code>问题,广泛应用于互联网的后台 存 储 系 统, 例 如 Google Bigtable、Google LevelDB 以 及 Facebook 开 源 的Cassandra系统。本节分别以 Bitcask、MySQL InnoDB 以及 Google LevelDB 系统为例介绍这三种存储引擎。</p>
 <h3>哈希存储引擎</h3>
 <p>Bitcask是一个基于哈希表结构的键值存储系统,它仅支持追加操作(Append-only),即所有的写操作只追加而不修改老的数据。在 Bitcask 系统中,每个文件有一定的大小限制,当文件增加到相应的大小时,就会产生一个新的文件,老的文件只读不写。在任意时刻,只有一个文件是可写的,用于数据追加,称为活跃数据文件(active data file)。而其他达到大小限制的文件，称为老数据文件(older data file)。</p>
 <h4>数据结构</h4>
-<p>如下图所示，Bitcask 数据文件中的数据是一条一条的写入操作，每一条记录的数据项分别为主键（key）、value 内容（value）、主键长度（key_sz）、value长度（value_sz）、时间戳（timestamp）以及crc 校验值。（数据删除操作也不会删除旧的条目，而是将value设定为一个特殊的值用作标识）。内存中采用基于哈希表的索引数据结构，哈希表的作用是通过主键快速地定位到value的位置。哈希表结构中的每一项包含了三个用于定位数据的信息，分别是文件编号（file id），value 在文件中的位置（value_pos），value 长度（value_sz），通过读取file_id 对应文件的value_pos 开始的value_sz 个字节，这就得到了最终的value值。写入时首先将Key-Value记录追加到活跃数据文件的末尾，接着更新内存哈希表，因此，每个写操作总共需要进行一次顺序的磁盘写入和一次内存操作。
-<img alt="Structure for Bitcask" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/DS1_1_zps07d562a0.png"></p>
+<p>如下图所示，Bitcask 数据文件中的数据是一条一条的写入操作，每一条记录的数据项分别为主键（key）、value 内容（value）、主键长度（key_sz）、value长度（value_sz）、时间戳（timestamp）以及crc 校验值。（数据删除操作也不会删除旧的条目，而是将value设定为一个特殊的值用作标识）。内存中采用基于哈希表的索引数据结构，哈希表的作用是通过主键快速地定位到value的位置。哈希表结构中的每一项包含了三个用于定位数据的信息，分别是文件编号（file id），value 在文件中的位置（value_pos），value 长度（value_sz），通过读取file_id 对应文件的value_pos 开始的value_sz 个字节，这就得到了最终的value值。写入时首先将Key-Value记录追加到活跃数据文件的末尾，接着更新内存哈希表，因此，每个写操作总共需要进行一次顺序的磁盘写入和一次内存操作。</p>
+<p><img alt="Structure for Bitcask" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/DS1_1_zps07d562a0.png"></p>
 <p>Bitcask 在内存中存储了主键和value的索引信息，磁盘文件中存储了主键和value的实际内容。系统基于一个假设，value 的长度远大于主键的长度。假如value的平均长度为1KB，每条记录在内存中的索引信息为32 字节，那么，磁盘内存比为32 : 1。这样，32GB 内存索引的数据量为32GB×32 =1TB。</p>
 <h4>定期合并</h4>
 <p>Bitcask 系统中的记录删除或者更新后，原来的记录成为垃圾数据。如果这些数据一直保存下去，文件会无限膨胀下去，为了解决这个问题，Bitcask需要定期执行合并（Compaction）操作以实现垃圾回收。所谓合并操作，即将所有老数据文件中的数据扫描一遍并生成新的数据文件，这里的合并其实就是对同一个key 的多个操作以只保留最新一个的原则进行删除，每次合并后，新生成的数据文件就不再有冗余数据了。</p>
 <h4>快速恢复</h4>
-<p>Bitcask 系统中的哈希索引存储在内存中，如果不做额外的工作，服务器断电重启重建哈希表需要扫描一遍数据文件，如果数据文件很大，这是一个非常耗时的过程。Bitcask 通过索引文件（hint file）来提高重建哈希表的速度。简单来说，索引文件就是将内存中的哈希索引表转储到磁盘生成的结果文件。Bitcask 对老数据文件进行合并操作时，会产生新的数据文件，这个过程中还会产生一
-个索引文件，这个索引文件记录每一条记录的哈希索引信息。与数据文件不同的是，索引文件并不存储具体的value 值，只存储value的位置（与内存哈希表一样）。这样，在重建哈希表时，就不需要扫描所有数据文件，而仅仅需要将索引文件中的数据一行行读取并重建即可，大大减少了重启后的恢复时间。</p>
+<p>Bitcask 系统中的哈希索引存储在内存中，如果不做额外的工作，服务器断电重启重建哈希表需要扫描一遍数据文件，如果数据文件很大，这是一个非常耗时的过程。Bitcask 通过索引文件（hint file）来提高重建哈希表的速度。简单来说，索引文件就是将内存中的哈希索引表转储到磁盘生成的结果文件。Bitcask 对老数据文件进行合并操作时，会产生新的数据文件，这个过程中还会产生一个索引文件，这个索引文件记录每一条记录的哈希索引信息。与数据文件不同的是，索引文件并不存储具体的value 值，只存储value的位置（与内存哈希表一样）。这样，在重建哈希表时，就不需要扫描所有数据文件，而仅仅需要将索引文件中的数据一行行读取并重建即可，大大减少了重启后的恢复时间。</p>
 <h2>B树存储引擎</h2>
 <p>相比哈希存储引擎，B 树存储引擎不仅支持随机读取，还支持范围扫描。关系数据库中通过索引访问数据，在Mysql InnoDB 中，有一个称为<code>聚集索引</code>的特殊索引，行的数据存于其中，组织成B+ 树（B 树的一种）数据结构。</p>
 <h3>数据结构</h3>
@@ -143,23 +133,22 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <ul>
 <li>LRU</li>
 </ul>
-<p>LRU 算法淘汰最长时间没有读或者写过的块。这种方法要求缓冲区管理器按照页面最后一次被访问的时间组成一个链表，每次淘汰链表尾部的页面。直觉上，长时间没有读写的页面比那些最近访问过的页面有更小的最近访问的可能性。</p>
+<p>LRU算法淘汰最长时间没有读或者写过的块。这种方法要求缓冲区管理器按照页面最后一次被访问的时间组成一个链表，每次淘汰链表尾部的页面。直觉上，长时间没有读写的页面比那些最近访问过的页面有更小的最近访问的可能性。</p>
 <ul>
 <li>LIRS(<code>Low Inter-reference Recency Set</code>)</li>
 </ul>
-<p>LRU 算法在大多数情况下表现是不错的，但有一个问题：假如某一个查询做了一次全表扫描，将导致缓冲池中的大量页面（可能包含很多很快被访问的热点页面）被替换，从而污染缓冲池。现代数据库一般采用LIRS 算法，将缓冲池分为两级，数据首先进入第一级，如果数据在较短的时间内被访问两次或者以上，则成为热点数据进入第二级，每一级内部还是采用LRU替换算法。Oracle数据库中的Touch Count 算法和MySQL InnoDB 中的替换算法都采用了类似的分级思想。以MySQL InnoDB为例，InnoDB 内部的LRU 链表分为两部分：新子链表（new sublist）和老子链表（old sublist），默认情况下，前者占5/8，后者占3/8。页面首先插入到老子链表，InnoDB要求页面在老子链表停留时间超过一定值，比如1秒，才有可能被转移到新子链表。当出现全表扫描时，InnoDB将数据页面载入到老子链表，由于数据页面在老子链表中的停留时间不够，不会被转移到新子链表中，这就避免了新子链表中的页面被替换出去的情况。</p>
+<p>LRU算法在大多数情况下表现是不错的，但有一个问题：假如某一个查询做了一次全表扫描，将导致缓冲池中的大量页面（可能包含很多很快被访问的热点页面）被替换，从而污染缓冲池。现代数据库一般采用LIRS 算法，将缓冲池分为两级，数据首先进入第一级，如果数据在较短的时间内被访问两次或者以上，则成为热点数据进入第二级，每一级内部还是采用LRU替换算法。Oracle数据库中的Touch Count 算法和MySQL InnoDB 中的替换算法都采用了类似的分级思想。以MySQL InnoDB为例，InnoDB 内部的LRU 链表分为两部分：新子链表（new sublist）和老子链表（old sublist），默认情况下，前者占5/8，后者占3/8。页面首先插入到老子链表，InnoDB要求页面在老子链表停留时间超过一定值，比如1秒，才有可能被转移到新子链表。当出现全表扫描时，InnoDB将数据页面载入到老子链表，由于数据页面在老子链表中的停留时间不够，不会被转移到新子链表中，这就避免了新子链表中的页面被替换出去的情况。</p>
 <h2>LSM树存储引擎</h2>
 <p>LSM 树（Log Structured Merge Tree）的思想非常朴素，就是将对数据的修改增量保持在内存中，达到指定的大小限制后将这些修改操作批量写入磁盘，读取时需要合并磁盘中的历史数据和内存中最近的修改操作。LSM树的优势在于有效地规避了磁盘随机写入问题，但读取时可能需要访问较多的磁盘文件。本节介绍LevelDB 中的LSM 树存储引擎。</p>
 <h3>存储结构</h3>
-<p>如下图所示，LevelDB 存储引擎主要包括： 内存中的MemTable 和不可变MemTable（Immutable MemTable， 也称为Frozen MemTable，即冻结MemTable）以及磁盘上的几种主要文件：当前（Current）文件、清单（Manifest）文件、操作日志（Commit Log，也称为提交日志）文件以及SSTable 文件。当应用写入一条记录
-时，LevelDB 会首先将修改操作写入到操作日志文件，成功后再将修改操作应用到MemTable，这样就完成了写入操作。</p>
+<p>如下图所示，LevelDB存储引擎主要包括：内存中的MemTable和不可变MemTable（Immutable MemTable，也称为Frozen MemTable，即冻结MemTable）以及磁盘上的几种主要文件：当前（Current）文件、清单（Manifest）文件、操作日志（Commit Log，也称为提交日志）文件以及SSTable 文件。当应用写入一条记录时，LevelDB 会首先将修改操作写入到操作日志文件，成功后再将修改操作应用到MemTable，这样就完成了写入操作。</p>
 <p><img alt="Structure of LSM" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/DS1_3_zpscf2c7552.png"></p>
-<p>当MemTable 占用的内存达到一个上限值后，需要将内存的数据转储到外存文件中。LevelDB会将原先的MemTable 冻结成为不可变MemTable，并生成一个新的MemTable。新到来的数据被记入新的操作日志文件和新生成的MemTable中。顾名思义，不可变MemTable中的内容是不可更改的，只能读取不能写入或者删除。LevelDB 后台线程会将不可变MemTable的数据排序后转储到磁盘，形成一个新的SSTable 文件，这个操作称为<code>Compaction</code>。SSTable文件是内存中的数据不断进行Compaction操作后形成的，且SSTable 的所有文件是一种层级结构，第0 层为Level 0，第1 层为Level 1，以此类推。</p>
-<p>SSTable 中的文件是按照记录的主键排序的，每个文件有最小的主键和最大的主键。LevelDB的清单文件记录了这些元数据，包括属于哪个层级、文件名称、最小主键和最大主键。当前文件记录了当前使用的清单文件名。在LevelDB的运行过程中，随着Compaction的进行，SSTable文件会发生变化，新的文件会产生，老的文件被废弃，此时往往会生成新的清单文件来记载这种变化，而当前文件则用来指出哪个清单文件才是当前有效的。</p>
-<p>直观上，LevelDB 每次查询都需要从老到新读取每个层级的SSTable文件以及内存中的MemTable。LevelDB 做了一个优化，由于LevelDB对外只支持随机读取单条记录，查询时LevelDB首先会去查看内存中的MemTable，如果MemTable包含记录的主键及其对应的值，则返回记录即可；如果MemTable没有读到该主键，则接下来到同样处于内存中的不可变Memtable中去读取；类似地，如果还是没有读到，只能依次从新到老读取磁盘中的SSTable 文件。</p>
+<p>当MemTable占用的内存达到一个上限值后，需要将内存的数据转储到外存文件中。LevelDB会将原先的MemTable 冻结成为不可变MemTable，并生成一个新的MemTable。新到来的数据被记入新的操作日志文件和新生成的MemTable中。顾名思义，不可变MemTable中的内容是不可更改的，只能读取不能写入或者删除。LevelDB 后台线程会将不可变MemTable的数据排序后转储到磁盘，形成一个新的SSTable 文件，这个操作称为<code>Compaction</code>。SSTable文件是内存中的数据不断进行Compaction操作后形成的，且SSTable 的所有文件是一种层级结构，第0 层为Level 0，第1 层为Level 1，以此类推。</p>
+<p>SSTable中的文件是按照记录的主键排序的，每个文件有最小的主键和最大的主键。LevelDB的清单文件记录了这些元数据，包括属于哪个层级、文件名称、最小主键和最大主键。当前文件记录了当前使用的清单文件名。在LevelDB的运行过程中，随着Compaction的进行，SSTable文件会发生变化，新的文件会产生，老的文件被废弃，此时往往会生成新的清单文件来记载这种变化，而当前文件则用来指出哪个清单文件才是当前有效的。</p>
+<p>直观上，LevelDB每次查询都需要从老到新读取每个层级的SSTable文件以及内存中的MemTable。LevelDB做了一个优化，由于LevelDB对外只支持随机读取单条记录，查询时LevelDB首先会去查看内存中的MemTable，如果MemTable包含记录的主键及其对应的值，则返回记录即可；如果MemTable没有读到该主键，则接下来到同样处于内存中的不可变Memtable中去读取；类似地，如果还是没有读到，只能依次从新到老读取磁盘中的SSTable 文件。</p>
 <h3>合并</h3>
-<p>LevelDB 写入操作很简单，但是读取操作比较复杂，需要在内存以及各个层级文件中按照从新到老依次查找，代价很高。为了加快读取速度，LevelDB内部会执行Compaction操作来对已有的记录进行整理压缩，从而删除一些不再有效的记录，减少数据规模和文件数量。</p>
-<p>LevelDB 的Compaction 操作分为两种：minor compaction 和major compaction。Minor compaction 是指当内存中的MemTable 大小到了一定值时，将内存数据转储到SSTable文件中。每个层级下有多个SSTable，当某个层级下的SSTable文件数目超过一定设置值后，levelDB会从这个层级中选择SSTable 文件，将其和高一层级的SSTable 文件合并，这就是major compaction。major compaction相当于执行一次多路归并：按照主键顺序依次迭代出所有SSTable文件中的记录，如果没有保存价值，则直接抛弃；否则，将其写入到新生成的SSTable 文件中。</p>
+<p>LevelDB写入操作很简单，但是读取操作比较复杂，需要在内存以及各个层级文件中按照从新到老依次查找，代价很高。为了加快读取速度，LevelDB内部会执行Compaction操作来对已有的记录进行整理压缩，从而删除一些不再有效的记录，减少数据规模和文件数量。</p>
+<p>LevelDB的Compaction操作分为两种：minor compaction 和major compaction。Minor compaction 是指当内存中的MemTable 大小到了一定值时，将内存数据转储到SSTable文件中。每个层级下有多个SSTable，当某个层级下的SSTable文件数目超过一定设置后，levelDB会从这个层级中选择SSTable 文件，将其和高一层级的SSTable 文件合并，这就是major compaction。major compaction相当于执行一次多路归并：按照主键顺序依次迭代出所有SSTable文件中的记录，如果没有保存价值，则直接抛弃；否则，将其写入到新生成的SSTable 文件中。</p>
 <h2>事务与并发控制</h2>
 <h3>写时复制以及多版本控制<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-2-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-ichu-ru-men-jing-2" class="simple-footnote" title="该部分未完全弄懂，TODO!">2</a></sup></h3>
 <h1>分布式系统</h1>
@@ -179,8 +168,8 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <li>弱一致性 :假如A先写入了一个值到存储系统,存储系统不能保证后续 A,B,C的读取操作是否能够读取到最新值。</li>
 <li>最终一致性 :最终一致性是弱一致性的一种特例。假如A首先写入一个值到存储系统,存储系统保证如果后续没有写操作更新同样的值,A,B,C的读取操作“最终”都会读取到A写入的最新值。“最终”一致性有一个<code>不一致窗口</code>的概念,它特指从A写入值,到后续A,B,C 读取到最新值的这段时间。</li>
 </ul>
-<p>不一致性窗口”的大小依赖于以下的几个因素 :交互延迟,系统的负载,以及复制协议要求同步的副本数。
-最终一致性描述比较粗略,其他常见的变体如下:</p>
+<p>不一致性窗口”的大小依赖于以下的几个因素 :交互延迟,系统的负载,以及复制协议要求同步的副本数。</p>
+<p>最终一致性描述比较粗略,其他常见的变体如下:</p>
 <ul>
 <li>读写 (Read-your-writes)一致性 :如果客户端 A 写入了最新的值,那么 A的后续操作都会读取到最新值。但是其他用户(比如 B 或者 C)可能要过一会才能看到。</li>
 <li>会话 (Session)一致性:要求客户端和存储系统交互的整个会话期间保证读写一致性。如果原有会话因为某种原因失效而创建了新的会话,原有会话和新会话之间的操作不保证读写一致性。</li>
@@ -202,7 +191,7 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <ul>
 <li>可用性</li>
 </ul>
-<p>系统的可用性(availability)是指系统在面对各种异常时可以提供正常服务的能力。系统的可用性可以用系统停服务的时间与正常服务的时间的比例来衡量,例如某系统的可用性为 4 个 9(99.99%),相当于系统一年停服务的时间不能超过 365 × 24 ×60 /10000 = 52.56 分钟。系统可用性往往体现了系统的整体代码质量以及容错能力。</p>
+<p>系统的可用性(availability)是指系统在面对各种异常时可以提供正常服务的能力。系统的可用性可以用系统停服务的时间与正常服务的时间的比例来衡量,例如某系统的可用性为4个9(99.99%),相当于系统一年停服务的时间不能超过 365 × 24 ×60 /10000 = 52.56 分钟。系统可用性往往体现了系统的整体代码质量以及容错能力。</p>
 <ul>
 <li>一致性</li>
 </ul>
@@ -210,8 +199,7 @@ Filed under <a href="/category/distributed-system.html">Distributed System</a>
 <ul>
 <li>可扩展性</li>
 </ul>
-<p>系统的可扩展性(scalability)指分布式存储系统通过扩展集群服务器规模来提高系统存储容量、计算量和性能的能力。随着业务的发展,对底层存储系统的性能需求不断增加,比较好的方式就是通过自动增加服务器提高系统的能力。理想的分布式存储系
-统实现了<code>线性可扩展</code>,也就是说,随着集群规模的增加,系统的整体性能与服务器数量呈线性关系。</p>
+<p>系统的可扩展性(scalability)指分布式存储系统通过扩展集群服务器规模来提高系统存储容量、计算量和性能的能力。随着业务的发展,对底层存储系统的性能需求不断增加,比较好的方式就是通过自动增加服务器提高系统的能力。理想的分布式存储系统实现了<code>线性可扩展</code>,也就是说,随着集群规模的增加,系统的整体性能与服务器数量呈线性关系。</p>
 <h2>数据分布</h2>
 <p>分布式系统区别于传统单机系统在于能够将数据分布到多个节点,并在多个节点之间实现负载均衡。数据分布的方式主要有两种,一种是哈希分布,如一致性哈希,代表系统为Amazon的Dynamo系统;另外一种方法是顺序分布,即每张表格上的数据按照主键整体有序,代表系统为 Google的Bigtable系统。Bigtable将一张大表根据主键切分为有序的范围,每个有序范围是一个子表。将数据分散到多台机器后,需要尽量保证多台机器之间的负载是比较均衡的。衡量机器负载涉及的因素很多,如机器Load值,CPU,内存,磁盘以及网络等资源使用情况,读写请求数及请求量,等等,分布式存储系统需要能够自动识别负载高的节点,当某台机器的负载较高时，将它服务的部分数据迁移到其他机器,实现自动负载均衡。</p>
 <p>分布式存储系统的一个基本要求就是透明性,包括<strong>数据分布透明性,数据迁移透明性,数据复制透明性,故障处理透明性</strong>。本节介绍数据分布以及数据迁移相关的基础知识。</p>
@@ -260,7 +248,7 @@ Consistent hashing 的基本思想就是将对象和cache都映射到同一个ha
 hash(cache C) = key C;</p>
 <p><img alt="cache分布" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash3_zps400e1a2f.jpg"></p>
 <blockquote>
-<p>说到这里，顺便提一下 cache 的 hash 计算，一般的方法可以使用 cache 机器的 IP 地址或者机器名作为 hash 输入。</p>
+<p>NOTE:说到这里，顺便提一下 cache 的 hash 计算，一般的方法可以使用 cache 机器的 IP 地址或者机器名作为 hash 输入。</p>
 </blockquote>
 <ul>
 <li>把对象映射到cache</li>
@@ -270,14 +258,14 @@ hash(cache C) = key C;</p>
 <p>依然继续上面的例子（参见上图），那么根据上面的方法，对象 object1 将被存储到cache A上；object2和object3对应到cache C；object4 对应到cache B ；</p>
 <ul>
 <li>考察cache的变动
-前面讲过，通过 hash 然后求余的方法带来的最大问题就在于不能满足单调性，当cache有所变动时，cache会失效，进而对后台服务器造成巨大的冲击，现在就来分析分析 consistent hashing 算法。</li>
+前面讲过，通过 hash 然后求余的方法带来的最大问题就在于不能满足单调性，当cache有所变动时，cache会失效，进而对后台服务器造成巨大的冲击，现在就来分析分析 consistent hashing算法。</li>
 </ul>
 <p>(1)移除 cache</p>
-<p>考虑假设cache B挂掉了，根据上面讲到的映射方法，这时受影响的将仅是那些沿 cache B 逆时针遍历直到下一个cache（cache C）之间的对象，也即是本来映射到 cache B上的那些对象。</p>
+<p>考虑假设cache B挂掉了，根据上面讲到的映射方法，这时受影响的将仅是那些沿 cache B逆时针遍历直到下一个cache（cache C）之间的对象，也即是本来映射到 cache B上的那些对象。</p>
 <p>因此这里仅需要变动对象object4,将其重新映射到 cache C 上即可,如下图所示:</p>
 <p><img alt="移除Cache" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash4_zpsf41b0bf7.jpg"></p>
 <p>(2)添加 cache</p>
-<p>再考虑添加一台新的cache D的情况，假设在这个环形hash空间中，cache D被映射在对象object2和object3之间。这时受影响的将仅是那些沿cache D逆时针遍历直到下一个cache （cache B ）之间的对象（它们是也本来映射到cache C上对象的一部分),将这些对象重新映射到cache D上即可。因此这里仅需要变动对象 object2,将其重新映射到cache D上,如下图所示:</p>
+<p>再考虑添加一台新的cache D的情况，假设在这个环形hash空间中，cache D被映射在对象object2和object3之间。这时受影响的将仅是那些沿cache D逆时针遍历直到下一个cache（cache B)之间的对象（它们是也本来映射到cache C上对象的一部分),将这些对象重新映射到cache D上即可。因此这里仅需要变动对象 object2,将其重新映射到cache D上,如下图所示:</p>
 <p><img alt="添加Cache" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash5_zpsc28b2bf6.jpg"></p>
 <ul>
 <li>虚拟节点
@@ -286,7 +274,7 @@ hash(cache C) = key C;</p>
 <blockquote>
 <p>平衡性是指哈希的结果能够尽可能分布到所有的缓冲中去，这样可以使得所有的缓冲空间都得到利用。</p>
 </blockquote>
-<p>hash算法并不是保证绝对的平衡，如果 cache较少的话，对象并不能被均匀的映射到cache上，比如在上面的例子中，仅部署 cache A 和cache C 的情况下，在 4 个对象中， cache A 仅存储了 object1 ，而 cache C 则存储了 object2、object3 和 object4；分布是很不均衡的。</p>
+<p>hash算法并不是保证绝对的平衡，如果 cache较少的话，对象并不能被均匀的映射到cache上，比如在上面的例子中，仅部署cache A和cache C的情况下，在4个对象中， cache A 仅存储了object1 ，而cache C则存储了object2、object3和object4；分布是很不均衡的。</p>
 <p>为了解决这种情况,consistent hashing 引入了“虚拟节点”的概念，它可以如下定义：</p>
 <blockquote>
 <p>“虚拟节点”（ virtual node ）是实际节点在hash空间的复制品（replica),一实际个节点对应了若干个“虚拟节点”，这个对应&gt; 个数也成为“复制个数”，“虚拟节点”在hash空间中以hash值排列。</p>
@@ -296,8 +284,7 @@ hash(cache C) = key C;</p>
 <p>此时，对象到“虚拟节点”的映射关系为：
 objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cache C2；因此对象 object1 和 object2 都被映射到了 cache A 上，而 object3 和 object4 映射到了 cache C 上；平衡性有了很大提高。引入“虚拟节点”后，映射关系就从 { 对象 -&gt; 节点 } 转换到了 { 对象 -&gt; 虚拟节点 } 。查询物体所在cache时的映射关系如下图所示。</p>
 <p><img alt="Query Cache" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash7_zps66159090.jpg"></p>
-<p>“虚拟节点”的hash计算可以采用对应节点的IP地址加数字后缀的方式。例如假设cache A的IP地址为 202.168.14.241。
-引入“虚拟节点”前，计算 cache A 的 hash 值：</p>
+<p>“虚拟节点”的hash计算可以采用对应节点的IP地址加数字后缀的方式。例如假设cache A的IP地址为 202.168.14.241。引入“虚拟节点”前，计算 cache A 的 hash 值：</p>
 <div class="highlight"><pre><span class="n">Hash</span><span class="p">(</span><span class="err">“</span><span class="mf">202.168.14.241</span><span class="err">”</span><span class="p">);</span>
 </pre></div>
 
@@ -351,12 +338,12 @@ objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cac
 <li>批准(accept):Proposer 收到了acceptor中的多数派对prepare的回复后,就进入批准阶段。如果在之前的prepare阶段acceptor回复了上次接受的提议,那么,proposer 选择其中序号最大的提议值发给acceptor批准;否则,proposer生成一个新的提议值发给 acceptor 批准。Acceptor 在不违背他之前在 prepare 阶段的承诺的前提下,接受这个请求。</li>
 <li>确认(acknowledge):如果超过一半的 acceptor 接受,提议值生效。Proposer发送 acknowledge 消息通知所有的 acceptor 提议生效。</li>
 </ul>
-<p>Paxos 协议需要考虑两个问题 :正确性,即只有一个提议值会生效;可终止性,即最后总会有一个提议值生效。Paxos协议中要求每个生效的提议被 acceptor 中的多数派接受,并且每个acceptor不会接受两个不同的提议,因此可以保证正确性。Paxos协议并不能够严格保证可终止性。但是,从 Paxos协议的执行过程可以看出,只要超过一个acceptor接受了提议,proposer很快就会发现,并重新提议其中序号最大的提议值。因此,随着协议不断运行,它会往“某个提议值被多数派接受并生效”这一最终目标
+<p>Paxos协议需要考虑两个问题 :正确性,即只有一个提议值会生效;可终止性,即最后总会有一个提议值生效。Paxos协议中要求每个生效的提议被 acceptor 中的多数派接受,并且每个acceptor不会接受两个不同的提议,因此可以保证正确性。Paxos协议并不能够严格保证可终止性。但是,从 Paxos协议的执行过程可以看出,只要超过一个acceptor接受了提议,proposer很快就会发现,并重新提议其中序号最大的提议值。因此,随着协议不断运行,它会往“某个提议值被多数派接受并生效”这一最终目标
 靠拢。</p>
 <h3>Paxos 与 2PC</h3>
-<p>Paxos 协议和 2PC 协议在分布式系统中所起的作用并不相同。Paxos协议用于保证同一个数据分片的多个副本之间的数据一致性。当这些副本分布到不同的数据中心时,这个需求尤其强烈。2PC协议用于保证属于多个数据分片上的操作的原子性。这些数据分片可能分布在不同的服务器上,2PC 协议保证多台服务器上的操作要么全部成功,要么全部失败。</p>
-<p>Paxos 协议有两种用法:一种用法是用它来实现全局的锁服务或者命名和配置服务,例如 Google Chubby 以及Apache Zookeeper。另外一种用法是用它来将用户数据复制到多个数据中心,例如 Google Megastore 以及 Google Spanner。</p>
-<p>2PC 协议最大的缺陷在于无法处理协调者宕机问题。如果协调者宕机,那么,2PC协议中的每个参与者可能都不知道事务应该提交还是回滚,整个协议被阻塞,执行过程中申请的资源都无法释放。因此,常见的做法是将2PC和Paxos协议结合起来,通过2PC保证多个数据分片上的操作的原子性,通过Paxos协议实现同一个数据分片的多个副本之间的一致性。另外,通过Paxos协议解决2PC协议中协调者宕机问题。当 2PC协议中的协调者出现故障时,通过 Paxos 协议选举出新的协调者继续提供服务。</p><script type="text/javascript">
+<p>Paxos协议和2PC协议在分布式系统中所起的作用并不相同。Paxos协议用于保证同一个数据分片的多个副本之间的数据一致性。当这些副本分布到不同的数据中心时,这个需求尤其强烈。2PC协议用于保证属于多个数据分片上的操作的原子性。这些数据分片可能分布在不同的服务器上,2PC 协议保证多台服务器上的操作要么全部成功,要么全部失败。</p>
+<p>Paxos协议有两种用法:一种用法是用它来实现全局的锁服务或者命名和配置服务,例如 Google Chubby 以及Apache Zookeeper。另外一种用法是用它来将用户数据复制到多个数据中心,例如 Google Megastore 以及 Google Spanner。</p>
+<p>2PC协议最大的缺陷在于无法处理协调者宕机问题。如果协调者宕机,那么,2PC协议中的每个参与者可能都不知道事务应该提交还是回滚,整个协议被阻塞,执行过程中申请的资源都无法释放。因此,常见的做法是将2PC和Paxos协议结合起来,通过2PC保证多个数据分片上的操作的原子性,通过Paxos协议实现同一个数据分片的多个副本之间的一致性。另外,通过Paxos协议解决2PC协议中协调者宕机问题。当 2PC协议中的协调者出现故障时,通过 Paxos 协议选举出新的协调者继续提供服务。</p><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
