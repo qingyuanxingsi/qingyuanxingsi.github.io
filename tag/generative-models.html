@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doodle World</title>
+    <meta name="description" content="">
+    <meta name="author" content="qingyuanxingsi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="/theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="/theme/local.css" rel="stylesheet">
+    <link href="/theme/pygments.css" rel="stylesheet">
+    <link href="/theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="" class="brand">Doodle World</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="/pages/about.html">About</a></li>
+	    <li >
+	      <a href="/category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="/category/life.html ">Life</a>
+	    <li >
+	      <a href="/category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="/category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+        
+
+        
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="/ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><h1>机器学习系列(III):Gaussian Models</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>五 15 三月 2013 </p>
+
+<p style="text-align: left;">
+Filed under <a href="/category/machine-learning.html">Machine Learning</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="/tag/machine-learning.html">Machine Learning</a> <a href="/tag/gaussian-models.html">Gaussian Models</a> <a href="/tag/generative-models.html">Generative Models</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于离散数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
+<h1>MLE for MVN</h1>
+<hr />
+<h2>Basics about MVN</h2>
+<p>谈到离散分布,我们很自然地就会想到高斯分布,从小学到现在，印象中第一个走入我脑海中的看着比较高端大气上档次的就是Gaussian分布了。这次我们的重点便完全集中在Gaussian分布之上了,在正式讨论之前，我们先介绍一些关于Gaussian分布的基础知识吧。</p>
+<p>在$D$维空间中,MVN(Multivariate Normal)多变量正态分布的概率分布函数具有如下形式:</p>
+<p>\begin{equation}
+N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)]
+\end{equation}</p>
+<p>上式中的指数部分是$x$与$\mu$之间的<a href="http://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis距离</a>。为了更好地理解这个量,我们对$\Sigma$做特征值分解,即$\Sigma = U \Lambda U^T$,其中$U$是一正交阵,满足$U^TU=I$,而$\Lambda$是特征值矩阵。</p>
+<p>通过特征值分解,我们有:</p>
+<p>\begin{equation}
+\Sigma^{-1} = U^{-T}\Lambda^{-1}U^{-1} = U\Lambda^{-1}U^T = \sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T
+\end{equation}</p>
+<p>其中,$u_i$是$U$的第$i$列。因此Mahalanobis距离可被改写为:</p>
+<p>\begin{equation}
+(x-\mu)^T\Sigma^{-1}(x-\mu) = (x-\mu)^T (\sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T) (x-\mu) 
+                            = \sum_{i=1}^{D} \frac{1}{\lambda_i}(x-\mu)^T u_iu_i^T (x-\mu) 
+                            = \sum_{i=1}^{D} \frac{y_i^2}{x_i}
+\end{equation}</p>
+<p>其中,$y_i \triangleq u_i^T(x-\mu)$。另2维空间中的椭圆方程为:</p>
+<p>$$\frac{y_1^2}{\lambda_1} + \frac{y_2^2}{\lambda_2} = 1$$</p>
+<p>因此我们可知Gaussian概率密度的等高线沿着椭圆分布,特征向量决定椭圆的朝向,而特征值则决定椭圆有多<code>“椭”</code>。一般来说，如果我们将坐标系移动$\mu$,然后按$U$旋转，此时的欧拉距离即为Mahalanobis距离。</p>
+<h2>MLE for MVN</h2>
+<p>以下我们给出MVN参数的MLE(极大似然估计)的证明:(<code>服从分布的这个符号怎么打啊?</code>)</p>
+<blockquote>
+<p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i~N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:
+  \begin{equation}
+  \hat{\mu}<em i="1">{mle} = \frac{1}{N}\sum</em>^{N} x_i \triangleq \bar{x}
+  \end{equation}
+  \begin{equation}
+  \hat{\Sigma}<em i="1">{mle} = \frac{1}{N} \sum</em>^{N}(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N}x_ix_i^T) - \bar{x}\bar{x}^T
+  \end{equation}</p>
+</blockquote>
+<p>我们不加证明地给出如下公式组:</p>
+<blockquote>
+<p>\begin{equation}
+  \frac{\partial(b^Ta)}{\partial a} = b  \
+  \frac{\partial(a^TAa)}{\partial a} = (A+A^T)a \
+  \frac{\partial}{\partial A} tr(BA) = B^T  \
+  \frac{\partial}{\partial A} log |A| = A^{-T} \
+  tr(ABC) = tr(CAB) = tr(BCA)
+  \end{equation}</p>
+</blockquote>
+<p>最后一个等式称为迹的循环置换性质(cyclic permutation property)。利用这个性质,我们使用<code>trace trick</code>可以得到下式:</p>
+<p>$$x^TAx = tr(x^TAx) = tr(xx^TA) = tr(Axx^T)$$</p>
+<p>证明:</p>
+<p>对数似然函数为:</p>
+<p>\begin{equation}
+l(\mu.\Sigma) = log p(D|\mu,\Sigma) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i=1}^{N} (x_i-\mu)^T \Lambda (x_i-\mu)
+\end{equation}</p>
+<p>其中，$\Lambda = \Sigma^{-1}$为精度矩阵。另$y_i=x_i-\mu$并利用链式法则有:</p>
+<p>\begin{equation}
+\frac{\partial}{\partial \mu}(x_i-\mu)^T \Sigma^{-1} (x_i-\mu) = \frac {\partial}{\partial y_i} y_i^T \Sigma^{-1} y_i \frac{\partial y_i}{\partial \mu}=-(\Sigma^{-T}+\Sigma^{-1})y_i
+\end{equation}</p>
+<p>即:</p>
+<p>\begin{equation}
+\frac{\partial}{\partial \mu} l(\mu,\Sigma) = -\frac{1}{2} \sum_{i=1}^{N} -2\Sigma^{-1}(x_i-\mu) = 0
+\end{equation}</p>
+<p>故有:</p>
+<p>\begin{equation}
+\hat{\mu} = \frac{1}{N} \sum_{i=1}^{N} x_i = \bar{x}
+\end{equation}</p>
+<p>即最大似然均值即为经验均值。</p>
+<p>利用trace trick我们重写对数似然函数为:</p>
+<p>\begin{equation}
+l(\Lambda) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i} tr[(x_i-\mu)(x_i-\mu)^T \Lambda]
+           = \frac{N}{2} log |\Lambda| - \frac{1}{2} tr[S_u\Lambda]
+\end{equation}</p>
+<p>其中，$S_u \triangleq \sum_{i=1}^{N} (x_i-\mu)(x_i-\mu)^T$,业界尊称其为分散度矩阵(<code>Scatter Matrix</code>),以后我们聊LDA的时候会再次碰到。对$\Lambda$求偏导有:</p>
+<p>\begin{equation}
+\frac{\partial l(\Lambda)}{\partial \Lambda} = \frac{N}{2}\Lambda^{-T} - \frac{1}{2} S_u^{T} = 0
+\end{equation}</p>
+<p>得:</p>
+<p>\begin{equation}
+\hat{\Sigma} = \frac{1}{N} \sum_{i=1}^{N} (x_i-\mu)(x_i-\mu)^T
+\end{equation}</p>
+<p>证毕。</p>
+<h1>Gaussian Discriminant Analysis</h1>
+<hr />
+<h1>Inference in joint Gaussian distributions</h1>
+<hr />
+<h1>Linear Gaussian Systems</h1>
+<hr />
+<h1>Inferring the parameters of an MVN</h1>
+<hr /><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+ 
+	<a class="btn btn-mini xsmall" href="/ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
+          <i class="icon-comment"></i> Comment </a>
+	<hr />
+      </div>
+      
+    </div>
+    
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="/tag/generative-models.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="http://www.renren.com"><i class="icon-renren" style="color: #1f334b"></i>renren</a></li>
+
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
+            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+            <li><a href="http://python.org/">Python.org</a></li>
+            <li><a href="http://www.google.com/">Google</a></li>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href=""><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="/archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="/tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="/" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="">Doodle World</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
+</body>
+</html>
