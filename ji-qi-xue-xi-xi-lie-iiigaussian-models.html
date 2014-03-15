@@ -94,9 +94,9 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 <p>$$\frac{y_1^2}{\lambda_1} + \frac{y_2^2}{\lambda_2} = 1$$</p>
 <p>因此我们可知Gaussian概率密度的等高线沿着椭圆分布,特征向量决定椭圆的朝向,而特征值则决定椭圆有多<code>“椭”</code>。一般来说，如果我们将坐标系移动$\mu$,然后按$U$旋转，此时的欧拉距离即为Mahalanobis距离。</p>
 <h2>MLE for MVN</h2>
-<p>以下我们给出MVN参数的MLE(极大似然估计)的证明:(<code>服从分布的这个符号怎么打啊?</code>)</p>
+<p>以下我们给出MVN参数的MLE(极大似然估计)的证明:</p>
 <blockquote>
-<p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i~N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:</p>
+<p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:</p>
 <p>\begin{equation}
 \hat{\mu}<em i="1">{mle} = \frac{1}{N}\sum</em>^{N}x_i \triangleq \bar{x}
 \end{equation}</p>
