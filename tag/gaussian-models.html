@@ -100,10 +100,10 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 <blockquote>
 <p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:</p>
 <p>\begin{equation}
-\hat{\mu}<em i="1">{mle} = \frac{1}{N}\sum</em>^{N}x_i \triangleq \bar{x}
+\hat{\mu}_{mle} = {1 \over N} \sum x_i \triangleq \bar{x}
 \end{equation}</p>
 <p>\begin{equation}
-\hat{\Sigma}<em i="1">{mle} = \frac{1}{N} \sum</em>^{N}(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N} x_ix_i^T) - \bar{x} \bar{x}^T
+\hat{\Sigma}_{mle} = \frac{1}{N} \sum(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum x_ix_i^T) - \bar{x} \bar{x}^T
 \end{equation} </p>
 </blockquote>
 <p>我们不加证明地给出如下公式组:</p>
