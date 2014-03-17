@@ -100,10 +100,10 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 <blockquote>
 <p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:
   \begin{equation}
-  \hat{\mu}<em i="1">{mle} = \frac{1}{N}\sum</em>^{N} x_i \triangleq \bar{x}
+  \hat{\mu}<em mle="mle">{mle} = \frac{1}{N}\sum x_i \triangleq \bar{x}
   \end{equation}
   \begin{equation}
-  \hat{\Sigma}<em i="1">{mle} = \frac{1}{N} \sum</em>^{N}(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N}x_ix_i^T) - \bar{x}\bar{x}^T
+  \hat{\Sigma}</em> = \frac{1}{N} \sum (x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N}x_ix_i^T) - \bar{x}\bar{x}^T
   \end{equation}</p>
 </blockquote>
 <p>我们不加证明地给出如下公式组:</p>
@@ -184,7 +184,7 @@ p(y=c|x,\theta) = \frac{e^{\beta_c^Tx+\gamma_c}}{\sum_{c\prime}e^{\beta_{c\prime
 \end{equation}</p>
 <p>其中$\eta = [\beta_1^Tx+\gamma_1,...,\beta_C^Tx+\gamma_c]$,$S$为softmax函数(类似于max函数,故得此名),定义如下:</p>
 <p>\begin{equation}
-S(\eta)<em c_prime="1">c = \frac{e^{\eta_c}}{\sum</em>^C e^{\eta_{c\prime}}}
+S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
 \end{equation}</p>
 <p>若将$\eta_c$除以一个常数(temperature),当$T\to 0$时，我们有:</p>
 <p><img alt="Boltzmann Distribution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg" /></p>
