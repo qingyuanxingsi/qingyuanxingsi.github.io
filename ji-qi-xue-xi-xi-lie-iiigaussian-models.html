@@ -72,7 +72,7 @@ Filed under <a href="/category/machine-learning.html">Machine Learning</a>
       <div class="span8">
 	<p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于离散数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
 <h1>MLE for MVN</h1>
-<hr />
+<hr>
 <h2>Basics about MVN</h2>
 <p>谈到离散分布,我们很自然地就会想到高斯分布,从小学到现在，印象中第一个走入我脑海中的看着比较高端大气上档次的就是Gaussian分布了。这次我们的重点便完全集中在Gaussian分布之上了,在正式讨论之前，我们先介绍一些关于Gaussian分布的基础知识吧。</p>
 <p>在$D$维空间中,MVN(Multivariate Normal)多变量正态分布的概率分布函数具有如下形式:</p>
@@ -98,10 +98,10 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 <blockquote>
 <p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:
   \begin{equation}
-  \hat{\mu}<em mle="mle">{mle} = \frac{1}{N}\sumx_i \triangleq \bar{x}
+  \hat{\mu}<em mle="mle">{mle} = \frac{1}{N}\sum x_i \triangleq \bar{x}
   \end{equation}
   \begin{equation}
-  \hat{\Sigma}</em> = \frac{1}{N}\sum(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N}x_ix_i^T) - \bar{x}\bar{x}^T
+  \hat{\Sigma}</em> = \frac{1}{N} \sum (x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N}x_ix_i^T) - \bar{x}\bar{x}^T
   \end{equation}</p>
 </blockquote>
 <p>我们不加证明地给出如下公式组:</p>
@@ -149,7 +149,7 @@ l(\Lambda) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i} tr[(x_i-\mu)(x_i-\
 \end{equation}</p>
 <p>证毕。</p>
 <h1>Gaussian Discriminant Analysis</h1>
-<hr />
+<hr>
 <p>我们在上一篇中提到了Naive Bayes方法,其实质无非是估计在每一类下特定的样本出现的概率，进而我们可以把该特定样本分配给概率值最大的那个类。而对于连续数据而言，其实质其实也是一样的，每一个MVN(我们可以看做一类或者一个Component)都可能生成一些数据，我们估计在每一个Component下生成特定样本的概率，然后把该特定样本分配给概率值最大的那个Component即可。即我们可以定义如下的条件分布:</p>
 <p>\begin{equation}
 p(x|y=c,\theta) = N(x|\mu_c,\Sigma_c)
@@ -161,8 +161,8 @@ p(x|y=c,\theta) = N(x|\mu_c,\Sigma_c)
 p(y=c|x,\theta) = \frac{\pi_c |2\pi\Sigma_c|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_c)^T\Sigma_C^{-1}(x-\mu_c)]}{\sum_{c\prime}\pi_{c\prime} |2\pi\Sigma_{c\prime}|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_{c\prime})^T\Sigma_{c\prime}^{-1}(x-\mu_{c\prime})}
 \end{equation}</p>
 <p>上式中$\pi$为各个Component的先验概率分布。根据上式得到的模型则称为Quadratic Discriminant Analysis(QDA).以下给出在2类以及2类情形下可能的决策边界形状,如下图所示:</p>
-<p><img alt="Decision Boundary" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_boundary_zps289df588.jpeg" /></p>
-<h2>LDA</h2>
+<p><img alt="Decision Boundary" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_boundary_zps289df588.jpeg"></p>
+<h2>Linear Discriminant Analysis(LDA)</h2>
 <p>当各个Gaussian Component的协方差矩阵相同时，我们进一步有:</p>
 <p>\begin{equation}
 p(y=c|x,\theta) \propto \pi_c exp[\mu_c^T\Sigma^{-1}x-{1 \over 2}x^T\Sigma^{-1}x-{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c]
@@ -185,17 +185,51 @@ p(y=c|x,\theta) = \frac{e^{\beta_c^Tx+\gamma_c}}{\sum_{c\prime}e^{\beta_{c\prime
 S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
 \end{equation}</p>
 <p>若将$\eta_c$除以一个常数(temperature),当$T\to 0$时，我们有:</p>
-<p><img alt="Boltzmann Distribution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg" /></p>
+<p><img alt="Boltzmann Distribution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg"></p>
 <p>换句话说，当温度很低时，分布集中在概率最大的那个状态上，而当温度高时，所有的状态呈现均匀分布。</p>
 <blockquote>
 <p>NOTE:该术语来自于统计物理学，在统计物理学中，人们更倾向于使用波尔兹曼分布（Boltzmann distribution）一词。</p>
 </blockquote>
+<p>关于<code>式18</code>有一个有趣的性质，即对该式取log,我们则会得到一个关于$x$的线性方程。因此对于任意两类之间的决策边界将会是一条直线，据此该模型也被称为线性判别分析(Linear Discriminant Analysis,LDA)。而且对于二分类问题，我们可以得到:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) = p(y=c\prime|x,\theta)
+\end{equation}</p>
+<p>\begin{equation}
+\beta_c^Tx+\gamma_c = \beta_{c\prime}^Tx+\gamma_{c\prime}
+\end{equation}</p>
+<p>\begin{equation}
+x^T(\beta_{c\prime}-\beta_c) = \gamma_{c\prime}-\gamma_c
+\end{equation}</p>
+<h2>Two-class LDA</h2>
+<p>为了加深对以上等式的理解，对于二分的情况，我们做如下说明:</p>
+<p>\begin{equation}
+p(y=1|x,\theta) = \frac{e^{\beta_1^Tx+\gamma_1}}{e^{\beta_1^Tx+\gamma_1}+e^{\beta_0^Tx+\gamma_0}} = \frac{1}{1+e^{(\beta_0-\beta_1)^Tx+(\gamma_0-\gamma_1)}}=sigm((\beta_1-\beta_0)^Tx+(\gamma_1-\gamma_0))
+\end{equation}</p>
+<p>其中,$sigm(\eta)$代表<a href="http://en.wikipedia.org/wiki/Sigmoid_function">Sigmoid函数</a>。</p>
+<p>现有:</p>
+<p>\begin{equation}
+\gamma_1-\gamma_0 = -{1 \over 2}\mu_1^T\Sigma^{-1}\mu_1+{1 \over 2}\mu_0^T\Sigma^{-1}\mu_0+log(\pi_1/\pi_0)=-{1 \over 2}(\mu_1-\mu_0)^T\Sigma^{-1}(\mu_1+\mu_0)+log(\pi_1/\pi_0)
+\end{equation}</p>
+<p>因此若我们另:</p>
+<p>\begin{equation}
+\omega = \beta_1-\beta_0 = \Sigma^{-1}(\mu_1-\mu_0)
+\end{equation}</p>
+<p>\begin{equation}
+x_0 = {1 \over 2}(\mu_1+\mu_0)-(\mu_1-\mu_0)\frac{log(\pi_1/\pi_0)}{(\mu_1-\mu_0)^T\Sigma^{-1}(\mu_1-\mu_0)}
+\end{equation}</p>
+<p>则有$\omega^Tx_0 = -(\gamma_1-\gamma_0)$,即:</p>
+<p>\begin{equation}
+p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
+\end{equation}</p>
+<p>因此最后的决策规则很简单:将$x$平移$x_0$,然后投影到$\omega$上，通过结果是正还是负决定它到底属于哪一类。</p>
+<p><img alt="Two class LDA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2_class_lda_zps98b80132.jpeg"></p>
+<p>当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" class="simple-footnote" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分">1</a></sup></p>
 <h1>Inference in joint Gaussian distributions</h1>
-<hr />
+<hr>
 <h1>Linear Gaussian Systems</h1>
-<hr />
+<hr>
 <h1>Inferring the parameters of an MVN</h1>
-<hr /><script type= "text/javascript">
+<hr><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -225,7 +259,7 @@ S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li></ol>
 	<hr />
       </div>
     </div>
