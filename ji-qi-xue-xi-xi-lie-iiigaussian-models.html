@@ -226,6 +226,7 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 <p>当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" class="simple-footnote" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分">1</a></sup></p>
 <h1>Inference in joint Gaussian distributions</h1>
 <hr>
+<p>给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们给出具体的推导过程并给出一具体实例:</p>
 <h1>Linear Gaussian Systems</h1>
 <hr>
 <h1>Inferring the parameters of an MVN</h1>
