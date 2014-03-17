@@ -5,44 +5,37 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/index.html</loc>
-<lastmod>2014-03-16T17:21:03-00:00</lastmod>
+<lastmod>2014-03-17T11:16:48-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/archives.html</loc>
-<lastmod>2014-03-16T17:21:03-00:00</lastmod>
+<lastmod>2014-03-17T11:16:48-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/tags.html</loc>
-<lastmod>2014-03-16T17:21:03-00:00</lastmod>
+<lastmod>2014-03-17T11:16:48-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/categories.html</loc>
-<lastmod>2014-03-16T17:21:03-00:00</lastmod>
+<lastmod>2014-03-17T11:16:48-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/pages/about.html</loc>
-<lastmod>2014-03-16T17:21:03-00:00</lastmod>
+<lastmod>2014-03-17T11:16:48-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
-</url>
-
-<url>
-<loc>/ji-qi-xue-xi-xi-lie-iiigaussian-models.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
-<changefreq>monthly</changefreq>
-<priority>0.7</priority>
 </url>
 
 <url>
@@ -81,6 +74,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>/ji-qi-xue-xi-xi-lie-iiigaussian-models.html</loc>
+<lastmod>2013-03-15T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
 <loc>/category/distributed-system.html</loc>
 <lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -96,7 +96,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/category/machine-learning.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -124,7 +124,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/tag/generative-models.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -159,7 +159,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/tag/machine-learning.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -173,7 +173,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/tag/gaussian-models.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2013-03-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -194,7 +194,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/author/qingyuanxingsi.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

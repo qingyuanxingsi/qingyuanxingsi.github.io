@@ -60,7 +60,7 @@
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>六 15 三月 2014 </p>
+<p>五 15 三月 2013 </p>
 
 <p style="text-align: left;">
 Filed under <a href="/category/machine-learning.html">Machine Learning</a>
@@ -88,7 +88,7 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 \end{equation}</p>
 <p>其中,$u_i$是$U$的第$i$列。因此Mahalanobis距离可被改写为:</p>
 <p>\begin{equation}
-(x-\mu)^T \Sigma^{-1} (x-\mu) = (x-\mu)^T (\sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T) (x-\mu) 
+(x-\mu)^T\Sigma^{-1}(x-\mu) = (x-\mu)^T (\sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T) (x-\mu) 
                             = \sum_{i=1}^{D} \frac{1}{\lambda_i}(x-\mu)^T u_iu_i^T (x-\mu) 
                             = \sum_{i=1}^{D} \frac{y_i^2}{x_i}
 \end{equation}</p>
@@ -98,13 +98,13 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 <h2>MLE for MVN</h2>
 <p>以下我们给出MVN参数的MLE(极大似然估计)的证明:</p>
 <blockquote>
-<p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:</p>
-<p>\begin{equation}
-\hat{\mu}_{mle} = {1 \over N} \sum x_i \triangleq \bar{x}
-\end{equation}</p>
-<p>\begin{equation}
-\hat{\Sigma}_{mle} = \frac{1}{N} \sum(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum x_ix_i^T) - \bar{x} \bar{x}^T
-\end{equation} </p>
+<p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及$\Sigma$的极大似然分布如下:
+  \begin{equation}
+  \hat{\mu}<em i="1">{mle} = \frac{1}{N}\sum</em>^{N} x_i \triangleq \bar{x}
+  \end{equation}
+  \begin{equation}
+  \hat{\Sigma}<em i="1">{mle} = \frac{1}{N} \sum</em>^{N}(x_i-\bar{x})(x_i-\bar{x})^T = \frac{1}{N}(\sum_{i=1}^{N}x_ix_i^T) - \bar{x}\bar{x}^T
+  \end{equation}</p>
 </blockquote>
 <p>我们不加证明地给出如下公式组:</p>
 <blockquote>
@@ -117,13 +117,11 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
   \end{equation}</p>
 </blockquote>
 <p>最后一个等式称为迹的循环置换性质(cyclic permutation property)。利用这个性质,我们使用<code>trace trick</code>可以得到下式:</p>
-<p>\begin{equation}
-x^TAx = tr(x^TAx) = tr(xx^TA) = tr(Axx^T)
-\end{equation}</p>
+<p>$$x^TAx = tr(x^TAx) = tr(xx^TA) = tr(Axx^T)$$</p>
 <p>证明:</p>
 <p>对数似然函数为:</p>
 <p>\begin{equation}
-l(\mu,\Sigma) = log p(D|\mu,\Sigma) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i=1}^{N} (x_i-\mu)^T \Lambda (x_i-\mu)
+l(\mu.\Sigma) = log p(D|\mu,\Sigma) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i=1}^{N} (x_i-\mu)^T \Lambda (x_i-\mu)
 \end{equation}</p>
 <p>其中，$\Lambda = \Sigma^{-1}$为精度矩阵。另$y_i=x_i-\mu$并利用链式法则有:</p>
 <p>\begin{equation}
@@ -154,6 +152,46 @@ l(\Lambda) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i} tr[(x_i-\mu)(x_i-\
 <p>证毕。</p>
 <h1>Gaussian Discriminant Analysis</h1>
 <hr />
+<p>我们在上一篇中提到了Naive Bayes方法,其实质无非是估计在每一类下特定的样本出现的概率，进而我们可以把该特定样本分配给概率值最大的那个类。而对于连续数据而言，其实质其实也是一样的，每一个MVN(我们可以看做一类或者一个Component)都可能生成一些数据，我们估计在每一个Component下生成特定样本的概率，然后把该特定样本分配给概率值最大的那个Component即可。即我们可以定义如下的条件分布:</p>
+<p>\begin{equation}
+p(x|y=c,\theta) = N(x|\mu_c,\Sigma_c)
+\end{equation}</p>
+<p>上述模型即为高斯判别分析(Gaussian Discriminant Analysis,GDA)(<code>注意,该模型为生成模型，而不是判别模型</code>)。如果$\Sigma_c$是对角阵，即所有的特征都是独立的时，该模型等同于Naive Bayes.</p>
+<h2>QDA</h2>
+<p>在上式中带入高斯密度函数的定义，则有:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) = \frac{\pi_c |2\pi\Sigma_c|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_c)^T\Sigma_C^{-1}(x-\mu_c)]}{\sum_{c\prime}\pi_{c\prime} |2\pi\Sigma_{c\prime}|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_{c\prime})^T\Sigma_{c\prime}^{-1}(x-\mu_{c\prime})}
+\end{equation}</p>
+<p>上式中$\pi$为各个Component的先验概率分布。根据上式得到的模型则称为Quadratic Discriminant Analysis(QDA).以下给出在2类以及2类情形下可能的决策边界形状,如下图所示:</p>
+<p><img alt="Decision Boundary" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_boundary_zps289df588.jpeg" /></p>
+<h2>LDA</h2>
+<p>当各个Gaussian Component的协方差矩阵相同时，我们进一步有:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) \propto \pi_c exp[\mu_c^T\Sigma^{-1}x-{1 \over 2}x^T\Sigma^{-1}x-{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c]
+= exp[\mu_c^T\Sigma^{-1}x-{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c+log\pi_c]exp[-{1 \over 2}x^T\Sigma^{-1}x]
+\end{equation}</p>
+<p>上式中$exp[-{1 \over 2}x^T\Sigma^{-1}x]$是独立于$c$的，分子分母相除抵消到此项。</p>
+<p>令:</p>
+<p>\begin{equation}
+\gamma_c = -{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c+log\pi_c
+\end{equation}
+\begin{equation}
+\beta_c = \Sigma^{-1}\mu_c
+\end{equation}</p>
+<p>于是有:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) = \frac{e^{\beta_c^Tx+\gamma_c}}{\sum_{c\prime}e^{\beta_{c\prime}^Tx+\gamma_{c\prime}}}=S(\eta)_c
+\end{equation}</p>
+<p>其中$\eta = [\beta_1^Tx+\gamma_1,...,\beta_C^Tx+\gamma_c]$,$S$为softmax函数(类似于max函数,故得此名),定义如下:</p>
+<p>\begin{equation}
+S(\eta)<em c_prime="1">c = \frac{e^{\eta_c}}{\sum</em>^C e^{\eta_{c\prime}}}
+\end{equation}</p>
+<p>若将$\eta_c$除以一个常数(temperature),当$T\to 0$时，我们有:</p>
+<p><img alt="Boltzmann Distribution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg" /></p>
+<p>换句话说，当温度很低时，分布集中在概率最大的那个状态上，而当温度高时，所有的状态呈现均匀分布。</p>
+<blockquote>
+<p>NOTE:该术语来自于统计物理学，在统计物理学中，人们更倾向于使用波尔兹曼分布（Boltzmann distribution）一词。</p>
+</blockquote>
 <h1>Inference in joint Gaussian distributions</h1>
 <hr />
 <h1>Linear Gaussian Systems</h1>
