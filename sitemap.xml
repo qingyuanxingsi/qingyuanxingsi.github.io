@@ -5,37 +5,44 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/index.html</loc>
-<lastmod>2014-03-22T23:18:41-00:00</lastmod>
+<lastmod>2014-03-23T00:08:46-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/archives.html</loc>
-<lastmod>2014-03-22T23:18:41-00:00</lastmod>
+<lastmod>2014-03-23T00:08:46-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/tags.html</loc>
-<lastmod>2014-03-22T23:18:41-00:00</lastmod>
+<lastmod>2014-03-23T00:08:46-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/categories.html</loc>
-<lastmod>2014-03-22T23:18:41-00:00</lastmod>
+<lastmod>2014-03-23T00:08:46-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>/pages/about.html</loc>
-<lastmod>2014-03-22T23:18:41-00:00</lastmod>
+<lastmod>2014-03-23T00:08:46-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
+</url>
+
+<url>
+<loc>/fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -82,7 +89,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/category/distributed-system.html</loc>
-<lastmod>2014-03-11T00:00:00-00:00</lastmod>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -109,8 +116,22 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>/tag/zhi-xing-ha-xi-suan-fa.html</loc>
-<lastmod>2014-03-11T00:00:00-00:00</lastmod>
+<loc>/tag/reactor-pattern.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/ipc.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/state-machine.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -137,8 +158,29 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>/tag/classfication.html</loc>
-<lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<loc>/tag/o2o.html</loc>
+<lastmod>2013-04-15T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/designing-patterns.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/hadoop.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/yarn.html</loc>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -151,8 +193,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>/tag/o2o.html</loc>
-<lastmod>2013-04-15T00:00:00-00:00</lastmod>
+<loc>/tag/classfication.html</loc>
+<lastmod>2014-03-04T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>/tag/zhi-xing-ha-xi-suan-fa.html</loc>
+<lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -194,7 +243,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>/author/qingyuanxingsi.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
