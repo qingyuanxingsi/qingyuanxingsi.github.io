@@ -227,6 +227,62 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 <h1>Inference in joint Gaussian distributions</h1>
 <hr>
 <p>给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们给出具体的推导过程并给出一具体实例:</p>
+<blockquote>
+<p>Theorem 3.2 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
+\begin{equation}
+\mu = \left(
+        \begin{array}{ccc}
+        \mu_1 \
+        \mu_2
+        \end{array}
+      \right)
+\end{equation}
+\begin{equation}
+\Sigma = \left(
+        \begin{array}{ccc}
+        \Sigma_{11} &amp; \Sigma_{12} \
+        \Sigma_{21} &amp; \Sigma_{22}
+        \end{array}
+      \right)
+\end{equation}
+则我们可以得到如下边际概率分布:
+\begin{equation}
+p(x_1) = N(x_1|\mu_1,\Sigma_{11})  \
+p(x_2) = N(x_2|\mu_2,\Sigma_{22})
+\end{equation}
+另其后验条件分布为:
+\begin{equation}
+p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2}) \
+\mu_{1|2} = \mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \
+=\mu_1-\Lambda_{11}^{-1}\Lambda_{12}(x_2-\mu_2) \
+=\Sigma_{1|2}(\Lambda_{11}\mu_1-\Lambda_{12}(x_2-\mu_2)) \
+\Sigma_{1|2} = \Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}=\Lambda_{11}^{-1}
+\end{equation}</p>
+</blockquote>
+<h2>Proof</h2>
+<h3>Inverse of a partioned matrix using Schur complements</h3>
+<blockquote>
+<p>Theorem 3.3 分块矩阵求逆
+给定分块矩阵如下:
+\begin{equation}
+M=\left(
+    \begin{array}{ccc}
+    E &amp; F \
+    G &amp; H
+    \end{array}
+  \right)
+\end{equation}
+其中$E$和$H$均为可逆矩阵，于是我们有:
+\begin{equation}
+M^{-1} = \left(
+           \begin{array}{ccc}
+            (M/H)^{-1} &amp; (M/H)^{-1}FH^{-1} \
+            -H^{-1}G(M/H)^{-1} &amp; H^{-1}+H^{-1}G(M/H)^{-1}FH^{-1}
+           \end{array}
+         \right)        <br>
+\end{equation}
+其中,$M/H \triangleq E-FH^{-1}G$,也称$M$关于$H$的<em>Schur complement</em>.上式称为分块矩阵求逆公式。</p>
+</blockquote>
 <h1>Linear Gaussian Systems</h1>
 <hr>
 <h1>Inferring the parameters of an MVN</h1>
