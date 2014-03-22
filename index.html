@@ -88,9 +88,11 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 \end{equation}</p>
 <p>其中,$u_i$是$U$的第$i$列。因此Mahalanobis距离可被改写为:</p>
 <p>\begin{equation}
-(x-\mu)^T\Sigma^{-1}(x-\mu) = (x-\mu)^T (\sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T) (x-\mu) 
-                            = \sum_{i=1}^{D} \frac{1}{\lambda_i}(x-\mu)^T u_iu_i^T (x-\mu) 
-                            = \sum_{i=1}^{D} \frac{y_i^2}{x_i}
+\begin{split}
+(x-\mu)^T\Sigma^{-1}(x-\mu) &amp;= (x-\mu)^T (\sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T) (x-\mu)   \\
+                            &amp;= \sum_{i=1}^{D} \frac{1}{\lambda_i}(x-\mu)^T u_iu_i^T (x-\mu)    \\
+                            &amp;= \sum_{i=1}^{D} \frac{y_i^2}{x_i}                                \\
+\end{split}
 \end{equation}</p>
 <p>其中,$y_i \triangleq u_i^T(x-\mu)$。另2维空间中的椭圆方程为:</p>
 <p>$$\frac{y_1^2}{\lambda_1} + \frac{y_2^2}{\lambda_2} = 1$$</p>
@@ -109,11 +111,13 @@ N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}
 <p>我们不加证明地给出如下公式组:</p>
 <blockquote>
 <p>\begin{equation}
-  \frac{\partial(b^Ta)}{\partial a} = b  \
-  \frac{\partial(a^TAa)}{\partial a} = (A+A^T)a \
-  \frac{\partial}{\partial A} tr(BA) = B^T  \
-  \frac{\partial}{\partial A} log |A| = A^{-T} \
-  tr(ABC) = tr(CAB) = tr(BCA)
+  \begin{split}
+  &amp;\frac{\partial(b^Ta)}{\partial a} = b  \\
+  &amp;\frac{\partial(a^TAa)}{\partial a} = (A+A^T)a \\
+  &amp;\frac{\partial}{\partial A} tr(BA) = B^T  \\
+  &amp;\frac{\partial}{\partial A} log |A| = A^{-T} \\
+  &amp;tr(ABC) = tr(CAB) = tr(BCA)
+  \end{split}
   \end{equation}</p>
 </blockquote>
 <p>最后一个等式称为迹的循环置换性质(cyclic permutation property)。利用这个性质,我们使用<code>trace trick</code>可以得到下式:</p>
@@ -160,7 +164,7 @@ p(x|y=c,\theta) = N(x|\mu_c,\Sigma_c)
 <h2>QDA</h2>
 <p>在上式中带入高斯密度函数的定义，则有:</p>
 <p>\begin{equation}
-p(y=c|x,\theta) = \frac{\pi_c |2\pi\Sigma_c|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_c)^T\Sigma_C^{-1}(x-\mu_c)]}{\sum_{c\prime}\pi_{c\prime} |2\pi\Sigma_{c\prime}|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_{c\prime})^T\Sigma_{c\prime}^{-1}(x-\mu_{c\prime})}
+p(y=c|x,\theta) = \frac{\pi_c |2\pi\Sigma_c|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_c)^T\Sigma_C^{-1}(x-\mu_c)]}{\sum_{c\prime}\pi_{c\prime} |2\pi\Sigma_{c\prime}|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_{c\prime})^T\Sigma_{c\prime}^{-1}(x-\mu_{c\prime})]}
 \end{equation}</p>
 <p>上式中$\pi$为各个Component的先验概率分布。根据上式得到的模型则称为Quadratic Discriminant Analysis(QDA).以下给出在2类以及2类情形下可能的决策边界形状,如下图所示:</p>
 <p><img alt="Decision Boundary" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_boundary_zps289df588.jpeg"></p>
@@ -254,10 +258,16 @@ p(x_2) = N(x_2|\mu_2,\Sigma_{22})
 \end{equation}
 另其后验条件分布为:
 \begin{equation}
-p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2}) \\
-\mu_{1|2} = \mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \\
-=\mu_1-\Lambda_{11}^{-1}\Lambda_{12}(x_2-\mu_2) \\
-=\Sigma_{1|2}(\Lambda_{11}\mu_1-\Lambda_{12}(x_2-\mu_2)) \\
+p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2})
+\end{equation}
+\begin{equation}
+\begin{split}
+\mu_{1|2} &amp;= \mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \\
+&amp;=\mu_1-\Lambda_{11}^{-1}\Lambda_{12}(x_2-\mu_2) \\
+&amp;=\Sigma_{1|2}(\Lambda_{11}\mu_1-\Lambda_{12}(x_2-\mu_2)) \\
+\end{split}
+\end{equation}
+\begin{equation}
 \Sigma_{1|2} = \Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}=\Lambda_{11}^{-1}
 \end{equation}</p>
 </blockquote>
