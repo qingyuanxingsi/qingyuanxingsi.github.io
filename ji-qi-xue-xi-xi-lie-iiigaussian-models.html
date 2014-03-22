@@ -232,7 +232,7 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 \begin{equation}
 \mu = \left(
         \begin{array}{ccc}
-        \mu_1 \
+        \mu_1 \\
         \mu_2
         \end{array}
       \right)
@@ -240,22 +240,22 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 \begin{equation}
 \Sigma = \left(
         \begin{array}{ccc}
-        \Sigma_{11} &amp; \Sigma_{12} \
+        \Sigma_{11} &amp; \Sigma_{12} \\
         \Sigma_{21} &amp; \Sigma_{22}
         \end{array}
       \right)
 \end{equation}
 则我们可以得到如下边际概率分布:
 \begin{equation}
-p(x_1) = N(x_1|\mu_1,\Sigma_{11})  \
+p(x_1) = N(x_1|\mu_1,\Sigma_{11})  \\
 p(x_2) = N(x_2|\mu_2,\Sigma_{22})
 \end{equation}
 另其后验条件分布为:
 \begin{equation}
-p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2}) \
-\mu_{1|2} = \mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \
-=\mu_1-\Lambda_{11}^{-1}\Lambda_{12}(x_2-\mu_2) \
-=\Sigma_{1|2}(\Lambda_{11}\mu_1-\Lambda_{12}(x_2-\mu_2)) \
+p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2}) \\
+\mu_{1|2} = \mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \\
+=\mu_1-\Lambda_{11}^{-1}\Lambda_{12}(x_2-\mu_2) \\
+=\Sigma_{1|2}(\Lambda_{11}\mu_1-\Lambda_{12}(x_2-\mu_2)) \\
 \Sigma_{1|2} = \Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}=\Lambda_{11}^{-1}
 \end{equation}</p>
 </blockquote>
@@ -267,7 +267,7 @@ p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2}) \
 \begin{equation}
 M=\left(
     \begin{array}{ccc}
-    E &amp; F \
+    E &amp; F \\
     G &amp; H
     \end{array}
   \right)
@@ -276,7 +276,7 @@ M=\left(
 \begin{equation}
 M^{-1} = \left(
            \begin{array}{ccc}
-            (M/H)^{-1} &amp; (M/H)^{-1}FH^{-1} \
+            (M/H)^{-1} &amp; (M/H)^{-1}FH^{-1} \\
             -H^{-1}G(M/H)^{-1} &amp; H^{-1}+H^{-1}G(M/H)^{-1}FH^{-1}
            \end{array}
          \right)        <br>
