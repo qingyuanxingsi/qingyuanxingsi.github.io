@@ -191,7 +191,15 @@ p(y=c|x,\theta) = \frac{e^{\beta_c^Tx+\gamma_c}}{\sum_{c\prime}e^{\beta_{c\prime
 S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
 \end{equation}</p>
 <p>若将$\eta_c$除以一个常数(temperature),当$T\to 0$时，我们有:</p>
-<p><img alt="Boltzmann Distribution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg"></p>
+<p>\begin{equation}
+S(\eta/T)<em c_prime="c\prime">c=
+\left{                     <br>
+\begin{array}{lll}    <br>
+1.0 &amp; c=argmax</em> \eta_{c \prime}   \\
+0.0 &amp; otherwise 
+\end{array}   <br>
+\right.                    <br>
+\end{equation}</p>
 <p>换句话说，当温度很低时，分布集中在概率最大的那个状态上，而当温度高时，所有的状态呈现均匀分布。</p>
 <blockquote>
 <p>NOTE:该术语来自于统计物理学，在统计物理学中，人们更倾向于使用波尔兹曼分布（Boltzmann distribution）一词。</p>
@@ -232,9 +240,9 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 <p>当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" class="simple-footnote" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分">1</a></sup></p>
 <h1>Inference in joint Gaussian distributions</h1>
 <hr>
-<p>给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们仅给出结论并给出一具体实例:</p>
+<p>给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们仅给出结论,下式表明<strong>如果两变量符合联合高斯分布，则它们的边际分布以及条件分布也都是高斯分布</strong>。</p>
 <blockquote>
-<p>Theorem 3.2<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" class="simple-footnote" title="具体证明请参考ML:APP一书4.3.4.3一节">2</a></sup> 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
+<p>Theorem 3.2<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" class="simple-footnote" title="具体证明请参考ML:APP一书4.4.4.3一节">2</a></sup> 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
 \begin{equation}
 \mu = \left(
         \begin{array}{ccc}
@@ -304,7 +312,7 @@ p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2})
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.4.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="/ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
