@@ -334,6 +334,56 @@ p(x|y_1,...,y_N) &amp;= N(x|\mu_N,\Sigma_N) \\
 <blockquote>
 <p>NOTE:当sensor测量精度未知时，我们则需要它们的测量精度也进行估计。</p>
 </blockquote>
+<h1>The Wishart Distribution</h1>
+<hr>
+<blockquote>
+<p>在多变量统计学中,Wishart分布是继高斯分布后最重要且最有用的模型。  ------Press</p>
+</blockquote>
+<p>既然Press他老人家都说了Wishart分布很重要，而且我们下一部分会用到它，那么我们就必须得介绍介绍它了。(它主要被用来Model关于协方差矩阵的不确定性)</p>
+<h2>Wishart Distribution</h2>
+<p>Wishart概率密度函数具有如下形式:
+\begin{equation}
+Wi(\Lambda|S,\nu)=\frac{1}{Z_{Wi}}|\Lambda|^{(\nu-D-1)/2}exp(-{1 \over 2}tr(\Lambda S^{-1}))
+\end{equation}</p>
+<p>其中,$\nu$为自由度，$S$为缩放矩阵。其归一项具有如下形式:(<code>很恐怖，对吧!</code>)
+\begin{equation}
+Z_{Wi}=2^{\nu D/2}\Gamma_D(\nu/2)|S|^{\nu/2}
+\end{equation}</p>
+<p>其中,$\Gamma_D(a)$为多变量Gamma函数:
+\begin{equation}
+\Gamma_D(x) = \pi^{D(D-1)/4}\prod_{i=1}^{D} \Gamma(x+(1-i)/2)
+\end{equation}</p>
+<p>于是有$\Gamma_1(a)=\Gamma(a)$且有:
+\begin{equation}
+\Gamma_D(\nu_0/2)=\prod_{i=1}^{D} \Gamma(\frac{\nu_0+1-i}{2})
+\end{equation}</p>
+<p><strong>仅当$\nu&gt;D-1$时归一项存在</strong>。</p>
+<p>其实Wishart分布和Gaussian分布是有联系的。具体而言，令$x_i \sim\ N(0,\Sigma)$,则离散度矩阵$S=\sum_{i=1}^{N}x_ix_i^T$服从Wishart分布,且$S \sim\ Wi(\Sigma,1)$。于是有$E(S)=N\Sigma$.</p>
+<p>更一般地，我们可以证明$Wi(S,\nu$的mean和mode具有如下形式:
+\begin{equation}
+mean=\nu S,mode=(\nu-D-1)S
+\end{equation}</p>
+<p><strong>仅当$\nu&gt;D+1$时mode存在</strong>。</p>
+<p>当$D=1$时，Wishart分布退化为Gamma分布，且有:
+\begin{equation}
+Wi(\lambda|s^{-1},v) = Ga(\lambda|{\nu \over 2},{s \over 2})
+\end{equation}</p>
+<h2>Inverse Wishart Distribution</h2>
+<p>若$\Sigma^{-1} \sim\ Wi(S,\nu)$,则$\Sigma \sim\ IW(S^{-1},\nu+D+1)$,其中$IW$为逆Wishart分布。当$\nu&gt;D-1$且$S \succ 0$时,我们有:
+\begin{equation}
+\begin{split}
+IW(\Sigma|S,\nu) &amp;= \frac{1}{Z_{IW}}|\Sigma|^{-(\nu+D+1)/2}exp(-{1 \over 2}tr(S^{-1}\Sigma^{-1})) \\
+Z_{IW} = |S|^{-\nu/2}2^{\nu D/2}\Gamma_D(\nu/2)
+\end{split}
+\end{equation}</p>
+<p>此外我们可以证明逆Wishart分布具有如下性质:
+\begin{equation}
+mean=\frac{S^{-1}}{\nu-D-1},mode=\frac{S^{-1}}{\nu+D+1}
+\end{equation}</p>
+<p>当$D=1$时,它们退化为逆Gamma分布:
+\begin{equation}
+IW(\sigma^2|S^{-1},\nu)=IG(\sigma^2|\nu/2,S/2)
+\end{equation}</p>
 <h1>Inferring the parameters of an MVN<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" class="simple-footnote" title="本部分部分参考Regularized Gaussian Covariance Estimation">5</a></sup></h1>
 <hr><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
