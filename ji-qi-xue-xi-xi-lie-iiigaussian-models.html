@@ -293,6 +293,93 @@ M^{-1} = \left(
 \end{equation}
 其中,$M/H \triangleq E-FH^{-1}G$,也称$M$关于$H$的<em>Schur complement</em>.上式称为分块矩阵求逆公式。</p>
 </blockquote>
+<p><em>Proof:</em></p>
+<ol>
+<li>
+<p>将$M$右上角清零，我们可以按下式左乘:
+\begin{equation}
+\left(
+\begin{array}{cc}
+I &amp; -FH^{-1} \\
+0 &amp; I
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+E &amp; F \\
+G &amp; H
+\end{array}
+\right)
+=\left(
+\begin{array}{cc}
+E-FH^{-1}G &amp; 0 \\
+G &amp; H
+\end{array}
+\right)
+\end{equation}</p>
+</li>
+<li>
+<p>将$M$左下角清零，我们有:
+\begin{equation}
+\left(
+\begin{array}{cc}
+E-FH^{-1}G &amp; 0 \\
+G &amp; H
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+I &amp; 0 \\
+-H^{-1}G &amp; I
+\end{array}
+\right)
+=\left(
+\begin{array}{cc}
+E-FH^{-1}G &amp; 0 \\
+0 &amp; H
+\end{array}
+\right)
+\end{equation}</p>
+</li>
+<li>将上述两式组合在一起，有:
+\begin{equation}
+\underbrace{\left(
+\begin{array}{cc}
+I &amp; -FH^{-1} \\
+0 &amp; I
+\end{array}
+\right)}<em m="M">{X}
+\underbrace{
+\left(
+\begin{array}{cc}
+E &amp; F \\
+G &amp; H
+\end{array}
+\right)}</em>
+\underbrace{
+\left(
+\begin{array}{cc}
+I &amp; 0 \\
+-H^{-1}G &amp; I
+\end{array}
+\right)}<em w="W">{Z}
+=\underbrace{\left(
+\begin{array}{cc}
+E-FH^{-1}G &amp; 0 \\
+0 &amp; H
+\end{array}
+\right)}</em>
+\end{equation} 
+两边同时取逆得:
+\begin{equation}
+Z^{-1}M^{-1}X^{-1}=W^{-1}
+\end{equation}
+于是有:
+\begin{equation}
+M^{-1}=ZW^{-1}X
+\end{equation}
+将各式代入即可得到我们想要的结果。</li>
+</ol>
 <h1>Linear Gaussian Systems</h1>
 <hr>
 <h1>Inferring the parameters of an MVN</h1>
