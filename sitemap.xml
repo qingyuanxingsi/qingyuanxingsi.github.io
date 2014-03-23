@@ -4,245 +4,245 @@ xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitem
 xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>/index.html</loc>
-<lastmod>2014-03-23T21:56:41-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/index.html</loc>
+<lastmod>2014-03-23T22:00:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/archives.html</loc>
-<lastmod>2014-03-23T21:56:41-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/archives.html</loc>
+<lastmod>2014-03-23T22:00:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tags.html</loc>
-<lastmod>2014-03-23T21:56:41-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tags.html</loc>
+<lastmod>2014-03-23T22:00:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/categories.html</loc>
-<lastmod>2014-03-23T21:56:41-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/categories.html</loc>
+<lastmod>2014-03-23T22:00:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/pages/about.html</loc>
-<lastmod>2014-03-23T21:56:41-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
+<lastmod>2014-03-23T22:00:28-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
 </url>
 
 <url>
-<loc>/fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html</loc>
+<loc>http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/ji-qi-xue-xi-xi-lie-iiigaussian-models.html</loc>
+<loc>http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html</loc>
 <lastmod>2014-03-15T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html</loc>
+<loc>http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html</loc>
 <lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</loc>
+<loc>http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/Decision Tree.html</loc>
+<loc>http://www.qingyuanxingsi.com/Decision Tree.html</loc>
 <lastmod>2014-03-03T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/wo-de-jia-wu.html</loc>
+<loc>http://www.qingyuanxingsi.com/wo-de-jia-wu.html</loc>
 <lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html</loc>
+<loc>http://www.qingyuanxingsi.com/xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html</loc>
 <lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
 </url>
 
 <url>
-<loc>/category/distributed-system.html</loc>
+<loc>http://www.qingyuanxingsi.com/category/distributed-system.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/life.html</loc>
+<loc>http://www.qingyuanxingsi.com/category/life.html</loc>
 <lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/machine-learning.html</loc>
+<loc>http://www.qingyuanxingsi.com/category/machine-learning.html</loc>
 <lastmod>2014-03-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/category/viewpoint.html</loc>
+<loc>http://www.qingyuanxingsi.com/category/viewpoint.html</loc>
 <lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/reactor-pattern.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/reactor-pattern.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/zhi-xing-ha-xi-suan-fa.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/zhi-xing-ha-xi-suan-fa.html</loc>
 <lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/state-machine.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/state-machine.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/sui-bi.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/sui-bi.html</loc>
 <lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/generative-models.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/generative-models.html</loc>
 <lastmod>2014-03-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/hu-lian-wang.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/hu-lian-wang.html</loc>
 <lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/o2o.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/o2o.html</loc>
 <lastmod>2013-04-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/designing-patterns.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/designing-patterns.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/hadoop.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/hadoop.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/yarn.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/yarn.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/fen-bu-shi-xi-tong.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/fen-bu-shi-xi-tong.html</loc>
 <lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/classfication.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/classfication.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/rpc.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/rpc.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/machine-learning.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/machine-learning.html</loc>
 <lastmod>2014-03-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/jia-wu.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/jia-wu.html</loc>
 <lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/gaussian-models.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/gaussian-models.html</loc>
 <lastmod>2014-03-15T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/paxos.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/paxos.html</loc>
 <lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/tag/mutual-information.html</loc>
+<loc>http://www.qingyuanxingsi.com/tag/mutual-information.html</loc>
 <lastmod>2014-03-04T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>/author/qingyuanxingsi.html</loc>
+<loc>http://www.qingyuanxingsi.com/author/qingyuanxingsi.html</loc>
 <lastmod>2014-03-22T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
