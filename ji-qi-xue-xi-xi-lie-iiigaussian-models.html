@@ -192,8 +192,8 @@ S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
 <p>\begin{equation}
 S(\eta/T)<em c_prime="c\prime">c=
 \left{                     <br>
-\begin{array}{ll}    <br>
-1.0 &amp; c=argmax</em>\eta_{c\prime}\\
+\begin{array}{lll}    <br>
+1.0 &amp; c=argmax</em> \eta_{c \prime}   \\
 0.0 &amp; otherwise 
 \end{array}   <br>
 \right.                    <br>
@@ -279,6 +279,61 @@ p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2})
 </blockquote>
 <h1>Linear Gaussian Systems</h1>
 <hr>
+<p>给定两变量，$x$和$y$.令$x \in R^{D_x}$为一隐含变量,$y \in R^{D_y}$为关于$x$的包含噪声的观察值。此外，我们假定存在如下prior和likelihood:
+\begin{equation}
+\begin{split}
+p(x) &amp;= N(x|\mu_x,\Sigma_x) \\
+p(y|x) &amp;= N(y|Ax+b,\Sigma_y)
+\end{split}
+\end{equation}
+上式即称为<em>Linear Gaussian System</em>。此时我们有:</p>
+<blockquote>
+<p>Theorem 3.3<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3" class="simple-footnote" title="证明请参考ML:APP一书4.4.3节">3</a></sup> 给定一Linear Gaussian System.其后验分布$p(x|y)$具有如下形式:
+\begin{equation}
+\begin{split}
+p(x|y) &amp;= N(x|\mu_{x|y},\Sigma_{x|y}) \\
+\Sigma_{x|y}^{-1} &amp;= \Sigma_x^{-1}+A^T\Sigma_y^{-1}A  \\
+\mu_{x|y} &amp;= \Sigma_{x|y}[A^T\Sigma_y^{-1}(y-b)+\Sigma_x^{-1}\mu_x] 
+\end{split}
+\end{equation}</p>
+</blockquote>
+<h2>Inferring an unknown vector from noisy measurements</h2>
+<p>下面我们举一个简单的例子以进一步说明Linear Gaussian System:
+现有$N$个观测向量,$y_i \sim\ N(x,\Sigma_y)$,prior服从高斯分布$x \sim\ N(\mu_0,\Sigma_0)$.令$A=I,b=0$,此外，我们采用$\bar{y}$作为我们的有效估计值,其精度为$N\Sigma_y^{-1},$我们有:
+\begin{equation}
+\begin{split}
+p(x|y_1,...,y_N) &amp;= N(x|\mu_N,\Sigma_N) \\
+\Sigma_N^{-1} &amp;= \Sigma_{0}^{-1}+N\Sigma_{y}^{-1} \\
+\mu_N &amp;= \Sigma_N(\Sigma_y^{-1}(N\bar{y})+\Sigma_0^{-1}\mu_0)
+\end{split}
+\end{equation}
+为了更直观地解释以上模型,如下图所示:</p>
+<p><img alt="Radar Blips" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/radar_blips_zpsfd1a04d1.png"></p>
+<p>我们可以x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" class="simple-footnote" title="另外一种方法为Kalman Filter Algorithm">4</a></sup></p>
+<p>现假定我们有多个测量设备，且我们想利用多个设备的观测值进行估计，这种方法称为<code>sensor fusion</code>.如果我们有具有不同方差的多组观测值，那么posterior将会是它们的加权平均。如下图所示:</p>
+<p><img alt="Sensor Fusion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sensor_fusion_zps4ad8202f.png"></p>
+<p>我们采用不带任何信息的关于$x$的先验分布，即$p(x)=N(\mu_0,\Sigma_0)=N(0,10^10I_2)$,我们得到2个观测值,$y_1 \sim\ N(x,\Sigma_{y,1}$,$y_2 \sim\ N(x,\Sigma_{y,2})$,我们需要计算$p(x|y_1,y_2)$.</p>
+<p>如上图(a),我们设定$\Sigma_{y,1} = \Sigma_{y,2} = 0.01I_2$,因此两个传感器都相当可靠，posterior mean即位于两个观测值中间；如上图(b)，我们设定$\Sigma_{y,1}=0.05I_2$且$\Sigma_{y,2}=0.01I_2$,因此传感器2比传感器1可靠，此时posterior mean更靠近于$y_2$;如上图(c),我们有:
+\begin{equation}
+\Sigma_{y,1} = 0.01
+\left(
+\begin{array}{cc}
+10 &amp; 1 \\
+1  &amp; 1
+\end{array}
+\right),
+\Sigma_{y,2} = 0.01
+\left(
+\begin{array}{cc}
+1 &amp; 1 \\
+1  &amp; 10
+\end{array}
+\right)
+\end{equation}</p>
+<p>从上式我们不难看出，传感器1在第2个分量上更可靠，传感器2在第1个分量上也更可靠。此时，posterior mean采用传感器1的第二分量以及传感器1的第二分量。</p>
+<blockquote>
+<p>NOTE:当sensor测量精度未知时，我们则需要它们的测量精度也进行估计。</p>
+</blockquote>
 <h1>Inferring the parameters of an MVN</h1>
 <hr><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -310,7 +365,7 @@ p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2})
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.4.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li></ol>
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.4.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li></ol>
 	<hr />
       </div>
     </div>
