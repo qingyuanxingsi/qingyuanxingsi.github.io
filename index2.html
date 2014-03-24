@@ -1,83 +1,59 @@
-<!doctype html>
-<html lang="">	
-<head>
-	<meta charset="utf-8"/>
-	<title>Doodle World</title>	
-	<meta name="author" content="qingyuanxingsi">
-	
-	<meta name="HandheldFriendly" content="True">
-	<meta name="MobileOptimized" content="320">
-	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0">
-	
-	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:700,400|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-	<link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
-		
-	<!--[if lt IE 9]>
-		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-	
-	
-	<link href="./" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
-</head>
-	
-<body>		
-	<header class="clearfix" role="banner">
-		<div class="wrapper">
-			<h1 class="huge"><a href=".">Doodle World</a></h1>
-		</div>
-	</header>
-	
-<div role="main" class="content clearfix">
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Doodle World</title>
+        <meta charset="utf-8" />
+        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
+        <link href="./theme/static/css/style.css" rel="stylesheet" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Full Atom Feed" />
+    </head>
 
-	<article class="wrapper main">
-		<h1><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">分布式计算系列(I):Yarn基础库初探</a></h1>
-		<p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,事件库以及状态机等基础库,此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p> <a class="btn" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">read more →</a>
-	</article>
+    <body id="index" class="archive">
+        <div class="container">
+            <div class="header">
+                <ul class="nav nav-pills pull-right">
+                    <li class="active"><a href=".">Home</a></li>
+                    <li><a href="./pages/about.html">About</a></li>
+                    <li><a href="./archives.html">Archives</a></li>
+                </ul>
+                <h3 class="text-muted"><a href=".">Doodle World</a></h3>
+				<h2 class="text-muted"></h2>
+             </div>
+<section id="content" class="content">
 
-	<div class="wrapper main">		
-		<h3>More posts</h3>
-		<ol class="archive">
-
-			<li class="clearfix"><a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="bookmark" title="Permalink to 机器学习系列(III):Gaussian Models"><time datetime="2014-03-15T00:00:00" pubdate>六 15 三月 2014</time> 机器学习系列(III):Gaussian Models</a></li>
-
-			<li class="clearfix"><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="bookmark" title="Permalink to 分布式计算与存储系列(序章):初入门径"><time datetime="2014-03-11T00:00:00" pubdate>二 11 三月 2014</time> 分布式计算与存储系列(序章):初入门径</a></li>
-
-			<li class="clearfix"><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data"><time datetime="2014-03-04T00:00:00" pubdate>二 04 三月 2014</time> 机器学习系列(II):Generative models for discrete data</a></li>
-
-			<li class="clearfix"><a href="./Decision Tree.html" rel="bookmark" title="Permalink to 机器学习系列(I):决策树算法"><time datetime="2014-03-03T00:00:00" pubdate>一 03 三月 2014</time> 机器学习系列(I):决策树算法</a></li>
-
-			<li class="clearfix"><a href="./wo-de-jia-wu.html" rel="bookmark" title="Permalink to 我的甲午"><time datetime="2013-06-30T00:00:00" pubdate>日 30 六月 2013</time> 我的甲午</a></li>
-
-		</ol>
-		
-		<p>More posts in the <a href="./archives.html">archive</a>.</p>
-	</div>
-</div>
-	
-		
-<footer class="clearfix">
-	<div class="wrapper pages">
-		<ul class="nav">
-			<li><a href="./pages/about.html">About</a></li>
-			<li><a href="./archives.html">Archive</a></li>
-		</ul>
-	</div>
-	
-	<div class="copy wrapper">
-		<ul class="social">
-			<li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-		</ul>
-	
-		<p role="contentinfo">© 2012 qingyuanxingsi<br>
-		Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">Pelican</a>.</p>
-	</div>
-</footer>
-	
-	<script>
-	  var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];
-	  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-	  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-	  s.parentNode.insertBefore(g,s)}(document,'script'));
-	</script>
-</body>
+        <article class="hentry">
+                <header> <h2 class="entry-title"><a href="./wo-de-jia-wu.html" rel="bookmark" title="Permalink to 我的甲午">我的甲午</a></h2> </header>
+                <div class="entry-content"> <p>挖坑待填。</p> </div><!-- entry-content -->
+        </article>
+        <article class="hentry">
+                <header> <h2 class="entry-title"><a href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html" rel="bookmark" title="Permalink to 闲话O2O:写在互联网时代的边上">闲话O2O:写在互联网时代的边上</a></h2> </header>
+                <div class="entry-content"> <p>我们先挖个坑，以后再填<sup id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back"><a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1" class="simple-footnote" title="这只是一篇测试文档，顺便测试一下脚注功能">1</a></sup>。</p><ol class="simple-footnotes"><li id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1">这只是一篇测试文档，顺便测试一下脚注功能 <a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back" class="simple-footnote-back">↩</a></li></ol> </div><!-- entry-content -->
+        </article>
+<div class="pager">
+      <ul>
+						<li class="previous"><a href="./index.html">← Previous</a></li>
+                        <li class="next disabled"><a>Next →</a></li>
+      </ul>
+    </div>
+</section><!-- content -->
+            <footer id="contentinfo" class="footer">
+                    <nav class="pull-right bottom-nav">
+                        <a href="http://www.qingyuanxingsi.com/feeds/all.atom.xml">RSS</a>
+                    </nav>
+                    <address id="about" class="vcard body">
+                    &copy; <a href=".">Doodle World</a> Proudly powered by <a href="http://getpelican.com/">Pelican</a>
+                    </address><!-- /#about -->
+            </footer><!-- /#contentinfo -->
+        </div><!-- container -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+	var pageTracker = _gat._getTracker("UA-48582273-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+    </body>
 </html>
