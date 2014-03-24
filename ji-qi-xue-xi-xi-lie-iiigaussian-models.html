@@ -1,37 +1,76 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>机器学习系列(III):Gaussian Models - Doodle World</title>
-        <meta charset="utf-8" />
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" />
-        <link href="./theme/static/css/style.css" rel="stylesheet" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Full Atom Feed" />
-        <link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" type="application/atom+xml" rel="alternate" title="Doodle World Categories Atom Feed" />
-    </head>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Doodle World</title>
+    <meta name="description" content="">
+    <meta name="author" content="qingyuanxingsi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="./theme/html5.js"></script>
+    <![endif]-->
 
-    <body id="index" class="archive">
-        <div class="container">
-            <div class="header">
-                <ul class="nav nav-pills pull-right">
-                    <li class=""><a href=".">Home</a></li>
-                    <li><a href="./pages/about.html">About</a></li>
-                    <li><a href="./archives.html">Archives</a></li>
-                </ul>
-                <h3 class="text-muted"><a href=".">Doodle World</a></h3>
-				<h2 class="text-muted"></h2>
-             </div>
-<section id="content" class="article content">
-  <header>
-    <h2 class="entry-title">
-      <a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="bookmark"
-         title="Permalink to 机器学习系列(III):Gaussian Models">机器学习系列(III):Gaussian Models</a></h2>
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="./theme/local.css" rel="stylesheet">
+    <link href="./theme/pygments.css" rel="stylesheet">
+    <link href="./theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="." class="brand">Doodle World</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="./pages/about.html">About</a></li>
+	    <li >
+	      <a href="./category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="./category/life.html ">Life</a>
+	    <li  class="active" >
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="./category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>机器学习系列(III):Gaussian Models</h1b>
+           </div>
+      </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>六 15 三月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="./category/machine-learning.html">Machine Learning</a>
+</p>
+<p style="text-align: left;">
  
-  </header>
-  
-     
-  <div class="entry-content">
-    <p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
+    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/gaussian-models.html">Gaussian Models</a> <a href="./tag/generative-models.html">Generative Models</a> </p>
+<p>
+</p>
+      </div>
+      
+      <div class="span8">
+	<p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
 <h1>MLE for MVN</h1>
 <hr>
 <h2>Basics about MVN</h2>
@@ -433,48 +472,93 @@ S_N^{-1} &amp;= S_0+S_{\mu}
     }
 </script>
 <ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol>
-  </div><!-- /.entry-content -->
-   <footer class="post-info text-muted">
-    Posted on <abbr class="published" title="2014-03-15T00:00:00">
-      六 15 三月 2014
-    </abbr>
-    <address class="vcard author">
-      by <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
-    </address> in <a href="./category/machine-learning.html">Machine Learning</a> Tagged <a href="./tag/machine-learning.html">Machine Learning </a><a href="./tag/gaussian-models.html">Gaussian Models </a><a href="./tag/generative-models.html">Generative Models </a>  </footer><!-- /.post-info -->
-</section>
-    <div class="comment">
-        <div id="disqus_thread"></div> <!-- comment app container -->
+	<hr />
+      </div>
     </div>
-	<!-- Comment BEGIN -->
-    <script type="text/javascript">
-        var disqus_shortname = 'qingyuanxingsi'; // required: replace example with your forum shortname
+    <div class="span10">
+      <h3>Comments</h3>
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-     <!-- Comment END -->
-            <footer id="contentinfo" class="footer">
-                    <nav class="pull-right bottom-nav">
-                        <a href="http://www.qingyuanxingsi.com/feeds/all.atom.xml">RSS</a>
-                    </nav>
-                    <address id="about" class="vcard body">
-                    &copy; <a href=".">Doodle World</a> Proudly powered by <a href="http://getpelican.com/">Pelican</a>
-                    </address><!-- /#about -->
-            </footer><!-- /#contentinfo -->
-        </div><!-- container -->
-<script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
 </script>
-<script type="text/javascript">
-try {
-	var pageTracker = _gat._getTracker("UA-48582273-1");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-    </body>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
+    </div>
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
+            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="."><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="./" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href=".">Doodle World</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
+</body>
 </html>
