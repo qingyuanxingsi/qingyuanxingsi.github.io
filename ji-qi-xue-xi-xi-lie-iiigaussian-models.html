@@ -192,7 +192,7 @@ S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
 <blockquote>
 <p>NOTE:该术语来自于统计物理学，在统计物理学中，人们更倾向于使用波尔兹曼分布（Boltzmann distribution）一词。</p>
 </blockquote>
-<p>关于<code>式18</code>有一个有趣的性质，即对该式取log,我们则会得到一个关于$x$的线性方程。因此对于任意两类之间的决策边界将会是一条直线，据此该模型也被称为线性判别分析(Linear Discriminant Analysis,LDA)。而且对于二分类问题，我们可以得到:</p>
+<p>关于<code>式16</code>有一个有趣的性质，即对该式取log,我们则会得到一个关于$x$的线性方程。因此对于任意两类之间的决策边界将会是一条直线，据此该模型也被称为线性判别分析(Linear Discriminant Analysis,LDA)。而且对于二分类问题，我们可以得到:</p>
 <p>\begin{equation}
 p(y=c|x,\theta) = p(y=c\prime|x,\theta)
 \end{equation}</p>
@@ -425,8 +425,8 @@ S_N^{-1} &amp;= S_0+S_{\mu}
 \end{equation}</p>
 <p>总而言之，从上式我们可以看到，posterior $v_N$的强度为$\nu_0$加$N$;posterior离散度矩阵是先验离散度矩阵$S_0$和数据离散度矩阵$S_{\mu}$之和。</p>
 <h3>MAP Estimation</h3>
-<p>根据我们之前得到的关于$\Sigma$的极大似然估计值,即:
-\begin{equation}
+<p>根据我们之前得到的关于$\Sigma$的极大似然估计值,即:</p>
+<p>\begin{equation}
 \hat{\Sigma}<em i="1">{mle} = {1 \over N}\sum</em>^{N}(x_i-\mu)(x_i-\mu)^T
 \end{equation}</p>
 <p>从上式我们可以看出$\hat{\Sigma}<em mle="mle">{mle}$是一个rank为$min(N,D)$的矩阵。若$N<d$,该矩阵不是full rank的，因此不可逆。另尽管$n="">D$,$\hat{\Sigma}</d$,该矩阵不是full></em>$也可能是ill-conditioned(接近奇异)。</p>
