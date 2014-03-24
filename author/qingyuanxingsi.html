@@ -1,215 +1,272 @@
-<!doctype html>
-<html class="no-js" lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
-		<title>Doodle World</title>
-		<meta name="description" content="">
-		<meta name="author" content="qingyuanxingsi">
-
-		<link rel="stylesheet" href="../theme/css/foundation.css" />
-		<link rel="stylesheet" href="../theme/css/pygment/monokai.css" />
-		<link rel="stylesheet" href="../theme/css/custom.css" />
+        <title>Doodle World - Articles by qingyuanxingsi</title>
+        <meta charset="utf-8" />
+        <link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Full Atom Feed" />
 
 
-		<script src="../theme/js/modernizr.js"></script>
+        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
+        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
 
-		<!-- Feeds -->
-		<link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Atom Feed" />
+        <link rel="stylesheet" type="text/css" href="../theme/gumby.css" />
+        <link rel="stylesheet" type="text/css" href="../theme/style.css" />
+        <link rel="stylesheet" type="text/css" href="../theme/pygment.css" />
 
-<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
-
-		<!-- mathjax config similar to math.stackexchange -->
-		<script type="text/x-mathjax-config">
-		MathJax.Hub.Config({
-			jax: ["input/TeX", "output/HTML-CSS"],
-			tex2jax: {
-				inlineMath: [ ['$', '$'] ],
-				displayMath: [ ['$$', '$$']],
-				processEscapes: true,
-				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-			},
-			messageStyle: "none",
-			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
-		});
-		</script>
-		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-	</head>
-	<body>
-		<div class="off-canvas-wrap">
-			<div class="inner-wrap">
-				<!-- mobile top bar to activate nav -->
-				<nav class="tab-bar show-for-small">
-					<section class="left-small">
-						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
-					</section>
-
-					<section class="middle tab-bar-section">
-						<h1 class="title">Doodle&nbsp;World</h1>
-					</section>
-				</nav>
-
-				<!-- mobile side bar nav -->
-				<aside class="left-off-canvas-menu">
-					<ul class="off-canvas-list">
-						<li><a href="..">Home</a></li>
-						<li><label>Categories</label></li>
-							<li ><a href="../category/distributed-system.html">Distributed System</a></li>
-							<li ><a href="../category/life.html">Life</a></li>
-							<li ><a href="../category/machine-learning.html">Machine Learning</a></li>
-							<li ><a href="../category/viewpoint.html">Viewpoint</a></li>
-
-						<li><label>Places</label></li>
-							<li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-							<li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-							<li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+        <script src="../theme/js/libs/modernizr-2.6.2.min.js"></script>
 
 
 
-						<li><label>Links</label></li>
-							<li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-					</ul>	
-				</aside>
-
-				<!-- top bar nav -->
-				<nav class="top-bar hide-for-small-only" data-topbar>
-					<ul class="title-area">
-						<li class="name">
-							<h1><a href="../">Doodle World</a></h1>
-						</li>
-					</ul>
-
-					<section class="top-bar-section">
-						<ul class="left">
-								<li ><a href="../category/distributed-system.html">Distributed System</a></li>
-								<li ><a href="../category/life.html">Life</a></li>
-								<li ><a href="../category/machine-learning.html">Machine Learning</a></li>
-								<li ><a href="../category/viewpoint.html">Viewpoint</a></li>
-						</ul>
-					</section>
-				</nav>
-
-				<!-- Main Page Content and Sidebar -->
-				<section class="main-section">
-					<div class="row">
-						<!-- Main Content -->
-						<div class="medium-9 small-12 columns" role="content">
-
-<article>
-	<h3><a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">分布式计算系列(I):Yarn基础库初探</a></h3>
-	<h6>Written by <a href="../author/qingyuanxingsi.html">qingyuanxingsi</a> in <a href="../category/distributed-system.html">Distributed System</a> on 六 22 三月 2014. Tags: <a href="../tag/rpc.html">RPC</a>, <a href="../tag/yarn.html">YARN</a>, <a href="../tag/hadoop.html">Hadoop</a>, <a href="../tag/state-machine.html">State Machine</a>, <a href="../tag/designing-patterns.html">Designing Patterns</a>, <a href="../tag/reactor-pattern.html">Reactor Pattern</a>, </h6>
-	<p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,事件库以及状态机等基础库,此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p>
-		<p class="continue"><a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-<article>
-	<h3><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">机器学习系列(III):Gaussian Models</a></h3>
-	<h6>Written by <a href="../author/qingyuanxingsi.html">qingyuanxingsi</a> in <a href="../category/machine-learning.html">Machine Learning</a> on 六 15 三月 2014. Tags: <a href="../tag/machine-learning.html">Machine Learning</a>, <a href="../tag/gaussian-models.html">Gaussian Models</a>, <a href="../tag/generative-models.html">Generative Models</a>, </h6>
-	<p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Doscriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p>
-		<p class="continue"><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-<article>
-	<h3><a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">分布式计算与存储系列(序章):初入门径</a></h3>
-	<h6>Written by <a href="../author/qingyuanxingsi.html">qingyuanxingsi</a> in <a href="../category/distributed-system.html">Distributed System</a> on 二 11 三月 2014. Tags: <a href="../tag/fen-bu-shi-xi-tong.html">分布式系统</a>, <a href="../tag/paxos.html">Paxos</a>, <a href="../tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a>, </h6>
-	<p>本文主要就分布式存储的相关基础知识进行了梳理，分部分分别介绍了分布式系统的基本问题,单机存储系统、分布式系统的相关性能指标、分布式协议等,本文仅作为分布式计算与存储的入门材料，之后我们将从论文和源码两方面对分布式计算与存储的相关理论与实践进行更为深入的探讨。</p>
-		<p class="continue"><a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-<article>
-	<h3><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a></h3>
-	<h6>Written by <a href="../author/qingyuanxingsi.html">qingyuanxingsi</a> in <a href="../category/machine-learning.html">Machine Learning</a> on 二 04 三月 2014. Tags: <a href="../tag/machine-learning.html">Machine Learning</a>, <a href="../tag/classfication.html">Classfication</a>, <a href="../tag/generative-models.html">Generative Models</a>, <a href="../tag/mutual-information.html">Mutual Information</a>, </h6>
-	<p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p>
-		<p class="continue"><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-<article>
-	<h3><a href="../Decision Tree.html">机器学习系列(I):决策树算法</a></h3>
-	<h6>Written by <a href="../author/qingyuanxingsi.html">qingyuanxingsi</a> in <a href="../category/machine-learning.html">Machine Learning</a> on 一 03 三月 2014. Tags: <a href="../tag/machine-learning.html">Machine Learning</a>, </h6>
-	<p>本文作为本博客的第一篇博文，简单说明了创建这个博客的目的；同时作为机器学习系列的第一篇，对决策树中的ID3和C4.5算法进行了梳理，对于ID3算法，我们给出了Python源码实现。</p>
-		<p class="continue"><a href="../Decision Tree.html">Continue reading &raquo;</a></p>
-</article>
-<hr />
-
-<div class="row" style="margin-bottom: -1.25em;">
-	<div class="small-12 columns text-center">
-		<div class="pagination-centered">
-			<ul class="pagination">
-				<li class="arrow unavailable"><a href="#">&larr; Previous</a></li>
-				<li class="current"><a href="../author/qingyuanxingsi.html">1</a></li>
-				<li class=""><a href="../author/qingyuanxingsi2.html">2</a></li>
-				<li class="arrow"><a href="../author/qingyuanxingsi2.html">Next &rarr;</a></li>
-			</ul>
-		</div>
-	</div>
-</div>
-
-						</div>
-						<!-- End Main Content -->
-						<!-- Sidebar -->
-						<aside class="medium-3 hide-for-small-only columns">
-							<div class="panel">
-								<h5>Places</h5>
-								<ul class="side-nav">
-									<li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-									<li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-									<li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-								</ul>
-							</div>
-
-							<div class="panel">
-								<h5>Tags</h5>
-								<ul class="tag-cloud">
-									<li><a href="/tag/state-machine/" class="tag-4">State Machine</a></li>
-									<li><a href="/tag/paxos/" class="tag-4">Paxos</a></li>
-									<li><a href="/tag/随笔/" class="tag-4">随笔</a></li>
-									<li><a href="/tag/一致性哈希算法/" class="tag-4">一致性哈希算法</a></li>
-									<li><a href="/tag/reactor-pattern/" class="tag-4">Reactor Pattern</a></li>
-									<li><a href="/tag/分布式系统/" class="tag-4">分布式系统</a></li>
-									<li><a href="/tag/yarn/" class="tag-4">YARN</a></li>
-									<li><a href="/tag/classfication/" class="tag-4">Classfication</a></li>
-									<li><a href="/tag/甲午/" class="tag-4">甲午</a></li>
-									<li><a href="/tag/designing-patterns/" class="tag-4">Designing Patterns</a></li>
-									<li><a href="/tag/machine-learning/" class="tag-1">Machine Learning</a></li>
-									<li><a href="/tag/hadoop/" class="tag-4">Hadoop</a></li>
-									<li><a href="/tag/mutual-information/" class="tag-4">Mutual Information</a></li>
-									<li><a href="/tag/generative-models/" class="tag-2">Generative Models</a></li>
-									<li><a href="/tag/rpc/" class="tag-4">RPC</a></li>
-									<li><a href="/tag/互联网/" class="tag-4">互联网</a></li>
-									<li><a href="/tag/gaussian-models/" class="tag-4">Gaussian Models</a></li>
-									<li><a href="/tag/o2o/" class="tag-4">O2O</a></li>
-								</ul>
-							</div>
 
 
-							<div class="panel">
-								<h5>Links</h5>
-								<ul class="side-nav">
-									<li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-								</ul>
-							</div>
-						</aside>
-						<!-- End Sidebar -->
-					</div>
 
-					<!-- Footer -->
-					<footer class="row">
-						<div class="medium-9 small-12">
-							<hr/>
-							<p class="text-center">Powered by <a href="http://getpelican.com">Pelican</a> and <a href="http://foundation.zurb.com/">Zurb Foundation</a>. Theme by <a href="http://hamaluik.com">Kenton Hamaluik</a>.</p>
-						</div>
-					</footer>
-					<!-- End Footer -->
-				</section>
-				<a class="exit-off-canvas"></a>
-			</div><!--off-canvas inner-->
-		</div><!--off-canvas wrap-->
+</head>
 
-		<script src="../theme/js/jquery.js"></script>
-		<script src="../theme/js/foundation.min.js"></script>
-		<script>
-			$(document).foundation();
-		</script>
-	</body>
+<body id="index" class="home">
+
+
+    <div class="container">
+
+        <div class="row">
+
+          <header id="banner" class="body">
+                  <h1><a href="..">Doodle World <strong></strong></a></h1>
+          </header><!-- /#banner -->
+
+            <div id="navigation" class="navbar row">
+              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
+             
+              <ul class="columns">
+                <li><a href="..">Home</a></li>
+
+                <li><a href="../pages/about.html">About</a></li>
+
+              </ul>
+            </div>
+
+<section id="content">
+<h2>Articles by qingyuanxingsi</h2>
+
+
+   <div class="row">
+
+
+        <div class="eleven columns">
+		         <ol id="post-list">
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html" rel="bookmark" title="Permalink to 分布式计算系列(I):Yarn基础库初探">分布式计算系列(I):Yarn基础库初探</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-03-22T00:00:00"> 六 22 三月 2014 </abbr>
+<address class="vcard author">By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a></address>				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,事件库以及状态机等基础库,此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p> </div><!-- /.entry-content -->
+
+								<div class="medium primary btn"><a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html" rel="bookmark" title="Permalink to 分布式计算系列(I):Yarn基础库初探">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="../tag/rpc.html">RPC</a>
+											<a class="danger label" href="../tag/yarn.html">YARN</a>
+											<a class="danger label" href="../tag/hadoop.html">Hadoop</a>
+											<a class="danger label" href="../tag/state-machine.html">State Machine</a>
+											<a class="danger label" href="../tag/designing-patterns.html">Designing Patterns</a>
+											<a class="danger label" href="../tag/reactor-pattern.html">Reactor Pattern</a>
+								</div>
+
+
+
+				        </article></li>
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="bookmark" title="Permalink to 机器学习系列(III):Gaussian Models">机器学习系列(III):Gaussian Models</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-03-15T00:00:00"> 六 15 三月 2014 </abbr>
+<address class="vcard author">By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a></address>				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Doscriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p> </div><!-- /.entry-content -->
+
+								<div class="medium primary btn"><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="bookmark" title="Permalink to 机器学习系列(III):Gaussian Models">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="../tag/machine-learning.html">Machine Learning</a>
+											<a class="danger label" href="../tag/gaussian-models.html">Gaussian Models</a>
+											<a class="danger label" href="../tag/generative-models.html">Generative Models</a>
+								</div>
+
+
+
+				        </article></li>
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="bookmark" title="Permalink to 分布式计算与存储系列(序章):初入门径">分布式计算与存储系列(序章):初入门径</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-03-11T00:00:00"> 二 11 三月 2014 </abbr>
+<address class="vcard author">By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a></address>				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>本文主要就分布式存储的相关基础知识进行了梳理，分部分分别介绍了分布式系统的基本问题,单机存储系统、分布式系统的相关性能指标、分布式协议等,本文仅作为分布式计算与存储的入门材料，之后我们将从论文和源码两方面对分布式计算与存储的相关理论与实践进行更为深入的探讨。</p> </div><!-- /.entry-content -->
+
+								<div class="medium primary btn"><a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="bookmark" title="Permalink to 分布式计算与存储系列(序章):初入门径">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="../tag/fen-bu-shi-xi-tong.html">分布式系统</a>
+											<a class="danger label" href="../tag/paxos.html">Paxos</a>
+											<a class="danger label" href="../tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a>
+								</div>
+
+
+
+				        </article></li>
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data">机器学习系列(II):Generative models for discrete data</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-03-04T00:00:00"> 二 04 三月 2014 </abbr>
+<address class="vcard author">By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a></address>				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p> </div><!-- /.entry-content -->
+
+								<div class="medium primary btn"><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="../tag/machine-learning.html">Machine Learning</a>
+											<a class="danger label" href="../tag/classfication.html">Classfication</a>
+											<a class="danger label" href="../tag/generative-models.html">Generative Models</a>
+											<a class="danger label" href="../tag/mutual-information.html">Mutual Information</a>
+								</div>
+
+
+
+				        </article></li>
+				        <li><article class="hentry">
+				                <header> <h2 class="entry-title"><a href="../Decision Tree.html" rel="bookmark" title="Permalink to 机器学习系列(I):决策树算法">机器学习系列(I):决策树算法</a></h2> </header>
+				                <footer class="post-info">
+				                    <abbr class="published" title="2014-03-03T00:00:00"> 一 03 三月 2014 </abbr>
+<address class="vcard author">By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a></address>				                </footer><!-- /.post-info -->
+				                <div class="entry-content"> <p>本文作为本博客的第一篇博文，简单说明了创建这个博客的目的；同时作为机器学习系列的第一篇，对决策树中的ID3和C4.5算法进行了梳理，对于ID3算法，我们给出了Python源码实现。</p> </div><!-- /.entry-content -->
+
+								<div class="medium primary btn"><a href="../Decision Tree.html" rel="bookmark" title="Permalink to 机器学习系列(I):决策树算法">Read more <i class="icon-arrow-right"></i></a></div>
+
+
+
+								<div class="row tag-row">
+										<span>Tagged as : </span>
+											<a class="danger label" href="../tag/machine-learning.html">Machine Learning</a>
+								</div>
+
+
+
+				        </article></li>
+				</ol><!-- /#posts-list -->
+
+        </div><!-- /.eleven.columns -->
+        
+<div class="three columns">
+
+<h4>Pages</h4>
+
+ <ul>
+      <li><a href="../pages/about.html">About</a></li>
+  </ul>
+
+<h4>Categories</h4>
+<ul>
+		<li><a href="../category/distributed-system.html">Distributed System</a></li>
+		<li><a href="../category/life.html">Life</a></li>
+		<li><a href="../category/machine-learning.html">Machine Learning</a></li>
+		<li><a href="../category/viewpoint.html">Viewpoint</a></li>
+</ul>
+
+
+<h4>Tags</h4>
+	<ul>
+	    <li class="tag-4"><a href="../tag/yarn.html">YARN</a></li>
+	    <li class="tag-4"><a href="../tag/mutual-information.html">Mutual Information</a></li>
+	    <li class="tag-4"><a href="../tag/fen-bu-shi-xi-tong.html">分布式系统</a></li>
+	    <li class="tag-4"><a href="../tag/gaussian-models.html">Gaussian Models</a></li>
+	    <li class="tag-4"><a href="../tag/designing-patterns.html">Designing Patterns</a></li>
+	    <li class="tag-4"><a href="../tag/state-machine.html">State Machine</a></li>
+	    <li class="tag-2"><a href="../tag/generative-models.html">Generative Models</a></li>
+	    <li class="tag-4"><a href="../tag/classfication.html">Classfication</a></li>
+	    <li class="tag-4"><a href="../tag/hadoop.html">Hadoop</a></li>
+	    <li class="tag-4"><a href="../tag/rpc.html">RPC</a></li>
+	    <li class="tag-4"><a href="../tag/jia-wu.html">甲午</a></li>
+	    <li class="tag-4"><a href="../tag/paxos.html">Paxos</a></li>
+	    <li class="tag-1"><a href="../tag/machine-learning.html">Machine Learning</a></li>
+	    <li class="tag-4"><a href="../tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a></li>
+	    <li class="tag-4"><a href="../tag/o2o.html">O2O</a></li>
+	    <li class="tag-4"><a href="../tag/reactor-pattern.html">Reactor Pattern</a></li>
+	    <li class="tag-4"><a href="../tag/hu-lian-wang.html">互联网</a></li>
+	    <li class="tag-4"><a href="../tag/sui-bi.html">随笔</a></li>
+</ul>
+
+
+<nav class="widget">
+  <h4>Social</h4>
+  <ul>
+    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+  </ul>
+</nav>
+
+</div> </div><!-- /.row -->
+
+<p class="paginator">
+    Page 1 / 2
+        <a href="../author/qingyuanxingsi2.html"><i class="icon-arrow-right"></i></a>
+</p>
+</section><!-- /#content -->
+
+       </div><!-- /.row -->
+    </div><!-- /.container -->
+
+
+       <div class="container.nopad bg">
+
+    
+        <footer id="credits" class="row">
+          <div class="seven columns left-center">
+
+                   <address id="about" class="vcard body">
+                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                    which takes great advantage of <a href="http://python.org">Python</a>.
+                    <br />
+                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
+                    </address>
+          </div>
+
+
+          <div class="seven columns">
+            <div class="row">
+              <ul class="socbtns">
+
+                <li><div class="btn primary"><a href="https://github.com/qingyuanxingsi" target="_blank">Github</a></div></li>
+
+
+
+
+              </ul>
+            </div>
+          </div>
+        </footer>
+
+    </div>
+
+
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+  <script src="../theme/js/libs/jquery-1.9.1.min.js"></script>
+  <script src="../theme/js/libs/gumby.min.js"></script>
+  <script src="../theme/js/plugins.js"></script>
+</body>
 </html>
