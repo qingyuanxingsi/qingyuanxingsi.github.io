@@ -1,108 +1,180 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
-  <head>
-    <title>Tag Designing Patterns - Doodle World</title>
-    <link href="http://fonts.googleapis.com/css?family=Arimo:400,700|Inika" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="../theme/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../theme/pastie.css" />
-    <link href="http://www.qingyuanxingsi.com/" type="application/atom+xml" rel="alternate" title="Doodle World Atom Feed" />
+<!doctype html>
+<html class="no-js" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<script type="text/javascript">
+		<title>Doodle World</title>
+		<meta name="description" content="">
+		<meta name="author" content="qingyuanxingsi">
 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-48582273-1']);
-  _gaq.push(['_trackPageview']);
+		<link rel="stylesheet" href="../theme/css/foundation.css" />
+		<link rel="stylesheet" href="../theme/css/pygment/monokai.css" />
+		<link rel="stylesheet" href="../theme/css/custom.css" />
 
-  (function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
 
-</script>
+		<script src="../theme/js/modernizr.js"></script>
 
-  </head>
+		<!-- Feeds -->
+		<link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Atom Feed" />
 
-  <body>
-    <div class="container">
-      <div class="row">
-        <div class="span8">
-<div id="content">
-<h1>Blog</h1>
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
 
-<ul class="unstyled">
-        <li>
-            <div>
-                <div class="header">
-                    <h2>分布式计算系列(I):Yarn基础库初探</h2>
-                </div>
-                <p class="meta"><small><span><a href="../author/qingyuanxingsi/">qingyuanxingsi</a> - </span><span>六 22 三月 2014</span> - <span class="tags"><a href="/tag/RPC/">RPC</a>, <a href="/tag/YARN/">YARN</a>, <a href="/tag/Hadoop/">Hadoop</a>, <a href="/tag/State Machine/">State Machine</a>, <a href="/tag/Designing Patterns/">Designing Patterns</a>, <a href="/tag/Reactor Pattern/">Reactor Pattern</a></span></small></p>
-                <div class="entry-content">
-                    <p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,事件库以及状态机等基础库,此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p>
-                </div><!-- /.entry-content -->
-                <div class="row">
-                    <div class="span4">
-                        <a class="btn btn-small disabled" href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html#disqus_thread"></a>
-                    </div>
-                    <div class="span1 offset3">
-                        <a class="btn btn-small" href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html" rel="bookmark" title="Permalink to 分布式计算系列(I):Yarn基础库初探">Mehr</a>
-                    </div>
-                </div>
-            </div>
-        </li>
+		<!-- mathjax config similar to math.stackexchange -->
+		<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			jax: ["input/TeX", "output/HTML-CSS"],
+			tex2jax: {
+				inlineMath: [ ['$', '$'] ],
+				displayMath: [ ['$$', '$$']],
+				processEscapes: true,
+				skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+			},
+			messageStyle: "none",
+			"HTML-CSS": { preferredFont: "TeX", availableFonts: ["STIX","TeX"] }
+		});
+		</script>
+		<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+	</head>
+	<body>
+		<div class="off-canvas-wrap">
+			<div class="inner-wrap">
+				<!-- mobile top bar to activate nav -->
+				<nav class="tab-bar show-for-small">
+					<section class="left-small">
+						<a class="left-off-canvas-toggle menu-icon" ><span></span></a>
+					</section>
 
-        <li><hr /></li>
-</ul><!-- /#posts-list -->
+					<section class="middle tab-bar-section">
+						<h1 class="title">Doodle&nbsp;World</h1>
+					</section>
+				</nav>
 
-<div class="pagination pagination-centered">
-    <ul>
-        <li class="active"><a href="#">1</a></li>
-    </ul>
-</div>
-</div><!-- /#content -->
-        </div>
-        <div class="span3 offset1">
-          <div class="well">
-            <ul class="nav nav-list">
-              <li class="nav-header">Blog</li>
-              <li ><a href="..">Index</a></li>
-              <li ><a href="../tags/">Tags</a></li>
-              <li ><a href="../archives/">Archiv</a></li>
-              <li class="nav-header">Seiten</li>
-              <li><a href="../pages/about.html">About</a></li>
-              <li class="nav-header">Links</li>
-              <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-              <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-              <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-            </ul>
-          </div><!-- /#menu -->
-        </div>
-      </div>
+				<!-- mobile side bar nav -->
+				<aside class="left-off-canvas-menu">
+					<ul class="off-canvas-list">
+						<li><a href="..">Home</a></li>
+						<li><label>Categories</label></li>
+							<li ><a href="../category/distributed-system.html">Distributed System</a></li>
+							<li ><a href="../category/life.html">Life</a></li>
+							<li ><a href="../category/machine-learning.html">Machine Learning</a></li>
+							<li ><a href="../category/viewpoint.html">Viewpoint</a></li>
 
-      <hr />
+						<li><label>Places</label></li>
+							<li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+							<li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+							<li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
 
-      <div class="row">
-        <div class="span12">
-          <div id="about">
-            <p>Proudly powered by <a href="http://twitter.github.com/bootstrap/">bootstrap</a>, <a href="http://docs.notmyidea.org/alexis/pelican/">pelican</a>, <a href="http://python.org">python</a> and <a href="http://www.julo.ch/about/">Alex</a>!</p>
-          </div><!-- /#about -->
-        </div><!-- /#contentinfo -->
-      </div>
-    </div>
 
-    <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'qingyuanxingsi'; // required: replace example with your forum shortname
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function () {
-            var s = document.createElement('script'); s.async = true;
-            s.type = 'text/javascript';
-            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-        }());
-    </script>
+						<li><label>Links</label></li>
+							<li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+					</ul>	
+				</aside>
 
-  </body>
+				<!-- top bar nav -->
+				<nav class="top-bar hide-for-small-only" data-topbar>
+					<ul class="title-area">
+						<li class="name">
+							<h1><a href="../">Doodle World</a></h1>
+						</li>
+					</ul>
+
+					<section class="top-bar-section">
+						<ul class="left">
+								<li ><a href="../category/distributed-system.html">Distributed System</a></li>
+								<li ><a href="../category/life.html">Life</a></li>
+								<li ><a href="../category/machine-learning.html">Machine Learning</a></li>
+								<li ><a href="../category/viewpoint.html">Viewpoint</a></li>
+						</ul>
+					</section>
+				</nav>
+
+				<!-- Main Page Content and Sidebar -->
+				<section class="main-section">
+					<div class="row">
+						<!-- Main Content -->
+						<div class="medium-9 small-12 columns" role="content">
+							<div class="row">
+								<div class="small-12 columns">
+									<h2>Posts Tagged With 'Designing Patterns'</h2>
+								</div>
+							</div>
+
+<article>
+	<h3><a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">分布式计算系列(I):Yarn基础库初探</a></h3>
+	<h6>Written by <a href="../author/qingyuanxingsi.html">qingyuanxingsi</a> in <a href="../category/distributed-system.html">Distributed System</a> on 六 22 三月 2014. Tags: <a href="../tag/rpc.html">RPC</a>, <a href="../tag/yarn.html">YARN</a>, <a href="../tag/hadoop.html">Hadoop</a>, <a href="../tag/state-machine.html">State Machine</a>, <a href="../tag/designing-patterns.html">Designing Patterns</a>, <a href="../tag/reactor-pattern.html">Reactor Pattern</a>, </h6>
+	<p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,事件库以及状态机等基础库,此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p>
+		<p class="continue"><a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">Continue reading &raquo;</a></p>
+</article>
+<hr />
+
+
+						</div>
+						<!-- End Main Content -->
+						<!-- Sidebar -->
+						<aside class="medium-3 hide-for-small-only columns">
+							<div class="panel">
+								<h5>Places</h5>
+								<ul class="side-nav">
+									<li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+									<li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+									<li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+								</ul>
+							</div>
+
+							<div class="panel">
+								<h5>Tags</h5>
+								<ul class="tag-cloud">
+									<li><a href="/tag/state-machine/" class="tag-4">State Machine</a></li>
+									<li><a href="/tag/paxos/" class="tag-4">Paxos</a></li>
+									<li><a href="/tag/随笔/" class="tag-4">随笔</a></li>
+									<li><a href="/tag/一致性哈希算法/" class="tag-4">一致性哈希算法</a></li>
+									<li><a href="/tag/reactor-pattern/" class="tag-4">Reactor Pattern</a></li>
+									<li><a href="/tag/分布式系统/" class="tag-4">分布式系统</a></li>
+									<li><a href="/tag/yarn/" class="tag-4">YARN</a></li>
+									<li><a href="/tag/classfication/" class="tag-4">Classfication</a></li>
+									<li><a href="/tag/甲午/" class="tag-4">甲午</a></li>
+									<li><a href="/tag/designing-patterns/" class="tag-4">Designing Patterns</a></li>
+									<li><a href="/tag/machine-learning/" class="tag-1">Machine Learning</a></li>
+									<li><a href="/tag/hadoop/" class="tag-4">Hadoop</a></li>
+									<li><a href="/tag/mutual-information/" class="tag-4">Mutual Information</a></li>
+									<li><a href="/tag/generative-models/" class="tag-2">Generative Models</a></li>
+									<li><a href="/tag/rpc/" class="tag-4">RPC</a></li>
+									<li><a href="/tag/互联网/" class="tag-4">互联网</a></li>
+									<li><a href="/tag/gaussian-models/" class="tag-4">Gaussian Models</a></li>
+									<li><a href="/tag/o2o/" class="tag-4">O2O</a></li>
+								</ul>
+							</div>
+
+
+							<div class="panel">
+								<h5>Links</h5>
+								<ul class="side-nav">
+									<li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+								</ul>
+							</div>
+						</aside>
+						<!-- End Sidebar -->
+					</div>
+
+					<!-- Footer -->
+					<footer class="row">
+						<div class="medium-9 small-12">
+							<hr/>
+							<p class="text-center">Powered by <a href="http://getpelican.com">Pelican</a> and <a href="http://foundation.zurb.com/">Zurb Foundation</a>. Theme by <a href="http://hamaluik.com">Kenton Hamaluik</a>.</p>
+						</div>
+					</footer>
+					<!-- End Footer -->
+				</section>
+				<a class="exit-off-canvas"></a>
+			</div><!--off-canvas inner-->
+		</div><!--off-canvas wrap-->
+
+		<script src="../theme/js/jquery.js"></script>
+		<script src="../theme/js/foundation.min.js"></script>
+		<script>
+			$(document).foundation();
+		</script>
+	</body>
 </html>
