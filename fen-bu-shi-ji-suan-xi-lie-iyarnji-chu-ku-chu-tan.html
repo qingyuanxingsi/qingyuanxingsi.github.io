@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <title>Doodle World : 分布式计算系列(I):Yarn基础库初探</title>
+        <title>分布式计算系列(I):Yarn基础库初探</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
         <link href="./" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
+
 
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
@@ -18,21 +19,39 @@
 
 </head>
 
-<body>
-	<div id="wrap" style="width:850px">
-	    <div id="container" style="width:560px">
+<body id="index" class="home">
 <a href="https://github.com/qingyuanxingsi">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
 </a>
-
-
-            <div class="entry">
+        <header id="banner" class="body">
+                <h1><a href=".">Doodle World </a></h1>
+                <nav><ul>
+                        <li >
+                            <a href="./pages/about.html">About</a>
+                        </li>
+                    <li ><a href="./category/distributed-system.html">Distributed System</a></li>
+                    <li ><a href="./category/life.html">Life</a></li>
+                    <li ><a href="./category/machine-learning.html">Machine Learning</a></li>
+                    <li ><a href="./category/viewpoint.html">Viewpoint</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
         
-<header>
-<h1><a href="." id="site-title">  </a>         <a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html" id="page-title">分布式计算系列(I):Yarn基础库初探</a></h1>
-<time datetime="2014-03-22T00:00:00">六 22 三月 2014</time></header>
+<section id="content" class="body">    
 <article>
-    <h1>PREFACE</h1>
+        <header> <h1 class="entry-title"><a href="fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"
+        rel="bookmark" title="Permalink to 分布式计算系列(I):Yarn基础库初探">分布式计算系列(I):Yarn基础库初探</a></h1>   </header>
+        <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-22T00:00:00">
+                六 22 三月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/distributed-system.html">Distributed System</a>. </p>
+<p>tags: <a href="./tag/rpc.html">RPC</a><a href="./tag/yarn.html">YARN</a><a href="./tag/hadoop.html">Hadoop</a><a href="./tag/state-machine.html">State Machine</a><a href="./tag/designing-patterns.html">Designing Patterns</a><a href="./tag/reactor-pattern.html">Reactor Pattern</a></p></p>
+</footer><!-- /.post-info -->        <h1>PREFACE</h1>
 <hr />
 <h1>The Secret of RPC</h1>
 <hr />
@@ -45,31 +64,48 @@
 <hr />
 <h1>状态机</h1>
 <hr />
+        </div><!-- /.entry-content -->
+        <div class="comments">
+        <h2>Comments !</h2>
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+               var disqus_identifier = "fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html";
+               (function() {
+               var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+               dsq.src = 'http://qingyuanxingsi.disqus.com/embed.js';
+               (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            </script>
+        </div>
+
 </article>
-            </div>
-        </div>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+                            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+                            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="./" rel="alternate">atom feed</a></li>
 
+                            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
 
-        <div id="sidebar">
-            <h1><a href=". " title="title">Doodle World</a></h1>
-            <span class="description"> </span>
-            <!-- <span class="feed"><a href="">RSS</a> | <a href="">Atom</a></span> -->
-        </div>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
+                </address><!-- /#about -->
 
-        <div id="footer">
-            <nav>
-                <ul>
-                    <li><a href="./pages/about.html">About</a></li>
-                    <li>:: <a href="./categories.html">Categories</a></li>
-                    <li>:: <a href="./tags.html">Tags</a></li>
-                </ul>
-            </nav>
-
-            <div id="credits">
-                <span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> || Created with <a href="">Pelican</a></span>
-            </div>
-                
-        </div>
+                <p>The theme is by <a href="http://smashingmagazine.com">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
 
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -89,8 +125,5 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
-
-    </div>
-
 </body>
 </html>

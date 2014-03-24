@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../theme/css/main.css" type="text/css" />
         <link href="../" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
 
+
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -18,24 +19,37 @@
 
 </head>
 
-<body>
-	<div id="wrap" style="width:850px">
-	    <div id="container" style="width:560px">
+<body id="index" class="home">
 <a href="https://github.com/qingyuanxingsi">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
 </a>
-
-
-            <div class="entry">
+        <header id="banner" class="body">
+                <h1><a href="..">Doodle World </a></h1>
+                <nav><ul>
+                        <li >
+                            <a href="../pages/about.html">About</a>
+                        </li>
+                    <li ><a href="../category/distributed-system.html">Distributed System</a></li>
+                    <li ><a href="../category/life.html">Life</a></li>
+                    <li ><a href="../category/machine-learning.html">Machine Learning</a></li>
+                    <li ><a href="../category/viewpoint.html">Viewpoint</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
         
         
+        <aside id="featured" class="body"><article>
+                <h1 class="entry-title"><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a></h1> 
+<footer class="post-info">
+        <abbr class="published" title="2014-03-04T00:00:00">
+                二 04 三月 2014
+        </abbr>
 
-            <header>
-            <h1><a href=".." id="site-title">  </a>  <a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" id="page-title">机器学习系列(II):Generative models for discrete data</a></h1>
-<time datetime="2014-03-04T00:00:00">二 04 三月 2014</time>            </header>
-
-            <article>
-                <h1>博客若干事</h1>
+        <address class="vcard author">
+                By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="../category/machine-learning.html">Machine Learning</a>. </p>
+<p>tags: <a href="../tag/machine-learning.html">Machine Learning</a><a href="../tag/classfication.html">Classfication</a><a href="../tag/generative-models.html">Generative Models</a><a href="../tag/mutual-information.html">Mutual Information</a></p></p>
+</footer><!-- /.post-info -->                <h1>博客若干事</h1>
 <hr />
 <h2>博客更新</h2>
 <p>根据目前的学习进度、自己的空闲时间以及时间的充裕度，现将博客的更新时间定于周三，更新周期为每一周或者两周更新一次。另由于目前自己对于Latex公式还不是特别熟，所以博文中的公式可能会出现部分错误，请大家谅解。此外，博客刚刚创建，很多东西都在完善当中，包括博客的插件，博文的排版等等，这些方面之后会慢慢完善，目前已开放的功能仅基本支持博文的显示以及评论。</p>
@@ -251,31 +265,37 @@ I(X;Y) = H(X)-H(X|Y) = H(Y)-H(Y|X)
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<p>There are <a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html#disqus_thread">comments</a>.</p>            </article>
-            </div>
-        </div>
 
+<p>There are <a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html#disqus_thread">comments</a>.</p>                </article>
+                </aside><!-- /#featured -->
+</ol><!-- /#posts-list -->
+</section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+                            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+                            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="../" rel="alternate">atom feed</a></li>
 
-        <div id="sidebar">
-            <h1><a href=".. " title="title">Doodle World</a></h1>
-            <span class="description"> </span>
-            <!-- <span class="feed"><a href="">RSS</a> | <a href="">Atom</a></span> -->
-        </div>
+                            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
 
-        <div id="footer">
-            <nav>
-                <ul>
-                    <li><a href="../pages/about.html">About</a></li>
-                    <li>:: <a href="../categories.html">Categories</a></li>
-                    <li>:: <a href="../tags.html">Tags</a></li>
-                </ul>
-            </nav>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
+                </address><!-- /#about -->
 
-            <div id="credits">
-                <span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> || Created with <a href="">Pelican</a></span>
-            </div>
-                
-        </div>
+                <p>The theme is by <a href="http://smashingmagazine.com">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
 
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -295,8 +315,5 @@ I(X;Y) = H(X)-H(X|Y) = H(Y)-H(Y|X)
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
-
-    </div>
-
 </body>
 </html>

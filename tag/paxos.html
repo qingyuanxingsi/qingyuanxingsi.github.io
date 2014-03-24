@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../theme/css/main.css" type="text/css" />
         <link href="../" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
 
+
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -18,24 +19,37 @@
 
 </head>
 
-<body>
-	<div id="wrap" style="width:850px">
-	    <div id="container" style="width:560px">
+<body id="index" class="home">
 <a href="https://github.com/qingyuanxingsi">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
 </a>
-
-
-            <div class="entry">
+        <header id="banner" class="body">
+                <h1><a href="..">Doodle World </a></h1>
+                <nav><ul>
+                        <li >
+                            <a href="../pages/about.html">About</a>
+                        </li>
+                    <li ><a href="../category/distributed-system.html">Distributed System</a></li>
+                    <li ><a href="../category/life.html">Life</a></li>
+                    <li ><a href="../category/machine-learning.html">Machine Learning</a></li>
+                    <li ><a href="../category/viewpoint.html">Viewpoint</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
         
         
+        <aside id="featured" class="body"><article>
+                <h1 class="entry-title"><a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">分布式计算与存储系列(序章):初入门径</a></h1> 
+<footer class="post-info">
+        <abbr class="published" title="2014-03-11T00:00:00">
+                二 11 三月 2014
+        </abbr>
 
-            <header>
-            <h1><a href=".." id="site-title">  </a>  <a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" id="page-title">分布式计算与存储系列(序章):初入门径</a></h1>
-<time datetime="2014-03-11T00:00:00">二 11 三月 2014</time>            </header>
-
-            <article>
-                <p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
+        <address class="vcard author">
+                By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="../category/distributed-system.html">Distributed System</a>. </p>
+<p>tags: <a href="../tag/fen-bu-shi-xi-tong.html">分布式系统</a><a href="../tag/paxos.html">Paxos</a><a href="../tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a></p></p>
+</footer><!-- /.post-info -->                <p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
 <h1>概述</h1>
 <hr>
 <blockquote>
@@ -339,31 +353,37 @@ objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cac
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back" class="simple-footnote-back">↩</a></li></ol><p>There are <a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html#disqus_thread">comments</a>.</p>            </article>
-            </div>
-        </div>
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back" class="simple-footnote-back">↩</a></li></ol>
+<p>There are <a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html#disqus_thread">comments</a>.</p>                </article>
+                </aside><!-- /#featured -->
+</ol><!-- /#posts-list -->
+</section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+                            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+                            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="../" rel="alternate">atom feed</a></li>
 
+                            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
 
-        <div id="sidebar">
-            <h1><a href=".. " title="title">Doodle World</a></h1>
-            <span class="description"> </span>
-            <!-- <span class="feed"><a href="">RSS</a> | <a href="">Atom</a></span> -->
-        </div>
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
+                </address><!-- /#about -->
 
-        <div id="footer">
-            <nav>
-                <ul>
-                    <li><a href="../pages/about.html">About</a></li>
-                    <li>:: <a href="../categories.html">Categories</a></li>
-                    <li>:: <a href="../tags.html">Tags</a></li>
-                </ul>
-            </nav>
-
-            <div id="credits">
-                <span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> || Created with <a href="">Pelican</a></span>
-            </div>
-                
-        </div>
+                <p>The theme is by <a href="http://smashingmagazine.com">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
 
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -383,8 +403,5 @@ objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cac
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
-
-    </div>
-
 </body>
 </html>

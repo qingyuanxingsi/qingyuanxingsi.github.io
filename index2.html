@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
         <link href="./" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
 
+
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -18,24 +19,37 @@
 
 </head>
 
-<body>
-	<div id="wrap" style="width:850px">
-	    <div id="container" style="width:560px">
+<body id="index" class="home">
 <a href="https://github.com/qingyuanxingsi">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
 </a>
-
-
-            <div class="entry">
+        <header id="banner" class="body">
+                <h1><a href=".">Doodle World </a></h1>
+                <nav><ul>
+                        <li >
+                            <a href="./pages/about.html">About</a>
+                        </li>
+                    <li ><a href="./category/distributed-system.html">Distributed System</a></li>
+                    <li ><a href="./category/life.html">Life</a></li>
+                    <li ><a href="./category/machine-learning.html">Machine Learning</a></li>
+                    <li ><a href="./category/viewpoint.html">Viewpoint</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
         
         
+        <aside id="featured" class="body"><article>
+                <h1 class="entry-title"><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">分布式计算系列(I):Yarn基础库初探</a></h1> 
+<footer class="post-info">
+        <abbr class="published" title="2014-03-22T00:00:00">
+                六 22 三月 2014
+        </abbr>
 
-            <header>
-            <h1><a href="." id="site-title">  </a>  <a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html" id="page-title">分布式计算系列(I):Yarn基础库初探</a></h1>
-<time datetime="2014-03-22T00:00:00">六 22 三月 2014</time>            </header>
-
-            <article>
-                <h1>PREFACE</h1>
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/distributed-system.html">Distributed System</a>. </p>
+<p>tags: <a href="./tag/rpc.html">RPC</a><a href="./tag/yarn.html">YARN</a><a href="./tag/hadoop.html">Hadoop</a><a href="./tag/state-machine.html">State Machine</a><a href="./tag/designing-patterns.html">Designing Patterns</a><a href="./tag/reactor-pattern.html">Reactor Pattern</a></p></p>
+</footer><!-- /.post-info -->                <h1>PREFACE</h1>
 <hr />
 <h1>The Secret of RPC</h1>
 <hr />
@@ -47,60 +61,173 @@
 <h1>事件库</h1>
 <hr />
 <h1>状态机</h1>
-<hr /><p>There are <a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html#disqus_thread">comments</a>.</p>            </article>
-                <section id="article-list">
-                    <h2>All posts</h2>
-                    <ol>
+<hr />
+<p>There are <a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html#disqus_thread">comments</a>.</p>                </article>
+                </aside><!-- /#featured -->
+            <section id="content" class="body">
+                <h1>Other articles</h1>
+                <hr />
+                    <ol id="posts-list" class="hfeed">
         
-
  
-            <li><a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="bookmark" title="Permalink to 机器学习系列(III):Gaussian Models">机器学习系列(III):Gaussian Models</a></li>
-        
-
- 
-            <li><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="bookmark" title="Permalink to 分布式计算与存储系列(序章):初入门径">分布式计算与存储系列(序章):初入门径</a></li>
-        
-
- 
-            <li><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data">机器学习系列(II):Generative models for discrete data</a></li>
-        
-
- 
-            <li><a href="./Decision Tree.html" rel="bookmark" title="Permalink to 机器学习系列(I):决策树算法">机器学习系列(I):决策树算法</a></li>
-        
-
- 
-            <li><a href="./wo-de-jia-wu.html" rel="bookmark" title="Permalink to 我的甲午">我的甲午</a></li>
-        
-
- 
-            <li><a href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html" rel="bookmark" title="Permalink to 闲话O2O:写在互联网时代的边上">闲话O2O:写在互联网时代的边上</a></li>
-    </ol>
-    </section><!-- #article-list -->
-            </div>
-        </div>
-
-
-        <div id="sidebar">
-            <h1><a href=". " title="title">Doodle World</a></h1>
-            <span class="description"> </span>
-            <!-- <span class="feed"><a href="">RSS</a> | <a href="">Atom</a></span> -->
-        </div>
-
-        <div id="footer">
-            <nav>
-                <ul>
-                    <li><a href="./pages/about.html">About</a></li>
-                    <li>:: <a href="./categories.html">Categories</a></li>
-                    <li>:: <a href="./tags.html">Tags</a></li>
-                </ul>
-            </nav>
-
-            <div id="credits">
-                <span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> || Created with <a href="">Pelican</a></span>
-            </div>
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="bookmark" title="Permalink to 机器学习系列(III):Gaussian Models">机器学习系列(III):Gaussian Models</a></h1>
+                </header>
                 
-        </div>
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-15T00:00:00">
+                六 15 三月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/machine-learning.html">Machine Learning</a>. </p>
+<p>tags: <a href="./tag/machine-learning.html">Machine Learning</a><a href="./tag/gaussian-models.html">Gaussian Models</a><a href="./tag/generative-models.html">Generative Models</a></p></p>
+</footer><!-- /.post-info -->                <p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Doscriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p>
+                <a class="readmore" href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html">read more</a>
+<p>There are <a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+        
+ 
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="bookmark" title="Permalink to 分布式计算与存储系列(序章):初入门径">分布式计算与存储系列(序章):初入门径</a></h1>
+                </header>
+                
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-11T00:00:00">
+                二 11 三月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/distributed-system.html">Distributed System</a>. </p>
+<p>tags: <a href="./tag/fen-bu-shi-xi-tong.html">分布式系统</a><a href="./tag/paxos.html">Paxos</a><a href="./tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a></p></p>
+</footer><!-- /.post-info -->                <p>本文主要就分布式存储的相关基础知识进行了梳理，分部分分别介绍了分布式系统的基本问题,单机存储系统、分布式系统的相关性能指标、分布式协议等,本文仅作为分布式计算与存储的入门材料，之后我们将从论文和源码两方面对分布式计算与存储的相关理论与实践进行更为深入的探讨。</p>
+                <a class="readmore" href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">read more</a>
+<p>There are <a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+        
+ 
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data">机器学习系列(II):Generative models for discrete data</a></h1>
+                </header>
+                
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-04T00:00:00">
+                二 04 三月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/machine-learning.html">Machine Learning</a>. </p>
+<p>tags: <a href="./tag/machine-learning.html">Machine Learning</a><a href="./tag/classfication.html">Classfication</a><a href="./tag/generative-models.html">Generative Models</a><a href="./tag/mutual-information.html">Mutual Information</a></p></p>
+</footer><!-- /.post-info -->                <p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p>
+                <a class="readmore" href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">read more</a>
+<p>There are <a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+        
+ 
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="./Decision Tree.html" rel="bookmark" title="Permalink to 机器学习系列(I):决策树算法">机器学习系列(I):决策树算法</a></h1>
+                </header>
+                
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-03T00:00:00">
+                一 03 三月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/machine-learning.html">Machine Learning</a>. </p>
+<p>tags: <a href="./tag/machine-learning.html">Machine Learning</a></p></p>
+</footer><!-- /.post-info -->                <p>本文作为本博客的第一篇博文，简单说明了创建这个博客的目的；同时作为机器学习系列的第一篇，对决策树中的ID3和C4.5算法进行了梳理，对于ID3算法，我们给出了Python源码实现。</p>
+                <a class="readmore" href="./Decision Tree.html">read more</a>
+<p>There are <a href="./Decision Tree.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+        
+ 
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="./wo-de-jia-wu.html" rel="bookmark" title="Permalink to 我的甲午">我的甲午</a></h1>
+                </header>
+                
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-06-30T00:00:00">
+                日 30 六月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/life.html">Life</a>. </p>
+<p>tags: <a href="./tag/jia-wu.html">甲午</a><a href="./tag/sui-bi.html">随笔</a></p></p>
+</footer><!-- /.post-info -->                <p>挖坑待填。</p>
+                <a class="readmore" href="./wo-de-jia-wu.html">read more</a>
+<p>There are <a href="./wo-de-jia-wu.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+        
+ 
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html" rel="bookmark" title="Permalink to 闲话O2O:写在互联网时代的边上">闲话O2O:写在互联网时代的边上</a></h1>
+                </header>
+                
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-04-15T00:00:00">
+                一 15 四月 2013
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="./category/viewpoint.html">Viewpoint</a>. </p>
+<p>tags: <a href="./tag/o2o.html">O2O</a><a href="./tag/hu-lian-wang.html">互联网</a></p></p>
+</footer><!-- /.post-info -->                <p>我们先挖个坑，以后再填<sup id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back"><a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1" class="simple-footnote" title="这只是一篇测试文档，顺便测试一下脚注功能">1</a></sup>。</p><ol class="simple-footnotes"><li id="sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1">这只是一篇测试文档，顺便测试一下脚注功能 <a href="#sf-xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang-1-back" class="simple-footnote-back">↩</a></li></ol>
+                <a class="readmore" href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html">read more</a>
+<p>There are <a href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+</ol><!-- /#posts-list -->
+</section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+                            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+                            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="./" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://smashingmagazine.com">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
 
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -120,8 +247,5 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
-
-    </div>
-
 </body>
 </html>

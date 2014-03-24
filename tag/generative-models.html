@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="../theme/css/main.css" type="text/css" />
         <link href="../" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
 
+
         <!--[if IE]>
                 <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
@@ -18,24 +19,37 @@
 
 </head>
 
-<body>
-	<div id="wrap" style="width:850px">
-	    <div id="container" style="width:560px">
+<body id="index" class="home">
 <a href="https://github.com/qingyuanxingsi">
 <img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
 </a>
-
-
-            <div class="entry">
+        <header id="banner" class="body">
+                <h1><a href="..">Doodle World </a></h1>
+                <nav><ul>
+                        <li >
+                            <a href="../pages/about.html">About</a>
+                        </li>
+                    <li ><a href="../category/distributed-system.html">Distributed System</a></li>
+                    <li ><a href="../category/life.html">Life</a></li>
+                    <li ><a href="../category/machine-learning.html">Machine Learning</a></li>
+                    <li ><a href="../category/viewpoint.html">Viewpoint</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
         
         
+        <aside id="featured" class="body"><article>
+                <h1 class="entry-title"><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">机器学习系列(III):Gaussian Models</a></h1> 
+<footer class="post-info">
+        <abbr class="published" title="2014-03-15T00:00:00">
+                六 15 三月 2014
+        </abbr>
 
-            <header>
-            <h1><a href=".." id="site-title">  </a>  <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html" id="page-title">机器学习系列(III):Gaussian Models</a></h1>
-<time datetime="2014-03-15T00:00:00">六 15 三月 2014</time>            </header>
-
-            <article>
-                <p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
+        <address class="vcard author">
+                By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="../category/machine-learning.html">Machine Learning</a>. </p>
+<p>tags: <a href="../tag/machine-learning.html">Machine Learning</a><a href="../tag/gaussian-models.html">Gaussian Models</a><a href="../tag/generative-models.html">Generative Models</a></p></p>
+</footer><!-- /.post-info -->                <p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
 <h1>MLE for MVN</h1>
 <hr>
 <h2>Basics about MVN</h2>
@@ -436,40 +450,63 @@ S_N^{-1} &amp;= S_0+S_{\mu}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol><p>There are <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html#disqus_thread">comments</a>.</p>            </article>
-                <section id="article-list">
-                    <h2>All posts</h2>
-                    <ol>
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol>
+<p>There are <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html#disqus_thread">comments</a>.</p>                </article>
+                </aside><!-- /#featured -->
+            <section id="content" class="body">
+                <h1>Other articles</h1>
+                <hr />
+                    <ol id="posts-list" class="hfeed">
         
-
  
-            <li><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data">机器学习系列(II):Generative models for discrete data</a></li>
-    </ol>
-    </section><!-- #article-list -->
-            </div>
-        </div>
-
-
-        <div id="sidebar">
-            <h1><a href=".. " title="title">Doodle World</a></h1>
-            <span class="description"> </span>
-            <!-- <span class="feed"><a href="">RSS</a> | <a href="">Atom</a></span> -->
-        </div>
-
-        <div id="footer">
-            <nav>
-                <ul>
-                    <li><a href="../pages/about.html">About</a></li>
-                    <li>:: <a href="../categories.html">Categories</a></li>
-                    <li>:: <a href="../tags.html">Tags</a></li>
-                </ul>
-            </nav>
-
-            <div id="credits">
-                <span>Adapted from <a href="http://wordpress.org/themes/monospace">Monospace</a> || Created with <a href="">Pelican</a></span>
-            </div>
+        <li><article class="hentry">    
+                <header>
+                        <h1><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark" title="Permalink to 机器学习系列(II):Generative models for discrete data">机器学习系列(II):Generative models for discrete data</a></h1>
+                </header>
                 
-        </div>
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-03-04T00:00:00">
+                二 04 三月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </address>
+<p>In <a href="../category/machine-learning.html">Machine Learning</a>. </p>
+<p>tags: <a href="../tag/machine-learning.html">Machine Learning</a><a href="../tag/classfication.html">Classfication</a><a href="../tag/generative-models.html">Generative Models</a><a href="../tag/mutual-information.html">Mutual Information</a></p></p>
+</footer><!-- /.post-info -->                <p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p>
+                <a class="readmore" href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">read more</a>
+<p>There are <a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+        </article></li>
+</ol><!-- /#posts-list -->
+</section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+                            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+                            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="../" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">pelican</a>, which takes great advantages of <a href="http://python.org">python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://smashingmagazine.com">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
 
     <script type="text/javascript">
     var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
@@ -489,8 +526,5 @@ S_N^{-1} &amp;= S_0+S_{\mu}
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 </script>
-
-    </div>
-
 </body>
 </html>
