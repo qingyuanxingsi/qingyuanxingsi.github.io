@@ -183,9 +183,7 @@ p(y=c|x,\theta) &amp;\propto \pi_c exp[\mu_c^T\Sigma^{-1}x-{1 \over 2}x^T\Sigma^
 p(y=c|x,\theta) = \frac{e^{\beta_c^Tx+\gamma_c}}{\sum_{c\prime}e^{\beta_{c\prime}^Tx+\gamma_{c\prime}}}=S(\eta)_c
 \end{equation}</p>
 <p>其中$\eta = [\beta_1^Tx+\gamma_1,...,\beta_C^Tx+\gamma_c]$,$S$为softmax函数(类似于max函数,故得此名),定义如下:</p>
-<p>\begin{equation}
-S(\eta)<em c_prime="c\prime">c = \frac{e^{\eta_c}}{\sum e^{\eta</em>}}
-\end{equation}</p>
+<p><img alt="Softmax Function" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/softmax_zpscdabec6d.png"></p>
 <p>若将$\eta_c$除以一个常数(temperature),当$T\to 0$时，我们有:</p>
 <p><img alt="Softmax Function" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg"></p>
 <p>换句话说，当温度很低时，分布集中在概率最大的那个状态上，而当温度高时，所有的状态呈现均匀分布。</p>
