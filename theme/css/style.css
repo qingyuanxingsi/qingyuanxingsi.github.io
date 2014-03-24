@@ -10,8 +10,7 @@ article { padding-left:1em; }
 
 /* Base.html - top navigation */
 .top-bar {
-/* 2BA6E3 #2B0034 */
-background: #2B0034; /* Header color */
+background: #2BA6E3; /* Header color */
 height: 100%; 
 margin-bottom: 1em; 
 }
@@ -71,5 +70,3 @@ background: #073642;
 padding: 1em;
 overflow: auto;
 }
-
-body { background-color: #fffff9; }
