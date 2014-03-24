@@ -1,173 +1,142 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <!-- Set the viewport width to device width for mobile -->
-    <meta name="viewport" content="width=device-width" />
-
+    <meta charset="utf-8">
     <title>Doodle World</title>
+    <meta name="description" content="">
+    <meta name="author" content="qingyuanxingsi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="./theme/html5.js"></script>
+    <![endif]-->
 
-    <link rel="stylesheet" href="./theme/css/normalize.css" />
-    <link rel="stylesheet" href="./theme/css/foundation.min.css" />
-    <link rel="stylesheet" href="./theme/css/style.css" />
-    <link rel="stylesheet" href="./theme/css/pygments.css" />	
-    <script src="./theme/js/custom.modernizr.js"></script>
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="./theme/local.css" rel="stylesheet">
+    <link href="./theme/pygments.css" rel="stylesheet">
+    <link href="./theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="." class="brand">Doodle World</a>
+      </div>
 
-<!-- Nav Bar -->
-<nav>
-<div class="top-bar">
-<div class="row">
-    <div class="large-9 large-centered columns">
-	    <h1><a href=".">Doodle World</a></h1>
-    </div>
-</div>
-</div>
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="./pages/about.html">About</a></li>
+	    <li >
+	      <a href="./category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="./category/life.html ">Life</a>
+	    <li >
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="./category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
 
-<!-- Show menu items and pages -->
-<div class="row">
-<div class="large-9 columns">
-    <ul class="button-group navigation">
-
-            <li><a href="./pages/about.html" class="button secondary small">About</a></li>
-    </ul>
-</div>
-</div>
-</nav>
-<!-- End Nav -->
-
-
-<!-- Main Page Content and Sidebar -->
-<div class="row">
-
-    <!-- Main Blog Content -->
-    <div class="large-9 columns">
-
-<ul class="circle">
-	<li><a href="./tag/classfication.html">Classfication</a></li>
-	<ul class="square">
-	<li><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"><small>机器学习系列(II):Generative models for discrete data</small></li>
-	</ul>
-	<li><a href="./tag/designing-patterns.html">Designing Patterns</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><small>分布式计算系列(I):Yarn基础库初探</small></li>
-	</ul>
-	<li><a href="./tag/fen-bu-shi-xi-tong.html">分布式系统</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html"><small>分布式计算与存储系列(序章):初入门径</small></li>
-	</ul>
-	<li><a href="./tag/gaussian-models.html">Gaussian Models</a></li>
-	<ul class="square">
-	<li><a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><small>机器学习系列(III):Gaussian Models</small></li>
-	</ul>
-	<li><a href="./tag/generative-models.html">Generative Models</a></li>
-	<ul class="square">
-	<li><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"><small>机器学习系列(II):Generative models for discrete data</small></li>
-	<li><a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><small>机器学习系列(III):Gaussian Models</small></li>
-	</ul>
-	<li><a href="./tag/hadoop.html">Hadoop</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><small>分布式计算系列(I):Yarn基础库初探</small></li>
-	</ul>
-	<li><a href="./tag/hu-lian-wang.html">互联网</a></li>
-	<ul class="square">
-	<li><a href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html"><small>闲话O2O:写在互联网时代的边上</small></li>
-	</ul>
-	<li><a href="./tag/jia-wu.html">甲午</a></li>
-	<ul class="square">
-	<li><a href="./wo-de-jia-wu.html"><small>我的甲午</small></li>
-	</ul>
-	<li><a href="./tag/machine-learning.html">Machine Learning</a></li>
-	<ul class="square">
-	<li><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"><small>机器学习系列(II):Generative models for discrete data</small></li>
-	<li><a href="./Decision Tree.html"><small>机器学习系列(I):决策树算法</small></li>
-	<li><a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><small>机器学习系列(III):Gaussian Models</small></li>
-	</ul>
-	<li><a href="./tag/mutual-information.html">Mutual Information</a></li>
-	<ul class="square">
-	<li><a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"><small>机器学习系列(II):Generative models for discrete data</small></li>
-	</ul>
-	<li><a href="./tag/o2o.html">O2O</a></li>
-	<ul class="square">
-	<li><a href="./xian-hua-o2oxie-zai-hu-lian-wang-shi-dai-de-bian-shang.html"><small>闲话O2O:写在互联网时代的边上</small></li>
-	</ul>
-	<li><a href="./tag/paxos.html">Paxos</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html"><small>分布式计算与存储系列(序章):初入门径</small></li>
-	</ul>
-	<li><a href="./tag/reactor-pattern.html">Reactor Pattern</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><small>分布式计算系列(I):Yarn基础库初探</small></li>
-	</ul>
-	<li><a href="./tag/rpc.html">RPC</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><small>分布式计算系列(I):Yarn基础库初探</small></li>
-	</ul>
-	<li><a href="./tag/state-machine.html">State Machine</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><small>分布式计算系列(I):Yarn基础库初探</small></li>
-	</ul>
-	<li><a href="./tag/sui-bi.html">随笔</a></li>
-	<ul class="square">
-	<li><a href="./wo-de-jia-wu.html"><small>我的甲午</small></li>
-	</ul>
-	<li><a href="./tag/yarn.html">YARN</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><small>分布式计算系列(I):Yarn基础库初探</small></li>
-	</ul>
-	<li><a href="./tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a></li>
-	<ul class="square">
-	<li><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html"><small>分布式计算与存储系列(序章):初入门径</small></li>
-	</ul>
+        <div class="span10">
+<ul>
+    <li><a href="./tag/reactor-pattern.html">Reactor Pattern</li>
+    <li><a href="./tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</li>
+    <li><a href="./tag/state-machine.html">State Machine</li>
+    <li><a href="./tag/sui-bi.html">随笔</li>
+    <li><a href="./tag/generative-models.html">Generative Models</li>
+    <li><a href="./tag/hu-lian-wang.html">互联网</li>
+    <li><a href="./tag/o2o.html">O2O</li>
+    <li><a href="./tag/designing-patterns.html">Designing Patterns</li>
+    <li><a href="./tag/hadoop.html">Hadoop</li>
+    <li><a href="./tag/yarn.html">YARN</li>
+    <li><a href="./tag/fen-bu-shi-xi-tong.html">分布式系统</li>
+    <li><a href="./tag/classfication.html">Classfication</li>
+    <li><a href="./tag/rpc.html">RPC</li>
+    <li><a href="./tag/machine-learning.html">Machine Learning</li>
+    <li><a href="./tag/jia-wu.html">甲午</li>
+    <li><a href="./tag/gaussian-models.html">Gaussian Models</li>
+    <li><a href="./tag/paxos.html">Paxos</li>
+    <li><a href="./tag/mutual-information.html">Mutual Information</li>
 </ul>
+        </div>
+        
+        
+    </div>     </div> </div>
 
-    </div>
-    <!-- End Main Content -->
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
 
-    <!-- Sidebar -->
-    <aside class="large-3 columns">
-        <h5 class="sidebar-title">Site</h5>
-        <ul class="side-nav">
-            <li><a href="./archives.html">Archives</a>
-            <li><a href="./tags.html">Tags</a>
-        </ul>
-
-		
-        <h5 class="sidebar-title">Categories</h5>
-        <ul class="side-nav">
-            <li><a href="./category/distributed-system.html">Distributed System</a></li>
-            <li><a href="./category/life.html">Life</a></li>
-            <li><a href="./category/machine-learning.html">Machine Learning</a></li>
-            <li><a href="./category/viewpoint.html">Viewpoint</a></li>
-   
-        </ul>
-
-        <h5 class="sidebar-title">Links</h5>
-        <ul class="side-nav">
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
             <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
             <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
             <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-        </ul>
-		
-        <h5 class="sidebar-title">Social</h5>
-        <ul class="side-nav">
-            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-        </ul>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="."><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="./" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
 
-    </aside> <!-- End Sidebar -->
+        </div>
 
-</div> <!-- End Main Content and Sidebar -->
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href=".">Doodle World</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
 
 
-<!-- Footer -->
-<footer class="row">
-    <div class="large-12 columns">
-        <hr />
-        <div class="row">
-            <div class="large-6 columns">
-              <!--                  <p>Doodle World by qingyuanxingsi</p> -->
-            </div>
-            </div>
-    </div>
-</footer>
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
+</body>
+</html>

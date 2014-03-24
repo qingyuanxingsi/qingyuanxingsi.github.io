@@ -1,58 +1,78 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <!-- Set the viewport width to device width for mobile -->
-    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8">
+    <title>Doodle World</title>
+    <meta name="description" content="">
+    <meta name="author" content="qingyuanxingsi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
 
-    <title>Doodle World - 分布式系统</title>
-
-    <link rel="stylesheet" href="../theme/css/normalize.css" />
-    <link rel="stylesheet" href="../theme/css/foundation.min.css" />
-    <link rel="stylesheet" href="../theme/css/style.css" />
-    <link rel="stylesheet" href="../theme/css/pygments.css" />	
-    <script src="../theme/js/custom.modernizr.js"></script>
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+    <link href="../theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href=".." class="brand">Doodle World</a>
+      </div>
 
-<!-- Nav Bar -->
-<nav>
-<div class="top-bar">
-<div class="row">
-    <div class="large-9 large-centered columns">
-	    <h1><a href="..">Doodle World</a></h1>
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="../pages/about.html">About</a></li>
+	    <li >
+	      <a href="../category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="../category/life.html ">Life</a>
+	    <li >
+	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="../category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+        
+
+        
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html"><h1>分布式计算与存储系列(序章):初入门径</h1></a>
+        </div>
     </div>
-</div>
-</div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>二 11 三月 2014 </p>
 
-<!-- Show menu items and pages -->
-<div class="row">
-<div class="large-9 columns">
-    <ul class="button-group navigation">
-
-            <li><a href="../pages/about.html" class="button secondary small">About</a></li>
-    </ul>
-</div>
-</div>
-</nav>
-<!-- End Nav -->
-
-
-<!-- Main Page Content and Sidebar -->
-<div class="row">
-
-    <!-- Main Blog Content -->
-    <div class="large-9 columns">
-        
-        
-
-            <article>
-                <a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html"><h3 class="article-title">分布式计算与存储系列(序章):初入门径</h3></a>
-<h6 class="subheader" title="2014-03-11T00:00:00">二 11 三月 2014
-</h6>
-
-
-<p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
+<p style="text-align: left;">
+Filed under <a href="../category/distributed-system.html">Distributed System</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/fen-bu-shi-xi-tong.html">分布式系统</a> <a href="../tag/paxos.html">Paxos</a> <a href="../tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
 <h1>概述</h1>
 <hr>
 <blockquote>
@@ -356,76 +376,94 @@ objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cac
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back" class="simple-footnote-back">↩</a></li></ol><p class="subheader">Category: <a href="../category/distributed-system.html">Distributed System</a>
-
-    Tagged: 
-    <a href="../tag/fen-bu-shi-xi-tong.html">分布式系统 </a>
-    <a href="../tag/paxos.html">Paxos </a>
-    <a href="../tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法 </a>
-</p>
-
-
-
-<p><a href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html#disqus_thread">comments</a></p>            </article>
-
-<div class="pagination-centered">
-<h6 class="subheader">Page 1 of 1</h6>
-
-<p>
-
-</p>
-</div>
-
-
-
-            <!-- /#posts-list -->
-
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back" class="simple-footnote-back">↩</a></li></ol> 
+	<a class="btn btn-mini xsmall" href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">
+          <i class="icon-comment"></i> Comment </a>
+	<hr />
+      </div>
+      
     </div>
-    <!-- End Main Content -->
+    
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
 
-    <!-- Sidebar -->
-    <aside class="large-3 columns">
-        <h5 class="sidebar-title">Site</h5>
-        <ul class="side-nav">
-            <li><a href="../archives.html">Archives</a>
-            <li><a href="../tags.html">Tags</a>
-        </ul>
+    <li class="active"><a href="../tag/fen-bu-shi-xi-tong.html">1</a></li>
 
-		
-        <h5 class="sidebar-title">Categories</h5>
-        <ul class="side-nav">
-            <li><a href="../category/distributed-system.html">Distributed System</a></li>
-            <li><a href="../category/life.html">Life</a></li>
-            <li><a href="../category/machine-learning.html">Machine Learning</a></li>
-            <li><a href="../category/viewpoint.html">Viewpoint</a></li>
-   
-        </ul>
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
 
-        <h5 class="sidebar-title">Links</h5>
-        <ul class="side-nav">
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
             <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
             <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
             <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-        </ul>
-		
-        <h5 class="sidebar-title">Social</h5>
-        <ul class="side-nav">
-            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-        </ul>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href=".."><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="../" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
 
-    </aside> <!-- End Sidebar -->
+        </div>
 
-</div> <!-- End Main Content and Sidebar -->
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="..">Doodle World</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
 
 
-<!-- Footer -->
-<footer class="row">
-    <div class="large-12 columns">
-        <hr />
-        <div class="row">
-            <div class="large-6 columns">
-              <!--                  <p>Doodle World by qingyuanxingsi</p> -->
-            </div>
-            </div>
-    </div>
-</footer>
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
+</body>
+</html>
