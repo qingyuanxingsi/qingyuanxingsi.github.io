@@ -1,18 +1,58 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
-    <head>
-        <title>分布式计算与存储系列(序章):初入门径</title>
-        <meta charset="utf-8" />
-        <link rel="stylesheet" href="./theme/css/style.css" type="text/css" />
-        <link href="./feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
-    </head>
-    <body>
-    <h1>分布式计算与存储系列(序章):初入门径</h1>
-    <div class="info">
-     By <a class="url fn" href="#">qingyuanxingsi</a>
-     on <a></a>
-     about <a href="./category/distributed-system.html">Distributed System</a>
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width" />
+
+    <title>分布式计算与存储系列(序章):初入门径</title>
+
+    <link rel="stylesheet" href="./theme/css/normalize.css" />
+    <link rel="stylesheet" href="./theme/css/foundation.min.css" />
+    <link rel="stylesheet" href="./theme/css/style.css" />
+    <link rel="stylesheet" href="./theme/css/pygments.css" />	
+    <script src="./theme/js/custom.modernizr.js"></script>
+</head>
+
+<body>
+
+<!-- Nav Bar -->
+<nav>
+<div class="top-bar">
+<div class="row">
+    <div class="large-9 large-centered columns">
+	    <h1><a href=".">Doodle World</a></h1>
     </div>
+</div>
+</div>
+
+<!-- Show menu items and pages -->
+<div class="row">
+<div class="large-9 columns">
+    <ul class="button-group navigation">
+
+            <li><a href="./pages/about.html" class="button secondary small">About</a></li>
+    </ul>
+</div>
+</div>
+</nav>
+<!-- End Nav -->
+
+
+<!-- Main Page Content and Sidebar -->
+<div class="row">
+
+    <!-- Main Blog Content -->
+    <div class="large-9 columns">
+<article>
+    <header>
+        <h3 class="article-title"><a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="bookmark"
+        title="Permalink to 分布式计算与存储系列(序章):初入门径">分布式计算与存储系列(序章):初入门径</a></h3>
+    </header>
+
+<h6 class="subheader" title="2014-03-11T00:00:00">二 11 三月 2014
+</h6>
+
+
     <p>过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书<a href="http://book.douban.com/subject/25723658/">《大规模分布式存储系统：原理解析与架构实战》</a>,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。</p>
 <h1>概述</h1>
 <hr>
@@ -318,8 +358,78 @@ objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cac
     }
 </script>
 <ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back" class="simple-footnote-back">↩</a></li></ol>
+<p class="subheader">Category: <a href="./category/distributed-system.html">Distributed System</a>
 
-    <div class="copyright info vcard">Design by <a class="fn url"
-    href="http://martyalchin.com">Marty Alchin</a>, <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/us/">some rights reserved</a>. Powered by <a href="http://alexis.notomyidea.org/pelican/">pelican</a></div>
-    </body>
-</html>
+    Tagged: 
+    <a href="./tag/fen-bu-shi-xi-tong.html">分布式系统 </a>
+    <a href="./tag/paxos.html">Paxos </a>
+    <a href="./tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法 </a>
+</p>
+
+
+
+
+	<h4>Comments</h4>
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'qingyuanxingsi'
+        var disqus_identifier = "fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html";
+        var disqus_url = "./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html";
+
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</article>
+    </div>
+    <!-- End Main Content -->
+
+    <!-- Sidebar -->
+    <aside class="large-3 columns">
+        <h5 class="sidebar-title">Site</h5>
+        <ul class="side-nav">
+            <li><a href="./archives.html">Archives</a>
+            <li><a href="./tags.html">Tags</a>
+        </ul>
+
+		
+        <h5 class="sidebar-title">Categories</h5>
+        <ul class="side-nav">
+            <li><a href="./category/distributed-system.html">Distributed System</a></li>
+            <li><a href="./category/life.html">Life</a></li>
+            <li><a href="./category/machine-learning.html">Machine Learning</a></li>
+            <li><a href="./category/viewpoint.html">Viewpoint</a></li>
+   
+        </ul>
+
+        <h5 class="sidebar-title">Links</h5>
+        <ul class="side-nav">
+            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+        </ul>
+		
+        <h5 class="sidebar-title">Social</h5>
+        <ul class="side-nav">
+            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+        </ul>
+
+    </aside> <!-- End Sidebar -->
+
+</div> <!-- End Main Content and Sidebar -->
+
+
+<!-- Footer -->
+<footer class="row">
+    <div class="large-12 columns">
+        <hr />
+        <div class="row">
+            <div class="large-6 columns">
+              <!--                  <p>Doodle World by qingyuanxingsi</p> -->
+            </div>
+            </div>
+    </div>
+</footer>
