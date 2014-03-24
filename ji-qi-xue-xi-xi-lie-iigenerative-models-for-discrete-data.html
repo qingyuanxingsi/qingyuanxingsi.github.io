@@ -1,73 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="">	
 <head>
-
-        <title>机器学习系列(II):Generative models for discrete data</title>
-        <meta charset="utf-8" />
-        <link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Full Atom Feed" />
-        <link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" type="application/atom+xml" rel="alternate" title="Doodle World Categories Atom Feed" />
-
-
-        <!-- Mobile viewport optimized: j.mp/bplateviewport -->
-        <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
-
-        <link rel="stylesheet" type="text/css" href="./theme/gumby.css" />
-        <link rel="stylesheet" type="text/css" href="./theme/style.css" />
-        <link rel="stylesheet" type="text/css" href="./theme/pygment.css" />
-
-        <script src="./theme/js/libs/modernizr-2.6.2.min.js"></script>
-
-
-
-
-
-
+	<meta charset="utf-8"/>
+	<title>机器学习系列(II):Generative models for discrete data - Doodle World</title>	
+	<meta name="author" content="qingyuanxingsi">
+	
+	<meta name="HandheldFriendly" content="True">
+	<meta name="MobileOptimized" content="320">
+	<meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0">
+	
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:700,400|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="./theme/css/main.css" type="text/css" />
+		
+	<!--[if lt IE 9]>
+		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+	
+	<link href="./" type="application/atom+xml" rel="alternate" title="Doodle World ATOM Feed" />
 </head>
-
-<body id="index" class="home">
-
-
-    <div class="container">
-
-        <div class="row">
-
-          <header id="banner" class="body">
-                  <h1><a href=".">Doodle World <strong></strong></a></h1>
-          </header><!-- /#banner -->
-
-            <div id="navigation" class="navbar row">
-              <a href="#" gumby-trigger="#navigation &gt; ul" class="toggle"><i class="icon-menu"></i></a>
-             
-              <ul class="columns">
-                <li><a href=".">Home</a></li>
-
-                <li><a href="./pages/about.html">About</a></li>
-
-              </ul>
-            </div>
-
-<section id="content" class="body">
-
-   <div class="row">
-        <div class="eleven columns">
-
-
-            <header>
-              <h2 class="entry-title">
-                <a href="./ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="bookmark"
-                   title="Permalink to 机器学习系列(II):Generative models for discrete data">机器学习系列(II):Generative models for discrete data</a></h2>
-           
-            </header>
-            <footer class="post-info">
-              <abbr class="published" title="2014-03-04T00:00:00">
-                二 04 三月 2014
-              </abbr>
-              <address class="vcard author">
-                By <a class="url fn" href="./author/qingyuanxingsi.html">qingyuanxingsi</a>
-              </address>
-            </footer><!-- /.post-info -->
-            <div class="entry-content">
-              <h1>博客若干事</h1>
+	
+<body>		
+	<header class="clearfix" role="banner">
+		<div class="wrapper">
+			<h1 class="huge"><a href=".">Doodle World</a></h1>
+		</div>
+	</header>
+	
+<div role="main" class="content clearfix">	
+	<article>
+		<div class="post wrapper">
+			<h1>机器学习系列(II):Generative models for discrete data</h1>
+			<h1>博客若干事</h1>
 <hr />
 <h2>博客更新</h2>
 <p>根据目前的学习进度、自己的空闲时间以及时间的充裕度，现将博客的更新时间定于周三，更新周期为每一周或者两周更新一次。另由于目前自己对于Latex公式还不是特别熟，所以博文中的公式可能会出现部分错误，请大家谅解。此外，博客刚刚创建，很多东西都在完善当中，包括博客的插件，博文的排版等等，这些方面之后会慢慢完善，目前已开放的功能仅基本支持博文的显示以及评论。</p>
@@ -284,122 +248,61 @@ I(X;Y) = H(X)-H(X|Y) = H(Y)-H(Y|X)
     }
 </script>
 
-            </div><!-- /.entry-content -->
-            <div class="comments">
-              <h3>Comments</h3>
-              <div id="disqus_thread"></div>
-              <script type="text/javascript">
-                var disqus_identifier = "ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html";
-                (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = 'http://qingyuanxingsi.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                })();
-              </script>
-            </div>
-
-
-        </div><!-- /.eleven.columns -->
-        
-<div class="three columns">
-
-<h4>Pages</h4>
-
- <ul>
-      <li><a href="./pages/about.html">About</a></li>
-  </ul>
-
-<h4>Categories</h4>
-<ul>
-		<li><a href="./category/distributed-system.html">Distributed System</a></li>
-		<li><a href="./category/life.html">Life</a></li>
+			
+			<a href="https://twitter.com/share" class="twitter-share-button" data-via="" data-lang="en" data-size="large" data-related="">Tweet</a>
+			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+						
+			<div class="comments">
+			<h2>Comments !</h2>
+			    <div id="disqus_thread"></div>
+			    <script type="text/javascript">
+			       var disqus_identifier = "ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html";
+			       (function() {
+			       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			       dsq.src = '//qingyuanxingsi.disqus.com/embed.js';
+			       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			      })();
+			    </script>
+			</div>
+			
+		</div>
+	
+<div class="meta wrapper">
+	<time datetime="2014-03-04T00:00:00" pubdate>二 04 三月 2014</time>
+	<ul class="tag clearfix">
 		<li><a href="./category/machine-learning.html">Machine Learning</a></li>
-		<li><a href="./category/viewpoint.html">Viewpoint</a></li>
-</ul>
-
-
-<h4>Tags</h4>
-	<ul>
-	    <li class="tag-4"><a href="./tag/yarn.html">YARN</a></li>
-	    <li class="tag-4"><a href="./tag/mutual-information.html">Mutual Information</a></li>
-	    <li class="tag-4"><a href="./tag/fen-bu-shi-xi-tong.html">分布式系统</a></li>
-	    <li class="tag-4"><a href="./tag/gaussian-models.html">Gaussian Models</a></li>
-	    <li class="tag-4"><a href="./tag/designing-patterns.html">Designing Patterns</a></li>
-	    <li class="tag-4"><a href="./tag/state-machine.html">State Machine</a></li>
-	    <li class="tag-2"><a href="./tag/generative-models.html">Generative Models</a></li>
-	    <li class="tag-4"><a href="./tag/classfication.html">Classfication</a></li>
-	    <li class="tag-4"><a href="./tag/hadoop.html">Hadoop</a></li>
-	    <li class="tag-4"><a href="./tag/rpc.html">RPC</a></li>
-	    <li class="tag-4"><a href="./tag/jia-wu.html">甲午</a></li>
-	    <li class="tag-4"><a href="./tag/paxos.html">Paxos</a></li>
-	    <li class="tag-1"><a href="./tag/machine-learning.html">Machine Learning</a></li>
-	    <li class="tag-4"><a href="./tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a></li>
-	    <li class="tag-4"><a href="./tag/o2o.html">O2O</a></li>
-	    <li class="tag-4"><a href="./tag/reactor-pattern.html">Reactor Pattern</a></li>
-	    <li class="tag-4"><a href="./tag/hu-lian-wang.html">互联网</a></li>
-	    <li class="tag-4"><a href="./tag/sui-bi.html">随笔</a></li>
-</ul>
-
-
-<nav class="widget">
-  <h4>Social</h4>
-  <ul>
-    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-  </ul>
-</nav>
-
-</div> </div><!-- /.row -->
-
-
-</section>
-
-       </div><!-- /.row -->
-    </div><!-- /.container -->
-
-
-       <div class="container.nopad bg">
-
-    
-        <footer id="credits" class="row">
-          <div class="seven columns left-center">
-
-                   <address id="about" class="vcard body">
-                    Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                    which takes great advantage of <a href="http://python.org">Python</a>.
-                    <br />
-                    Based on the <a target="_blank" href="http://gumbyframework.com">Gumby Framework</a>
-                    </address>
-          </div>
-
-
-          <div class="seven columns">
-            <div class="row">
-              <ul class="socbtns">
-
-                <li><div class="btn primary"><a href="https://github.com/qingyuanxingsi" target="_blank">Github</a></div></li>
-
-
-
-
-              </ul>
-            </div>
-          </div>
-        </footer>
-
-    </div>
-
-
-<script type="text/javascript">
-    var disqus_shortname = 'qingyuanxingsi';
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-</script>
-  <script src="./theme/js/libs/jquery-1.9.1.min.js"></script>
-  <script src="./theme/js/libs/gumby.min.js"></script>
-  <script src="./theme/js/plugins.js"></script>
+		<li><a href="./tag/machine-learning.html">Machine Learning</a></li>
+		<li><a href="./tag/classfication.html">Classfication</a></li>
+		<li><a href="./tag/generative-models.html">Generative Models</a></li>
+		<li><a href="./tag/mutual-information.html">Mutual Information</a></li>
+	</ul>
+</div>	</article>	
+</div>
+	
+		
+<footer class="clearfix">
+	<div class="wrapper pages">
+		<ul class="nav">
+			<li><a href="./pages/about.html">About</a></li>
+			<li><a href="./archives.html">Archive</a></li>
+		</ul>
+	</div>
+	
+	<div class="copy wrapper">
+		<ul class="social">
+			<li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+		</ul>
+	
+		<p role="contentinfo">© 2012 qingyuanxingsi<br>
+		Proudly powered by <a href="http://alexis.notmyidea.org/pelican/">Pelican</a>.</p>
+	</div>
+</footer>
+	
+	<script>
+	  var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];
+	  (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+	  g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+	  s.parentNode.insertBefore(g,s)}(document,'script'));
+	</script>
 </body>
 </html>
