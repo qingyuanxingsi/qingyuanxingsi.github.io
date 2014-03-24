@@ -1,58 +1,58 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <!-- Set the viewport width to device width for mobile -->
-    <meta name="viewport" content="width=device-width" />
+        <title>Doodle World - Machine Learning</title>
+        <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="shortcut icon" href="http://launchyard.com/images/favicon.png"/>
+        <link rel="stylesheet" href="../theme/css/main.css" type="text/css" />
+        <link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Doodle World Atom Feed" />
 
-    <title>Doodle World - Machine Learning</title>
+        <!--[if IE]>
+                <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
-    <link rel="stylesheet" href="../theme/css/normalize.css" />
-    <link rel="stylesheet" href="../theme/css/foundation.min.css" />
-    <link rel="stylesheet" href="../theme/css/style.css" />
-    <link rel="stylesheet" href="../theme/css/pygments.css" />	
-    <script src="../theme/js/custom.modernizr.js"></script>
+        <!--[if lte IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="../css/ie.css"/>
+                <script src="../js/IE8.js" type="text/javascript"></script><![endif]-->
+
+        <!--[if lt IE 7]>
+                <link rel="stylesheet" type="text/css" media="all" href="../css/ie6.css"/><![endif]-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js" type="text/javascript"></script>
+
+
 </head>
 
-<body>
+<body id="index" class="home">
+<a href="https://github.com/qingyuanxingsi">
+<img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" />
+</a>
+	
+  <!--      <header id="banner" class="body">
+                <h1><a href="../"><img src="http://www.launchyard.com/images/logo.png" /></a></h1>
+        </header> -->
+<!-- /#banner -->
+	      <div class="LaunchyardDetail"><p><a href="../"></a><img src="http://www.launchyard.com/images/LY-identity.png" width="100" height="100" alt="LaunchYard logo"><br/>LaunchYard helps launch startups<br/><a href="http://launchyard.com/" >Learn more &rarr;</a></p></div>
 
-<!-- Nav Bar -->
-<nav>
-<div class="top-bar">
-<div class="row">
-    <div class="large-9 large-centered columns">
-	    <h1><a href="..">Doodle World</a></h1>
-    </div>
-</div>
-</div>
-
-<!-- Show menu items and pages -->
-<div class="row">
-<div class="large-9 columns">
-    <ul class="button-group navigation">
-
-            <li><a href="../pages/about.html" class="button secondary small">About</a></li>
-    </ul>
-</div>
-</div>
-</nav>
-<!-- End Nav -->
-
-
-<!-- Main Page Content and Sidebar -->
-<div class="row">
-
-    <!-- Main Blog Content -->
-    <div class="large-9 columns">
         
         
 
-            <article>
-                <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><h3 class="article-title">机器学习系列(III):Gaussian Models</h3></a>
-<h6 class="subheader" title="2014-03-15T00:00:00">六 15 三月 2014
-</h6>
+    
+            <aside id="featured">
+                <div class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">机器学习系列(III):Gaussian Models</a></h1>
+<div class="post-info">
+	<ul>
+        <li class="vcard author">
+                 by&nbsp;<a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </li>
+        <li class="published" title="2014-03-15T00:00:00">
+          on&nbsp;六 15 三月 2014
+        </li>
 
-
-<p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
+	</ul>
+<p>Category: <a href="../tag/machine-learning.html">Machine Learning</a><a href="../tag/gaussian-models.html">Gaussian Models</a><a href="../tag/generative-models.html">Generative Models</a></p>
+</div><!-- /.post-info --><p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
 <h1>MLE for MVN</h1>
 <hr>
 <h2>Basics about MVN</h2>
@@ -453,122 +453,529 @@ S_N^{-1} &amp;= S_0+S_{\mu}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol><p class="subheader">Category: <a href="../category/machine-learning.html">Machine Learning</a>
-
-    Tagged: 
-    <a href="../tag/machine-learning.html">Machine Learning </a>
-    <a href="../tag/gaussian-models.html">Gaussian Models </a>
-    <a href="../tag/generative-models.html">Generative Models </a>
-</p>
-
-
-
-<p><a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html#disqus_thread">comments</a></p>            </article>
-
-
-                <hr  class="gradient"/>
-
-
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol>
+                    </article>
+                </div>
+            </aside><!-- /#featured -->
+            
+        
         
 
+    
+            <aside id="featured">
+                <div class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a></h1>
+<div class="post-info">
+	<ul>
+        <li class="vcard author">
+                 by&nbsp;<a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </li>
+        <li class="published" title="2014-03-04T00:00:00">
+          on&nbsp;二 04 三月 2014
+        </li>
 
-            <article>
-                <a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"><h3 class="article-title">机器学习系列(II):Generative models for discrete data</h3></a>
-<h6 class="subheader" title="2014-03-04T00:00:00">二 04 三月 2014
-</h6>
+	</ul>
+<p>Category: <a href="../tag/machine-learning.html">Machine Learning</a><a href="../tag/classfication.html">Classfication</a><a href="../tag/generative-models.html">Generative Models</a><a href="../tag/mutual-information.html">Mutual Information</a></p>
+</div><!-- /.post-info --><h1>博客若干事</h1>
+<hr />
+<h2>博客更新</h2>
+<p>根据目前的学习进度、自己的空闲时间以及时间的充裕度，现将博客的更新时间定于周三，更新周期为每一周或者两周更新一次。另由于目前自己对于Latex公式还不是特别熟，所以博文中的公式可能会出现部分错误，请大家谅解。此外，博客刚刚创建，很多东西都在完善当中，包括博客的插件，博文的排版等等，这些方面之后会慢慢完善，目前已开放的功能仅基本支持博文的显示以及评论。</p>
+<p>由于机器学习领域问题一般涉及公式较多，目前采取的渲染方式是通过相应的JS插件，导致的直接后果是页面的载入速度较慢，这方面以后可能将公式转换为图片然后输出。</p>
+<p>好吧，博客方面要说的就这么多吧。</p>
+<h2>机器学习浅谈</h2>
+<p>机器学习要研究的问题无非有四:</p>
+<ul>
+<li>为什么要学习?</li>
+<li>学习什么？</li>
+<li>怎么学习？</li>
+<li>怎么更好地学习？</li>
+</ul>
+<blockquote>
+<p>也许所有的理论，所有的事无非要解决的就是这四件事吧，为什么、做什么、怎么做、怎么做好。(作者注)</p>
+</blockquote>
+<p>大概所有的思想、理论、模型大致是围绕这四个方向进行的，而且这四个问题都得到了较好的解决。以上这些理论比较繁杂，而且我也没完全弄懂，所以咱们慢慢啃吧。</p>
+<p>今天我们要谈的是主要是生成模型，与之对应的则是判别模型。生成模型和判别模型的区别在于：</p>
+<ul>
+<li>生成模型首先计算联合概率分布$p(x,y)$,然后据此计算$p(y|x)$;而判别模型往往直接计算$p(y|x)$;</li>
+<li>生成模型关注数据是怎么生成的，然后进行预测；判别模型不关注数据的具体生成过程，直接预测。</li>
+</ul>
+<p>本文主要介绍针对离散数据的生成模型，限于篇幅，本文仅对其中其中的两个模型进行介绍------Dirichlet-Multinomial Model以及朴素贝叶斯分类器，Dirichlet-Multinomial Model被广泛使用在各种语言模型中，而朴素贝叶斯分类器最为人所知的应用大概就是垃圾邮件过滤(Spam Filtering)了吧。</p>
+<p>以下我们正式开始介绍这两个模型。</p>
+<h1>Dirichlet-multinomial Model</h1>
+<hr />
+<p>我们现在要Model的问题很简单，假设现有一个$K$面的骰子，我们需要推断它出现第$k$面的概率。</p>
+<h2>Likelihood</h2>
+<p>假设我们掷骰子$N$次，$D={x_1,...,x_N}$,其中，$x_i\in {1,...,K}$.我们假设数据是独立同分布的(iid),Likelihood则有如下形式：
+\begin{equation}
+p(D|\theta) = \prod_{k=1}^{K}\theta_k^{N_k}
+\end{equation}
+其中，$N_k = \sum_{i=1}^{N}1_{y_i=k}$是第$k$面出现的次数。(1为指示函数，下同)</p>
+<h2>先验分布</h2>
+<p><code>Machine Learning:A probabilistic perspective</code>一书告诉我们如果先验分布和Likelihood的形式相同(共轭先验分布，conjugate prior)时，能够很好的简化我们的计算过程。基于此理，我们选择Dirichlet分布作为我们的先验分布，Dirichlet分布具有如下形式:
+\begin{equation}
+Dir(\theta|\alpha) = \frac{1}{B(\alpha)}\prod_{k=1}^{K} \theta_k^{\alpha_k-1}1_{x \in S_k}
+\end{equation}</p>
+<h2>后验分布</h2>
+<p>将Likelihood乘以Prior，后验分布的形式告诉我们后验分布也服从Dirichlet Distribution:
+\begin{equation}
+p(\theta|D)     \propto p(D|\theta)p(\theta)    \
+                \propto \prod_{k=1}^{K} \theta_k^{N_k}\theta_{k}^{\alpha_k-1}=\prod_{k=1}^{K}\theta_k^{\alpha_k+N_k-1} \
+                =Dir(\theta|\alpha_1+N_1,...,\alpha_K+N_K)
+\end{equation}
+现在我们计算关于参数$\theta$的极大后验估计(MAP),其中,$\sum_{k}\theta_k=1$.
+引入Lagrange乘子之后我们需要优化的目标函数为:
+\begin{equation}
+l(\theta,\lambda) = \sum_{k} N_klog\theta_k+\sum_{k}(\alpha_k-1)log\theta_k+\lambda(1-\sum_{k}\theta_k)
+\end{equation}
+为简便起见，记$N\prime_k\triangleq N_k+\alpha_k-1$.对$\lambda$求导得：
+\begin{equation}
+\frac{\partial l}{\partial \lambda}=(1-\sum_{k}\theta_k) = 0
+\end{equation}
+对$\theta_k$求导得，
+\begin{equation}
+\frac{\partial l}{\partial \theta_k}=\frac{N\prime_k}{\theta_k}-\lambda=0 \
+N\prime_k = \lambda\theta_k
+\end{equation}
+由上两式得：
+\begin{equation}
+\sum_{k} N\prime_k = \lambda\sum_{k}\theta_k  \
+N+\alpha_0-K=\lambda
+\end{equation}
+其中，$\alpha_0\triangleq \sum_{k=1}^{K}\alpha_k$是先验的有效样本大小。因此我们可以得出极大后验估计值为：
+\begin{equation}
+\hat{\theta}_k=\frac{N_k+\alpha_k-1}{N+\alpha_0-K}
+\end{equation}
+如果采用uniform prior $\alpha_k=1$，这时得到的最大后验估计值即与经验值相同。
+\begin{equation}
+\hat{\theta_k} = \frac{N_k}{N}
+\end{equation}</p>
+<h2>Posterior predicative</h2>
+<p>\begin{equation}
+p(X=j|D) = \int P(X=j|\theta)p(\theta|D)d\theta \
+=\int P(X=j|\theta_j)[\int p(\theta_{-j},\theta_j|D)d\theta{-j}]d\theta_j \
+=\int \theta_jp(\theta_j|D)d\theta_j=E[\theta_j|D] = \frac{\alpha_j+N_j}{\sum_{k}\alpha_k+N_k}=\frac{\alpha_j+N_j}{\alpha_0+N}
+\end{equation}
+其中，$\theta_{-j}$代表$\theta$中除$\theta_j$之外的所有分量。</p>
+<h2>Example</h2>
+<p>上述模型的一个很重要的应用场景是语言模型，即预测一个序列中下一个可能出现的词。以下我们举一个非常简单的例子，我们假定每一个词$X_i \in {1,...,K}$都是通过$Cat(\theta)$独立取样得到的，该模型被称为bag of words model.给定一已知的样本序列，我们需要预测下一个最可能出现的是什么词?</p>
+<p>如，假设我们取样得到如下样本:</p>
+<div class="highlight"><pre><span class="n">Mary</span> <span class="n">had</span> <span class="n">a</span> <span class="n">little</span> <span class="n">lamb</span><span class="p">,</span><span class="n">little</span> <span class="n">lamb</span><span class="p">,</span><span class="n">little</span> <span class="n">lamb</span><span class="p">,</span>
+<span class="n">Mary</span> <span class="n">had</span> <span class="n">a</span> <span class="n">little</span> <span class="n">lamb</span><span class="p">,</span> <span class="n">its</span> <span class="n">fleece</span> <span class="n">as</span> <span class="n">white</span> <span class="n">as</span> <span class="n">snow</span>
+</pre></div>
 
 
-<p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p><p class="subheader">Category: <a href="../category/machine-learning.html">Machine Learning</a>
+<p>另外，我们假设我们的字典中有如下词:</p>
+<p><img alt="words" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/APPLE/Markdown/words_zps55d01c8c.png" /></p>
+<p>这里unk代表unknown，表示未在样本中出现过的所有词。为了给上述样本中的每一行进行编码，我们先从采样样本中去掉标点符号以及<code>停用词</code>(即没有实际意义的词，一般只是各种助词等),如，a,as,the等。此外我们还需要对所有的词进行处理仅得到其词根，如saw处理为see，running处理为run等。最后，我们对每一行进行索引编号,得到如下结果:</p>
+<p><img alt="index" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/APPLE/Markdown/index_zpsba0a3fb0.png?t=1393987077" /></p>
+<p>这里我们不考虑词序，仅考虑每个词在样本中出现的次数。统计得到如下结果:</p>
+<p><img alt="token_count" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/APPLE/Markdown/token_count_zps1876920b.png?t=1393987078" /></p>
+<p>将以上每个计数值记为$N_j$,如果对于$\theta$我们采用Dirichlet先验分布，则有:</p>
+<p>\begin{equation}
+P(\bar{X}_j|D)=E[\theta_j|D]=\frac{\alpha_j+N_j}{\sum_t \alpha_t+N_t}=\frac{1+N_j}{10+17}
+\end{equation}</p>
+<p>通过代入每一个计数值，我们便能得出每个词出现的概率。至此，我们得到了该语言模型的所有参数，进而可以进行各种预测。</p>
+<h1>Naive Bayes Classifier</h1>
+<hr />
+<h2>引子</h2>
+<p>朴素贝叶斯分类是一种十分简单的分类算法，它的思想很naive,但是其实际应用效果还是不错的。所以一个模型的好坏并非在于其复杂度，而在于我们是否将它用到了正确的地方，就算一个非常Naive的模型，如果用在了恰当的地方，也能产生很好的效果。具体就机器学习算法而言，只有真正对一个算法的特性、适用条件、优缺点有非常深刻的理解，才能真正把机器学习算法或模型用好。朴素贝叶斯的思想基础是这样的：对于给出的待分类项，求解在此项出现的条件下各个类别出现的概率，哪个最大，就认为此待分类项属于哪个类别。通俗来说，就好比这么个道理，你在街上看到一个黑人，我问你你猜这哥们哪里来的，你十有八九猜非洲。为什么呢？因为黑人中非洲人的比率最高，当然人家也可能是美洲人或亚洲人，但在没有其它可用信息下，我们会选择条件概率最大的类别，这就是朴素贝叶斯的思想基础。</p>
+<p>引用<a href="http://www.cnblogs.com/leoo2sk/archive/2010/09/17/naive-bayesian-classifier.html">CodingLabs</a>提到的一个例子来抛出我们的问题，并以此为基础介绍我们的模型:</p>
+<div class="highlight"><pre><span class="err">对于</span><span class="n">SNS</span><span class="err">社区来说，不真实账号（使用虚假身份或用户的小号）是一个普遍存在的问题，作为</span><span class="n">SNS</span><span class="err">社区的运营商，希望可以检测出这些不真实账号，从而在一些运营分析报告中避免这些账号的干扰，亦可以加强对</span><span class="n">SNS</span><span class="err">社区的了解与监管。</span>
+<span class="err">如果通过纯人工检测，需要耗费大量的人力，效率也十分低下，如能引入自动检测机制，必将大大提升工作效率。这个问题说白了，就是要将社区中所有账号在真实账号和不真实账号两个类别上进行分类。</span>
+<span class="err">首先设</span><span class="n">C</span><span class="o">=</span><span class="mi">0</span><span class="err">表示真实账号，</span><span class="n">C</span><span class="o">=</span><span class="mi">1</span><span class="err">表示不真实账号。</span>
+<span class="err">假设我们目前确定能作为评判用户帐号是否真实的特征属性有如下几个</span><span class="o">:</span><span class="p">(</span><span class="err">实际上在机器学习领域确定特征属性是一项特别重要且复杂的工作，我们这里为了简化，直接给出本问题的特征属性</span><span class="p">)</span>
+<span class="n">F1</span><span class="err">：日志数量</span><span class="o">/</span><span class="err">注册天数；</span><span class="n">F2</span><span class="err">：好友数量</span><span class="o">/</span><span class="err">注册天数；</span><span class="n">F3</span><span class="err">：是否使用真实头像。在</span><span class="n">SNS</span><span class="err">社区中这三项都是可以直接从数据库里得到或计算出来的。</span><span class="p">(</span><span class="err">对这些属性进行区间划分保证这些属性取离散值</span><span class="p">)</span>
+<span class="err">接下来的工作是我们从数据库得到了一些新的记录，给出了如上三个特征，我们需要预测这些用户是否真实的用户。</span>
+</pre></div>
 
-    Tagged: 
-    <a href="../tag/machine-learning.html">Machine Learning </a>
-    <a href="../tag/classfication.html">Classfication </a>
-    <a href="../tag/generative-models.html">Generative Models </a>
-    <a href="../tag/mutual-information.html">Mutual Information </a>
-</p>
+
+<h2>Introduction to Naive Bayes Classifier</h2>
+<p>Naive Bayes Classifier要解决的问题是对于具有D个特征属性，每个属性可以取${1,...,K}$中任意一个值的样本进行分类，即$x \in {1,...,K}^D$。朴素贝叶斯分类器是一个生成模型，我们需要计算关于类别的条件概率$p(x|y=c)$.朴素贝叶斯假定给定类别c的条件下，各特征属性之间是相互独立的。于是我们有:
+\begin{equation}
+p(x|y=c,\theta) = \prod_{j=1}^{D} p(x_j|y=c,\theta{jc})
+\end{equation}
+我们得到的模型即为Naive Bayes Classifier(NBC).在上面的SNS真实用户检测的例子中，C=2,D=3。</p>
+<p>Naive Bayes Classifier的基本算法流程如下所示:</p>
+<div class="highlight"><pre><span class="n">Algorithm</span> <span class="mf">2.2</span> <span class="n">Naive</span> <span class="n">Bayes</span> <span class="n">Classifier</span><span class="err">算法框架</span>
+<span class="mf">1.</span>  <span class="err">根据得到的样本数据计算在每一可能的类别下各属性取值的条件概率，即计算</span><span class="n">p</span><span class="p">(</span><span class="n">x</span><span class="o">|</span><span class="n">y</span><span class="o">=</span><span class="n">c</span><span class="p">);</span>
+<span class="mf">2.</span>  <span class="err">根据计算得到的条件概率计算新样本属于各个类别的概率，即计算</span><span class="n">p</span><span class="p">(</span><span class="n">y</span><span class="o">|</span><span class="n">x</span><span class="o">*</span><span class="p">);</span>
+<span class="mf">3.</span>  <span class="err">比较计算得到的新样本属于不同类别的概率值，选择值最大的那个类别作为新样本的类别。</span>
+</pre></div>
 
 
+<p>这里不给出针对具体数据的计算过程，想了解具体每一步怎么算的亲们请参考<a href="http://www.cnblogs.com/leoo2sk/archive/2010/09/17/naive-bayesian-classifier.html">算法杂货铺——分类算法之朴素贝叶斯分类(Naive Bayesian classification)</a>。</p>
+<h1>Mutual Information</h1>
+<hr />
+<p>NBC需要计算关于很多特征的联合概率分布，可能会导致过拟合；此外，算法的运行时间是$O(CD)$,对于有些应用来说可能计算量太大了。一个解决上述问题的普遍被采用的方案是进行特征选取，去掉和分类无关的无用属性。最简单的方法是考察每个特征与分类属性之间的相关性，并权衡复杂性以及准确度选取K个最相关的属性用于训练。该方法被称为<code>variable ranking,filtering,or screening</code></p>
+<p>衡量相关性的一种方式是通过互信息，如下:
+\begin{equation}
+I(X,Y)=\sum_{x_j}\sum_{Y}P(x_j,y)log\frac{p(x_j,Y)}{p(x_j)p(y)}
+\end{equation}
+互信息可被理解为当我们观察到特征$x_j$时对于分类属性造成的熵减。对每个特征属性分别计算互信息后，选取较大的若干个用于训练即可。</p>
+<h1>Appendix I:Mutual Information</h1>
+<h2>KL divergence</h2>
+<p>衡量两个概率分布$p$和$q$差异性的一种方法是KL距离(Kullback-Leibler divergence or relative entropy).定义如下:
+\begin{equation}
+KL(p||q)\triangleq \sum_{k=1}^{K} p_klog\frac{p_k}{q_k}
+\end{equation}
+上式可以改写为:
+\begin{equation}
+KL(p||q) \triangleq \sum_{k}p_klogp_k-\sum_{k}p_klogq_k = -H(p)+H(p,q)
+\end{equation}
+其中，$H(p,q)$称为联合熵，定义为:
+\begin{equation}
+H(p,q)\triangleq -\sum_{k}p_klogq_k
+\end{equation}
+其实，联合熵可被理解为用分布$q$编码来自分布$p$的数据时所需要的最小位数，$H(p)$即是用本身分布编码本身信息所需要的最小比特位数，因此KL距离的含义即是使用$q$编码来自$p$的信息相对于分布$p$本身而言多需要的位数。</p>
+<blockquote>
+<p>Theorem 2.1 $KL(p,q) \ge 0$,且当且仅当$p=q$时等号成立；</p>
+<p>为证明上式，我们引入琴生不等式，即任意凸函数$f$,有:
+\begin{equation}
+f(\sum_{i=1}^{n}\lambda_ix_i) \le \sum_{i=1}^{n}\lambda_if(x_i)
+\end{equation}
+其中$\lambda_i\ge 0,\sum_{i=1}^{n}\lambda_i=1$</p>
+<p>Proof:
+\begin{equation}
+-KL(p||q)=-\sum_{x \in A}p(x)log\frac{p(x)}{q(x)}=-\sum_{x \in A}p(x)log\frac{q(x)}{p(x)} \
+\le log \sum_{x \in A}p(x)log\frac{q(x)}{p(x)}=log \sum_{x \in A} q(x) \
+\le log \sum_{x \in X}q(x)=log 1=0
+\end{equation}</p>
+</blockquote>
+<p>另外一个重要的推论是离散分布中一致分布的熵最大，即$H(X) \le log |X|$.</p>
+<p>\begin{equation}
+0 \le KL(q||u) = \sum_{x} p(x)log \frac{p(x)}{u(x)} \
+= \sum_{x}p(x)logp(x)-\sum_{x}p(x)logu(x) = -H(X)+log|X|
+\end{equation}
+该式是Laplace不充分理由原则的公式表示，它的含义是当没有其他理由证明其他分布好于一致分布时，应当采用一致分布。</p>
+<h2>Mutual Information</h2>
+<p>考察两个随机变量，$X$和$Y$。假如我们想知道一个变量包含关于另一变量的多少信息，我们可以计算相关系数，但那只针对实数随机变量而言。一个更通用的办法是衡量联合分布和分布乘积的相关性，即MI.定义如下：
+\begin{equation}
+I(X;Y) \triangleq KL((p(X,Y)||p(X)p(Y)) = \sum_{x}\sum_{y}p(x,y)log\frac{p(x,y)}{p(x)p(y)}
+\end{equation}
+$I(X;Y) \ge 0 $成立且当且仅当$p(X,Y=P(X)P(Y)$时取等。</p>
+<blockquote>
+<p>\begin{equation}
+I(X;Y) = H(X)-H(X|Y) = H(Y)-H(Y|X)
+\end{equation}
+其中，减式的后半部分称为条件熵，证明此处从略。</p>
+</blockquote>
+<h1>参考文献</h1>
+<ol>
+<li><a href="http://www.cnblogs.com/leoo2sk/archive/2010/09/17/naive-bayesian-classifier.html">算法杂货铺——分类算法之朴素贝叶斯分类(Naive Bayesian classification)</a></li>
+</ol><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
 
-<p><a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html#disqus_thread">comments</a></p>                <a class="button radius secondary small right" href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
+                    </article>
+                </div>
+            </aside><!-- /#featured -->
+            
+        
         
 
+    
+            <aside id="featured">
+                <div class="body">
+                    <article>
+                        <h1 class="entry-title"><a href="../Decision Tree.html">机器学习系列(I):决策树算法</a></h1>
+<div class="post-info">
+	<ul>
+        <li class="vcard author">
+                 by&nbsp;<a class="url fn" href="../author/qingyuanxingsi.html">qingyuanxingsi</a>
+        </li>
+        <li class="published" title="2014-03-03T00:00:00">
+          on&nbsp;一 03 三月 2014
+        </li>
 
-            <article>
-                <a href="../Decision Tree.html"><h3 class="article-title">机器学习系列(I):决策树算法</h3></a>
-<h6 class="subheader" title="2014-03-03T00:00:00">一 03 三月 2014
-</h6>
+	</ul>
+<p>Category: <a href="../tag/machine-learning.html">Machine Learning</a></p>
+</div><!-- /.post-info --><h1>写在前面</h1>
+<hr />
+<p>好吧，今天我的博客在线下默默地开张了，花了好长时间才把中文显示的问题解决。言归正传，之所以开通这个博客，原因有二：</p>
+<ul>
+<li>对已经学过的知识进行梳理，保证学习过程的稳步前进；</li>
+<li>敦促自己每周有一定的学习目标,以更好地推进自己的学习.</li>
+</ul>
+<p>关于这个博客其他的我就不说了，如果你觉得这个博客有点用，你愿意花点时间看看，我会灰常感激滴。如果你觉得这个博客没什么用，直接忽略就好。此外，这篇博客所有内容均host在Github上，本着分享，协作的精神，如果你愿意而且有时间欢迎投稿至qingyuanxingsi@163.com,I would be much glad to receive your mails.</p>
+<h1>简介</h1>
+<hr />
+<h2>二三闲话</h2>
+<p>这是本博客的第一篇博文，也是第一篇关于机器学习方面的博文，因此我想扯些闲话。就我而言，我觉得所有的机器学习算法并不只是模型本身那么简单，背后其实还有一些别的东西，从某种角度来说，它们也是模型的创立者认识世界的方式。</p>
+<p>举贝叶斯为例，从他的模型中可能能推断出他也许认为万物皆有联系，所有的事物都不是孤立的，都是相互联系，相互影响的。一个事物的改变会引起其他事物的相应变化，世界是一个相互联系的整体。另，我经常听到人们抱怨这个世界不公平，这个世界并不是他们想要的那种模样；或者说自从多年前姚晨和凌潇肃离婚之后，好多人都不再相信爱情了(just a joke）。虽然说这是生活中再平常不过的桥段，从这两个例子中，也许我们能看到另外一些东西，我们很久很久以前都对这个世界有一些先入为主的认识(<strong>prior</strong>),我们愿意相信这个世界是公平的，爱情是非常美好的一件事。后来，慢慢的我们发现这个世界其实有很多不公平的事，我们发现这个世界里的爱情没我们想象的那么美好，我们看到了一些真实世界实实在在存在的事情(<strong>data</strong>),于是我们对于这个世界的认识发生了改变，我们开始相信一些原来不相信的事情，对我们之前深信不疑的事情也不再那么确信。(<strong>posterior</strong>)(关于这个模型我们下一次说吧).</p>
+<blockquote>
+<p>曾经相信过爱情，后来知道，原来爱情必须转化为亲情才可能持久，但是转化为亲情的爱情，犹如化入杯水中的冰块──它还是冰块吗？                    <br />
+曾经相信过海枯石烂作为永恒不灭的表征，后来知道，原来海其实很容易枯，石，原来很容易烂。雨水，很可能不再来，沧海，不会再成桑田。原来，自己脚下所踩的地球，很容易被毁灭。海枯石烂的永恒，原来不存在。                   <br />
+...                     <br />
+相信与不相信之间，彷佛还有令人沉吟的深度。(龙应台《相信，不相信》）</p>
+</blockquote>
+<p>举上面例子的目的意在说明其实机器学习算法也许并非就是些模型，就是些数学而已，它也许能给我们提供看待世界的另一种角度，也许能带给我们一些有益的思考。关于闲话就说到这儿，以后我们有时间慢慢扯。</p>
+<h2>Introduction to Decision Trees</h2>
+<p>所谓决策树，顾名思义，是一种树，一种依托于策略抉择而建立起来的树。决策树中非叶节点(非根节点)均是决策节点，决策节点的取值决定了决策树具体下一步跳到那个节点，每个决策节点的分支则分别代表了决策属性可能的取值；每一个叶节点代表了一个分类属性，即决策过程的完成。从根节点到叶节点的每一条路径代表了一个可能的决策过程。</p>
+<p>举个例子，也许大家能对决策树到底是什么有一个更为清楚直观的认识:</p>
+<p>一个非常经典的例子是一个女生找对象的过程，在女孩决定是否相亲的过程中可能产生如下对话:</p>
+<div class="highlight"><pre><span class="err">女儿：多大年纪了？</span>
+<span class="err">母亲：</span><span class="mi">26</span><span class="err">。</span>
+<span class="err">女儿：长的帅不帅？</span>
+<span class="err">母亲：挺帅的。</span>
+<span class="err">女儿：收入高不？</span>
+<span class="err">母亲：不算很高，中等情况。</span>
+<span class="err">女儿：是公务员不？</span>
+<span class="err">母亲：是，在税务局上班呢。</span>
+<span class="err">女儿：那好，我去见见。</span>
+</pre></div>
 
 
-<p>本文作为本博客的第一篇博文，简单说明了创建这个博客的目的；同时作为机器学习系列的第一篇，对决策树中的ID3和C4.5算法进行了梳理，对于ID3算法，我们给出了Python源码实现。</p><p class="subheader">Category: <a href="../category/machine-learning.html">Machine Learning</a>
+<p>这个女孩的决策过程就是典型的分类树决策。相当于通过年龄、长相、收入和是否公务员对将男人分为两个类别：见和不见。假设这个女孩对男人的要求是：30岁以下、长相中等以上并且是高收入者或中等以上收入的公务员，那么这个可以用下图表示女孩的决策逻辑：</p>
+<p><img alt="girl" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/APPLE/Markdown/girl_zpsd5a3cfed.jpg" /></p>
+<p>根据奥卡姆剃刀原则(<code>Simpler is better</code>),我们尽可能想构造得到的决策书尽可能的小。因此，如何选择上图中决策属性是所有决策树算法的核心所在。我们尽量在每一步要有限选取最有分辨能力的属性作为决策属性，以保证树尽可能的小。针对决策树，我们主要介绍两种比较典型的算法ID3以及C4.5,另外CART(Classification and Regression Tree)是另外使用的比较多的算法，商用的版本则有C5.0,它主要针对C4.5算法做了很多性能上的优化。具体针对CART以及C5.0的介绍本文将不再涉及。</p>
+<h1>ID3</h1>
+<hr />
+<h2>ID3算法基本框架</h2>
+<p>ID3算法是一个由Ross Quinlan发明的用于决策树的算法。它是一个启发式算法，具体算法框架可参见《机器学习》一书中的描述，如下所示:
+                       <img alt="ID3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/id3_zpsaa2fe321.jpg" /></p>
+<h2>分裂属性的选取</h2>
+<p>如上图算法框架所示，判断测试某个属性为最佳的分类属性是ID3的核心问题，以下介绍两个比较重要的概念：信息熵和信息增益。</p>
+<h3>信息熵</h3>
+<p>为了精确地定义信息增益，我们先定义信息论中广泛使用的一个度量标准，称为熵(entropy),它刻画了任意样例集的纯度，另一种理解则是用来编码信息所需的最少比特位数。
+\begin{equation}
+Entropy(S) = -\sum_{i=1}^{c} p_ilog(p_i)
+\end{equation}                                    <br />
+其中，$p_i$是属性S属于类别i的概率。</p>
+<h3>信息增益</h3>
+<p>已经有了熵作为衡量训练样例集合纯度的标准，现在可以定义属性分类训练数据的效力的度量标准。这个标准被称为<strong>“信息增益（information gain）”</strong>。简单的说，一个属性的信息增益就是由于使用这个属性分割样例而导致的期望熵降低(或者说，样本按照某属性划分时造成熵减少的期望,个人结合前面理解，总结为用来衡量给定的属性区分训练样例的能力)。更精确地讲，一个属性A相对样例集合S的信息增益$Gain(S,A)$被定义为：
+\begin{equation}
+Gain(S,A)=Entropy(S) - \sum_{v \in S_v} \frac{|S_v|}{|S|}Entropy(S_v)
+\end{equation}                 <br />
+其中：
+    $V(A)$是属性A的值域；
+    $S$是样本集合；
+    $S_v$是S在属性A上取值等于v的样本集合。</p>
+<p>对于上述算法框架中迭代的每一步，针对样本集合S,我们分别算出针对每个可能的属性的信息增益值，并选择值最大的那个对应的属性作为我们该步的分裂属性即可。依次迭代，便能构造我们想要的决策树。</p>
+<h3>Python代码实现</h3>
+<p>实践出真知，磨刀霍霍，我们小小地实现一下。对于以上提到的ID3算法，基于Python我们给出了相应的源码实现，如下:(本博客中所有源码仅是算法思想的一个比较粗略的实现，很多方面还不成熟，特此说明，以后不再提及)</p>
+<div class="highlight"><pre><span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
+<span class="n">import</span> <span class="n">math</span>
+<span class="n">import</span> <span class="n">operator</span>
 
-    Tagged: 
-    <a href="../tag/machine-learning.html">Machine Learning </a>
-</p>
+<span class="n">class</span> <span class="n">DTree_ID3</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">runDT</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">,</span> <span class="n">features</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">classList</span> <span class="o">=</span> <span class="p">[</span><span class="n">sample</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">sample</span> <span class="n">in</span> <span class="n">dataset</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">classList</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="n">classList</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="n">len</span><span class="p">(</span><span class="n">classList</span><span class="p">)</span><span class="o">:</span>
+            <span class="k">return</span> <span class="n">classList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">1</span><span class="o">:</span>
+            <span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">classify</span><span class="p">(</span><span class="n">classList</span><span class="p">)</span>
+
+        <span class="n">max_index</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">Max_InfoGain</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span> <span class="err">##</span><span class="n">index</span>
+        <span class="n">max_fea</span> <span class="o">=</span> <span class="n">features</span><span class="p">[</span><span class="n">max_index</span><span class="p">]</span>
+        <span class="n">myTree</span> <span class="o">=</span> <span class="p">{</span><span class="n">max_fea</span><span class="o">:</span><span class="p">{}}</span>
+        <span class="n">fea_val</span> <span class="o">=</span> <span class="p">[</span><span class="n">sample</span><span class="p">[</span><span class="n">max_index</span><span class="p">]</span> <span class="k">for</span> <span class="n">sample</span> <span class="n">in</span> <span class="n">dataset</span><span class="p">]</span>
+        <span class="n">unique</span> <span class="o">=</span> <span class="n">set</span><span class="p">(</span><span class="n">fea_val</span><span class="p">);</span>    
+        <span class="n">del</span> <span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">max_index</span><span class="p">])</span> 
+        <span class="k">for</span> <span class="n">values</span> <span class="n">in</span> <span class="n">unique</span><span class="o">:</span>          
+            <span class="n">sub_dataset</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">splitDataSet</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">max_index</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>         
+            <span class="n">myTree</span><span class="p">[</span><span class="n">max_fea</span><span class="p">][</span><span class="n">values</span><span class="p">]</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">runDT</span><span class="p">(</span><span class="n">sub_dataset</span><span class="p">,</span><span class="n">features</span><span class="p">)</span> 
+        <span class="n">features</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="n">max_index</span><span class="p">,</span><span class="n">max_fea</span><span class="p">)</span>  
+        <span class="k">return</span> <span class="n">myTree</span>
+
+    <span class="n">def</span> <span class="n">classify</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">classList</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">classCount</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">vote</span> <span class="n">in</span> <span class="n">classList</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">vote</span> <span class="n">not</span> <span class="n">in</span> <span class="n">classCount</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span><span class="o">:</span>
+                <span class="n">classCount</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">classCount</span><span class="p">[</span><span class="n">vote</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">sortedClassCount</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">classCount</span><span class="p">.</span><span class="n">iteritems</span><span class="p">(),</span> <span class="n">key</span> <span class="o">=</span> <span class="n">operator</span><span class="p">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">revese</span> <span class="o">=</span> <span class="n">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sortedClassCount</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">def</span> <span class="n">Max_InfoGain</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data_set</span><span class="p">)</span><span class="o">:</span>
+        <span class="err">#</span><span class="n">compute</span> <span class="n">all</span> <span class="n">features</span> <span class="n">InfoGain</span><span class="p">,</span> <span class="k">return</span> <span class="n">the</span> <span class="n">maximal</span> <span class="n">one</span>
+        <span class="n">Num_Fea</span> <span class="o">=</span> <span class="n">len</span><span class="p">(</span><span class="n">data_set</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="o">:</span><span class="p">])</span>
+        <span class="err">#</span><span class="n">Num_Tup</span> <span class="o">=</span> <span class="n">len</span><span class="p">(</span><span class="n">data_set</span><span class="p">)</span>
+        <span class="n">max_IG</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">max_Fea</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">range</span><span class="p">(</span><span class="n">Num_Fea</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">:</span>
+            <span class="n">InfoGain</span> <span class="o">=</span> <span class="n">self</span><span class="p">.</span><span class="n">Info</span><span class="p">(</span><span class="n">data_set</span><span class="p">[</span><span class="o">:</span><span class="p">,[</span><span class="n">i</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">max_IG</span> <span class="o">&gt;</span> <span class="n">InfoGain</span><span class="p">)</span><span class="o">:</span>
+                <span class="n">max_IG</span> <span class="o">=</span> <span class="n">InfoGain</span>
+                <span class="n">max_Fea</span> <span class="o">=</span> <span class="n">i</span>
+        <span class="k">return</span> <span class="n">max_Fea</span>
+
+    <span class="n">def</span> <span class="n">Info</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">dic</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">tup</span> <span class="n">in</span> <span class="n">data</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">not</span> <span class="n">in</span> <span class="n">dic</span><span class="p">.</span><span class="n">keys</span><span class="p">()</span><span class="o">:</span>
+                <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">elif</span> <span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="n">not</span> <span class="n">in</span> <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">:</span>
+                <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="nl">else:</span>
+                <span class="n">dic</span><span class="p">[</span><span class="n">tup</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">tup</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="n">S_total</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="n">in</span> <span class="n">dic</span><span class="o">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="n">in</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">label</span><span class="p">]</span>
+            <span class="n">S_each</span> <span class="o">=</span> <span class="mf">0.0</span>
+            <span class="k">for</span> <span class="n">label</span> <span class="n">in</span> <span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">:</span>
+                <span class="n">prob</span> <span class="o">=</span> <span class="kt">float</span><span class="p">(</span><span class="n">dic</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">label</span><span class="p">]</span><span class="o">/</span><span class="n">s</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">prob</span> <span class="o">!=</span><span class="mi">0</span> <span class="o">:</span>
+                    <span class="n">S_each</span> <span class="o">-=</span> <span class="n">prob</span><span class="o">*</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">S_total</span> <span class="o">+=</span> <span class="n">s</span><span class="o">/</span><span class="n">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">S_each</span>
+        <span class="k">return</span> <span class="n">S_total</span>
+
+    <span class="n">def</span> <span class="n">splitDataSet</span><span class="p">(</span><span class="n">self</span><span class="p">,</span><span class="n">dataSet</span><span class="p">,</span><span class="n">featureIndex</span><span class="p">,</span><span class="n">value</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">subDataSet</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dataSet</span> <span class="o">=</span> <span class="n">dataSet</span><span class="p">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">sample</span> <span class="n">in</span> <span class="n">dataSet</span><span class="o">:</span>
+            <span class="k">if</span> <span class="n">sample</span><span class="p">[</span><span class="n">featureIndex</span><span class="p">]</span> <span class="o">==</span> <span class="n">value</span><span class="o">:</span>
+                <span class="n">reducedSample</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="o">:</span><span class="n">featureIndex</span><span class="p">]</span>  
+                <span class="n">reducedSample</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">sample</span><span class="p">[</span><span class="n">featureIndex</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="p">])</span>  
+                <span class="n">subDataSet</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">reducedSample</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">subDataSet</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
+    <span class="n">dataSet</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="s">&quot;Cool&quot;</span><span class="p">,</span><span class="s">&quot;High&quot;</span><span class="p">,</span><span class="s">&quot;Yes&quot;</span><span class="p">,</span><span class="s">&quot;Yes&quot;</span><span class="p">],[</span><span class="s">&quot;Ugly&quot;</span><span class="p">,</span><span class="s">&quot;High&quot;</span><span class="p">,</span><span class="s">&quot;No&quot;</span><span class="p">,</span><span class="s">&quot;No&quot;</span><span class="p">],</span>
+               <span class="p">[</span><span class="s">&quot;Cool&quot;</span><span class="p">,</span><span class="s">&quot;Low&quot;</span><span class="p">,</span><span class="s">&quot;No&quot;</span><span class="p">,</span><span class="s">&quot;No&quot;</span><span class="p">],[</span><span class="s">&quot;Cool&quot;</span><span class="p">,</span><span class="s">&quot;Low&quot;</span><span class="p">,</span><span class="s">&quot;Yes&quot;</span><span class="p">,</span><span class="s">&quot;Yes&quot;</span><span class="p">],</span>
+               <span class="p">[</span><span class="s">&quot;Cool&quot;</span><span class="p">,</span><span class="s">&quot;Medium&quot;</span><span class="p">,</span><span class="s">&quot;No&quot;</span><span class="p">,</span><span class="s">&quot;Yes&quot;</span><span class="p">],[</span><span class="s">&quot;Ugly&quot;</span><span class="p">,</span><span class="s">&quot;Medium&quot;</span><span class="p">,</span><span class="s">&quot;Yes&quot;</span><span class="p">,</span><span class="s">&quot;No&quot;</span><span class="p">]])</span>
+    <span class="n">featureSet</span> <span class="o">=</span> <span class="p">[</span><span class="s">&quot;Appearance&quot;</span><span class="p">,</span><span class="s">&quot;Salary&quot;</span><span class="p">,</span><span class="s">&quot;Office Guy&quot;</span><span class="p">]</span>
+    <span class="n">dTree</span> <span class="o">=</span> <span class="n">DTree_ID3</span><span class="p">()</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">dTree</span><span class="p">.</span><span class="n">runDT</span><span class="p">(</span><span class="n">dataSet</span><span class="p">,</span><span class="n">featureSet</span><span class="p">)</span>
+    <span class="n">print</span><span class="p">(</span><span class="n">tree</span><span class="p">)</span>
+</pre></div>
 
 
+<h1>C4.5</h1>
+<hr />
+<p>C4.5决策树在ID3决策树的基础之上稍作改进，并克服了其两大缺点:</p>
+<ol>
+<li>用信息增益选择属性偏向于选择分枝比较多的属性，即取值多的属性;</li>
+<li>不能处理连续属性.                </li>
+</ol>
+<p>对于这两个问题，C4.5都给出了具体的解决方案，以下做一个简要的阐述。</p>
+<h2>信息增益率</h2>
+<p>C4.5选取了信息增益率作为选择决策属性的依据，克服了用信息增益来选择属性时偏向选择值多的属性的不足。信息增益率定义为： 
+\begin{equation}
+GainRatio(S,A)=\frac{Gain(S,A)}{SplitInfo(S,A)}
+\end{equation}
+其中$Gain(S,A)$和ID3算法中的信息增益计算相同，而$SplitInfo(S,A)$代表了按照属性A分裂样本集合S的广度和均匀性。
+\begin{equation}
+SplitInfo(S,A)=-\sum_{i=1}^{c} \frac{|S_i|}{|S|}log\frac{|S_i|}{|S|}
+\end{equation}
+其中$S_i$表示根据属性A分割S而成的样本子集;</p>
+<h2>处理连续属性</h2>
+<p>对于离散值，C4.5和ID3的处理方法相同，对于某个属性的值连续时，假设这这个节点上的数据集合样本为total，C4.5算法进行如下处理：   </p>
+<ol>
+<li>将样本数据该属性A上的具体数值按照升序排列，得到属性序列值：${A_1,A_2,A_3,...,A{total}}$</li>
+<li>在上一步生成的序列值中生成total-1个分割点。第i个分割点的取值为$A_i$和$A_{i+1}$的均值，每个分割点都将属性序列划分为两个子集;</li>
+<li>计算每个分割点的信息增益(Information Gain),得到total-1个信息增益。}</li>
+<li>对分裂点的信息增益进行修正：减去log2(N-1)/|D|，其中N为可能的分裂点个数，D为数据集合大小。</li>
+<li>选择修正后的信息增益值最大的分类点作为该属性的最佳分类点</li>
+<li>计算最佳分裂点的信息增益率(Gain Ratio)作为该属性的Gain Ratio</li>
+<li>选择Gain Ratio最大的属性作为分类属性。</li>
+</ol>
+<h1>总结</h1>
+<p>决策树方法是机器学习算法中比较重要且较易于理解的一种分类算法，本文介绍了两种决策树算法，ID3和C4.5.决策树算法的核心在于分裂属性的选取上，对此，ID3采用了信息增益作为评估指标，但是ID3也有不能处理连续属性值和易于选取取值较多的属性，C4.5对这两个问题都给出了相应的解决方案。</p><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
 
-<p><a href="../Decision Tree.html#disqus_thread">comments</a></p>                <a class="button radius secondary small right" href="../Decision Tree.html">Read More</a>
-                <hr  class="gradient"/>
-            </article>
-
-            <!-- /#posts-list -->
-<div class="pagination-centered">
-<h6 class="subheader">Page 1 of 1</h6>
-
-<p>
-
-</p>
+                    </article>
+ 
+<div class="paginator">
+    <div class="navButton">Page 1 / 1</div>
 </div>
-
-    </div>
-    <!-- End Main Content -->
-
-    <!-- Sidebar -->
-    <aside class="large-3 columns">
-        <h5 class="sidebar-title">Site</h5>
-        <ul class="side-nav">
-            <li><a href="../archives.html">Archives</a>
-            <li><a href="../tags.html">Tags</a>
-        </ul>
-
+                </div>
+            </aside><!-- /#featured -->
+            
+        
+        <section id="extras" >
+       
+        
+        </section><!-- /#extras -->
+	
+        <footer id="contentinfo" >
+                <address id="about" class="vcard ">
+                Proudly powered by <a href="http://getpelican.com/" target="_blank">Pelican</a>, which takes
+                great advantage of <a href="http://python.org" target="_blank">Python</a>. &copy; <a class="url fn" href="http://launchyard.com">LaunchYard</a>
 		
-        <h5 class="sidebar-title">Categories</h5>
-        <ul class="side-nav">
-            <li><a href="../category/distributed-system.html">Distributed System</a></li>
-            <li><a href="../category/life.html">Life</a></li>
-            <li><a href="../category/machine-learning.html">Machine Learning</a></li>
-            <li><a href="../category/viewpoint.html">Viewpoint</a></li>
-   
-        </ul>
-
-        <h5 class="sidebar-title">Links</h5>
-        <ul class="side-nav">
-            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-        </ul>
+                </address><!-- /#about -->
 		
-        <h5 class="sidebar-title">Social</h5>
-        <ul class="side-nav">
-            <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-        </ul>
 
-    </aside> <!-- End Sidebar -->
+                
+        </footer><!-- /#contentinfo -->
 
-</div> <!-- End Main Content and Sidebar -->
-
-
-<!-- Footer -->
-<footer class="row">
-    <div class="large-12 columns">
-        <hr />
-        <div class="row">
-            <div class="large-6 columns">
-                <p>Doodle World by qingyuanxingsi</p>
-            </div>
-            </div>
-    </div>
-</footer>
+    <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-48582273-1']);
+    _gaq.push(['_trackPageview']);
+    (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
