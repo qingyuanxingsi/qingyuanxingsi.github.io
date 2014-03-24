@@ -430,13 +430,15 @@ S_N^{-1} &amp;= S_0+S_{\mu}
 <p>从上式我们可以看出$\Sigma_{mle}$是一个rank为$min(N,D)$的矩阵。若$N<d$,该矩阵不是full rank的，因此不可逆。另尽管$n="">D$,$\Sigma_{mle}$也可能是ill-conditioned(接近奇异)。</d$,该矩阵不是full></p>
 <p>为了解决上述问题，我们可以采用posterior mean或mode.我们可以证明$\Sigma$的MAP估计值如下:(使用我们推导MLE时所用的技巧，其实并不难，亲证下式正确):</p>
 <p>\begin{equation}
-\Sigma_{MAP} &amp;= \frac{S_N}{\nu_N+D+1} \\
-&amp;= \frac{S_0+S_{\mu}}{N_0+N_{\mu}}
+\Sigma_{MAP} = \frac{S_N}{\nu_N+D+1} = \frac{S_0+S_{\mu}}{N_0+N_{\mu}}
 \end{equation}</p>
 <p>当我们采用improper uniform prior，即$S_0=0,N_0=0$时，我们即得MLE估计值。</p>
 <p>当$D/N$较大时，选择一个包含信息的proper prior就相当必要了。令$\mu=\bar{x}$,故有$S_{\mu}=S_{\bar{x}}$,此时MAP估计值可被重写为prior mode和MLE的convex combination.令$\Sigma_0 \triangleq  \frac{S_0}{N_0}$为prior mode,则有:</p>
 <p>\begin{equation}
-\Sigma_{MAP} = \frac{S_0+S_{\bar{x}}}{N_0+N}=\frac{N_0}{N_0+N}\frac{S_0}{N_0}+\frac{N}{N_0+N}\frac{S}{N}=\lambda\Sigma_0+(1-\lambda)\hat{\Sigma}_{mle}
+\begin{split}
+\Sigma_{MAP} = \frac{S_0+S_{\bar{x}}}{N_0+N} &amp;= \frac{N_0}{N_0+N}\frac{S_0}{N_0}+\frac{N}{N_0+N}\frac{S}{N} \\
+&amp;=\lambda\Sigma_0+(1-\lambda)\hat{\Sigma}_{mle}
+\end{split}
 \end{equation}</p>
 <p>其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior <code>shrinkage</code>的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" class="simple-footnote" title="其他方法见ML:APP一书4.6.2.1节">7</a></sup></p>
 <p>而对于先验的协方差矩阵$S_0$,一般采用如下prior:$S_0=diag(\hat{\Sigma}_{mle})$.因此，我们有:</p>
