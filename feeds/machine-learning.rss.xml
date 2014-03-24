@@ -354,7 +354,7 @@ S_N^{-1} &amp;amp;= S_0+S_{\mu}
 &lt;h3&gt;MAP Estimation&lt;/h3&gt;
 &lt;p&gt;根据我们之前得到的关于$\Sigma$的极大似然估计值,即:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="MLE for Covariance" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/mle_covariance_zpsb7265e9d.png"&gt;&lt;/p&gt;
-&lt;p&gt;从上式我们可以看出矩阵的rank为$min(N,D)$。若$N&lt;d$,该矩阵不是full rank的，因此不可逆。另尽管$n=""&gt;D$,$\Sigma_{mle}$也可能是ill-conditioned(接近奇异)。&lt;/d$,该矩阵不是full&gt;&lt;/p&gt;
+&lt;p&gt;从上式我们可以看出矩阵的rank为$min(N,D)$。若$N$小于$D$,该矩阵不是full rank的，因此不可逆。另尽管$N$可能大于$D$,$\Sigma_{mle}$也可能是ill-conditioned(接近奇异)。&lt;/p&gt;
 &lt;p&gt;为了解决上述问题，我们可以采用posterior mean或mode.我们可以证明$\Sigma$的MAP估计值如下:(使用我们推导MLE时所用的技巧，其实并不难，亲证下式正确):&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \Sigma_{MAP} = \frac{S_N}{\nu_N+D+1} = \frac{S_0+S_{\mu}}{N_0+N_{\mu}}
