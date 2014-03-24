@@ -311,7 +311,7 @@ p(x|y_1,...,y_N) &amp;= N(x|\mu_N,\Sigma_N) \\
 \end{equation}
 为了更直观地解释以上模型,如下图所示:</p>
 <p><img alt="Radar Blips" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/radar_blips_zpsfd1a04d1.png"></p>
-<p>我们可以x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" class="simple-footnote" title="另外一种方法为Kalman Filter Algorithm">4</a></sup></p>
+<p>我们可将x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" class="simple-footnote" title="另外一种方法为Kalman Filter Algorithm">4</a></sup></p>
 <p>现假定我们有多个测量设备，且我们想利用多个设备的观测值进行估计，这种方法称为<code>sensor fusion</code>.如果我们有具有不同方差的多组观测值，那么posterior将会是它们的加权平均。如下图所示:</p>
 <p><img alt="Sensor Fusion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sensor_fusion_zps4ad8202f.png"></p>
 <p>我们采用不带任何信息的关于$x$的先验分布，即$p(x)=N(\mu_0,\Sigma_0)=N(0,10^10I_2)$,我们得到2个观测值,$y_1 \sim\ N(x,\Sigma_{y,1}$,$y_2 \sim\ N(x,\Sigma_{y,2})$,我们需要计算$p(x|y_1,y_2)$.</p>
