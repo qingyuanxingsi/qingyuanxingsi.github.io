@@ -428,17 +428,15 @@ S_N^{-1} &amp;= S_0+S_{\mu}
 <p>总而言之，从上式我们可以看到，posterior $v_N$的强度为$\nu_0$加$N$;posterior离散度矩阵是先验离散度矩阵$S_0$和数据离散度矩阵$S_{\mu}$之和。</p>
 <h3>MAP Estimation</h3>
 <p>根据我们之前得到的关于$\Sigma$的极大似然估计值,即:</p>
-<p>\begin{equation}
-A\hat{\Sigma}<em i="1">{mle} = {1 \over N}\sum</em>^{N}(x_i-\mu)(x_i-\mu)^T
-\end{equation}</p>
+<p><img alt="MLE for Covariance" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/mle_covariance_zpsb7265e9d.png"></p>
 <p>从上式我们可以看出$\hat{\Sigma}<em mle="mle">{mle}$是一个rank为$min(N,D)$的矩阵。若$N<d$,该矩阵不是full rank的，因此不可逆。另尽管$n="">D$,$\hat{\Sigma}</d$,该矩阵不是full></em>$也可能是ill-conditioned(接近奇异)。</p>
-<p>为了解决上述问题，我们可以采用posterior mean或mode.我们可以证明$\Sigma$的MAP估计值如下:(使用我们推导MLE时所用的技巧，其实并不难，亲证下式正确):
-\begin{equation}
+<p>为了解决上述问题，我们可以采用posterior mean或mode.我们可以证明$\Sigma$的MAP估计值如下:(使用我们推导MLE时所用的技巧，其实并不难，亲证下式正确):</p>
+<p>\begin{equation}
 A\hat{\Sigma}<em _mu="\mu">{MAP} = \frac{S_N}{\nu_N+D+1} = \frac{S_0+S</em>}{N_0+N_{\mu}}
 \end{equation}</p>
 <p>当我们采用improper uniform prior，即$S_0=0,N_0=0$时，我们即得MLE估计值。</p>
-<p>当$D/N$较大时，选择一个包含信息的proper prior就相当必要了。令$\mu=\bar{x}$,故有$S_{\mu}=S_{\bar{x}}$,此时MAP估计值可被重写为prior mode和MLE的convex combination.令$\Sigma_0 \triangleq  \frac{S_0}{N_0}$为prior mode,则有:
-\begin{equation}
+<p>当$D/N$较大时，选择一个包含信息的proper prior就相当必要了。令$\mu=\bar{x}$,故有$S_{\mu}=S_{\bar{x}}$,此时MAP估计值可被重写为prior mode和MLE的convex combination.令$\Sigma_0 \triangleq  \frac{S_0}{N_0}$为prior mode,则有:</p>
+<p>\begin{equation}
 A\hat{\Sigma}<em _bar_x="\bar{x">{MAP} = \frac{S_0+S</em>}}{N_0+N}=\frac{N_0}{N_0+N}\frac{S_0}{N_0}+\frac{N}{N_0+N}\frac{S}{N}=\lambda\Sigma_0+(1-\lambda)\hat{\Sigma}_{mle}
 \end{equation}</p>
 <p>其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior <code>shrinkage</code>的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" class="simple-footnote" title="其他方法见ML:APP一书4.6.2.1节">7</a></sup></p>
