@@ -387,7 +387,51 @@ mean=\frac{S^{-1}}{\nu-D-1},mode=\frac{S^{-1}}{\nu+D+1}
 IW(\sigma^2|S^{-1},\nu)=IG(\sigma^2|\nu/2,S/2)
 \end{equation}</p>
 <h1>Inferring the parameters of an MVN<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" class="simple-footnote" title="本部分部分参考Regularized Gaussian Covariance Estimation">5</a></sup></h1>
-<hr><script type="text/javascript">
+<hr>
+<p>到目前为止，我们已经讨论了在$\theta=(\mu,\Sigma)$已知的条件下如何inference，现我们讨论一下如何对参数本身进行估计。假定$x_i \sim\ N(\mu,\Sigma)$ for $i=1:N$.为了简化表述，我们将估计分为三个部分：首先我们计算$p(\mu|D,\Sigma)$,接着我们计算$p(\Sigma|D,\mu)$,最后我们计算联合posterior $p(\mu,\Sigma|D)$.</p>
+<h2>Posterior distribution of $\mu$</h2>
+<p>我们已经就如何计算$\mu$的极大似然估计值进行了讨论,现我们讨论如何计算其posterior.</p>
+<p>其likelihood具有如下形式:
+\begin{equation}
+p(D|\mu) = N(\bar{x}|\mu,{1 \over N}\Sigma)
+\end{equation}</p>
+<p>为了简便起见，我们采用共轭先验分布，即高斯。特别地，若$p(\mu)=N(\mu|m_0,V_0)$.此时我们可以根据之前Linear Gaussian System的结论得到(和我们之前提到的雷达的例子雷同):
+\begin{equation}
+\begin{split}
+p(\mu|D,\Sigma) &amp;= N(\mu|m_N,V_N) \\
+V_N^{-1} &amp;= V_0^{-1}+N\Sigma^{-1} \\
+m_N &amp;= V_N(\Sigma^{-1}(N\bar{x})+V_0^{-1}m_0)
+\end{split}
+\end{equation}</p>
+<p>我们可以通过设定$V_0 = \infty I$提供一个不带任何信息的先验，此时我们有$p(\mu|D,\Sigma)=N(\bar{x},{1 \over N}\Sigma)$,即和MLE得到的结果相同。</p>
+<h2>Posterior distribution of $\Sigma$</h2>
+<p>现我们讨论如何计算$p(\Sigma|D,\mu)$,其likelihood具有如下形式:<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6" class="simple-footnote" title="参见MLE for Gaussian部分">6</a></sup>
+\begin{equation}
+p(D|\mu,\Sigma) \propto |\Sigma|^{-{N \over 2}}exp(-{1 \over 2}tr(S_{\mu}\Sigma^{-1}))
+\end{equation}</p>
+<p>之前我们提到过如果采用共轭先验能够减少计算的复杂度，而此likelihood的共轭先验就是我们之前提到的非常恐怖的逆Wishart分布，即:</p>
+<p>\begin{equation}
+IW(\Sigma|S_0^{-1},\nu_0) \propto |\Sigma|^{-(\nu_0+D+1)/2}exp(-{1 \over 2}tr(S_0\Sigma^{-1}))
+\end{equation}</p>
+<p>上式中$N_0=\nu+D+1$控制着先验的强度,和likelihood中的$N$的作用基本相同。</p>
+<p>将先验和likelihood相乘我们得到如下posterior:</p>
+<p>\begin{equation}
+\begin{split}
+p(\Sigma|D,\mu) &amp;\propto |\Sigma|^{-{N \over 2}}exp(-{1 \over 2}tr(S_{\mu}\Sigma^{-1}))|\Sigma|^{-(\nu_0+D+1)/2}exp(-{1 \over 2}tr(S_0\Sigma^{-1})) \\
+&amp;=|\Sigma|^{-\frac{N+(\nu_0+D+1)}{2}}exp(-{1 \over 2}tr(\Sigma^{-1}(S_{\mu}+S_0))) \\
+&amp;=IW(\Sigma|S_N,\nu_N) \\
+\nu_N &amp;= \nu_0+N    \\
+S_N^{-1} &amp;= S_0+S_{\mu}
+\end{split}
+\end{equation}</p>
+<p>总而言之，从上式我们可以看到，posterior $v_N$的强度为$\nu_0$加$N$;posterior离散度矩阵是先验离散度矩阵$S_0$和数据离散度矩阵$S_{\mu}$之和。</p>
+<h3>MAP Estimation</h3>
+<p>根据我们之前得到的关于$\Sigma$的极大似然估计值,即:
+\begin{equation}
+\hat{\Sigma_{mle}} = {1 \over N}\sum_{i=1}^{N}(x_i-\mu)(x_i-\mu)^T
+\end{equation}</p>
+<p>从上式我们可以看出$\hat{\Sigma}<em mle="mle">{mle}$是一个rank为$min(N,D)$<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" class="simple-footnote" title="To be understood.">7</a></sup>的矩阵。若$N<d$,该矩阵不是full rank的，因此不可逆。另尽管$n="">D$,$\hat{\Sigma}</d$,该矩阵不是full></em>$也可能是ill-conditioned(接近奇异)。</p>
+<p>为了解决上述问题，我们可以采用posterior mean或mode.</p><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -417,7 +461,7 @@ IW(\sigma^2|S^{-1},\nu)=IG(\sigma^2|\nu/2,S/2)
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">To be understood. <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
