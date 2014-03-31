@@ -75,8 +75,21 @@ Filed under <a href="./category/distributed-system.html">Distributed System</a>
 	<h1>PREFACE</h1>
 <hr />
 <p>在上一篇<a href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">分布式计算与存储系列(序章):初入门径</a>中,我们主要介绍了分布式存储的一些基础知识,在本系列中,我们会结合论文以及源码对分布式计算的基本理论以及一些应用系统进行研究，以期对分布式系统有一个更为深入的了解。本系列的前若干篇均以研究Yarn为主,主要参考<a href="http://book.douban.com/subject/25774649/">Hadoop技术内幕:深入解析YARN架构设计与实现原理</a>一书的整体架构,但是个人对这本书不是特别满意，讲述的还是有点浅,很多问题只是浅尝则止而已。(真正想<code>深入</code>了解YARN的不建议购买本书，如若只是想粗略的了解一下YARN的工作流程的童鞋倒是可以入手一本滴。)因此，本系列仅会采用其大体框架，在其大体框架下，对YARN设计的其他知识和设计模式等也会有进一步更为深入的介绍。好吧，闲话就不多说了,我们开始正式讨论。</p>
+<p>本文的主要目的是介绍一下YARN中用到的基础库,它们是YARN其他模块得以建立的基石,其重要性自然不言而喻。我们先从其RPC库说起。</p>
 <h1>The Secret of RPC</h1>
 <hr />
+<p>当前存在非常多的开源 RPC 框架,比较有名的有 Thrift、Protocol Buffers 和 Avro。同Hadoop RPC一样,它们均由两部分组成:对象序列化和远程过程调用(Protocol Buflers官方仅提供了序列化实现,未提供远程调用相关实现,但三方 RPC 库非常多 )。相比于Hadoop RPC,它们有以下几个特点:</p>
+<ul>
+<li><strong>跨语言特性</strong>。对于 Hadoop RPC而言,由于Hadoop采用 Java 语言编写,因而其RPC客户端和服务器端仅支持Java语言;但对于更通用的 RPC框架,如Thrift或者Protocol Buffers等,其客户端和服务器端可采用任何语言编写,如Java、C++、Python等,这给用户编程带来极大方便。</li>
+<li><strong>引入IDL</strong>。开源RPC框架均提供了一套接口描述语言(Interface Description Language,IDL),它提供一套通用的数据类型,并以这些数据类型来定义更为复杂的数据类型和对外服务接口。一旦用户按照IDL定义的语法编写完接口文件后,可根据实际应用需要生成特定编程语言(如 Java、C++、Python 等)的客户端和服务器端代码。</li>
+<li><strong>协议兼容性</strong>。开源RPC框架在设计上均考虑到了协议兼容性问题,即当协议格式发生改变时,比如某个类需要添加或者删除一个成员变量(字段)后,旧版本代码仍然能识别新格式的数据,也就是说,具有向后兼容性。</li>
+</ul>
+<p>随着Hadoop版本的不断演化,研发人员发现Hadoop RPC在跨语言支持和协议兼容性两个方面存在不足,具体表现为:</p>
+<ul>
+<li>从长远发展看,Hadoop RPC应允许某些协议的客户端或者服务器端采用其他语言实现,比如用户希望直接使用C/C++语言读写HDFS中的文件,这就需要有C/C++语言的HDFS客户端。</li>
+<li>当前 Hadoop 版本较多,而不同版本之间不能通信,比如0.20.2版本的JobTracker不能与0.21.0版本中的TaskTracker通信,如果用户企图这样做,会抛出<em>VersionMismatch</em>异常。</li>
+</ul>
+<p>为了解决以上几个问题,Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。Hadoop目前集成了Protocol Buffer以及Apache Avro的序列化部分,而函数调用调用机制仍采用Hadoop自带的,其中RPC采用Protocol Buffer,而Apache Avro则用于日志系统。以下对这两种序列化机制进行一个简要的介绍:</p>
 <h2>持久化框架</h2>
 <h3>Protocol Buffer</h3>
 <h3>Apache Avro</h3>
