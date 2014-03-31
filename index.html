@@ -338,7 +338,27 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </pre></div>
 
 
-<h3>Apache Avro<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" class="simple-footnote" title="本部分http://avro.apache.org/docs/current/gettingstartedjava.html">2</a></sup></h3>
+<h3>Apache Avro<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" class="simple-footnote" title="本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html">2</a></sup></h3>
+<p>Apache Avro 是Hadoop 下的一个子项目。它本身既是一个序列化框架,同时也实现了RPC 的功能。Avro官网描述Avro的特性和功能如下:</p>
+<ul>
+<li>丰富的数据结构类型;</li>
+<li>快速可压缩的二进制数据形式;</li>
+<li>存储持久数据的文件容器;</li>
+<li>提供远程过程调用 RPC;</li>
+<li>简单的动态语言结合功能。</li>
+</ul>
+<p>相比于Apache Thrift和Google Protocol Buffers,Apache Avro具有以下特点:</p>
+<ul>
+<li>支持动态模式 。Avro 不需要生成代码,这有利于搭建通用的数据处理系统,同时避免了代码入侵。</li>
+<li>数据无须加标签 。读取数据前,Avro能够获取模式定义,这使得Avro在数据编码时只需要保留更少的类型信息,有利于减少序列化后的数据大小。</li>
+<li>无须手工分配的域标识。Thrift 和 Protocol Buffers使用一个用户添加的整型域唯一性定义一个字段,而Avro则直接使用域名,该方法更加直观、更加易扩展。</li>
+</ul>
+<p>编写一个 Avro 应用也需如下三步:</p>
+<ul>
+<li>定义消息格式文件,通常以 avro 作为扩展名;</li>
+<li>使用Avro编译器生成特定语言的代码文件(可选);</li>
+<li>使用Avro库提供的 API 来编写应用程序。</li>
+</ul>
 <h2>Reactor Designing Pattern</h2>
 <h2>Dive Into Hadoop RPC</h2>
 <h1>事件库</h1>
@@ -374,7 +394,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">本部分http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />

@@ -265,7 +265,27 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;Apache Avro&lt;sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"&gt;&lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" class="simple-footnote" title="本部分http://avro.apache.org/docs/current/gettingstartedjava.html"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;h3&gt;Apache Avro&lt;sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"&gt;&lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" class="simple-footnote" title="本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
+&lt;p&gt;Apache Avro 是Hadoop 下的一个子项目。它本身既是一个序列化框架,同时也实现了RPC 的功能。Avro官网描述Avro的特性和功能如下:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;丰富的数据结构类型;&lt;/li&gt;
+&lt;li&gt;快速可压缩的二进制数据形式;&lt;/li&gt;
+&lt;li&gt;存储持久数据的文件容器;&lt;/li&gt;
+&lt;li&gt;提供远程过程调用 RPC;&lt;/li&gt;
+&lt;li&gt;简单的动态语言结合功能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;相比于Apache Thrift和Google Protocol Buffers,Apache Avro具有以下特点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持动态模式 。Avro 不需要生成代码,这有利于搭建通用的数据处理系统,同时避免了代码入侵。&lt;/li&gt;
+&lt;li&gt;数据无须加标签 。读取数据前,Avro能够获取模式定义,这使得Avro在数据编码时只需要保留更少的类型信息,有利于减少序列化后的数据大小。&lt;/li&gt;
+&lt;li&gt;无须手工分配的域标识。Thrift 和 Protocol Buffers使用一个用户添加的整型域唯一性定义一个字段,而Avro则直接使用域名,该方法更加直观、更加易扩展。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;编写一个 Avro 应用也需如下三步:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;定义消息格式文件,通常以 avro 作为扩展名;&lt;/li&gt;
+&lt;li&gt;使用Avro编译器生成特定语言的代码文件(可选);&lt;/li&gt;
+&lt;li&gt;使用Avro库提供的 API 来编写应用程序。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2&gt;Reactor Designing Pattern&lt;/h2&gt;
 &lt;h2&gt;Dive Into Hadoop RPC&lt;/h2&gt;
 &lt;h1&gt;事件库&lt;/h1&gt;
@@ -301,7 +321,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;本部分http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category></entry><entry><title>机器学习系列(III):Gaussian Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="alternate"></link><updated>2014-03-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-15:ji-qi-xue-xi-xi-lie-iiigaussian-models.html</id><summary type="html">&lt;p&gt;在&lt;a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"&gt;上一篇&lt;/a&gt;中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category></entry><entry><title>机器学习系列(III):Gaussian Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="alternate"></link><updated>2014-03-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-15:ji-qi-xue-xi-xi-lie-iiigaussian-models.html</id><summary type="html">&lt;p&gt;在&lt;a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"&gt;上一篇&lt;/a&gt;中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。&lt;/p&gt;
 &lt;h1&gt;MLE for MVN&lt;/h1&gt;
 &lt;hr&gt;
 &lt;h2&gt;Basics about MVN&lt;/h2&gt;
