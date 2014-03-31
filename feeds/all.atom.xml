@@ -19,20 +19,289 @@
 &lt;p&gt;为了解决以上几个问题,Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。Hadoop目前集成了Protocol Buffer以及Apache Avro的序列化部分,而函数调用调用机制仍采用Hadoop自带的,其中RPC采用Protocol Buffer,而Apache Avro则用于日志系统。以下对这两种序列化机制进行一个简要的介绍:&lt;/p&gt;
 &lt;h2&gt;持久化框架&lt;/h2&gt;
 &lt;h3&gt;Protocol Buffer&lt;sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"&gt;&lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" class="simple-footnote" title="本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
-&lt;p&gt;以下仅简要地介绍一下如何通过JAVA使用Protocol Buffer,上面提到过,Protocol Buffer是跨语言的,因此如果想知道其他语言如何使用,请参阅官方文档。&lt;/p&gt;
-&lt;p&gt;介绍主要分为以下三个部分:&lt;/p&gt;
+&lt;p&gt;Protocol Buffers 是一种轻便高效的结构化数据存储格式,可以用于结构化数据序列化/反序列化。它很适合做数据存储或RPC的数据交换格式,常用作通信协议、数据存储等领域的与语言无关、平台无关、可扩展的序列化结构数据格式。目前支持C++、Java、Python三种语言。在
+Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffers。&lt;/p&gt;
+&lt;p&gt;相比于常见的XML格式,Protocol Buffers官方网站这样描述它的优点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;平台无关、语言无关;&lt;/li&gt;
+&lt;li&gt;高性能,解析速度是 XML 的 20 ~ 100 倍;&lt;/li&gt;
+&lt;li&gt;体积小,文件大小仅是 XML 的 1/10 ~ 1/3;&lt;/li&gt;
+&lt;li&gt;使用简单;&lt;/li&gt;
+&lt;li&gt;兼容性好。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;通常编写一个 Protocol Buffers 应用需要以下三步:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;定义报文格式(.proto文件)&lt;/li&gt;
 &lt;li&gt;使用Protocol Buffer Compiler编译生成JAVA类&lt;/li&gt;
 &lt;li&gt;使用Protocol Buffer API读写报文&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h4&gt;定义报文格式&lt;/h4&gt;
+&lt;p&gt;我们首先定义消息格式文件addressbook.proto,以下定义了一个人的通讯录的基本信息:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;tutorial&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;java_package&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"com.qingyuanxingsi.tutorial"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;java_outer_classname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"AddressBookProtos"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;message&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;required&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;required&lt;/span&gt; &lt;span class="n"&gt;int32&lt;/span&gt; &lt;span class="n"&gt;id&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="n"&gt;optional&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;email&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;PhoneType&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;MOBILE&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;HOME&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;WORK&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="n"&gt;message&lt;/span&gt; &lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;required&lt;/span&gt; &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;number&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;optional&lt;/span&gt; &lt;span class="n"&gt;PhoneType&lt;/span&gt; &lt;span class="n"&gt;type&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="k"&gt;default&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;HOME&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="n"&gt;repeated&lt;/span&gt; &lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="n"&gt;phone&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="n"&gt;message&lt;/span&gt; &lt;span class="n"&gt;AddressBook&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;repeated&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;.proto文件开头包含一个包声明,以避免不同Project之间的命名冲突。Java中，package名即被用作Java包名,除非通过&lt;code&gt;java_package&lt;/code&gt;另外显式指定表明。以上我们制定生成的包名为&lt;code&gt;com.qingyuanxingsi.tutorial&lt;/code&gt;.&lt;code&gt;java_outer_classname&lt;/code&gt;则指定了类名，我们生成的所有类均会被放在这个文件中。如果未显式制定，则会将文件名自动转化成Camel形式的类名。如,&lt;code&gt;my_proto.proto&lt;/code&gt;默认情况下会生成&lt;code&gt;MyProto&lt;/code&gt;作为其类名。&lt;/p&gt;
+&lt;p&gt;接下来则是报文定义。一个报文即是一系列带有类型信息的Field的集合。很多简单数据类型可被用作Field Type,包括bool, int32, float, double, and string. 当然，你也可以自定义类型作为Field Type.在上述例子中,Person报文就包含PhoneNumber报文,AddressBook报文则包括Person报文。另外,报文可被嵌套定义,如PhoneNumber就定义在Person报文中。如果你想让你的某个Field具有一个或多个预定义的值,你可以使用枚举类型，如上述，我们想让电话号码类型取MOBILE, HOME, or WORK中的值。每个字段后的&lt;code&gt;=？&lt;/code&gt;标记为每个Field分配了唯一的TAG,以用于二进制编码。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;required&lt;/code&gt;关键字指定该Field必须被赋值，否则报文将会被视为&lt;code&gt;uninitialized&lt;/code&gt;.编译此类报文则会抛出&lt;em&gt;RuntimeException&lt;/em&gt;异常,除此之外,它与optional field基本相同。&lt;code&gt;optional&lt;/code&gt;关键字则表明该Field可被设置，也可不设置。如果未设置,则会使用默认值。对于简单数据类型，我们可以定义我们自己的默认值,否则则会使用系统默认值。对于嵌套报文,默认值则通常会是报文的默认实例或者原型,其中每一个Field均未被设置。repeated则表明该字段可以重复任何多次。&lt;/p&gt;
+&lt;h4&gt;编译生成JAVA类&lt;/h4&gt;
+&lt;p&gt;使用以下命令即可生成相应的JAVA类:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;protoc&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;SRC_DIR&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;java_out&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;DST_DIR&lt;/span&gt; &lt;span class="err"&gt;$&lt;/span&gt;&lt;span class="n"&gt;SRC_DIR&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;addressbook&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;proto&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;生成的类的结构如下图所示(此处不再给出源码):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="AddressBook Struture" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/addressBook_zps34178bad.png"&gt;&lt;/p&gt;
+&lt;h4&gt;使用Protocol Buffer API读写报文&lt;/h4&gt;
+&lt;p&gt;如上图所示,我们可以看到一个&lt;code&gt;AddressBookProtos.java&lt;/code&gt;类,其中则嵌套了多个类,每个类均有.proto中定义的message生成。每个类都有对应的一个&lt;code&gt;Builder&lt;/code&gt;类,可以用于构造类实例。&lt;/p&gt;
+&lt;p&gt;报文类以及Builder类对于报文的每个Field均提供了访问器。值得注意的是,报文类仅提供了getters,而Builder类既有getters,又有setters.以下给出Person类的一个实例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// required string name = 1;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;hasName&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;// required int32 id = 2;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;hasId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;getId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;// optional string email = 3;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;hasEmail&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;getEmail&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;// repeated .tutorial.Person.PhoneNumber phone = 4;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;getPhoneList&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;getPhoneCount&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="n"&gt;getPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;而与其对应的Builder类则getters和setters都有:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// required string name = 1;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;hasName&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lang&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;clearName&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;// required int32 id = 2;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;hasId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;getId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;setId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;clearId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;// optional string email = 3;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;boolean&lt;/span&gt; &lt;span class="n"&gt;hasEmail&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;getEmail&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;setEmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;clearEmail&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+&lt;span class="c1"&gt;// repeated .tutorial.Person.PhoneNumber phone = 4;&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;List&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;getPhoneList&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;getPhoneCount&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="n"&gt;getPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;setPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;int&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;addPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;addAllPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Iterable&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Builder&lt;/span&gt; &lt;span class="n"&gt;clearPhone&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;由Protocol Buffer Compiler编译生成的message类均是不可变的。Message实例一旦生成，就不能更改。为了构造一个message，我们首先构造一个builder,将Field设置成你想要的值,然后调用builder的build()方法。以下代码用于构造一个Person实例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;john&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt;
+    &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newBuilder&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1234&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"John Doe"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setEmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"jdoe@example.com"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;addPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+    &lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newBuilder&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setNumber&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"555-4321"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setType&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PhoneType&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;HOME&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;最后,每个Protocol Buffer类军定义了读写报文的方法,如下所示:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;byte[] toByteArray();持久化message对象并返回包含一字节数组。&lt;/li&gt;
+&lt;li&gt;static Person parseFrom(byte[] data);通过给定字节数组解析构造报文实例。&lt;/li&gt;
+&lt;li&gt;void writeTo(OutputStream output);将报文持久化到OutputStream中.&lt;/li&gt;
+&lt;li&gt;static Person parseFrom(InputStream input);解析InputStream并构造报文实例.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;至此,我们给出一个报文读写实例,它用于将报文持久化到文件中然后从文件中解析构造得到原始报文:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;protoc&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileInputStream&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileNotFoundException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;java&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;io&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tutorial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AddressBookProtos&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AddressBook&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tutorial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AddressBookProtos&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tutorial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AddressBookProtos&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;com&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;tutorial&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;AddressBookProtos&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PhoneType&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt; * A toy example demonstrates the writing and reading process to an address book&lt;/span&gt;
+&lt;span class="cm"&gt; * proto.&lt;/span&gt;
+&lt;span class="cm"&gt; * &lt;/span&gt;
+&lt;span class="cm"&gt; * @author qingyuanxingsi&lt;/span&gt;
+&lt;span class="cm"&gt; * &lt;/span&gt;
+&lt;span class="cm"&gt; */&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;AddressBookDemo&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;private&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="n"&gt;final&lt;/span&gt; &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;FILE_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"addressbook.dat"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated method stub&lt;/span&gt;
+        &lt;span class="n"&gt;addPerson&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;printData&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt;     * Print the data out&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;printData&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated method stub&lt;/span&gt;
+        &lt;span class="n"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;AddressBook&lt;/span&gt; &lt;span class="n"&gt;addressBook&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AddressBook&lt;/span&gt;
+                    &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;parseFrom&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileInputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FILE_PATH&lt;/span&gt;&lt;span class="p"&gt;)));&lt;/span&gt;
+            &lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;addressBook&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FileNotFoundException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt;     * Print the whole all data&lt;/span&gt;
+&lt;span class="cm"&gt;     * &lt;/span&gt;
+&lt;span class="cm"&gt;     * @param addressBook&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;AddressBook&lt;/span&gt; &lt;span class="n"&gt;addressBook&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated method stub&lt;/span&gt;
+        &lt;span class="c1"&gt;//Iterate over the address book&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;addressBook&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getPersonList&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Person ID: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getId&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+            &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Person Name: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getName&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hasEmail&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"E-mail address: "&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getEmail&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+
+            &lt;span class="c1"&gt;//Get phone numbers&lt;/span&gt;
+            &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PhoneNumber&lt;/span&gt; &lt;span class="n"&gt;phoneNumber&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getPhoneList&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;switch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;phoneNumber&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getType&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;MOBILE&lt;/span&gt;:
+                    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Mobile phone #: "&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                    &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;HOME&lt;/span&gt;:
+                    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Home phone #: "&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                    &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="k"&gt;case&lt;/span&gt; &lt;span class="n"&gt;WORK&lt;/span&gt;:
+                    &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Work phone #: "&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                    &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                &lt;span class="p"&gt;}&lt;/span&gt;
+                &lt;span class="n"&gt;System&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;phoneNumber&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getNumber&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+            &lt;span class="p"&gt;}&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt;     * Add a person to the address book file&lt;/span&gt;
+&lt;span class="cm"&gt;     */&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;addPerson&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated method stub&lt;/span&gt;
+        &lt;span class="n"&gt;Person&lt;/span&gt; &lt;span class="n"&gt;person&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Person&lt;/span&gt;
+                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newBuilder&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setId&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setName&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"qingyuanxingsi"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setEmail&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"demo@server.com"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;addPhone&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+                        &lt;span class="n"&gt;PhoneNumber&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newBuilder&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;setNumber&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"13456723421"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;setType&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;PhoneType&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;MOBILE&lt;/span&gt;&lt;span class="p"&gt;).&lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;()).&lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="n"&gt;AddressBook&lt;/span&gt; &lt;span class="n"&gt;addressBook&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;AddressBook&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;newBuilder&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;addPerson&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;person&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+                &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;build&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="c1"&gt;// System.out.println(person);&lt;/span&gt;
+        &lt;span class="n"&gt;FileOutputStream&lt;/span&gt; &lt;span class="n"&gt;outputStream&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;outputStream&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;FileOutputStream&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;File&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FILE_PATH&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+            &lt;span class="n"&gt;addressBook&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;writeTo&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outputStream&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;outputStream&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;close&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;FileNotFoundException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;IOException&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h3&gt;Apache Avro&lt;/h3&gt;
 &lt;h2&gt;Reactor Designing Pattern&lt;/h2&gt;
 &lt;h2&gt;Dive Into Hadoop RPC&lt;/h2&gt;
 &lt;h1&gt;事件库&lt;/h1&gt;
 &lt;hr&gt;
 &lt;h1&gt;状态机&lt;/h1&gt;
-&lt;hr&gt;&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category></entry><entry><title>机器学习系列(III):Gaussian Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="alternate"></link><updated>2014-03-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-15:ji-qi-xue-xi-xi-lie-iiigaussian-models.html</id><summary type="html">&lt;p&gt;在&lt;a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"&gt;上一篇&lt;/a&gt;中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。&lt;/p&gt;
+&lt;hr&gt;&lt;script type="text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category></entry><entry><title>机器学习系列(III):Gaussian Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="alternate"></link><updated>2014-03-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-15:ji-qi-xue-xi-xi-lie-iiigaussian-models.html</id><summary type="html">&lt;p&gt;在&lt;a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"&gt;上一篇&lt;/a&gt;中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。&lt;/p&gt;
 &lt;h1&gt;MLE for MVN&lt;/h1&gt;
 &lt;hr&gt;
 &lt;h2&gt;Basics about MVN&lt;/h2&gt;

@@ -92,20 +92,289 @@ Filed under <a href="./category/distributed-system.html">Distributed System</a>
 <p>为了解决以上几个问题,Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。Hadoop目前集成了Protocol Buffer以及Apache Avro的序列化部分,而函数调用调用机制仍采用Hadoop自带的,其中RPC采用Protocol Buffer,而Apache Avro则用于日志系统。以下对这两种序列化机制进行一个简要的介绍:</p>
 <h2>持久化框架</h2>
 <h3>Protocol Buffer<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" class="simple-footnote" title="本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial">1</a></sup></h3>
-<p>以下仅简要地介绍一下如何通过JAVA使用Protocol Buffer,上面提到过,Protocol Buffer是跨语言的,因此如果想知道其他语言如何使用,请参阅官方文档。</p>
-<p>介绍主要分为以下三个部分:</p>
+<p>Protocol Buffers 是一种轻便高效的结构化数据存储格式,可以用于结构化数据序列化/反序列化。它很适合做数据存储或RPC的数据交换格式,常用作通信协议、数据存储等领域的与语言无关、平台无关、可扩展的序列化结构数据格式。目前支持C++、Java、Python三种语言。在
+Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffers。</p>
+<p>相比于常见的XML格式,Protocol Buffers官方网站这样描述它的优点:</p>
+<ul>
+<li>平台无关、语言无关;</li>
+<li>高性能,解析速度是 XML 的 20 ~ 100 倍;</li>
+<li>体积小,文件大小仅是 XML 的 1/10 ~ 1/3;</li>
+<li>使用简单;</li>
+<li>兼容性好。</li>
+</ul>
+<p>通常编写一个 Protocol Buffers 应用需要以下三步:</p>
 <ul>
 <li>定义报文格式(.proto文件)</li>
 <li>使用Protocol Buffer Compiler编译生成JAVA类</li>
 <li>使用Protocol Buffer API读写报文</li>
 </ul>
+<h4>定义报文格式</h4>
+<p>我们首先定义消息格式文件addressbook.proto,以下定义了一个人的通讯录的基本信息:</p>
+<div class="highlight"><pre><span class="n">package</span> <span class="n">tutorial</span><span class="p">;</span>
+
+<span class="n">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">"com.qingyuanxingsi.tutorial"</span><span class="p">;</span>
+<span class="n">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">"AddressBookProtos"</span><span class="p">;</span>
+
+<span class="n">message</span> <span class="n">Person</span> <span class="p">{</span>
+    <span class="n">required</span> <span class="n">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">required</span> <span class="n">int32</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">string</span> <span class="n">email</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+
+    <span class="k">enum</span> <span class="n">PhoneType</span> <span class="p">{</span>
+        <span class="n">MOBILE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">HOME</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">WORK</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">message</span> <span class="n">PhoneNumber</span> <span class="p">{</span>
+        <span class="n">required</span> <span class="n">string</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="n">optional</span> <span class="n">PhoneType</span> <span class="n">type</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="n">HOME</span><span class="p">];</span>
+    <span class="p">}</span>
+
+    <span class="n">repeated</span> <span class="n">PhoneNumber</span> <span class="n">phone</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">message</span> <span class="n">AddressBook</span> <span class="p">{</span>
+    <span class="n">repeated</span> <span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>.proto文件开头包含一个包声明,以避免不同Project之间的命名冲突。Java中，package名即被用作Java包名,除非通过<code>java_package</code>另外显式指定表明。以上我们制定生成的包名为<code>com.qingyuanxingsi.tutorial</code>.<code>java_outer_classname</code>则指定了类名，我们生成的所有类均会被放在这个文件中。如果未显式制定，则会将文件名自动转化成Camel形式的类名。如,<code>my_proto.proto</code>默认情况下会生成<code>MyProto</code>作为其类名。</p>
+<p>接下来则是报文定义。一个报文即是一系列带有类型信息的Field的集合。很多简单数据类型可被用作Field Type,包括bool, int32, float, double, and string. 当然，你也可以自定义类型作为Field Type.在上述例子中,Person报文就包含PhoneNumber报文,AddressBook报文则包括Person报文。另外,报文可被嵌套定义,如PhoneNumber就定义在Person报文中。如果你想让你的某个Field具有一个或多个预定义的值,你可以使用枚举类型，如上述，我们想让电话号码类型取MOBILE, HOME, or WORK中的值。每个字段后的<code>=？</code>标记为每个Field分配了唯一的TAG,以用于二进制编码。</p>
+<p><code>required</code>关键字指定该Field必须被赋值，否则报文将会被视为<code>uninitialized</code>.编译此类报文则会抛出<em>RuntimeException</em>异常,除此之外,它与optional field基本相同。<code>optional</code>关键字则表明该Field可被设置，也可不设置。如果未设置,则会使用默认值。对于简单数据类型，我们可以定义我们自己的默认值,否则则会使用系统默认值。对于嵌套报文,默认值则通常会是报文的默认实例或者原型,其中每一个Field均未被设置。repeated则表明该字段可以重复任何多次。</p>
+<h4>编译生成JAVA类</h4>
+<p>使用以下命令即可生成相应的JAVA类:</p>
+<div class="highlight"><pre><span class="n">protoc</span> <span class="o">-</span><span class="n">I</span><span class="o">=</span><span class="err">$</span><span class="n">SRC_DIR</span> <span class="o">--</span><span class="n">java_out</span><span class="o">=</span><span class="err">$</span><span class="n">DST_DIR</span> <span class="err">$</span><span class="n">SRC_DIR</span><span class="o">/</span><span class="n">addressbook</span><span class="p">.</span><span class="n">proto</span>
+</pre></div>
+
+
+<p>生成的类的结构如下图所示(此处不再给出源码):</p>
+<p><img alt="AddressBook Struture" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/addressBook_zps34178bad.png"></p>
+<h4>使用Protocol Buffer API读写报文</h4>
+<p>如上图所示,我们可以看到一个<code>AddressBookProtos.java</code>类,其中则嵌套了多个类,每个类均有.proto中定义的message生成。每个类都有对应的一个<code>Builder</code>类,可以用于构造类实例。</p>
+<p>报文类以及Builder类对于报文的每个Field均提供了访问器。值得注意的是,报文类仅提供了getters,而Builder类既有getters,又有setters.以下给出Person类的一个实例:</p>
+<div class="highlight"><pre><span class="c1">// required string name = 1;</span>
+<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasName</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">String</span> <span class="n">getName</span><span class="p">();</span>
+
+<span class="c1">// required int32 id = 2;</span>
+<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasId</span><span class="p">();</span>
+<span class="n">public</span> <span class="k">int</span> <span class="n">getId</span><span class="p">();</span>
+
+<span class="c1">// optional string email = 3;</span>
+<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasEmail</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">String</span> <span class="n">getEmail</span><span class="p">();</span>
+
+<span class="c1">// repeated .tutorial.Person.PhoneNumber phone = 4;</span>
+<span class="n">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="n">getPhoneList</span><span class="p">();</span>
+<span class="n">public</span> <span class="k">int</span> <span class="n">getPhoneCount</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">PhoneNumber</span> <span class="n">getPhone</span><span class="p">(</span><span class="k">int</span> <span class="n">index</span><span class="p">);</span>
+</pre></div>
+
+
+<p>而与其对应的Builder类则getters和setters都有:</p>
+<div class="highlight"><pre><span class="c1">// required string name = 1;</span>
+<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasName</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">String</span> <span class="n">getName</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">setName</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearName</span><span class="p">();</span>
+
+<span class="c1">// required int32 id = 2;</span>
+<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasId</span><span class="p">();</span>
+<span class="n">public</span> <span class="k">int</span> <span class="n">getId</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">setId</span><span class="p">(</span><span class="k">int</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearId</span><span class="p">();</span>
+
+<span class="c1">// optional string email = 3;</span>
+<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasEmail</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">String</span> <span class="n">getEmail</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">setEmail</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearEmail</span><span class="p">();</span>
+
+<span class="c1">// repeated .tutorial.Person.PhoneNumber phone = 4;</span>
+<span class="n">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="n">getPhoneList</span><span class="p">();</span>
+<span class="n">public</span> <span class="k">int</span> <span class="n">getPhoneCount</span><span class="p">();</span>
+<span class="n">public</span> <span class="n">PhoneNumber</span> <span class="n">getPhone</span><span class="p">(</span><span class="k">int</span> <span class="n">index</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">setPhone</span><span class="p">(</span><span class="k">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">PhoneNumber</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">addPhone</span><span class="p">(</span><span class="n">PhoneNumber</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">addAllPhone</span><span class="p">(</span><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">);</span>
+<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearPhone</span><span class="p">();</span>
+</pre></div>
+
+
+<p>由Protocol Buffer Compiler编译生成的message类均是不可变的。Message实例一旦生成，就不能更改。为了构造一个message，我们首先构造一个builder,将Field设置成你想要的值,然后调用builder的build()方法。以下代码用于构造一个Person实例:</p>
+<div class="highlight"><pre><span class="n">Person</span> <span class="n">john</span> <span class="o">=</span>
+    <span class="n">Person</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setId</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="s">"John Doe"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setEmail</span><span class="p">(</span><span class="s">"jdoe@example.com"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">addPhone</span><span class="p">(</span>
+    <span class="n">Person</span><span class="p">.</span><span class="n">PhoneNumber</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">()</span>
+    <span class="p">.</span><span class="n">setNumber</span><span class="p">(</span><span class="s">"555-4321"</span><span class="p">)</span>
+    <span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneType</span><span class="p">.</span><span class="n">HOME</span><span class="p">))</span>
+<span class="p">.</span><span class="n">build</span><span class="p">();</span>
+</pre></div>
+
+
+<p>最后,每个Protocol Buffer类军定义了读写报文的方法,如下所示:</p>
+<ul>
+<li>byte[] toByteArray();持久化message对象并返回包含一字节数组。</li>
+<li>static Person parseFrom(byte[] data);通过给定字节数组解析构造报文实例。</li>
+<li>void writeTo(OutputStream output);将报文持久化到OutputStream中.</li>
+<li>static Person parseFrom(InputStream input);解析InputStream并构造报文实例.</li>
+</ul>
+<p>至此,我们给出一个报文读写实例,它用于将报文持久化到文件中然后从文件中解析构造得到原始报文:</p>
+<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">protoc</span><span class="p">;</span>
+
+<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">File</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">FileInputStream</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">FileNotFoundException</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">FileOutputStream</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">IOException</span><span class="p">;</span>
+
+<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">AddressBook</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">Person</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneNumber</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneType</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * A toy example demonstrates the writing and reading process to an address book</span>
+<span class="cm"> * proto.</span>
+<span class="cm"> * </span>
+<span class="cm"> * @author qingyuanxingsi</span>
+<span class="cm"> * </span>
+<span class="cm"> */</span>
+<span class="n">public</span> <span class="n">class</span> <span class="n">AddressBookDemo</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="k">static</span> <span class="n">final</span> <span class="n">String</span> <span class="n">FILE_PATH</span> <span class="o">=</span> <span class="s">"addressbook.dat"</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="n">addPerson</span><span class="p">();</span>
+        <span class="n">printData</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Print the data out</span>
+<span class="cm">     */</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">printData</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="n">AddressBook</span> <span class="n">addressBook</span> <span class="o">=</span> <span class="n">AddressBook</span>
+                    <span class="p">.</span><span class="n">parseFrom</span><span class="p">(</span><span class="n">new</span> <span class="n">FileInputStream</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="n">FILE_PATH</span><span class="p">)));</span>
+            <span class="n">print</span><span class="p">(</span><span class="n">addressBook</span><span class="p">);</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Print the whole all data</span>
+<span class="cm">     * </span>
+<span class="cm">     * @param addressBook</span>
+<span class="cm">     */</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">AddressBook</span> <span class="n">addressBook</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="c1">//Iterate over the address book</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">Person</span> <span class="n">person</span> <span class="o">:</span> <span class="n">addressBook</span><span class="p">.</span><span class="n">getPersonList</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Person ID: "</span> <span class="o">+</span> <span class="n">person</span><span class="p">.</span><span class="n">getId</span><span class="p">());</span>
+            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Person Name: "</span> <span class="o">+</span> <span class="n">person</span><span class="p">.</span><span class="n">getName</span><span class="p">());</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">hasEmail</span><span class="p">())</span> <span class="p">{</span>
+                <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"E-mail address: "</span> <span class="o">+</span> <span class="n">person</span><span class="p">.</span><span class="n">getEmail</span><span class="p">());</span>
+            <span class="p">}</span>
+
+            <span class="c1">//Get phone numbers</span>
+            <span class="k">for</span> <span class="p">(</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneNumber</span> <span class="n">phoneNumber</span> <span class="o">:</span> <span class="n">person</span><span class="p">.</span><span class="n">getPhoneList</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">switch</span> <span class="p">(</span><span class="n">phoneNumber</span><span class="p">.</span><span class="n">getType</span><span class="p">())</span> <span class="p">{</span>
+                <span class="k">case</span> <span class="n">MOBILE</span>:
+                    <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Mobile phone #: "</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="n">HOME</span>:
+                    <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Home phone #: "</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">case</span> <span class="n">WORK</span>:
+                    <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Work phone #: "</span><span class="p">);</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="p">}</span>
+                <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">.</span><span class="n">getNumber</span><span class="p">());</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Add a person to the address book file</span>
+<span class="cm">     */</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">addPerson</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span>
+                <span class="p">.</span><span class="n">newBuilder</span><span class="p">()</span>
+                <span class="p">.</span><span class="n">setId</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="s">"qingyuanxingsi"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">setEmail</span><span class="p">(</span><span class="s">"demo@server.com"</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">addPhone</span><span class="p">(</span>
+                        <span class="n">PhoneNumber</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">().</span><span class="n">setNumber</span><span class="p">(</span><span class="s">"13456723421"</span><span class="p">)</span>
+                                <span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">PhoneType</span><span class="p">.</span><span class="n">MOBILE</span><span class="p">).</span><span class="n">build</span><span class="p">()).</span><span class="n">build</span><span class="p">();</span>
+        <span class="n">AddressBook</span> <span class="n">addressBook</span> <span class="o">=</span> <span class="n">AddressBook</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">().</span><span class="n">addPerson</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
+                <span class="p">.</span><span class="n">build</span><span class="p">();</span>
+        <span class="c1">// System.out.println(person);</span>
+        <span class="n">FileOutputStream</span> <span class="n">outputStream</span><span class="p">;</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="n">outputStream</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FileOutputStream</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="n">FILE_PATH</span><span class="p">));</span>
+            <span class="n">addressBook</span><span class="p">.</span><span class="n">writeTo</span><span class="p">(</span><span class="n">outputStream</span><span class="p">);</span>
+            <span class="n">outputStream</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <h3>Apache Avro</h3>
 <h2>Reactor Designing Pattern</h2>
 <h2>Dive Into Hadoop RPC</h2>
 <h1>事件库</h1>
 <hr>
 <h1>状态机</h1>
-<hr><ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li></ol> 
+<hr><script type="text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
