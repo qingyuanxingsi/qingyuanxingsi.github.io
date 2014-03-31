@@ -71,11 +71,11 @@ Filed under <a href="./category/distributed-system.html">Distributed System</a>
       
       <div class="span8">
 	<h1>PREFACE</h1>
-<hr />
+<hr>
 <p>在上一篇<a href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">分布式计算与存储系列(序章):初入门径</a>中,我们主要介绍了分布式存储的一些基础知识,在本系列中,我们会结合论文以及源码对分布式计算的基本理论以及一些应用系统进行研究，以期对分布式系统有一个更为深入的了解。本系列的前若干篇均以研究Yarn为主,主要参考<a href="http://book.douban.com/subject/25774649/">Hadoop技术内幕:深入解析YARN架构设计与实现原理</a>一书的整体架构,但是个人对这本书不是特别满意，讲述的还是有点浅,很多问题只是浅尝则止而已。(真正想<code>深入</code>了解YARN的不建议购买本书，如若只是想粗略的了解一下YARN的工作流程的童鞋倒是可以入手一本滴。)因此，本系列仅会采用其大体框架，在其大体框架下，对YARN设计的其他知识和设计模式等也会有进一步更为深入的介绍。好吧，闲话就不多说了,我们开始正式讨论。</p>
 <p>本文的主要目的是介绍一下YARN中用到的基础库,它们是YARN其他模块得以建立的基石,其重要性自然不言而喻。我们先从其RPC库说起。</p>
 <h1>The Secret of RPC</h1>
-<hr />
+<hr>
 <p>当前存在非常多的开源 RPC 框架,比较有名的有 Thrift、Protocol Buffers 和 Avro。同Hadoop RPC一样,它们均由两部分组成:对象序列化和远程过程调用(Protocol Buflers官方仅提供了序列化实现,未提供远程调用相关实现,但三方 RPC 库非常多 )。相比于Hadoop RPC,它们有以下几个特点:</p>
 <ul>
 <li><strong>跨语言特性</strong>。对于 Hadoop RPC而言,由于Hadoop采用 Java 语言编写,因而其RPC客户端和服务器端仅支持Java语言;但对于更通用的 RPC框架,如Thrift或者Protocol Buffers等,其客户端和服务器端可采用任何语言编写,如Java、C++、Python等,这给用户编程带来极大方便。</li>
@@ -89,14 +89,21 @@ Filed under <a href="./category/distributed-system.html">Distributed System</a>
 </ul>
 <p>为了解决以上几个问题,Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。Hadoop目前集成了Protocol Buffer以及Apache Avro的序列化部分,而函数调用调用机制仍采用Hadoop自带的,其中RPC采用Protocol Buffer,而Apache Avro则用于日志系统。以下对这两种序列化机制进行一个简要的介绍:</p>
 <h2>持久化框架</h2>
-<h3>Protocol Buffer</h3>
+<h3>Protocol Buffer<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" class="simple-footnote" title="本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial">1</a></sup></h3>
+<p>以下仅简要地介绍一下如何通过JAVA使用Protocol Buffer,上面提到过,Protocol Buffer是跨语言的,因此如果想知道其他语言如何使用,请参阅官方文档。</p>
+<p>介绍主要分为以下三个部分:</p>
+<ul>
+<li>定义报文格式(.proto文件)</li>
+<li>使用Protocol Buffer Compiler编译生成JAVA类</li>
+<li>使用Protocol Buffer API读写报文</li>
+</ul>
 <h3>Apache Avro</h3>
 <h2>Reactor Designing Pattern</h2>
 <h2>Dive Into Hadoop RPC</h2>
 <h1>事件库</h1>
-<hr />
+<hr>
 <h1>状态机</h1>
-<hr />
+<hr><ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li></ol>
 	<hr />
       </div>
     </div>
