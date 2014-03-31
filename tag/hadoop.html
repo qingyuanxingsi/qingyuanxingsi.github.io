@@ -359,6 +359,251 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <li>使用Avro编译器生成特定语言的代码文件(可选);</li>
 <li>使用Avro库提供的 API 来编写应用程序。</li>
 </ul>
+<h4>定义消息格式文件</h4>
+<p>Avro schema是用JSON定义的。它有基本数据类型(null, boolean, int, long, float, double, bytes, string)以及复合数据类型(record, enum, array, map, union, and fixed)组成。以下给出一个具体实例user.avsc:</p>
+<div class="highlight"><pre><span class="p">{</span><span class="s2">"namespace"</span><span class="o">:</span> <span class="s2">"example.avro"</span><span class="o">,</span>
+    <span class="s2">"type"</span><span class="o">:</span> <span class="s2">"record"</span><span class="o">,</span>
+    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"User"</span><span class="o">,</span>
+    <span class="s2">"fields"</span><span class="o">:</span> <span class="cp">[</span>
+        <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"name"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">},</span>
+        <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"favorite_number"</span><span class="p">,</span>  <span class="s2">"type"</span><span class="p">:</span> <span class="err">[</span><span class="s2">"int"</span><span class="p">,</span> <span class="s2">"null"</span><span class="cp">]</span><span class="p">}</span><span class="o">,</span>
+        <span class="p">{</span><span class="s2">"name"</span><span class="o">:</span> <span class="s2">"favorite_color"</span><span class="o">,</span> <span class="s2">"type"</span><span class="o">:</span> <span class="cp">[</span><span class="s2">"string"</span><span class="p">,</span> <span class="s2">"null"</span><span class="cp">]</span><span class="p">}</span>
+    <span class="o">]</span>
+<span class="err">}</span>
+</pre></div>
+
+
+<h4>Compiling the schema(Optional)</h4>
+<p>同Protocol Buffer一样,Apache Avro可以根据Scheme定义自动生成JAVA类。我们可以通过avro-tools工具生成相应的类: </p>
+<div class="highlight"><pre><span class="nb">java</span> <span class="na">-jar</span> <span class="p">/</span><span class="nb">path</span><span class="p">/</span><span class="k">to</span><span class="p">/</span><span class="nx">avro</span><span class="na">-tools</span><span class="o">-</span><span class="mf">1.7.6</span><span class="bp">.</span><span class="nx">jar</span> <span class="nb">compile</span> <span class="nx">schema</span> <span class="o">&lt;</span><span class="nx">schema</span> <span class="nb">file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">destination</span><span class="o">&gt;</span>
+</pre></div>
+
+
+<p>就我们的例子而言,可以通过如下命令生成对应的JAVA类:</p>
+<div class="highlight"><pre><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">avro</span><span class="o">-</span><span class="n">tools</span><span class="o">-</span><span class="mf">1.7.6</span><span class="p">.</span><span class="n">jar</span> <span class="n">compile</span> <span class="n">schema</span> <span class="n">user</span><span class="p">.</span><span class="n">avsc</span>
+</pre></div>
+
+
+<p>生成的类结构如下图所示:</p>
+<p><img alt="User Structure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/User_zps8e56f737.png"></p>
+<h4>序列化与反序列化</h4>
+<p>当我们直接使用生成的JAVA类时,可通过如下方法持久化一个User:</p>
+<div class="highlight"><pre><span class="c1">// Serialize user user1 to disk</span>
+<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"user.avro"</span><span class="p">);</span>
+<span class="n">DatumWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">userDatumWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpecificDatumWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">User</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
+<span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">dataFileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">userDatumWriter</span><span class="p">);</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">user1</span><span class="p">.</span><span class="n">getSchema</span><span class="p">(),</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"users.avro"</span><span class="p">));</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</pre></div>
+
+
+<p>我们首先创建一个<code>DatumWriter</code>, 它负责将JAVA对象转化成内存中的序列化格式;SpecificDatumWriter类则与具体的生成类相关并从指定类中抽取Schema定义信息。 然后我们创建一个<code>DataFileWriter</code>,它将内存中的持久化对象以及Schema定义持久化到文件中。 最后,我们通过其append方法添加一个User实例。</p>
+<p>当我们要反序列化时,则可以使用如下方法:</p>
+<div class="highlight"><pre><span class="c1">// Deserialize Users from disk</span>
+<span class="n">DatumReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">userDatumReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpecificDatumReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">User</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
+<span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">dataFileReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">userDatumReader</span><span class="p">);</span>
+<span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">dataFileReader</span><span class="p">.</span><span class="n">hasNext</span><span class="p">())</span> <span class="p">{</span>
+<span class="c1">// Reuse user object by passing it to next(). This saves us from</span>
+<span class="c1">// allocating and garbage collecting many objects for files with</span>
+<span class="c1">// many items.</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">dataFileReader</span><span class="p">.</span><span class="n">next</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>反序列化与序列化基本相同,我们首先创建一个SpecificDatumReader,它将内存中的对象反序列化为我们的User实例,我们将DatumReader以及之前创建的文件传给DataFileReader,它从文件中读取信息。接着我们使用DataFileReader遍历已经序列化的User然后将反序列化之后的信息打印到标准输出流。</p>
+<p>当然,正如我们上述介绍Avro的特性时提到的那样,其实Avro可以不必生成对应的JAVA类,也就是说我们可以仅依靠Scheme定义直接序列化、反序列化对象。</p>
+<p>我们可以通过如下方法创建User实例:</p>
+<div class="highlight"><pre><span class="c1">//Read Scheme definition and create a Schema object</span>
+<span class="n">Schema</span> <span class="n">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Parser</span><span class="p">().</span><span class="n">parse</span><span class="p">(</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"user.avsc"</span><span class="p">));</span>
+
+<span class="c1">//Create user using above Schema </span>
+<span class="n">GenericRecord</span> <span class="n">user1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericData</span><span class="p">.</span><span class="n">Record</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
+<span class="n">user1</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"name"</span><span class="p">,</span> <span class="s">"Alyssa"</span><span class="p">);</span>
+<span class="n">user1</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"favorite_number"</span><span class="p">,</span> <span class="mh">256</span><span class="p">);</span>
+<span class="c1">// Leave favorite color null</span>
+
+<span class="n">GenericRecord</span> <span class="n">user2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericData</span><span class="p">.</span><span class="n">Record</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
+<span class="n">user2</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"name"</span><span class="p">,</span> <span class="s">"Ben"</span><span class="p">);</span>
+<span class="n">user2</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"favorite_number"</span><span class="p">,</span> <span class="mh">7</span><span class="p">);</span>
+<span class="n">user2</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"favorite_color"</span><span class="p">,</span> <span class="s">"red"</span><span class="p">);</span>
+</pre></div>
+
+
+<p>接着,我们可以以如下方式序列化User实例:</p>
+<div class="highlight"><pre><span class="c1">// Serialize user1 and user2 to disk</span>
+<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"users.avro"</span><span class="p">);</span>
+<span class="n">DatumWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">datumWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericDatumWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
+<span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">dataFileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">datumWriter</span><span class="p">);</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">user2</span><span class="p">);</span>
+<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</pre></div>
+
+
+<p>以上序列化过程基本和使用Code Generation时相同。</p>
+<p>最后,我们反序列化如上对象,当然,和之前Code Generation时也类似:</p>
+<div class="highlight"><pre><span class="c1">// Deserialize users from disk</span>
+<span class="n">DatumReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">datumReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericDatumReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
+<span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">dataFileReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">datumReader</span><span class="p">);</span>
+<span class="n">GenericRecord</span> <span class="n">user</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">dataFileReader</span><span class="p">.</span><span class="n">hasNext</span><span class="p">())</span> <span class="p">{</span>
+<span class="c1">// Reuse user object by passing it to next(). This saves us from</span>
+<span class="c1">// allocating and garbage collecting many objects for files with</span>
+<span class="c1">// many items.</span>
+<span class="n">user</span> <span class="o">=</span> <span class="n">dataFileReader</span><span class="p">.</span><span class="n">next</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+<span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
+</pre></div>
+
+
+<p>以下给出一完整实例:</p>
+<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.avrodemo</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">java.io.File</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">java.io.IOException</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">org.apache.avro.Schema</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.Schema.Parser</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.file.DataFileReader</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.file.DataFileWriter</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.generic.GenericData</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.generic.GenericRecord</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.io.DatumReader</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.io.DatumWriter</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.specific.SpecificDatumReader</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.avro.specific.SpecificDatumWriter</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">example.avro.User</span><span class="p">;</span>
+
+<span class="cm">/**</span>
+<span class="cm"> * A toy example demonstrates the use of Apache Avro</span>
+<span class="cm"> * </span>
+<span class="cm"> * @author qingyuanxingsi</span>
+<span class="cm"> * @version 1.0</span>
+<span class="cm"> */</span>
+<span class="k">public</span> <span class="nf">class</span> <span class="nx">AvroDemo</span> <span class="p">{</span>
+    <span class="c1">// File Path storing demo data</span>
+    <span class="k">private</span> <span class="nf">static</span> <span class="nx">final</span> <span class="kt">String</span> <span class="n">FILE_PATH</span> <span class="o">=</span> <span class="s2">"user.dat"</span><span class="p">;</span>
+
+    <span class="cm">/**</span>
+<span class="cm">     * Test Case</span>
+<span class="cm">     * </span>
+<span class="cm">     * @param args</span>
+<span class="cm">     */</span>
+    <span class="k">public</span> <span class="nf">static</span> <span class="bp">void</span> <span class="nx">main</span><span class="p">(</span><span class="kt">String</span><span class="err">[</span><span class="cp">]</span> args) {
+        //Avro with code generation
+        avroWithCode();
+        //Avro without code generation
+        avroWithoutCode();
+
+    }
+
+    /**
+     * Avro without code generation
+     */
+    private static void avroWithoutCode() {
+        // TODO Auto-generated method stub
+        System.out.println("-----------------------------");
+        System.out.println("2.Avro without code generation!");
+        System.out.println("-----------------------------");
+        Parser parser = new Parser();
+        try {
+            Schema schema = parser.parse(new File("user.avsc"));
+            GenericRecord user = new GenericData.Record(schema);
+            user.put("name", "qingyuanxingsi");
+            user.put("favorite_number", 6);
+            user.put("favorite_color", "BLUE");
+            // Serialize it
+            File file = new File(FILE_PATH);
+            DatumWriter<span class="nt">&lt;GenericRecord&gt;</span> userDatumWriter = new SpecificDatumWriter<span class="nt">&lt;GenericRecord&gt;</span>(
+                    schema);
+            DataFileWriter<span class="nt">&lt;GenericRecord&gt;</span> dataFileWriter = new DataFileWriter<span class="nt">&lt;GenericRecord&gt;</span>(
+                    userDatumWriter);
+            try {
+                dataFileWriter.create(schema, file);
+                dataFileWriter.append(user);
+                dataFileWriter.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+
+            // Deserialize Users from disk
+            DatumReader<span class="nt">&lt;GenericRecord&gt;</span> userDatumReader = new SpecificDatumReader<span class="nt">&lt;GenericRecord&gt;</span>(
+                    schema);
+            DataFileReader<span class="nt">&lt;GenericRecord&gt;</span> dataFileReader;
+            try {
+                dataFileReader = new DataFileReader<span class="nt">&lt;GenericRecord&gt;</span>(file, userDatumReader);
+                GenericRecord tmp = null;
+                while (dataFileReader.hasNext()) {
+                    // Reuse user object by passing it to next(). This saves us from
+                    // allocating and garbage collecting many objects for files with
+                    // many items.
+                    tmp = dataFileReader.next(tmp);
+                    System.out.println(tmp);
+                }
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Avro with code generation
+     */
+    private static void avroWithCode() {
+        // TODO Auto-generated method stub
+        System.out.println("-----------------------------");
+        System.out.println("1.Avro with code generation!");
+        System.out.println("-----------------------------");
+        User user = User.newBuilder().setName("qingyuanxingsi")
+                .setFavoriteNumber(5).setFavoriteColor("PURPLE").build();
+        // Serialize it
+        File file = new File(FILE_PATH);
+        DatumWriter<span class="nt">&lt;User&gt;</span> userDatumWriter = new SpecificDatumWriter<span class="nt">&lt;User&gt;</span>(
+                User.class);
+        DataFileWriter<span class="nt">&lt;User&gt;</span> dataFileWriter = new DataFileWriter<span class="nt">&lt;User&gt;</span>(
+                userDatumWriter);
+        try {
+            dataFileWriter.create(user.getSchema(), file);
+            dataFileWriter.append(user);
+            dataFileWriter.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        // Deserialize Users from disk
+        DatumReader<span class="nt">&lt;User&gt;</span> userDatumReader = new SpecificDatumReader<span class="nt">&lt;User&gt;</span>(
+                User.class);
+        DataFileReader<span class="nt">&lt;User&gt;</span> dataFileReader;
+        try {
+            dataFileReader = new DataFileReader<span class="nt">&lt;User&gt;</span>(file, userDatumReader);
+            User tmp = null;
+            while (dataFileReader.hasNext()) {
+                // Reuse user object by passing it to next(). This saves us from
+                // allocating and garbage collecting many objects for files with
+                // many items.
+                tmp = dataFileReader.next(tmp);
+                System.out.println(tmp);
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+</pre></div>
+
+
 <h2>Reactor Designing Pattern</h2>
 <h2>Dive Into Hadoop RPC</h2>
 <h1>事件库</h1>
