@@ -265,7 +265,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h3&gt;Apache Avro&lt;/h3&gt;
+&lt;h3&gt;Apache Avro&lt;sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"&gt;&lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" class="simple-footnote" title="本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h3&gt;
 &lt;h2&gt;Reactor Designing Pattern&lt;/h2&gt;
 &lt;h2&gt;Dive Into Hadoop RPC&lt;/h2&gt;
 &lt;h1&gt;事件库&lt;/h1&gt;
@@ -301,7 +301,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category></entry><entry><title>分布式计算与存储系列(序章):初入门径</title><link href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="alternate"></link><updated>2014-03-11T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-11:fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html</id><summary type="html">&lt;p&gt;过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书&lt;a href="http://book.douban.com/subject/25723658/"&gt;《大规模分布式存储系统：原理解析与架构实战》&lt;/a&gt;,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category></entry><entry><title>分布式计算与存储系列(序章):初入门径</title><link href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="alternate"></link><updated>2014-03-11T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-11:fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html</id><summary type="html">&lt;p&gt;过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书&lt;a href="http://book.douban.com/subject/25723658/"&gt;《大规模分布式存储系统：原理解析与架构实战》&lt;/a&gt;,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。&lt;/p&gt;
 &lt;h1&gt;概述&lt;/h1&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
