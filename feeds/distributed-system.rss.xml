@@ -871,7 +871,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 &lt;li&gt;ipc.Server 类分析&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Hadoop采用了Master/Slave 结构,其中Master是整个系统的单点,如NameNode或JobTracker ,这是制约系统性能和可扩展性的最关键因素之一 ;而Master通过ipc.Server接收并处理所有Slave发送的请求,这就要求ipc.Server将高并发和可扩展性作为设计目标为此,ipc.Server采用了很多提高并发处理能力的技术,主要包括线程池、事件驱动和Reactor设计模式等,这些技术均采用了JDK自带的库实现,这里重点分析它是如何利用Reactor设计模式提高整体性能的。HDFS的单点故障已经在Hadoop 2.0中得到了解决,MRv1中的JobTracker的单点故障在CDH4中也得到了解决。&lt;/p&gt;
-&lt;p&gt;Reactor是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。&lt;/p&gt;
+&lt;p&gt;Reactor&lt;sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back"&gt;&lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4" class="simple-footnote" title="如若时间允许,该设计模式会进行详尽的分析。"&gt;4&lt;/a&gt;&lt;/sup&gt;是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Reactor Pattern" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/reactor_pattern_zps5fc183a4.png"&gt;&lt;/p&gt;
 &lt;p&gt;典型的Reactor模式中主要包括以下几个角色。&lt;/p&gt;
 &lt;p&gt;❑ Reactor:I/O事件的派发者。&lt;/p&gt;
@@ -1103,6 +1103,231 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 
 &lt;h1&gt;服务库与事件库&lt;/h1&gt;
 &lt;hr&gt;
+&lt;h2&gt;服务库&lt;/h2&gt;
+&lt;p&gt;对于生命周期较长的对象,YARN采用了基于服务的对象管理模型对其进行管理,该模型主要有以下几个特点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;将每个被服务化的对象分为 4 个状态: NOTINITED(被创建)、 INITED(已初始化)、STARTED(已启动)、STOPPED(已停止)。&lt;/li&gt;
+&lt;li&gt;任何服务状态变化都可以触发另外一些动作。&lt;/li&gt;
+&lt;li&gt;可通过组合的方式对任意服务进行组合,以便进行统一管理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;YARN中关于服务模型的类图(位于包org.apache.hadoop.service中)如下图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Yarn Service" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/service_zps0c2f0998.png"&gt;&lt;/p&gt;
+&lt;p&gt;在这个图中,我们可以看到,所有的服务对象最终均实现了接口Service,它定义了最基本的服务初始化、启动、停止等操作,而AbstractService类提供了一个最基本的Service实现。YARN中所有对象,如果是非组合服务,直接继承AbstractService类即可,否则需继承CompositeService。比如,对于ResourceManager而言,它是一个组合服务,它组合了各种服务对象,包括ClientRMService、ApplicationMasterLauncher、ApplicationMasterService 等。在 YARN 中,ResourceManager和NodeManager属于组合服务,它们内部包含多个单一服务和组合服务,以实现对内部多种服务的统一管理。&lt;/p&gt;
+&lt;h2&gt;事件库&lt;/h2&gt;
+&lt;p&gt;YARN采用了基于事件驱动的并发模型,该模型能够大大增强并发性,从而提高系统整体性能。为了构建该模型,YARN将各种处理逻辑抽象成事件和对应事件调度器,并将每类事件的处理过程分割成多个步骤,用有限状态机表示。YARN中的事件处理模型可概括为下图。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Yarn Events" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/yarn_event_zpsbaeaa655.png"&gt;&lt;/p&gt;
+&lt;p&gt;整个处理过程大致为:处理请求会作为事件进入系统,由中央异步调度器(Async-Dispatcher)负责传递给相应事件调度器(Event Handler)。该事件调度器可能将该事件转发给另外一个事件调度器,也可能交给一个带有有限状态机的事件处理器,其处理结果也以事
+件的形式输出给中央异步调度器。而新的事件会再次被中央异步调度器转发给下一个事件调度器,直至处理完成(达到终止条件)。&lt;/p&gt;
+&lt;p&gt;在YARN 中,所有核心服务实际上都是一个中央异步调度器,包括ResourceManager、NodeManager、MRAppMaster(MapReduce 应 用 程 序 的 ApplicationMaster)等, 它们维护了事先注册的事件与事件处理器,并根据接收的事件类型驱动服务的运行。&lt;/p&gt;
+&lt;p&gt;YARN中事件与事件处理器类的关系(位于包org.apache.hadoop.yarn.event中)如下图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Async Dispatcher" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/async_dispatcher_zps52f954d2.png"&gt;&lt;/p&gt;
+&lt;p&gt;当使用YARN事件库时,通常先要定义一个中央异步调度器AsyncDispatcher,负责事件的处理与转发, 然后根据实际业务需求定义一系列事件 Event与事件处理器EventHandler,并注册到中央异步调度器中以实现事件统一管理和调度(&lt;strong&gt;异步调度器维护了Event与EventHandler之间的映射关系&lt;/strong&gt;)。以MRAppMaster为例, 它内部包含一个中央异步调度器AsyncDispatcher,并注册了TaskAttemptEvent/TaskAttemptImpl、TaskEvent/TaskImpl、JobEvent/JobImpl 等一系列事件/事件处理器,由中央异步调度器统一管理和调度。&lt;/p&gt;
+&lt;p&gt;服务化和事件驱动软件设计思想的引入,使得YARN具有低耦合、高内聚的特点,各个模块只需完成各自功能,而模块之间则采用事件联系起来,系统设计简单且维护方便。&lt;/p&gt;
+&lt;p&gt;为了说明 YARN 服务库和事件库的使用方法,本小节介绍一个简单的实例,该实例可看做MapReduceApplicationMaster(MRAppMaster)的简化版。该例子涉及任务和作业两种对象的事件以及一个中央异步调度器。步骤如下。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;步骤1&lt;/strong&gt; 定义Task事件。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;org.qingyuanxingsi.test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.yarn.event.AbstractEvent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;TaskEvent&lt;/span&gt; &lt;span class="nx"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;AbstractEvent&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;TaskEventType&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//Task id&lt;/span&gt;
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;taskId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;TaskEvent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="na"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;taskId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="na"&gt;TaskEventType&lt;/span&gt; &lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+        &lt;span class="nx"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;this.taskId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;taskId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;getTaskId&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;taskId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中,Task事件类型定义如下:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;TaskEventType&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;T_KILL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;T_SCHEDULE&lt;/span&gt;  
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;步骤2&lt;/strong&gt; 定义Job事件。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;org.qingyuanxingsi.test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.yarn.event.AbstractEvent&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;JobEvent&lt;/span&gt; &lt;span class="nx"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;AbstractEvent&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;JobEventType&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
+
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;JobEvent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="na"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="na"&gt;JobEventType&lt;/span&gt; &lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nx"&gt;super&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;type&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="c1"&gt;// TODO Auto-generated constructor stub&lt;/span&gt;
+        &lt;span class="n"&gt;this.jobId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;getJobId&lt;/span&gt;&lt;span class="p"&gt;(){&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nx"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;其中,Job事件类型定义如下:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;enum&lt;/span&gt; &lt;span class="n"&gt;JobEventType&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;JOB_KILL&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;JOB_INIT&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="n"&gt;JOB_START&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;步骤3&lt;/strong&gt; 事件调度器。
+接下来定义一个中央异步调度器,它接收Job和Task两种类型事件,并交给对应的事件处理器处理,代码如下:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;package&lt;/span&gt; &lt;span class="nx"&gt;org.qingyuanxingsi.test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.conf.Configuration&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.service.CompositeService&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.service.Service&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.yarn.event.AsyncDispatcher&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.yarn.event.Dispatcher&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;import&lt;/span&gt; &lt;span class="nx"&gt;org.apache.hadoop.yarn.event.EventHandler&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+
+&lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt; * A simple central async dispatcher&lt;/span&gt;
+&lt;span class="cm"&gt; * @author qingyuanxingsi&lt;/span&gt;
+&lt;span class="cm"&gt; *&lt;/span&gt;
+&lt;span class="cm"&gt; */&lt;/span&gt;
+&lt;span class="k"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;class&lt;/span&gt; &lt;span class="nx"&gt;SimpleMRAppMaster&lt;/span&gt; &lt;span class="nx"&gt;extends&lt;/span&gt; &lt;span class="nx"&gt;CompositeService&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;//Central Async Dispatcher&lt;/span&gt;
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;Dispatcher&lt;/span&gt; &lt;span class="nx"&gt;dispatcher&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="nx"&gt;SuppressWarnings&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"unused"&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;String&lt;/span&gt; &lt;span class="nx"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="c1"&gt;//The number of tasks contained in this job&lt;/span&gt;
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;taskNum&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="c1"&gt;//All tasks&lt;/span&gt;
+    &lt;span class="k"&gt;private&lt;/span&gt; &lt;span class="nf"&gt;String&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; taskIdArray;
+
+    public SimpleMRAppMaster(String name,String jobId,
+            int taskNum) {
+        super(name);
+        this.jobId = jobId;
+        this.taskNum = taskNum;
+        this.taskIdArray = new String&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;taskNum&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;;
+        for(int i=0; i&lt;span class="nt"&gt;&amp;lt;taskNum&lt;/span&gt;&lt;span class="err"&gt;;&lt;/span&gt; &lt;span class="na"&gt;i&lt;/span&gt;&lt;span class="err"&gt;++){&lt;/span&gt;
+            &lt;span class="na"&gt;taskIdArray&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="na"&gt; =&lt;/span&gt;&lt;span class="err"&gt; &lt;/span&gt;&lt;span class="s"&gt;new&lt;/span&gt; &lt;span class="na"&gt;String&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;jobId&lt;/span&gt;&lt;span class="err"&gt;+"&lt;/span&gt;&lt;span class="na"&gt;_task_&lt;/span&gt;&lt;span class="err"&gt;"+&lt;/span&gt;&lt;span class="na"&gt;i&lt;/span&gt;&lt;span class="err"&gt;);&lt;/span&gt;      
+        &lt;span class="err"&gt;}&lt;/span&gt;
+    &lt;span class="err"&gt;}&lt;/span&gt;
+
+
+    &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="na"&gt;Override&lt;/span&gt;
+    &lt;span class="na"&gt;protected&lt;/span&gt; &lt;span class="na"&gt;void&lt;/span&gt; &lt;span class="na"&gt;serviceInit&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;Configuration&lt;/span&gt; &lt;span class="na"&gt;conf&lt;/span&gt;&lt;span class="err"&gt;)&lt;/span&gt; &lt;span class="na"&gt;throws&lt;/span&gt; &lt;span class="na"&gt;Exception&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
+        &lt;span class="err"&gt;//&lt;/span&gt; &lt;span class="na"&gt;TODO&lt;/span&gt; &lt;span class="na"&gt;Auto-generated&lt;/span&gt; &lt;span class="na"&gt;method&lt;/span&gt; &lt;span class="na"&gt;stub&lt;/span&gt;
+        &lt;span class="na"&gt;dispatcher =&lt;/span&gt;&lt;span class="err"&gt; &lt;/span&gt;&lt;span class="s"&gt;new&lt;/span&gt; &lt;span class="na"&gt;AsyncDispatcher&lt;/span&gt;&lt;span class="err"&gt;();&lt;/span&gt;
+        &lt;span class="err"&gt;//&lt;/span&gt;&lt;span class="na"&gt;Register&lt;/span&gt; &lt;span class="na"&gt;the&lt;/span&gt; &lt;span class="na"&gt;event&lt;/span&gt; &lt;span class="na"&gt;handler&lt;/span&gt; &lt;span class="na"&gt;for&lt;/span&gt; &lt;span class="na"&gt;job&lt;/span&gt; &lt;span class="na"&gt;and&lt;/span&gt; &lt;span class="na"&gt;task&lt;/span&gt; &lt;span class="na"&gt;events&lt;/span&gt;
+        &lt;span class="na"&gt;dispatcher&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;register&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;JobEventType&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="err"&gt;,&lt;/span&gt; &lt;span class="na"&gt;new&lt;/span&gt; &lt;span class="na"&gt;JobEventDispatcher&lt;/span&gt;&lt;span class="err"&gt;());&lt;/span&gt;
+        &lt;span class="na"&gt;dispatcher&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;register&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;TaskEventType&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;class&lt;/span&gt;&lt;span class="err"&gt;,&lt;/span&gt; &lt;span class="na"&gt;new&lt;/span&gt; &lt;span class="na"&gt;TaskEventDispatcher&lt;/span&gt;&lt;span class="err"&gt;());&lt;/span&gt;
+        &lt;span class="na"&gt;addService&lt;/span&gt;&lt;span class="err"&gt;((&lt;/span&gt;&lt;span class="na"&gt;Service&lt;/span&gt;&lt;span class="err"&gt;)&lt;/span&gt;&lt;span class="na"&gt;dispatcher&lt;/span&gt;&lt;span class="err"&gt;);&lt;/span&gt;
+        &lt;span class="na"&gt;super&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;serviceInit&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;conf&lt;/span&gt;&lt;span class="err"&gt;);&lt;/span&gt;
+    &lt;span class="err"&gt;}&lt;/span&gt;
+
+    &lt;span class="na"&gt;public&lt;/span&gt; &lt;span class="na"&gt;Dispatcher&lt;/span&gt; &lt;span class="na"&gt;getDispatcher&lt;/span&gt;&lt;span class="err"&gt;(){&lt;/span&gt;
+        &lt;span class="na"&gt;return&lt;/span&gt; &lt;span class="na"&gt;dispatcher&lt;/span&gt;&lt;span class="err"&gt;;&lt;/span&gt;
+    &lt;span class="err"&gt;}&lt;/span&gt;
+
+    &lt;span class="na"&gt;private&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt; &lt;span class="na"&gt;JobEventDispatcher&lt;/span&gt; &lt;span class="na"&gt;implements&lt;/span&gt; &lt;span class="na"&gt;EventHandler&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;&lt;span class="na"&gt;JobEvent&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;{
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public void handle(JobEvent event) {
+            // TODO Auto-generated method stub
+            if(event.getType() == JobEventType.JOB_KILL){
+                System.out.println("Receive JOB_KILL event,killing all the tasks");
+                for(int i=0;i&lt;span class="nt"&gt;&amp;lt;taskNum&lt;/span&gt;&lt;span class="err"&gt;;&lt;/span&gt;&lt;span class="na"&gt;i&lt;/span&gt;&lt;span class="err"&gt;++){&lt;/span&gt;
+                    &lt;span class="na"&gt;dispatcher&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEventHandler&lt;/span&gt;&lt;span class="err"&gt;().&lt;/span&gt;&lt;span class="na"&gt;handle&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;new&lt;/span&gt; &lt;span class="na"&gt;TaskEvent&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;taskIdArray&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="err"&gt;,&lt;/span&gt;
+                            &lt;span class="na"&gt;TaskEventType&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;T_KILL&lt;/span&gt;&lt;span class="err"&gt;));&lt;/span&gt;
+                &lt;span class="err"&gt;}&lt;/span&gt;
+            &lt;span class="err"&gt;}&lt;/span&gt;
+            &lt;span class="na"&gt;else&lt;/span&gt; &lt;span class="na"&gt;if&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;event&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getType&lt;/span&gt;&lt;span class="err"&gt;()&lt;/span&gt; &lt;span class="err"&gt;==&lt;/span&gt; &lt;span class="na"&gt;JobEventType&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;JOB_INIT&lt;/span&gt;&lt;span class="err"&gt;){&lt;/span&gt;
+                &lt;span class="na"&gt;System&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;out&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;println&lt;/span&gt;&lt;span class="err"&gt;("&lt;/span&gt;&lt;span class="na"&gt;Receive&lt;/span&gt; &lt;span class="na"&gt;JOB_Init&lt;/span&gt; &lt;span class="na"&gt;event&lt;/span&gt;&lt;span class="err"&gt;,&lt;/span&gt;&lt;span class="na"&gt;initializing&lt;/span&gt; &lt;span class="na"&gt;all&lt;/span&gt; &lt;span class="na"&gt;the&lt;/span&gt; &lt;span class="na"&gt;tasks&lt;/span&gt;&lt;span class="err"&gt;");&lt;/span&gt;
+                &lt;span class="na"&gt;for&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;int&lt;/span&gt; &lt;span class="na"&gt;i=&lt;/span&gt;&lt;span class="s"&gt;0;i&amp;lt;taskNum;i++){&lt;/span&gt;
+                    &lt;span class="na"&gt;dispatcher&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;getEventHandler&lt;/span&gt;&lt;span class="err"&gt;().&lt;/span&gt;&lt;span class="na"&gt;handle&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;new&lt;/span&gt; &lt;span class="na"&gt;TaskEvent&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;taskIdArray&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="err"&gt;,&lt;/span&gt;
+                            &lt;span class="na"&gt;TaskEventType&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;T_SCHEDULE&lt;/span&gt;&lt;span class="err"&gt;));&lt;/span&gt;
+                &lt;span class="err"&gt;}&lt;/span&gt;
+            &lt;span class="err"&gt;}&lt;/span&gt;
+        &lt;span class="err"&gt;}&lt;/span&gt;   
+    &lt;span class="err"&gt;}&lt;/span&gt;
+
+
+
+    &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="na"&gt;Override&lt;/span&gt;
+    &lt;span class="na"&gt;protected&lt;/span&gt; &lt;span class="na"&gt;void&lt;/span&gt; &lt;span class="na"&gt;serviceStart&lt;/span&gt;&lt;span class="err"&gt;()&lt;/span&gt; &lt;span class="na"&gt;throws&lt;/span&gt; &lt;span class="na"&gt;Exception&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
+        &lt;span class="err"&gt;//&lt;/span&gt; &lt;span class="na"&gt;TODO&lt;/span&gt; &lt;span class="na"&gt;Auto-generated&lt;/span&gt; &lt;span class="na"&gt;method&lt;/span&gt; &lt;span class="na"&gt;stub&lt;/span&gt;
+        &lt;span class="na"&gt;super&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;serviceStart&lt;/span&gt;&lt;span class="err"&gt;();&lt;/span&gt;
+    &lt;span class="err"&gt;}&lt;/span&gt;
+
+    &lt;span class="na"&gt;private&lt;/span&gt; &lt;span class="na"&gt;class&lt;/span&gt; &lt;span class="na"&gt;TaskEventDispatcher&lt;/span&gt; &lt;span class="na"&gt;implements&lt;/span&gt; &lt;span class="na"&gt;EventHandler&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;&lt;span class="na"&gt;TaskEvent&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;{
+
+        @Override
+        public void handle(TaskEvent event) {
+            // TODO Auto-generated method stub
+            if(event.getType() == TaskEventType.T_KILL)
+            {
+                System.out.println("Killing this very task with taskId:"+event.getTaskId());
+            }
+            else if(event.getType() == TaskEventType.T_SCHEDULE)
+            {
+                System.out.println("Scheduling this very task with taskId:"+event.getTaskId());
+            }
+        }
+    }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;步骤4&lt;/strong&gt; 测试程序。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;package&lt;/span&gt; &lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;qingyuanxingsi&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;test&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apache&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Configuration&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="n"&gt;org&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apache&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hadoop&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;yarn&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;YarnConfiguration&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+
+&lt;span class="cm"&gt;/**&lt;/span&gt;
+&lt;span class="cm"&gt; * Just a simple test case&lt;/span&gt;
+&lt;span class="cm"&gt; * @author qingyuanxingsi&lt;/span&gt;
+&lt;span class="cm"&gt; * @version 1.0&lt;/span&gt;
+&lt;span class="cm"&gt; */&lt;/span&gt;
+&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;SimpleMRAppMasterTest&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="err"&gt;@&lt;/span&gt;&lt;span class="n"&gt;SuppressWarnings&lt;/span&gt;&lt;span class="p"&gt;({&lt;/span&gt; &lt;span class="s"&gt;"unchecked"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;"resource"&lt;/span&gt; &lt;span class="p"&gt;})&lt;/span&gt;
+    &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;String&lt;/span&gt;&lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="n"&gt;args&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
+        &lt;span class="n"&gt;String&lt;/span&gt; &lt;span class="n"&gt;jobId&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"job_20140321_01"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;SimpleMRAppMaster&lt;/span&gt; &lt;span class="n"&gt;master&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;SimpleMRAppMaster&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"Simple MRAppMaster"&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;YarnConfiguration&lt;/span&gt; &lt;span class="n"&gt;conf&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;YarnConfiguration&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Configuration&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+        &lt;span class="n"&gt;try&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;serviceInit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conf&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;serviceStart&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+            &lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getDispatcher&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;getEventHandler&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;JobEvent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="n"&gt;JobEventType&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;JOB_KILL&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+            &lt;span class="n"&gt;master&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getDispatcher&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;getEventHandler&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;new&lt;/span&gt; &lt;span class="n"&gt;JobEvent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;jobId&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                    &lt;span class="n"&gt;JobEventType&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;JOB_INIT&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="n"&gt;catch&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Exception&lt;/span&gt; &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="c1"&gt;// TODO Auto-generated catch block&lt;/span&gt;
+            &lt;span class="n"&gt;e&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;printStackTrace&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h1&gt;状态机&lt;/h1&gt;
 &lt;hr&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -1134,7 +1359,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3"&gt;参考&lt;a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html"&gt;java动态代理(JDK和cglib)&lt;/a&gt; &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category><category term="Proxy Pattern"></category></entry><entry><title>分布式计算与存储系列(序章):初入门径</title><link href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="alternate"></link><updated>2014-03-11T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-11:fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html</id><summary type="html">&lt;p&gt;过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书&lt;a href="http://book.douban.com/subject/25723658/"&gt;《大规模分布式存储系统：原理解析与架构实战》&lt;/a&gt;,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3"&gt;参考&lt;a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html"&gt;java动态代理(JDK和cglib)&lt;/a&gt; &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4"&gt;如若时间允许,该设计模式会进行详尽的分析。 &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category><category term="Proxy Pattern"></category></entry><entry><title>分布式计算与存储系列(序章):初入门径</title><link href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html" rel="alternate"></link><updated>2014-03-11T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-11:fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html</id><summary type="html">&lt;p&gt;过年回来之后就发现电脑坏了，一大通鼓捣之后把上学期记录的文档全都丢掉了，包括上学期看过的这本书&lt;a href="http://book.douban.com/subject/25723658/"&gt;《大规模分布式存储系统：原理解析与架构实战》&lt;/a&gt;,由于文档丢失了，也反而有了一次重温一下这本书的机会;本文基本上以该书为蓝本，对书中某些内容会做进一步的挖掘，对目前我能获得的所有资料综合整理，遂成此文。&lt;/p&gt;
 &lt;h1&gt;概述&lt;/h1&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;

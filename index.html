@@ -944,7 +944,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 <li>ipc.Server 类分析</li>
 </ul>
 <p>Hadoop采用了Master/Slave 结构,其中Master是整个系统的单点,如NameNode或JobTracker ,这是制约系统性能和可扩展性的最关键因素之一 ;而Master通过ipc.Server接收并处理所有Slave发送的请求,这就要求ipc.Server将高并发和可扩展性作为设计目标为此,ipc.Server采用了很多提高并发处理能力的技术,主要包括线程池、事件驱动和Reactor设计模式等,这些技术均采用了JDK自带的库实现,这里重点分析它是如何利用Reactor设计模式提高整体性能的。HDFS的单点故障已经在Hadoop 2.0中得到了解决,MRv1中的JobTracker的单点故障在CDH4中也得到了解决。</p>
-<p>Reactor是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。</p>
+<p>Reactor<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4" class="simple-footnote" title="如若时间允许,该设计模式会进行详尽的分析。">4</a></sup>是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。</p>
 <p><img alt="Reactor Pattern" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/reactor_pattern_zps5fc183a4.png"></p>
 <p>典型的Reactor模式中主要包括以下几个角色。</p>
 <p>❑ Reactor:I/O事件的派发者。</p>
@@ -1176,6 +1176,231 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 
 <h1>服务库与事件库</h1>
 <hr>
+<h2>服务库</h2>
+<p>对于生命周期较长的对象,YARN采用了基于服务的对象管理模型对其进行管理,该模型主要有以下几个特点:</p>
+<ul>
+<li>将每个被服务化的对象分为 4 个状态: NOTINITED(被创建)、 INITED(已初始化)、STARTED(已启动)、STOPPED(已停止)。</li>
+<li>任何服务状态变化都可以触发另外一些动作。</li>
+<li>可通过组合的方式对任意服务进行组合,以便进行统一管理。</li>
+</ul>
+<p>YARN中关于服务模型的类图(位于包org.apache.hadoop.service中)如下图所示。</p>
+<p><img alt="Yarn Service" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/service_zps0c2f0998.png"></p>
+<p>在这个图中,我们可以看到,所有的服务对象最终均实现了接口Service,它定义了最基本的服务初始化、启动、停止等操作,而AbstractService类提供了一个最基本的Service实现。YARN中所有对象,如果是非组合服务,直接继承AbstractService类即可,否则需继承CompositeService。比如,对于ResourceManager而言,它是一个组合服务,它组合了各种服务对象,包括ClientRMService、ApplicationMasterLauncher、ApplicationMasterService 等。在 YARN 中,ResourceManager和NodeManager属于组合服务,它们内部包含多个单一服务和组合服务,以实现对内部多种服务的统一管理。</p>
+<h2>事件库</h2>
+<p>YARN采用了基于事件驱动的并发模型,该模型能够大大增强并发性,从而提高系统整体性能。为了构建该模型,YARN将各种处理逻辑抽象成事件和对应事件调度器,并将每类事件的处理过程分割成多个步骤,用有限状态机表示。YARN中的事件处理模型可概括为下图。</p>
+<p><img alt="Yarn Events" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/yarn_event_zpsbaeaa655.png"></p>
+<p>整个处理过程大致为:处理请求会作为事件进入系统,由中央异步调度器(Async-Dispatcher)负责传递给相应事件调度器(Event Handler)。该事件调度器可能将该事件转发给另外一个事件调度器,也可能交给一个带有有限状态机的事件处理器,其处理结果也以事
+件的形式输出给中央异步调度器。而新的事件会再次被中央异步调度器转发给下一个事件调度器,直至处理完成(达到终止条件)。</p>
+<p>在YARN 中,所有核心服务实际上都是一个中央异步调度器,包括ResourceManager、NodeManager、MRAppMaster(MapReduce 应 用 程 序 的 ApplicationMaster)等, 它们维护了事先注册的事件与事件处理器,并根据接收的事件类型驱动服务的运行。</p>
+<p>YARN中事件与事件处理器类的关系(位于包org.apache.hadoop.yarn.event中)如下图所示。</p>
+<p><img alt="Async Dispatcher" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/async_dispatcher_zps52f954d2.png"></p>
+<p>当使用YARN事件库时,通常先要定义一个中央异步调度器AsyncDispatcher,负责事件的处理与转发, 然后根据实际业务需求定义一系列事件 Event与事件处理器EventHandler,并注册到中央异步调度器中以实现事件统一管理和调度(<strong>异步调度器维护了Event与EventHandler之间的映射关系</strong>)。以MRAppMaster为例, 它内部包含一个中央异步调度器AsyncDispatcher,并注册了TaskAttemptEvent/TaskAttemptImpl、TaskEvent/TaskImpl、JobEvent/JobImpl 等一系列事件/事件处理器,由中央异步调度器统一管理和调度。</p>
+<p>服务化和事件驱动软件设计思想的引入,使得YARN具有低耦合、高内聚的特点,各个模块只需完成各自功能,而模块之间则采用事件联系起来,系统设计简单且维护方便。</p>
+<p>为了说明 YARN 服务库和事件库的使用方法,本小节介绍一个简单的实例,该实例可看做MapReduceApplicationMaster(MRAppMaster)的简化版。该例子涉及任务和作业两种对象的事件以及一个中央异步调度器。步骤如下。</p>
+<p><strong>步骤1</strong> 定义Task事件。</p>
+<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.test</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.AbstractEvent</span><span class="p">;</span>
+
+
+<span class="k">public</span> <span class="nf">class</span> <span class="nx">TaskEvent</span> <span class="nx">extends</span> <span class="nx">AbstractEvent</span><span class="o">&lt;</span><span class="nx">TaskEventType</span><span class="o">&gt;</span><span class="p">{</span>
+    <span class="c1">//Task id</span>
+    <span class="k">private</span> <span class="nf">String</span> <span class="nx">taskId</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">TaskEvent</span><span class="p">(</span><span class="na">String</span> <span class="nx">taskId</span><span class="p">,</span><span class="na">TaskEventType</span> <span class="k">type</span><span class="p">){</span>
+        <span class="nx">super</span><span class="p">(</span><span class="k">type</span><span class="p">);</span>
+        <span class="n">this.taskId</span> <span class="o">=</span> <span class="nx">taskId</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="nf">String</span> <span class="nx">getTaskId</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="nx">taskId</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+
+
+<p>其中,Task事件类型定义如下:</p>
+<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">enum</span> <span class="n">TaskEventType</span><span class="p">{</span>
+    <span class="n">T_KILL</span><span class="p">,</span>
+    <span class="n">T_SCHEDULE</span>  
+<span class="p">}</span>
+</pre></div>
+
+
+<p><strong>步骤2</strong> 定义Job事件。</p>
+<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.test</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.AbstractEvent</span><span class="p">;</span>
+
+<span class="k">public</span> <span class="nf">class</span> <span class="nx">JobEvent</span> <span class="nx">extends</span> <span class="nx">AbstractEvent</span><span class="o">&lt;</span><span class="nx">JobEventType</span><span class="o">&gt;</span><span class="p">{</span>
+
+    <span class="k">private</span> <span class="nf">String</span> <span class="nx">jobId</span><span class="p">;</span>
+
+    <span class="k">public</span> <span class="nf">JobEvent</span><span class="p">(</span><span class="na">String</span> <span class="nx">jobId</span><span class="p">,</span><span class="na">JobEventType</span> <span class="k">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">super</span><span class="p">(</span><span class="k">type</span><span class="p">);</span>
+        <span class="c1">// TODO Auto-generated constructor stub</span>
+        <span class="n">this.jobId</span> <span class="o">=</span> <span class="nx">jobId</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">public</span> <span class="nf">String</span> <span class="nx">getJobId</span><span class="p">(){</span>
+        <span class="k">return</span> <span class="nx">jobId</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>其中,Job事件类型定义如下:</p>
+<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">enum</span> <span class="n">JobEventType</span> <span class="p">{</span>
+    <span class="n">JOB_KILL</span><span class="p">,</span>
+    <span class="n">JOB_INIT</span><span class="p">,</span>
+    <span class="n">JOB_START</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><strong>步骤3</strong> 事件调度器。
+接下来定义一个中央异步调度器,它接收Job和Task两种类型事件,并交给对应的事件处理器处理,代码如下:</p>
+<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.test</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="nx">org.apache.hadoop.conf.Configuration</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.hadoop.service.CompositeService</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.hadoop.service.Service</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.AsyncDispatcher</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.Dispatcher</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.EventHandler</span><span class="p">;</span>
+
+
+<span class="cm">/**</span>
+<span class="cm"> * A simple central async dispatcher</span>
+<span class="cm"> * @author qingyuanxingsi</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
+<span class="k">public</span> <span class="nf">class</span> <span class="nx">SimpleMRAppMaster</span> <span class="nx">extends</span> <span class="nx">CompositeService</span> <span class="p">{</span>
+    <span class="c1">//Central Async Dispatcher</span>
+    <span class="k">private</span> <span class="nf">Dispatcher</span> <span class="nx">dispatcher</span><span class="p">;</span>
+    <span class="p">@</span><span class="nx">SuppressWarnings</span><span class="p">(</span><span class="s2">"unused"</span><span class="p">)</span>
+    <span class="k">private</span> <span class="nf">String</span> <span class="nx">jobId</span><span class="p">;</span>
+    <span class="c1">//The number of tasks contained in this job</span>
+    <span class="k">private</span> <span class="nf">int</span> <span class="nx">taskNum</span><span class="p">;</span>
+    <span class="c1">//All tasks</span>
+    <span class="k">private</span> <span class="nf">String</span><span class="err">[</span><span class="cp">]</span> taskIdArray;
+
+    public SimpleMRAppMaster(String name,String jobId,
+            int taskNum) {
+        super(name);
+        this.jobId = jobId;
+        this.taskNum = taskNum;
+        this.taskIdArray = new String<span class="cp">[</span><span class="nx">taskNum</span><span class="cp">]</span>;
+        for(int i=0; i<span class="nt">&lt;taskNum</span><span class="err">;</span> <span class="na">i</span><span class="err">++){</span>
+            <span class="na">taskIdArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="na"> =</span><span class="err"> </span><span class="s">new</span> <span class="na">String</span><span class="err">(</span><span class="na">jobId</span><span class="err">+"</span><span class="na">_task_</span><span class="err">"+</span><span class="na">i</span><span class="err">);</span>      
+        <span class="err">}</span>
+    <span class="err">}</span>
+
+
+    <span class="err">@</span><span class="na">Override</span>
+    <span class="na">protected</span> <span class="na">void</span> <span class="na">serviceInit</span><span class="err">(</span><span class="na">Configuration</span> <span class="na">conf</span><span class="err">)</span> <span class="na">throws</span> <span class="na">Exception</span> <span class="err">{</span>
+        <span class="err">//</span> <span class="na">TODO</span> <span class="na">Auto-generated</span> <span class="na">method</span> <span class="na">stub</span>
+        <span class="na">dispatcher =</span><span class="err"> </span><span class="s">new</span> <span class="na">AsyncDispatcher</span><span class="err">();</span>
+        <span class="err">//</span><span class="na">Register</span> <span class="na">the</span> <span class="na">event</span> <span class="na">handler</span> <span class="na">for</span> <span class="na">job</span> <span class="na">and</span> <span class="na">task</span> <span class="na">events</span>
+        <span class="na">dispatcher</span><span class="err">.</span><span class="na">register</span><span class="err">(</span><span class="na">JobEventType</span><span class="err">.</span><span class="na">class</span><span class="err">,</span> <span class="na">new</span> <span class="na">JobEventDispatcher</span><span class="err">());</span>
+        <span class="na">dispatcher</span><span class="err">.</span><span class="na">register</span><span class="err">(</span><span class="na">TaskEventType</span><span class="err">.</span><span class="na">class</span><span class="err">,</span> <span class="na">new</span> <span class="na">TaskEventDispatcher</span><span class="err">());</span>
+        <span class="na">addService</span><span class="err">((</span><span class="na">Service</span><span class="err">)</span><span class="na">dispatcher</span><span class="err">);</span>
+        <span class="na">super</span><span class="err">.</span><span class="na">serviceInit</span><span class="err">(</span><span class="na">conf</span><span class="err">);</span>
+    <span class="err">}</span>
+
+    <span class="na">public</span> <span class="na">Dispatcher</span> <span class="na">getDispatcher</span><span class="err">(){</span>
+        <span class="na">return</span> <span class="na">dispatcher</span><span class="err">;</span>
+    <span class="err">}</span>
+
+    <span class="na">private</span> <span class="na">class</span> <span class="na">JobEventDispatcher</span> <span class="na">implements</span> <span class="na">EventHandler</span><span class="err">&lt;</span><span class="na">JobEvent</span><span class="nt">&gt;</span>{
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public void handle(JobEvent event) {
+            // TODO Auto-generated method stub
+            if(event.getType() == JobEventType.JOB_KILL){
+                System.out.println("Receive JOB_KILL event,killing all the tasks");
+                for(int i=0;i<span class="nt">&lt;taskNum</span><span class="err">;</span><span class="na">i</span><span class="err">++){</span>
+                    <span class="na">dispatcher</span><span class="err">.</span><span class="na">getEventHandler</span><span class="err">().</span><span class="na">handle</span><span class="err">(</span><span class="na">new</span> <span class="na">TaskEvent</span><span class="err">(</span><span class="na">taskIdArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="err">,</span>
+                            <span class="na">TaskEventType</span><span class="err">.</span><span class="na">T_KILL</span><span class="err">));</span>
+                <span class="err">}</span>
+            <span class="err">}</span>
+            <span class="na">else</span> <span class="na">if</span><span class="err">(</span><span class="na">event</span><span class="err">.</span><span class="na">getType</span><span class="err">()</span> <span class="err">==</span> <span class="na">JobEventType</span><span class="err">.</span><span class="na">JOB_INIT</span><span class="err">){</span>
+                <span class="na">System</span><span class="err">.</span><span class="na">out</span><span class="err">.</span><span class="na">println</span><span class="err">("</span><span class="na">Receive</span> <span class="na">JOB_Init</span> <span class="na">event</span><span class="err">,</span><span class="na">initializing</span> <span class="na">all</span> <span class="na">the</span> <span class="na">tasks</span><span class="err">");</span>
+                <span class="na">for</span><span class="err">(</span><span class="na">int</span> <span class="na">i=</span><span class="s">0;i&lt;taskNum;i++){</span>
+                    <span class="na">dispatcher</span><span class="err">.</span><span class="na">getEventHandler</span><span class="err">().</span><span class="na">handle</span><span class="err">(</span><span class="na">new</span> <span class="na">TaskEvent</span><span class="err">(</span><span class="na">taskIdArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="err">,</span>
+                            <span class="na">TaskEventType</span><span class="err">.</span><span class="na">T_SCHEDULE</span><span class="err">));</span>
+                <span class="err">}</span>
+            <span class="err">}</span>
+        <span class="err">}</span>   
+    <span class="err">}</span>
+
+
+
+    <span class="err">@</span><span class="na">Override</span>
+    <span class="na">protected</span> <span class="na">void</span> <span class="na">serviceStart</span><span class="err">()</span> <span class="na">throws</span> <span class="na">Exception</span> <span class="err">{</span>
+        <span class="err">//</span> <span class="na">TODO</span> <span class="na">Auto-generated</span> <span class="na">method</span> <span class="na">stub</span>
+        <span class="na">super</span><span class="err">.</span><span class="na">serviceStart</span><span class="err">();</span>
+    <span class="err">}</span>
+
+    <span class="na">private</span> <span class="na">class</span> <span class="na">TaskEventDispatcher</span> <span class="na">implements</span> <span class="na">EventHandler</span><span class="err">&lt;</span><span class="na">TaskEvent</span><span class="nt">&gt;</span>{
+
+        @Override
+        public void handle(TaskEvent event) {
+            // TODO Auto-generated method stub
+            if(event.getType() == TaskEventType.T_KILL)
+            {
+                System.out.println("Killing this very task with taskId:"+event.getTaskId());
+            }
+            else if(event.getType() == TaskEventType.T_SCHEDULE)
+            {
+                System.out.println("Scheduling this very task with taskId:"+event.getTaskId());
+            }
+        }
+    }
+}
+</pre></div>
+
+
+<p><strong>步骤4</strong> 测试程序。</p>
+<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">conf</span><span class="p">.</span><span class="n">Configuration</span><span class="p">;</span>
+<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">yarn</span><span class="p">.</span><span class="n">conf</span><span class="p">.</span><span class="n">YarnConfiguration</span><span class="p">;</span>
+
+
+<span class="cm">/**</span>
+<span class="cm"> * Just a simple test case</span>
+<span class="cm"> * @author qingyuanxingsi</span>
+<span class="cm"> * @version 1.0</span>
+<span class="cm"> */</span>
+<span class="n">public</span> <span class="n">class</span> <span class="n">SimpleMRAppMasterTest</span> <span class="p">{</span>
+    <span class="err">@</span><span class="n">SuppressWarnings</span><span class="p">({</span> <span class="s">"unchecked"</span><span class="p">,</span> <span class="s">"resource"</span> <span class="p">})</span>
+    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">){</span>
+        <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="s">"job_20140321_01"</span><span class="p">;</span>
+        <span class="n">SimpleMRAppMaster</span> <span class="n">master</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SimpleMRAppMaster</span><span class="p">(</span><span class="s">"Simple MRAppMaster"</span><span class="p">,</span><span class="n">jobId</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
+        <span class="n">YarnConfiguration</span> <span class="n">conf</span> <span class="o">=</span> <span class="n">new</span> <span class="n">YarnConfiguration</span><span class="p">(</span><span class="n">new</span> <span class="n">Configuration</span><span class="p">());</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="n">master</span><span class="p">.</span><span class="n">serviceInit</span><span class="p">(</span><span class="n">conf</span><span class="p">);</span>
+            <span class="n">master</span><span class="p">.</span><span class="n">serviceStart</span><span class="p">();</span>
+            <span class="n">master</span><span class="p">.</span><span class="n">getDispatcher</span><span class="p">().</span><span class="n">getEventHandler</span><span class="p">().</span><span class="n">handle</span><span class="p">(</span><span class="n">new</span> <span class="n">JobEvent</span><span class="p">(</span><span class="n">jobId</span><span class="p">,</span>
+                    <span class="n">JobEventType</span><span class="p">.</span><span class="n">JOB_KILL</span><span class="p">));</span>
+            <span class="n">master</span><span class="p">.</span><span class="n">getDispatcher</span><span class="p">().</span><span class="n">getEventHandler</span><span class="p">().</span><span class="n">handle</span><span class="p">(</span><span class="n">new</span> <span class="n">JobEvent</span><span class="p">(</span><span class="n">jobId</span><span class="p">,</span>
+                    <span class="n">JobEventType</span><span class="p">.</span><span class="n">JOB_INIT</span><span class="p">));</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// TODO Auto-generated catch block</span>
+            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <h1>状态机</h1>
 <hr><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -1207,7 +1432,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4">如若时间允许,该设计模式会进行详尽的分析。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
