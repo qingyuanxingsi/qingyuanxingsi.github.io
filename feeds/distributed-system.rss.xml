@@ -1101,7 +1101,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;h1&gt;事件库&lt;/h1&gt;
+&lt;h1&gt;服务库与事件库&lt;/h1&gt;
 &lt;hr&gt;
 &lt;h1&gt;状态机&lt;/h1&gt;
 &lt;hr&gt;&lt;script type="text/javascript"&gt;
