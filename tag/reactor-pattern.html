@@ -832,7 +832,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <div class="highlight"><pre><span class="c1">//Construct a client proxy instance for sending RPC requests to server</span>
 <span class="n">public</span> <span class="k">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">ProtocolProxy</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">getProxy</span><span class="o">/</span><span class="n">waitForProxy</span><span class="p">(...)</span>
 
-<span class="c1">//Build a server instance for a specific protocol for handling client requests</span>
+<span class="c1">//Build a server instance for a specific protocol,handle requests</span>
 <span class="n">public</span> <span class="k">static</span> <span class="n">Server</span> <span class="no">RPC</span><span class="p">.</span><span class="n">Builder</span> <span class="p">(</span><span class="n">Configuration</span><span class="p">).</span><span class="n">build</span><span class="p">()</span>
 </pre></div>
 
@@ -843,7 +843,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <p>定义 RPC 协议
 RPC协议是客户端和服务器端之间的通信接口,它定义了服务器端对外提供的服务接口。如下所示,我们定义一个ClientProtocol通信接口,声明了echo()和add()两个方法。需要注意的是,Hadoop 中所有自定义 RPC 接口都需要继承VersionedProtocol接口,它描述了协议的版本信息。</p>
 <div class="highlight"><pre><span class="n">interface</span> <span class="n">ClientProtocol</span> <span class="n">extends</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">ipc</span><span class="p">.</span><span class="n">VersionedProtocol</span> <span class="p">{</span>
-<span class="c1">// 版本号,默认情况下,不同版本号的 RPC Client 和 Server 之间不能相互通信</span>
+    <span class="c1">// 版本号,默认情况下,不同版本号的 RPC Client 和 Server 之间不能相互通信</span>
     <span class="n">public</span> <span class="k">static</span> <span class="n">final</span> <span class="kt">long</span> <span class="n">versionID</span> <span class="o">=</span> <span class="mi">1L</span><span class="p">;</span>
     <span class="n">String</span> <span class="n">echo</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span><span class="p">;</span>
     <span class="kt">int</span> <span class="n">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">v1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v2</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span><span class="p">;</span>
@@ -890,8 +890,6 @@ Hadoop RPC协议通常是一个Java 接口,用户需要实现该接口。对Clie
 </pre></div>
 
 
-</li>
-</ol>
 <p>其中,BindAddress(由函数setBindAddress设置)和Port(由函数setPort设置,0表示由系统随机选择一个端口号)分别表示服务器的host和监听端口号,而 NnumHandlers(由函数setNumHandlers设置)表示服务器端处理请求的线程数目。到此为止,服务器处理监听状态,等待客户端请求到达。
 4. 构造 RPC Client 并发送 RPC 请求
 使用静态方法getProxy构造客户端代理对象,直接通过代理对象调用远程端的方法,具体如下所示:</p>
@@ -901,6 +899,8 @@ Hadoop RPC协议通常是一个Java 接口,用户需要实现该接口。对Clie
 </pre></div>
 
 
+</li>
+</ol>
 <p>经过以上四步,我们便利用Hadoop RPC搭建了一个非常高效的客户机–服务器网络模型。接下来,我们将深入到Hadoop RPC内部,剖析它的设计原理及技巧。</p>
 <h3>Hadoop RPC类详解</h3>
 <h3>Hadoop RPC流程剖析</h3>
