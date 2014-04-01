@@ -604,6 +604,195 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </pre></div>
 
 
+<h2>也说动态代理<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3" class="simple-footnote" title="参考java动态代理(JDK和cglib)">3</a></sup></h2>
+<p>Hadoop RPC中设计的基本设计模式就是代理模式,因此想要看懂RPC部分源码，代理不可不知。</p>
+<p>代理模式是常用的java设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。 </p>
+<p>按照代理的创建时期，代理类可以分为两种。 </p>
+<ul>
+<li>静态代理：由程序员创建或特定工具自动生成源代码，再对其编译。在程序运行前，代理类的.class文件就已经存在了。 </li>
+<li>动态代理：在程序运行时，运用反射机制动态创建而成。 </li>
+</ul>
+<p>静态代理的基本原理我们就不说了,简而言之就是代理类和委托类实现相同的借口,Client通过代理类调用实现类的方法(代理类持有委托类的实例)。然后这样做有一个很明显的弊端，那就是每一个代理类只能为一个接口服务，这样一来程序开发中必然会产生过多的代理，而且，所有的代理操作除了调用的方法不一样之外，其他的操作都一样，则此时肯定是重复代码。解决这一问题最好的做法是可以通过一个代理类完成全部的代理功能，那么此时就必须使用动态代理完成。动态代理类的字节码在程序运行时由Java反射机制动态生成，无需程序员手工编写它的源代码。动态代理类不仅简化了编程工作，而且提高了软件系统的可扩展性，因为Java反射机制可以生成任意类型的动态代理类。<code>java.lang.reflect</code>包中的Proxy类和InvocationHandler 接口提供了生成动态代理类的能力。 </p>
+<div class="highlight"><pre><span class="n">InvocationHandler</span><span class="err">接口：</span>
+
+<span class="n">public</span> <span class="n">interface</span> <span class="n">InvocationHandler</span> <span class="p">{</span> 
+    <span class="n">public</span> <span class="n">Object</span> <span class="n">invoke</span><span class="p">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="p">,</span><span class="n">Method</span> <span class="n">method</span><span class="p">,</span><span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="n">throws</span> <span class="n">Throwable</span><span class="p">;</span> 
+<span class="p">}</span> 
+<span class="err">参数说明：</span> 
+<span class="n">Object</span> <span class="n">proxy</span><span class="err">：指被代理的对象。</span> 
+<span class="n">Method</span> <span class="n">method</span><span class="err">：要调用的方法</span> 
+<span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="err">：方法调用时所需要的参数</span>
+</pre></div>
+
+
+<p>可以将InvocationHandler接口的子类想象成一个代理的最终操作类，替换掉ProxySubject。 </p>
+<p>Proxy类是专门完成代理的操作类，可以通过此类为一个或多个接口动态地生成实现类，此类提供了如下的操作方法： </p>
+<div class="highlight"><pre><span class="kr">public</span> <span class="kr">static</span> <span class="nb">Object</span> <span class="nx">newProxyInstance</span><span class="p">(</span><span class="nx">ClassLoader</span> <span class="nx">loader</span><span class="p">,</span> <span class="nx">Class</span><span class="cp">&lt;?</span><span class="o">&gt;</span><span class="p">[]</span> <span class="nx">interfaces</span><span class="p">,</span> 
+<span class="nx">InvocationHandler</span> <span class="nx">h</span><span class="p">)</span> <span class="nx">throws</span> <span class="nx">IllegalArgumentException</span> 
+<span class="err">参数说明：</span> 
+<span class="nx">ClassLoader</span> <span class="nx">loader</span><span class="err">：类加载器</span> 
+<span class="nx">Class</span><span class="o">&lt;?&gt;</span><span class="p">[]</span> <span class="nx">interfaces</span><span class="err">：得到全部的接口</span> 
+<span class="nx">InvocationHandler</span> <span class="nx">h</span><span class="err">：得到</span><span class="nx">InvocationHandler</span><span class="err">接口的子类实例</span>
+</pre></div>
+
+
+<blockquote>
+<p>NOTE:类加载器 
+在Proxy类中的newProxyInstance（）方法中需要一个ClassLoader类的实例，ClassLoader实际上对应的是类加载器，在Java中主要有以下三种类加载器; </p>
+<ul>
+<li>Booststrap ClassLoader：此加载器采用C++编写，一般开发中是看不到的； </li>
+<li>Extension ClassLoader：用来进行扩展类的加载，一般对应的是jre\lib\ext目录中的类; </li>
+<li>AppClassLoader：(默认)加载classpath指定的类，是最常使用的是一种加载器。 </li>
+</ul>
+</blockquote>
+<p>以下给出一具体实例:</p>
+<div class="highlight"><pre><span class="c1">//BookFacade.java,define interfaces</span>
+<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">interface</span> <span class="n">BookFacade</span> <span class="p">{</span>
+    <span class="c1">//Add book interface</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">addBook</span><span class="p">();</span>  
+<span class="p">}</span>
+
+<span class="c1">//BookFacadeImpl.java,具体实现类</span>
+<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeImpl</span> <span class="n">implements</span> <span class="n">BookFacade</span> <span class="p">{</span>
+
+    <span class="p">@</span><span class="n">Override</span>
+    <span class="n">public</span> <span class="k">void</span> <span class="n">addBook</span><span class="p">()</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Adding books to the database!"</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="c1">//BookFacadeProxy.java,生成动态代理</span>
+<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">InvocationHandler</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">Method</span><span class="p">;</span>
+<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">Proxy</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeProxy</span> <span class="n">implements</span> <span class="n">InvocationHandler</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">Object</span> <span class="n">target</span><span class="p">;</span>
+
+    <span class="n">public</span> <span class="n">Object</span> <span class="k">bind</span><span class="p">(</span><span class="n">Object</span> <span class="n">target</span><span class="p">){</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">;</span>
+        <span class="c1">//Get the proxy object</span>
+        <span class="c1">//Interfaces must be bound,this is one drawback(which can be fixed by cglib)</span>
+        <span class="k">return</span> <span class="n">Proxy</span><span class="p">.</span><span class="n">newProxyInstance</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">getClass</span><span class="p">().</span><span class="n">getClassLoader</span><span class="p">(),</span> <span class="n">target</span><span class="p">.</span><span class="n">getClass</span><span class="p">().</span><span class="n">getInterfaces</span><span class="p">(),</span> <span class="k">this</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="n">Override</span>
+    <span class="n">public</span> <span class="n">Object</span> <span class="n">invoke</span><span class="p">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="p">,</span> <span class="n">Method</span> <span class="n">method</span><span class="p">,</span> <span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
+            <span class="n">throws</span> <span class="n">Throwable</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Transaction begins!"</span><span class="p">);</span>
+        <span class="c1">//Execute the method</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Transaction ends!"</span><span class="p">);</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">//TestProxy.java,test case</span>
+<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">TestProxy</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="c1">// TODO Auto-generated method stub</span>
+        <span class="n">BookFacadeProxy</span> <span class="n">proxy</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BookFacadeProxy</span><span class="p">();</span>
+        <span class="n">BookFacade</span> <span class="n">bookProxy</span> <span class="o">=</span> <span class="p">(</span><span class="n">BookFacade</span><span class="p">)</span><span class="n">proxy</span><span class="p">.</span><span class="k">bind</span><span class="p">(</span><span class="k">new</span> <span class="n">BookFacadeImpl</span><span class="p">());</span>
+        <span class="n">bookProxy</span><span class="p">.</span><span class="n">addBook</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>但是，JDK的动态代理依靠接口实现，如果有些类并没有实现接口，则不能使用JDK代理，这就要使用cglib动态代理了。JDK的动态代理机制只能代理实现了接口的类，而不能实现接口的类就不能实现JDK的动态代理，cglib是针对类来实现代理的，他的原理是对指定的目标类生成一个子类，并覆盖其中方法实现增强，但因为采用的是继承，所以不能对final修饰的类进行代理。具体示例如下:</p>
+<div class="highlight"><pre><span class="c1">//BookFacadeImpl1,没有实现接口的实现类</span>
+<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">impl</span><span class="p">;</span>
+
+<span class="cm">/** </span>
+<span class="cm"> * 这个是没有实现接口的实现类 </span>
+<span class="cm"> *  </span>
+<span class="cm"> * @author student </span>
+<span class="cm"> *  </span>
+<span class="cm"> */</span>  
+<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeImpl1</span> <span class="p">{</span>  
+    <span class="n">public</span> <span class="k">void</span> <span class="n">addBook</span><span class="p">()</span> <span class="p">{</span>  
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"增加图书的普通方法..."</span><span class="p">);</span>  
+    <span class="p">}</span>  
+<span class="p">}</span>
+
+<span class="c1">//BookfacadeCglib.java,使用cglib实现动态代理</span>
+<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">proxy</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">Method</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">sf</span><span class="p">.</span><span class="n">cglib</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">Enhancer</span><span class="p">;</span>  
+<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">sf</span><span class="p">.</span><span class="n">cglib</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">MethodInterceptor</span><span class="p">;</span>  
+<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">sf</span><span class="p">.</span><span class="n">cglib</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">MethodProxy</span><span class="p">;</span>
+
+<span class="cm">/** </span>
+<span class="cm"> * 使用cglib动态代理 </span>
+<span class="cm"> *  </span>
+<span class="cm"> * @author student </span>
+<span class="cm"> *  </span>
+<span class="cm"> */</span>  
+<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeCglib</span> <span class="n">implements</span> <span class="n">MethodInterceptor</span> <span class="p">{</span>  
+    <span class="n">private</span> <span class="n">Object</span> <span class="n">target</span><span class="p">;</span>
+
+    <span class="cm">/** </span>
+<span class="cm">     * 创建代理对象 </span>
+<span class="cm">     *  </span>
+<span class="cm">     * @param target </span>
+<span class="cm">     * @return </span>
+<span class="cm">     */</span>  
+    <span class="n">public</span> <span class="n">Object</span> <span class="n">getInstance</span><span class="p">(</span><span class="n">Object</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>  
+        <span class="k">this</span><span class="p">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">;</span>  
+        <span class="n">Enhancer</span> <span class="n">enhancer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Enhancer</span><span class="p">();</span>  
+        <span class="n">enhancer</span><span class="p">.</span><span class="n">setSuperclass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">getClass</span><span class="p">());</span>  
+        <span class="c1">// 回调方法  </span>
+        <span class="n">enhancer</span><span class="p">.</span><span class="n">setCallback</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>  
+        <span class="c1">// 创建代理对象  </span>
+        <span class="k">return</span> <span class="n">enhancer</span><span class="p">.</span><span class="n">create</span><span class="p">();</span>  
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="n">Override</span>  
+    <span class="c1">// 回调方法  </span>
+    <span class="n">public</span> <span class="n">Object</span> <span class="n">intercept</span><span class="p">(</span><span class="n">Object</span> <span class="n">obj</span><span class="p">,</span> <span class="n">Method</span> <span class="n">method</span><span class="p">,</span> <span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="p">,</span>  
+            <span class="n">MethodProxy</span> <span class="n">proxy</span><span class="p">)</span> <span class="n">throws</span> <span class="n">Throwable</span> <span class="p">{</span>  
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"事物开始"</span><span class="p">);</span>  
+        <span class="n">proxy</span><span class="p">.</span><span class="n">invokeSuper</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>  
+        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"事物结束"</span><span class="p">);</span>  
+        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
+
+
+    <span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="c1">//TestCglib.java,a test case</span>
+<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+
+<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">impl</span><span class="p">.</span><span class="n">BookFacadeImpl1</span><span class="p">;</span>  
+<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">BookFacadeCglib</span><span class="p">;</span>
+
+<span class="n">public</span> <span class="k">class</span> <span class="n">TestCglib</span> <span class="p">{</span>
+
+    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>  
+        <span class="n">BookFacadeCglib</span> <span class="n">cglib</span><span class="o">=</span><span class="k">new</span> <span class="n">BookFacadeCglib</span><span class="p">();</span>  
+        <span class="n">BookFacadeImpl1</span> <span class="n">bookCglib</span><span class="o">=</span><span class="p">(</span><span class="n">BookFacadeImpl1</span><span class="p">)</span><span class="n">cglib</span><span class="p">.</span><span class="n">getInstance</span><span class="p">(</span><span class="k">new</span> <span class="n">BookFacadeImpl1</span><span class="p">());</span>  
+        <span class="n">bookCglib</span><span class="p">.</span><span class="n">addBook</span><span class="p">();</span>  
+    <span class="p">}</span>  
+<span class="p">}</span>
+</pre></div>
+
+
 <h2>Reactor Designing Pattern</h2>
 <h2>Dive Into Hadoop RPC</h2>
 <h1>事件库</h1>
@@ -639,7 +828,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">本部分参考https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">本部分参考http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
