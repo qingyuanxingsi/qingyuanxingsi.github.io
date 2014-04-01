@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-    <script src="./theme/html5.js"></script>
+    <script src="../theme/html5.js"></script>
     <![endif]-->
 
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="./theme/local.css" rel="stylesheet">
-    <link href="./theme/pygments.css" rel="stylesheet">
-    <link href="./theme/font-awesome.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+    <link href="../theme/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
 
@@ -24,20 +24,20 @@
   <div class="container">
     <div class="row-fluid">
       <div class="span9">
-	<a href="." class="brand">Doodle World</a>
+	<a href=".." class="brand">Doodle World</a>
       </div>
 
       <div class="span3" id="blog-nav">
 	<ul class="nav nav-pills pull-right">
-            <li><a href="./pages/about.html">About</a></li>
-	    <li  class="active" >
-	      <a href="./category/distributed-system.html ">Distributed System</a>
+            <li><a href="../pages/about.html">About</a></li>
 	    <li >
-	      <a href="./category/life.html ">Life</a>
+	      <a href="../category/distributed-system.html ">Distributed System</a>
 	    <li >
-	      <a href="./category/machine-learning.html ">Machine Learning</a>
+	      <a href="../category/life.html ">Life</a>
 	    <li >
-	      <a href="./category/viewpoint.html ">Viewpoint</a>
+	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="../category/viewpoint.html ">Viewpoint</a>
 	</ul>
       </div>
     </div> <!-- End of fluid row-->
@@ -49,27 +49,29 @@
     <div class="row-fluid">
 
         <div class="span10">
-    <div class='article'>
-      <div class="row-fluid">
-           <div class="content-title span9">
-             <h1>分布式计算系列(I):Yarn基础库初探</h1b>
-           </div>
-      </div>
+        
+
+        
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><h1>分布式计算系列(I):Yarn基础库初探</h1></a>
+        </div>
+    </div>
     <div class="row-fluid">
       <div class="span2">
 <p>二 01 四月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="./category/distributed-system.html">Distributed System</a>
+Filed under <a href="../category/distributed-system.html">Distributed System</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="./tag/rpc.html">RPC</a> <a href="./tag/yarn.html">YARN</a> <a href="./tag/hadoop.html">Hadoop</a> <a href="./tag/designing-patterns.html">Designing Patterns</a> <a href="./tag/reactor-pattern.html">Reactor Pattern</a> <a href="./tag/proxy-pattern.html">Proxy Pattern</a> <a href="./tag/service.html">Service</a> <a href="./tag/event-driven-design.html">Event Driven Design</a> </p>
+    Tags <a href="../tag/rpc.html">RPC</a> <a href="../tag/yarn.html">YARN</a> <a href="../tag/hadoop.html">Hadoop</a> <a href="../tag/designing-patterns.html">Designing Patterns</a> <a href="../tag/reactor-pattern.html">Reactor Pattern</a> <a href="../tag/proxy-pattern.html">Proxy Pattern</a> <a href="../tag/service.html">Service</a> <a href="../tag/event-driven-design.html">Event Driven Design</a> </p>
 <p>
 </p>
       </div>
-      
-      <div class="span8">
+      <div class="article-content span8">
 	<h1>PREFACE</h1>
 <hr>
 <p>在上一篇<a href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">分布式计算与存储系列(序章):初入门径</a>中,我们主要介绍了分布式存储的一些基础知识,在本系列中,我们会结合论文以及源码对分布式计算的基本理论以及一些应用系统进行研究，以期对分布式系统有一个更为深入的了解。本系列的前若干篇均以研究Yarn为主,主要参考<a href="http://book.douban.com/subject/25774649/">Hadoop技术内幕:深入解析YARN架构设计与实现原理</a>一书的整体架构,但是个人对这本书不是特别满意，讲述的还是有点浅,很多问题只是浅尝则止而已。(真正想<code>深入</code>了解YARN的不建议购买此书，如若只是想粗略的了解一下YARN的工作流程的童鞋倒是可以入手一本滴。)因此，本系列仅会采用其大体框架，在其大体框架下，对YARN设计的其他知识和设计模式等也会有进一步更为深入的介绍。好吧，闲话就不多说了,我们开始正式讨论。</p>
@@ -1426,26 +1428,26 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4">如若时间允许,该设计模式会进行详尽的分析。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5">其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back" class="simple-footnote-back">↩</a></li></ol>
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4">如若时间允许,该设计模式会进行详尽的分析。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5">其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back" class="simple-footnote-back">↩</a></li></ol> 
+	<a class="btn btn-mini xsmall" href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
+          <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
+      
     </div>
-    <div class="span10">
-      <h3>Comments</h3>
     
-<div id="disqus_thread"></div>
-<script type="text/javascript">
-    var disqus_shortname = 'qingyuanxingsi'; 
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
 
-    (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-    </div>  
-    </div>
+    <li class="active"><a href="../tag/event-driven-design.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
         </div>
         
         
@@ -1481,14 +1483,14 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
             <li class="nav-header"> 
               Site
             </li>
-            <li><a href="."><i class="icon-home" style="color: #1f334b">
+            <li><a href=".."><i class="icon-home" style="color: #1f334b">
                 </i>Home</a></li>
-            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
+            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
                 </i>Archives</a></li>
-	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
+	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
                 </i>Tags</a></li>
 	    
-            <li><a href="./" rel="alternate">
+            <li><a href="../" rel="alternate">
                 <i class="icon-rss-sign" style="color: #1f334b"></i>
                 Atom Feed</a></li>
 	  </ul>
@@ -1498,7 +1500,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
       </div> <!--end of fluid row-->
     </div> <!--end of blog-footer-->
     <hr />
-    <p align="center"><a href=".">Doodle World</a>
+    <p align="center"><a href="..">Doodle World</a>
       &copy; qingyuanxingsi
     Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
         <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
