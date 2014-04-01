@@ -1001,7 +1001,7 @@ NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;步 骤4&lt;/strong&gt; 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
+&lt;p&gt;&lt;strong&gt;步骤4&lt;/strong&gt; 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
 Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;interface&lt;/span&gt; &lt;span class="n"&gt;RegisterNodeManagerRequest&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;NodeId&lt;/span&gt; &lt;span class="n"&gt;getNodeId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
