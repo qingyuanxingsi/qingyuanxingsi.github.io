@@ -954,7 +954,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 
 
 &lt;p&gt;为了能够让以上代码正常工作,YARN 按照以下流程实现各种功能。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;步骤 1&lt;/strong&gt; 定义通信协议接口(Java Interface)。定义通信协议接口ResourceTracker,它包含registerNodeManager和nodeHeartbeat两个函数,且每个函数包含一个参数和一个返
+&lt;p&gt;&lt;strong&gt;步骤1&lt;/strong&gt; 定义通信协议接口(Java Interface)。定义通信协议接口ResourceTracker,它包含registerNodeManager和nodeHeartbeat两个函数,且每个函数包含一个参数和一个返
 回值,具体如下:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;interface&lt;/span&gt; &lt;span class="n"&gt;ResourceTracker&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;RegisterNodeManagerResponse&lt;/span&gt; &lt;span class="n"&gt;registerNodeManager&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
@@ -965,7 +965,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;步骤 2&lt;/strong&gt; 为通信协议ResourceTracker提供Protocol Buffers定义和Java实现。前面提到,Protocol Buffers仅提供了序列化框架,但未提供RPC实现,因此RPC部分需要由用户自己实现,而YARN 则让ResourceTrackerService 类实现了ResourceTracker协议,它的 Protocol Buffers 定义(具体见文件ResourceTracker.proto)如下:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;步骤2&lt;/strong&gt; 为通信协议ResourceTracker提供Protocol Buffers定义和Java实现。前面提到,Protocol Buffers仅提供了序列化框架,但未提供RPC实现,因此RPC部分需要由用户自己实现,而YARN 则让ResourceTrackerService 类实现了ResourceTracker协议,它的 Protocol Buffers 定义(具体见文件ResourceTracker.proto)如下:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;java_package&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"org.apache.hadoop.yarn.proto"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;java_outer_classname&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;"ResourceTracker"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;option&lt;/span&gt; &lt;span class="n"&gt;java_generic_services&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;true&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -980,7 +980,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 
 
 &lt;p&gt;ResourceTracker的RPC函数实现是由ResourceManager中的ResourceTrackerService完成的。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;步骤 3&lt;/strong&gt; 为 RPC 函数的参数和返回值提供Protocol Buffers定义。YARN需要保证每个RPC函数的参数和返回值是采用Protocol Buffers定义的,因此 ResourceTracker协议中RegisterNodeManagerRequest、RegisterNodeManagerResponse、NodeHeartbeatRequest 和
+&lt;p&gt;&lt;strong&gt;步骤3&lt;/strong&gt; 为RPC函数的参数和返回值提供Protocol Buffers定义。YARN需要保证每个RPC函数的参数和返回值是采用Protocol Buffers定义的,因此 ResourceTracker协议中RegisterNodeManagerRequest、RegisterNodeManagerResponse、NodeHeartbeatRequest 和
 NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定义,具体如下(见yarn_server_common_service_protos.proto 文件):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="s"&gt;"yarn_protos.proto"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="n"&gt;import&lt;/span&gt; &lt;span class="s"&gt;"yarn_server_common_protos.proto"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -1001,7 +1001,7 @@ NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;步 骤 4&lt;/strong&gt; 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
+&lt;p&gt;&lt;strong&gt;步 骤4&lt;/strong&gt; 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
 Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;interface&lt;/span&gt; &lt;span class="n"&gt;RegisterNodeManagerRequest&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;NodeId&lt;/span&gt; &lt;span class="n"&gt;getNodeId&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
@@ -1047,7 +1047,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;&lt;strong&gt;步骤 5&lt;/strong&gt; 为通信协议提供客户端和服务器端实现。客户端代码放在org.apache.hadoop.yarn.server.api.impl.pb.client 包中,且类名为 ResourceTrackerPBClientImpl,实现如下:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;步骤5&lt;/strong&gt; 为通信协议提供客户端和服务器端实现。客户端代码放在org.apache.hadoop.yarn.server.api.impl.pb.client 包中,且类名为 ResourceTrackerPBClientImpl,实现如下:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;class&lt;/span&gt; &lt;span class="n"&gt;ResourceTrackerPBClientImpl&lt;/span&gt; &lt;span class="n"&gt;implements&lt;/span&gt; &lt;span class="n"&gt;ResourceTracker&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Closeable&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="n"&gt;private&lt;/span&gt; &lt;span class="n"&gt;ResourceTrackerPB&lt;/span&gt; &lt;span class="n"&gt;proxy&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="nf"&gt;ResourceTrackerPBClientImpl&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;long&lt;/span&gt; &lt;span class="n"&gt;clientVersion&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;InetSocketAddress&lt;/span&gt; &lt;span class="n"&gt;addr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;

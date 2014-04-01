@@ -1025,7 +1025,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 
 
 <p>为了能够让以上代码正常工作,YARN 按照以下流程实现各种功能。</p>
-<p><strong>步骤 1</strong> 定义通信协议接口(Java Interface)。定义通信协议接口ResourceTracker,它包含registerNodeManager和nodeHeartbeat两个函数,且每个函数包含一个参数和一个返
+<p><strong>步骤1</strong> 定义通信协议接口(Java Interface)。定义通信协议接口ResourceTracker,它包含registerNodeManager和nodeHeartbeat两个函数,且每个函数包含一个参数和一个返
 回值,具体如下:</p>
 <div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">ResourceTracker</span> <span class="p">{</span>
     <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
@@ -1036,7 +1036,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 </pre></div>
 
 
-<p><strong>步骤 2</strong> 为通信协议ResourceTracker提供Protocol Buffers定义和Java实现。前面提到,Protocol Buffers仅提供了序列化框架,但未提供RPC实现,因此RPC部分需要由用户自己实现,而YARN 则让ResourceTrackerService 类实现了ResourceTracker协议,它的 Protocol Buffers 定义(具体见文件ResourceTracker.proto)如下:</p>
+<p><strong>步骤2</strong> 为通信协议ResourceTracker提供Protocol Buffers定义和Java实现。前面提到,Protocol Buffers仅提供了序列化框架,但未提供RPC实现,因此RPC部分需要由用户自己实现,而YARN 则让ResourceTrackerService 类实现了ResourceTracker协议,它的 Protocol Buffers 定义(具体见文件ResourceTracker.proto)如下:</p>
 <div class="highlight"><pre><span class="n">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">"org.apache.hadoop.yarn.proto"</span><span class="p">;</span>
 <span class="n">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">"ResourceTracker"</span><span class="p">;</span>
 <span class="n">option</span> <span class="n">java_generic_services</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
@@ -1051,7 +1051,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 
 
 <p>ResourceTracker的RPC函数实现是由ResourceManager中的ResourceTrackerService完成的。</p>
-<p><strong>步骤 3</strong> 为 RPC 函数的参数和返回值提供Protocol Buffers定义。YARN需要保证每个RPC函数的参数和返回值是采用Protocol Buffers定义的,因此 ResourceTracker协议中RegisterNodeManagerRequest、RegisterNodeManagerResponse、NodeHeartbeatRequest 和
+<p><strong>步骤3</strong> 为RPC函数的参数和返回值提供Protocol Buffers定义。YARN需要保证每个RPC函数的参数和返回值是采用Protocol Buffers定义的,因此 ResourceTracker协议中RegisterNodeManagerRequest、RegisterNodeManagerResponse、NodeHeartbeatRequest 和
 NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定义,具体如下(见yarn_server_common_service_protos.proto 文件):</p>
 <div class="highlight"><pre><span class="n">import</span> <span class="s">"yarn_protos.proto"</span><span class="p">;</span>
 <span class="n">import</span> <span class="s">"yarn_server_common_protos.proto"</span><span class="p">;</span>
@@ -1072,7 +1072,7 @@ NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定
 </pre></div>
 
 
-<p><strong>步 骤 4</strong> 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
+<p><strong>步 骤4</strong> 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
 Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords):</p>
 <div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">RegisterNodeManagerRequest</span> <span class="p">{</span>
     <span class="n">NodeId</span> <span class="n">getNodeId</span><span class="p">();</span>
@@ -1118,7 +1118,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 </pre></div>
 
 
-<p><strong>步骤 5</strong> 为通信协议提供客户端和服务器端实现。客户端代码放在org.apache.hadoop.yarn.server.api.impl.pb.client 包中,且类名为 ResourceTrackerPBClientImpl,实现如下:</p>
+<p><strong>步骤5</strong> 为通信协议提供客户端和服务器端实现。客户端代码放在org.apache.hadoop.yarn.server.api.impl.pb.client 包中,且类名为 ResourceTrackerPBClientImpl,实现如下:</p>
 <div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">ResourceTrackerPBClientImpl</span> <span class="n">implements</span> <span class="n">ResourceTracker</span><span class="p">,</span> <span class="n">Closeable</span> <span class="p">{</span>
     <span class="n">private</span> <span class="n">ResourceTrackerPB</span> <span class="n">proxy</span><span class="p">;</span>
     <span class="n">public</span> <span class="nf">ResourceTrackerPBClientImpl</span><span class="p">(</span><span class="kt">long</span> <span class="n">clientVersion</span><span class="p">,</span> <span class="n">InetSocketAddress</span> <span class="n">addr</span><span class="p">,</span>
