@@ -827,6 +827,71 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </ul>
 <p>Hadoop RPC 总体架构如下图所示,自下而上可分为两层,第一层是一个基于Java NIO (New I/O)实现的客户机–服务器(C/S)通信模型。其中,客户端将用户的调用方法及其参数封装成请求包后发送到服务器端。服务器端收到请求包后,经解包、调用函数、打包结果等一系列操作后,将结果返回给客户端。为了增强Sever端的扩展性和并发处理能力,Hadoop RPC采用了基于事件驱动的Reactor设计模式,在具体实现时,用到了JDK提供的各种功能包,主要包括java.nio(NIO)、java.lang.reflect(反射机制和动态代理)、java.net(网络编程库)等。第二层是供更上层程序直接调用的 RPC 接口,这些接口底层即为C/S通信模型。</p>
 <p><img alt="Hadoop RPC总体架构" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/whole_rpc_zpsddc95cd6.png"></p>
+<h3>Hadoop RPC使用方法</h3>
+<p>Hadoop RPC 对外主要提供了两种接口(见类 org.apache.hadoop.ipc.RPC),分别是:</p>
+<div class="highlight"><pre><span class="c1">//Construct a client proxy instance for sending RPC requests to server</span>
+<span class="n">public</span> <span class="k">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">ProtocolProxy</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">getProxy</span><span class="o">/</span><span class="n">waitForProxy</span><span class="p">(...)</span>
+
+<span class="c1">//Build a server instance for a specific protocol for handling client requests</span>
+<span class="n">public</span> <span class="k">static</span> <span class="n">Server</span> <span class="no">RPC</span><span class="p">.</span><span class="n">Builder</span> <span class="p">(</span><span class="n">Configuration</span><span class="p">).</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+
+
+<p>通常而言,使用Hadoop RPC可分为以下4个步骤。</p>
+<ol>
+<li>
+<p>定义 RPC 协议
+RPC协议是客户端和服务器端之间的通信接口,它定义了服务器端对外提供的服务接口。如下所示,我们定义一个ClientProtocol通信接口,声明了echo()和add()两个方法。需要注意的是,Hadoop 中所有自定义 RPC 接口都需要继承VersionedProtocol接口,它描述了协议的版本信息。</p>
+<p>interface ClientProtocol extends org.apache.hadoop.ipc.VersionedProtocol {
+// 版本号,默认情况下,不同版本号的 RPC Client 和 Server 之间不能相互通信
+    public static final long versionID = 1L;
+    String echo(String value) throws IOException;
+    int add(int v1, int v2) throws IOException;
+}</p>
+</li>
+<li>
+<p>实现 RPC 协议
+Hadoop RPC协议通常是一个Java 接口,用户需要实现该接口。对ClientProtocol接口进行简单的实现如下所示:</p>
+<p>public static class ClientProtocolImpl implements ClientProtocol {
+    // 重载的方法,用于获取自定义的协议版本号,
+    public long getProtocolVersion(String protocol, long clientVersion) {
+        return ClientProtocol.versionID;
+    }
+    // 重载的方法,用于获取协议签名
+    public ProtocolSignature getProtocolSignature(String protocol, long clientVersion,
+    inthashcode) {
+        return new ProtocolSignature(ClientProtocol.versionID, null);
+    }
+    public String echo(String value) throws IOException {
+        return value;
+    }
+    public int add(int v1, int v2) throws IOException {
+        return v1 + v2;
+    }
+}</p>
+</li>
+<li>
+<p>构造并启动 RPC Server
+直接使用静态类Builder构造一个RPC Server,并调用函数start()启动该Server:</p>
+<p>Server server = new RPC.Builder(conf).setProtocol(ClientProtocol.class)
+.setInstance(new ClientProtocolImpl()).setBindAddress(ADDRESS).setPort(0)
+.setNumHandlers(5).build();
+server.start();</p>
+</li>
+</ol>
+<p>其中,BindAddress(由函数setBindAddress设置)和Port(由函数setPort设置,0表示由系统随机选择一个端口号)分别表示服务器的host和监听端口号,而 NnumHandlers(由函数setNumHandlers设置)表示服务器端处理请求的线程数目。到此为止,服务器处理监听状态,等待客户端请求到达。
+4. 构造 RPC Client 并发送 RPC 请求
+使用静态方法getProxy构造客户端代理对象,直接通过代理对象调用远程端的方法,具体如下所示:</p>
+<div class="highlight"><pre><span class="n">proxy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ClientProtocol</span><span class="p">)</span><span class="n">RPC</span><span class="p">.</span><span class="n">getProxy</span><span class="p">(</span>
+<span class="n">ClientProtocol</span><span class="p">.</span><span class="n">class</span><span class="p">,</span> <span class="n">ClientProtocol</span><span class="p">.</span><span class="n">versionID</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">conf</span><span class="p">);</span>
+<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
+<span class="n">String</span> <span class="n">echoResult</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">"result"</span><span class="p">);</span>
+</pre></div>
+
+
+<p>经过以上四步,我们便利用Hadoop RPC搭建了一个非常高效的客户机–服务器网络模型。接下来,我们将深入到Hadoop RPC内部,剖析它的设计原理及技巧。</p>
+<h3>Hadoop RPC类详解</h3>
+<h3>Hadoop RPC流程剖析</h3>
 <h1>事件库</h1>
 <hr>
 <h1>状态机</h1>
