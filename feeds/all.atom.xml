@@ -830,6 +830,65 @@ Hadoop RPC协议通常是一个Java 接口,用户需要实现该接口。对Clie
 &lt;/ol&gt;
 &lt;p&gt;经过以上四步,我们便利用Hadoop RPC搭建了一个非常高效的客户机–服务器网络模型。接下来,我们将深入到Hadoop RPC内部,剖析它的设计原理及技巧。&lt;/p&gt;
 &lt;h3&gt;Hadoop RPC类详解&lt;/h3&gt;
+&lt;p&gt;Hadoop RPC主要由三个大类组成,即RPC、Client和Server,分别对应对外编程接口、客户端实现和服务器实现。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ipc.RPC类分析
+RPC类实际上是对底层客户机–服务器网络模型的封装,以便为程序员提供一套更方便简洁的编程接口。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="RPC类图" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/rpc_class_zpsae0a03f1.png"&gt;&lt;/p&gt;
+&lt;p&gt;如上图所示,RPC 类定义了一系列构建和销毁RPC客户端的方法,构建方法分为getProxy和waitForProxy两类,销毁方只有一个,即为stopProxy。RPC服务器的构建则由静态内部类RPC.Builder,该类提供了一些列setXxx 方法(Xxx 为某个参数名称)供用户设置一些基本的参数,比如RPC 协议、RPC协议实现对象、服务器绑定地址、端口号等,一旦设置完成这些参数后,可通过调用RPC.Builder.build()完成一个服务器对象的构建,之后直接调用 Server.start() 方法便可以启动该服务器。与Hadoop 1.x中的RPC仅支持基于Writable序列化方式不同,Hadoop2.x允许用户使用其他序列化框架,比如Protocol Buffers等,目前提供了 Writable(WritableRpcEngine)和Protocol Buffers(ProtobufRpcEngine)两种,默认实现是Writable方式,用户可通过调用RPC.setProtocolEngine(...)修改采用的序列化方式。&lt;/p&gt;
+&lt;p&gt;下面以采用 Writable序列化为例(采用Protocol Buffers的过程类似),介绍Hadoop RPC的远程过程调用流程。Hadoop RPC使用了Java动态代理完成对远程方法的调用:用户只需实现java.lang.reflect.InvocationHandler接口,并按照自己需求实现invoke方法即可完成动态代理类对象上的方法调用。但对于HadoopRPC,函数调用由客户端发出,并在服务器端执行并返回,因此不能像单机程序那样直接在invoke方法中本地调用相关函数,它的做法是,在invoke方法中,将函数调用信息(函数名,函数参数列表等)打包成可序列化的WritableRpcEngine.Invocation 对象,并通过网络发送给服务器端,服务端收到该调用信息后,解析出和函数名,函数参数列表等信息,利用Java反射机制完成函数调用,期间涉及到的类关系如下图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Invocation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/invocation_zps5a294c7c.png"&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ipc.Client
+Client主要完成的功能是发送远程过程调用信息并接收执行结果。它涉及到的类关系如下图所示:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Client" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/client_zpsedc34497.png"&gt;&lt;/p&gt;
+&lt;p&gt;Client类对外提供了一类执行远程调用的接口,这些接口的名称一样,仅仅是参数列表不同,比如其中一个的声明如下所示:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;public&lt;/span&gt; &lt;span class="n"&gt;Writable&lt;/span&gt; &lt;span class="n"&gt;call&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Writable&lt;/span&gt; &lt;span class="n"&gt;param&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ConnectionIdremoteId&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;throws&lt;/span&gt; &lt;span class="n"&gt;InterruptedException&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;IOException&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Client 内部有两个重要的内部类,分别是Call和Connection。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Call 类 :封装了一个RPC请求,它包含5个成员变量,分别是唯一标识id、函数调用信息param、函数执行返回值value、出错或者异常信息error和执行完成标识符done。由于Hadoop RPC Server采用异步方式处理客户端请求,这使远程过程调用的发生顺序与结果返回顺序无直接关系,而Client端正是通过id识别不同的函数调用的。当客户端向服务器端发送请求时,只需填充id和param两个变量,而剩下的3个变量(value、error和done)则由服务器端根据函数执行情况填充。&lt;/li&gt;
+&lt;li&gt;Connection 类:Client与每个Server之间维护一个通信连接,与该连接相关的基本信息及操作被封装到Connection类中,基本信息主要包括通信连接唯一标识(remoteId)、与Server端通信的Socket(socket)、网络输入数据流(in)、网络输出数据流(out)、保存RPC请求的哈希表(calls)等。操作则包括:
+❍ addCall—将一个Call对象添加到哈希表中;
+❍ sendParam—向服务器端发送RPC请求;
+❍ receiveResponse—从服务器端接收已经处理完成的RPC请求;
+❍ run—Connection 是一个线程类,它的run方法调用了receiveResponse方法,会一直等待接收 RPC 返回结果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当调用call函数执行某个远程方法时,Client端需要进行(如下图所示)以下4个步骤。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建一个Connection 对象,并将远程方法调用信息封装成Call对象,放到Connection对象中的哈希表中;&lt;/li&gt;
+&lt;li&gt;调用 Connection 类中的sendRpcRequest()方法将当前Call对象发送给Server端;&lt;/li&gt;
+&lt;li&gt;Server端处理完RPC请求后,将结果通过网络返回给Client端,Client端通过receiveRpcResponse()函数获取结果;&lt;/li&gt;
+&lt;li&gt;Client检查结果处理状态(成功还是失败),并将对应 Call 对象从哈希表中删除。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img alt="Client Procedure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/client_procedure_zps4f94859e.png"&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;ipc.Server 类分析
+Hadoop采用了Master/Slave 结构,其中Master是整个系统的单点,如NameNode或JobTracker ,这是制约系统性能和可扩展性的最关键因素之一 ;而Master通过ipc.Server接收并处理所有Slave发送的请求,这就要求ipc.Server将高并发和可扩展性作为设计目标为此,ipc.Server采用了很多提高并发处理能力的技术,主要包括线程池、事件驱动和Reactor设计模式等,这些技术均采用了JDK自带的库实现,这里重点分析它是如何利用Reactor设计模式提高整体性能的。HDFS的单点故障已经在Hadoop 2.0中得到了解决,MRv1中的JobTracker的单点故障在CDH4中也得到了解决。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Reactor&lt;sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back"&gt;&lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4" class="simple-footnote" title="更多内容请查看附录I"&gt;4&lt;/a&gt;&lt;/sup&gt;是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Reactor Pattern" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/reactor_pattern_zps5fc183a4.png"&gt;&lt;/p&gt;
+&lt;p&gt;典型的Reactor模式中主要包括以下几个角色。
+❑ Reactor:I/O事件的派发者。
+❑ Acceptor:接受来自Client的连接,建立与Client对应的Handler,并向Reactor注册此Handler。
+❑ Handler :与一个Client通信的实体,并按一定的过程实现业务的处理。Handler内部往往会有更进一步的层次划分,用来抽象诸如read、decode、compute、encode和send等过程。在Reactor模式中,业务逻辑被分散的I/O事件所打破,所以Handler需要有适当的机制在所需的信息还不全(读到一半)的时候保存上下文,并在下一次I/O事件到来的时候(另一半可读)能继续上次中断的处理。
+❑Reader/Sender:为了加速处理速度,Reactor模式往往构建一个存放数据处理线程的线程池,这样数据读出后,立即扔到线程池中等待后续处理即可。为此,Reactor模式一般分离Handler中的读和写两个过程,分别注册成单独的读事件和写事件,并由对应的Reader和Sender线程处理。&lt;/p&gt;
+&lt;p&gt;ipc.Server实际上实现了一个典型的Reactor设计模式,其整体架构与上述完全一致。一旦读者了解典型 Reactor 架构便可很容易地学习 ipc.Server的设计思路及实现。接下来,我们分析ipc.Server的实现细节。&lt;/p&gt;
+&lt;p&gt;前面提到,ipc.Server的主要功能是接收来自客户端的RPC 请求,经过调用相应的函数获取结果后,返回给对应的客户端。为此,ipc.Server 被划分成3个阶段:接收请求、处理请求和返回结果,如下图所示。各阶段实现细节如下。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Reactor Details" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/server_procedure_zpsb92c63d0.png"&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;接收请求
+该阶段主要任务是接收来自各个客户端的RPC请求,并将它们封装成固定的格式(Call类)放到一个共享队列(callQueue)中,以便进行后续处理。该阶段内部又分为建立连接和接收请求两个子阶段,分别由Listener和Reader两种线程完成。整个Server只有一个Listener线程,统一负责监听来自客户端的连接请求,一旦有新的请求到达,它会采用轮询的方式从线程池中选择一个Reader线程进行处理,而Reader线程可同时存在多个,它们分别负责接收一部分客户端连接的RPC请求,至于每个Reader线程负责哪些客户端连接,完全由Listener决定,当前Listener只是采用了简单的轮询分配机制。Listener和Reader线程内部各自包含一个Selector对象,分别用于监听SelectionKey.OP_ACCEPT和SelectionKey.OP_READ 事件。对于Listener线程,主循环的实现体是监听是否有新的连接请求到达,并采用轮询策略选择一个Reader线程处理新连接;对于Reader线程,主循环的实现体是监听(它负责的那部分)客户端连接中是否有新的RPC请求到达,并将新的RPC请求封装成Call对象,放到共享队列callQueue 中。&lt;/li&gt;
+&lt;li&gt;处理请求
+该阶段主要任务是从共享队列 callQueue 中获取Call对象,执行对应的函数调用,并将结果返回给客户端,这全部由Handler线程完成。Server 端可同时存在多个Handler线程,它们并行从共享队列中读取Call对象,经执行对应的函数调用后,将尝试着直接将结果返回给对应的客户端。但考虑到某些函数调用返回结果很大或者网络速度过慢,可能难以将结果一次性发送到客户端,此时Handler将尝试着将后续发送任务交给Responder线程。&lt;/li&gt;
+&lt;li&gt;返回结果
+前面提到,每个Handler线程执行完函数调用后,会尝试着将执行结果返回给客户端,但对于特殊情况,比如函数调用返回结果过大或者网络异常情况(网速过慢),会将发送任务交给Responder线程。Server端仅存在一个Responder线程,它的内部包含一个Selector对象,用于监听SelectionKey.OP_WRITE事件。当Handler没能将结果一次性发送到客户端时,会向该Selector对象注册 SelectionKey.OP_WRITE事件,进而由Responder 线程采用异步方式继续发送未发送完成的结果。&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h3&gt;Hadoop RPC流程剖析&lt;/h3&gt;
 &lt;h1&gt;事件库&lt;/h1&gt;
 &lt;hr&gt;
@@ -864,7 +923,7 @@ Hadoop RPC协议通常是一个Java 接口,用户需要实现该接口。对Clie
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3"&gt;参考&lt;a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html"&gt;java动态代理(JDK和cglib)&lt;/a&gt; &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category><category term="Proxy Pattern"></category></entry><entry><title>机器学习系列(III):Gaussian Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="alternate"></link><updated>2014-03-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-15:ji-qi-xue-xi-xi-lie-iiigaussian-models.html</id><summary type="html">&lt;p&gt;在&lt;a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"&gt;上一篇&lt;/a&gt;中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1"&gt;https://developers.google.com/protocol-buffers/docs/javatutorial &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2"&gt;http://avro.apache.org/docs/current/gettingstartedjava.html &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3"&gt;参考&lt;a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html"&gt;java动态代理(JDK和cglib)&lt;/a&gt; &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4"&gt;更多内容请查看附录I &lt;a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="RPC"></category><category term="YARN"></category><category term="Hadoop"></category><category term="State Machine"></category><category term="Designing Patterns"></category><category term="Reactor Pattern"></category><category term="Proxy Pattern"></category></entry><entry><title>机器学习系列(III):Gaussian Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iiigaussian-models.html" rel="alternate"></link><updated>2014-03-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-15:ji-qi-xue-xi-xi-lie-iiigaussian-models.html</id><summary type="html">&lt;p&gt;在&lt;a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"&gt;上一篇&lt;/a&gt;中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。&lt;/p&gt;
 &lt;h1&gt;MLE for MVN&lt;/h1&gt;
 &lt;hr&gt;
 &lt;h2&gt;Basics about MVN&lt;/h2&gt;
