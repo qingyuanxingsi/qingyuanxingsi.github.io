@@ -942,7 +942,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 <li>ipc.Server 类分析</li>
 </ul>
 <p>Hadoop采用了Master/Slave 结构,其中Master是整个系统的单点,如NameNode或JobTracker ,这是制约系统性能和可扩展性的最关键因素之一 ;而Master通过ipc.Server接收并处理所有Slave发送的请求,这就要求ipc.Server将高并发和可扩展性作为设计目标为此,ipc.Server采用了很多提高并发处理能力的技术,主要包括线程池、事件驱动和Reactor设计模式等,这些技术均采用了JDK自带的库实现,这里重点分析它是如何利用Reactor设计模式提高整体性能的。HDFS的单点故障已经在Hadoop 2.0中得到了解决,MRv1中的JobTracker的单点故障在CDH4中也得到了解决。</p>
-<p>Reactor<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4" class="simple-footnote" title="更多内容请查看附录I">4</a></sup>是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。</p>
+<p>Reactor是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。</p>
 <p><img alt="Reactor Pattern" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/reactor_pattern_zps5fc183a4.png"></p>
 <p>典型的Reactor模式中主要包括以下几个角色。</p>
 <p>❑ Reactor:I/O事件的派发者。</p>
@@ -958,6 +958,220 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 <li>返回结果;前面提到,每个Handler线程执行完函数调用后,会尝试着将执行结果返回给客户端,但对于特殊情况,比如函数调用返回结果过大或者网络异常情况(网速过慢),会将发送任务交给Responder线程。Server端仅存在一个Responder线程,它的内部包含一个Selector对象,用于监听SelectionKey.OP_WRITE事件。当Handler没能将结果一次性发送到客户端时,会向该Selector对象注册SelectionKey.OP_WRITE事件,进而由Responder 线程采用异步方式继续发送未发送完成的结果。</li>
 </ol>
 <h3>Hadoop RPC流程剖析</h3>
+<p>以下我们对Hadoop Yarn的具体实现进行剖析。Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。经过改进之后,Hadoop RPC的类关系如下图所示,RPC类变成了一个工厂,它将具体的RPC实现授权给RpcEngine实现类,而现有的开源RPC只要实现RpcEngine接口,便可以集成到Hadoop RPC中。在该图中,WritableRpcEngine是采用Hadoop自带的序列化框架实现的RPC,而AvroRpcEngine和ProtobufRpcEngine分别是开源RPC(或序列化)框架Apache Avro和Protocol Buffers对应的 RpcEngine 实现,用户可通过配置参数rpc.engine.{protocol}以指定协议 {protocol} 采用的序列化方式。需要注意的是,当前实现中,Hadoop RPC 只是采用了这些开源框架的序列化机制,底层的函数调用机制仍采用 Hadoop 自带的。YARN提供的对外类是YarnRPC,用户只需使用该类便可以构建一个基于Hadoop RPC且采用Protocol Buffers序列化框架的通信协议。YarnRPC相关实现类如下图所示。</p>
+<p><img alt="RPC Factory" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/rpc_factory_zpsf645e84c.png"></p>
+<p><img alt="YarnRPC" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/yarn_rpc_zpse183e893.png"></p>
+<p>YarnRPC是一个抽象类,实际的实现由参数yarn.ipc.rpc.class指定,默认值是org.apache.hadoop.yarn.ipc.HadoopYarnProtoRPC。HadoopYarnProtoRPC 通过RPC工厂生成器(工厂设计模式)RpcFactoryProvider生成客户端工厂(由参数yarn.ipc.client.factory.class指定,默认值是 org.apache.hadoop.yarn.factories.impl.pb.RpcClientFactoryPBImpl)和服务器工厂(由参数yarn.ipc.server.factory.class指定,默认值 是org.apache.hadoop.yarn.factories.impl.pb.RpcServerFactoryPBImpl),以根据通信协议的Protocol Buffers定义生成客户端对象和服
+务器对象。</p>
+<ul>
+<li>RpcClientFactoryPBImpl : 根据通信协议接口(实际上就是一个Java interface)及Protocol Buffers定义构造RPC客户端句柄, 但它对通 信协议的存放位置和类名命有一定要求。假设通信协议接口Xxx所在Java包名为XxxPackage,则客户端实现代码必须位于Java包XxxPackage.impl.pb.client 中(在接口包名后面增加<code>.impl.pb.client</code>), 且实现类名为PBClientImplXxx(在接口名前面增加前缀<code>PBClientImpl</code>)。</li>
+<li>RpcServerFactoryPBImpl :根据通信协议接口(实际上就是一个Java interface)及Protocol Buffers定义构造RPC服务器句柄(具体会调用前面节介绍的RPC.Server类),但它对通信协议的存放位置和类命名有一定要求。假设通信协议接口Xxx 所在Java 包名为 XxxPackage,则客户端实现代码必须位于Java包XxxPackage.impl.pb.server中(在接口包名后面增加<code>.impl.pb.server</code>),且实现类名为PBServiceImplXxx(在接口名前面增加前缀<code>PBServiceImpl</code>)。</li>
+</ul>
+<p>Hadoop YARN 已将Protocol Buffers作为默认的序列化机制(而不是Hadoop自带的Writable),这带来的好处主要表现在以下几个方面:</p>
+<ul>
+<li>继承了 Protocol Buffers 的优势.Protocol Buffers已在实践中证明了其高效性、可扩展性、紧凑性和跨语言特性。首先,它允许在保持向后兼容性的前提下修改协议,比如为某个定义好的数据格式添加一个新的字段 ;其次,它支持多种语言,进而方便用户为某些服务(比如 HDFS 的 NameNode)编写非 Java 客户端 ;此外,实验
+表明 Protocol Buffers 比 Hadoop 自带的 Writable 在性能方面有很大提升。</li>
+<li>支持升级回滚。Hadoop 2.0已经将 NameNode HA方案合并进来,在该方案中,Name-Node 分为Active和Standby两种角色,其中, Active NameNode 在当前对外提供服务,而Standby NameNode则是能够在Active NameNode出现故障时接替它。采用Protocol Buffers序列化机制后,管理员能够在不停止NameNode对外服务的前提下,通过主备NameNode之间的切换,依次对主备NameNode进行在线升级(不用考虑版本和协议兼容性等问题)。</li>
+</ul>
+<p>为了进一步说明 YARN RPC 的使用方法,本小节给出一个具体的应用实例。
+在 YARN 中,ResourceManager和NodeManager之间的通信协议是ResourceTracker,其中NodeManager是该协议的客户端,ResourceManager是服务端,NodeManager通过该协议中定义的两个RPC函数(registerNodeManager和nodeHeartbeat)向ResourceManager注册和周期性发送心跳信息。ResourceManager(服务器端)中的相关代码如下:</p>
+<div class="highlight"><pre><span class="c1">// ResourceTrackerService 实现了 ResourceTracker 通信接口,并启动 RPC Server</span>
+<span class="n">public</span> <span class="k">class</span> <span class="n">ResourceTrackerService</span> <span class="k">extends</span> <span class="n">AbstractService</span> <span class="n">implements</span>
+<span class="n">ResourceTracker</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">Server</span> <span class="n">server</span><span class="p">;</span>
+    <span class="p">...</span>
+    <span class="k">protected</span> <span class="k">void</span> <span class="n">serviceStart</span><span class="p">()</span> <span class="n">throws</span> <span class="n">Exception</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="n">serviceStart</span><span class="p">();</span>
+        <span class="n">Configuration</span> <span class="n">conf</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">();</span>
+        <span class="n">YarnRPC</span> <span class="n">rpc</span> <span class="o">=</span> <span class="n">YarnRPC</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">conf</span><span class="p">);</span> <span class="c1">// 使用 YarnRPC 类</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">rpc</span><span class="p">.</span><span class="n">getServer</span><span class="p">(</span><span class="n">ResourceTracker</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">resourceTrackerAddress</span><span class="p">,</span>
+        <span class="n">conf</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="n">conf</span><span class="p">.</span><span class="n">getInt</span><span class="p">(</span><span class="n">YarnConfiguration</span><span class="p">.</span><span class="no">RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT</span><span class="p">,</span>
+        <span class="n">YarnConfiguration</span><span class="p">.</span><span class="no">DEFAULT_RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT</span><span class="p">));</span>
+        <span class="k">this</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+    <span class="p">@</span><span class="n">Override</span>
+    <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
+    <span class="n">RegisterNodeManagerRequest</span> <span class="n">request</span><span class="p">)</span> <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span>
+    <span class="n">IOException</span> <span class="p">{</span>
+        <span class="c1">// 具体实现</span>
+    <span class="p">}</span>
+    <span class="p">@</span><span class="n">Override</span>
+    <span class="n">public</span> <span class="n">NodeHeartbeatResponse</span> <span class="n">nodeHeartbeat</span><span class="p">(</span><span class="n">NodeHeartbeatRequest</span> <span class="n">request</span><span class="p">)</span>
+    <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span> <span class="n">IOException</span> <span class="p">{</span>
+        <span class="c1">// 具体实现</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>NodeManager(客户端)中的相关代码如下。</p>
+<div class="highlight"><pre><span class="c1">//该函数是从YARN源代码中简单修改而来的</span>
+<span class="k">protected</span> <span class="n">ResourceTracker</span> <span class="n">getRMClient</span><span class="p">()</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+    <span class="n">Configuration</span> <span class="n">conf</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">();</span>
+    <span class="n">InetSocketAddress</span> <span class="n">rmAddress</span> <span class="o">=</span> <span class="n">getRMAddress</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
+    <span class="n">RetryPolicy</span> <span class="n">retryPolicy</span> <span class="o">=</span> <span class="n">createRetryPolicy</span><span class="p">(</span><span class="n">conf</span><span class="p">);</span>
+    <span class="n">ResourceTracker</span> <span class="n">proxy</span> <span class="o">=</span> <span class="n">RMProxy</span><span class="p">.</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span><span class="n">getProxy</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">ResourceTracker</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="n">rmAddress</span><span class="p">);</span>
+    <span class="no">LOG</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Connecting to ResourceManager at "</span> <span class="o">+</span> <span class="n">rmAddress</span><span class="p">);</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">ResourceTracker</span><span class="p">)</span> <span class="n">RetryProxy</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">proxy</span><span class="p">,</span> <span class="n">retryPolicy</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">...</span>
+<span class="k">this</span><span class="p">.</span><span class="n">resourceTracker</span> <span class="o">=</span> <span class="n">getRMClient</span><span class="p">();</span>
+<span class="p">...</span>
+<span class="n">RegisterNodeManagerResponse</span> <span class="n">regNMResponse</span> <span class="o">=</span> <span class="n">resourceTracker</span><span class="p">.</span><span class="n">registerNodeManager</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">resourceTracker</span><span class="p">.</span><span class="n">nodeHeartbeat</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+</pre></div>
+
+
+<p>为了能够让以上代码正常工作,YARN 按照以下流程实现各种功能。</p>
+<p><strong>步骤 1</strong> 定义通信协议接口(Java Interface)。定义通信协议接口ResourceTracker,它包含registerNodeManager和nodeHeartbeat两个函数,且每个函数包含一个参数和一个返
+回值,具体如下:</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">ResourceTracker</span> <span class="p">{</span>
+    <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
+    <span class="n">RegisterNodeManagerRequest</span> <span class="n">request</span><span class="p">)</span> <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span> <span class="n">IOException</span><span class="p">;</span>
+    <span class="n">public</span> <span class="n">NodeHeartbeatResponse</span> <span class="n">nodeHeartbeat</span><span class="p">(</span><span class="n">NodeHeartbeatRequest</span> <span class="n">request</span><span class="p">)</span>
+    <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span> <span class="n">IOException</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><strong>步骤 2</strong> 为通信协议ResourceTracker提供Protocol Buffers定义和Java实现。前面提到,Protocol Buffers仅提供了序列化框架,但未提供RPC实现,因此RPC部分需要由用户自己实现,而YARN 则让ResourceTrackerService 类实现了ResourceTracker协议,它的 Protocol Buffers 定义(具体见文件ResourceTracker.proto)如下:</p>
+<div class="highlight"><pre><span class="n">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">"org.apache.hadoop.yarn.proto"</span><span class="p">;</span>
+<span class="n">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">"ResourceTracker"</span><span class="p">;</span>
+<span class="n">option</span> <span class="n">java_generic_services</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">option</span> <span class="n">java_generate_equals_and_hash</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">import</span> <span class="s">"yarn_server_common_service_protos.proto"</span><span class="p">;</span>
+<span class="n">service</span> <span class="n">ResourceTrackerService</span> <span class="p">{</span>
+    <span class="n">rpc</span> <span class="n">registerNodeManager</span><span class="p">(</span><span class="n">RegisterNodeManagerRequestProto</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">RegisterNode</span>
+    <span class="n">ManagerResponseProto</span><span class="p">);</span>
+    <span class="n">rpc</span> <span class="nf">nodeHeartbeat</span><span class="p">(</span><span class="n">NodeHeartbeatRequestProto</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">NodeHeartbeatResponseProto</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>ResourceTracker的RPC函数实现是由ResourceManager中的ResourceTrackerService完成的。</p>
+<p><strong>步骤 3</strong> 为 RPC 函数的参数和返回值提供Protocol Buffers定义。YARN需要保证每个RPC函数的参数和返回值是采用Protocol Buffers定义的,因此 ResourceTracker协议中RegisterNodeManagerRequest、RegisterNodeManagerResponse、NodeHeartbeatRequest 和
+NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定义,具体如下(见yarn_server_common_service_protos.proto 文件):</p>
+<div class="highlight"><pre><span class="n">import</span> <span class="s">"yarn_protos.proto"</span><span class="p">;</span>
+<span class="n">import</span> <span class="s">"yarn_server_common_protos.proto"</span><span class="p">;</span>
+<span class="n">message</span> <span class="n">RegisterNodeManagerRequestProto</span> <span class="p">{</span>
+    <span class="n">optional</span> <span class="n">NodeIdProto</span> <span class="n">node_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">int32</span> <span class="n">http_port</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">ResourceProto</span> <span class="n">resource</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="n">message</span> <span class="n">RegisterNodeManagerResponseProto</span> <span class="p">{</span>
+    <span class="n">optional</span> <span class="n">MasterKeyProto</span> <span class="n">container_token_master_key</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">MasterKeyProto</span> <span class="n">nm_token_master_key</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">NodeActionProto</span> <span class="n">nodeAction</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">int64</span> <span class="n">rm_identifier</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+    <span class="n">optional</span> <span class="n">string</span> <span class="n">diagnostics_message</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">...</span> <span class="c1">// 其他几个参数和返回值的定义</span>
+</pre></div>
+
+
+<p><strong>步 骤 4</strong> 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
+Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords):</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">RegisterNodeManagerRequest</span> <span class="p">{</span>
+    <span class="n">NodeId</span> <span class="n">getNodeId</span><span class="p">();</span>
+    <span class="kt">int</span> <span class="nf">getHttpPort</span><span class="p">();</span>
+    <span class="n">Resource</span> <span class="nf">getResource</span><span class="p">();</span>
+    <span class="kt">void</span> <span class="nf">setNodeId</span><span class="p">(</span><span class="n">NodeId</span> <span class="n">nodeId</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="nf">setHttpPort</span><span class="p">(</span><span class="kt">int</span> <span class="n">port</span><span class="p">);</span>
+    <span class="kt">void</span> <span class="nf">setResource</span><span class="p">(</span><span class="n">Resource</span> <span class="n">resource</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Java封装如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords.impl.pb):</p>
+<div class="highlight"><pre><span class="k">public</span> <span class="nf">class</span> <span class="nx">RegisterNodeManagerRequestPBImpl</span> <span class="nx">extends</span>
+<span class="nx">ProtoBase</span><span class="o">&lt;</span><span class="nx">RegisterNodeManagerRequestProto</span><span class="o">&gt;</span> <span class="nx">implements</span> <span class="nx">RegisterNodeManagerRequest</span> <span class="p">{</span>
+    <span class="nx">RegisterNodeManagerRequestProto</span> <span class="n">proto</span> <span class="o">=</span> <span class="nx">RegisterNodeManagerRequestProto.</span>
+    <span class="nx">getDefaultInstance</span><span class="p">();</span>
+    <span class="nx">RegisterNodeManagerRequestProto.Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="kt">null</span><span class="p">;</span>
+    <span class="k">private</span> <span class="nf">NodeId</span> <span class="n">nodeId</span> <span class="o">=</span> <span class="kt">null</span><span class="p">;</span>
+    <span class="nx">...</span>
+    <span class="p">@</span><span class="nx">Override</span>
+    <span class="k">public</span> <span class="nf">NodeId</span> <span class="nx">getNodeId</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">RegisterNodeManagerRequestProtoOrBuilder</span> <span class="n">p</span> <span class="o">=</span> <span class="nx">viaProto</span> <span class="o">?</span> <span class="nx">proto</span> <span class="p">:</span> <span class="nx">builder</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">this.nodeId</span> <span class="o">!=</span> <span class="kt">null</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nx">this.nodeId</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p.hasNodeId</span><span class="p">())</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="kt">null</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">this.nodeId</span> <span class="o">=</span> <span class="nx">convertFromProtoFormat</span><span class="p">(</span><span class="nx">p.getNodeId</span><span class="p">());</span>
+        <span class="k">return</span> <span class="nx">this.nodeId</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="p">@</span><span class="nx">Override</span>
+    <span class="k">public</span> <span class="nf">void</span> <span class="nx">setNodeId</span><span class="p">(</span><span class="nx">NodeId</span> <span class="nx">nodeId</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">maybeInitBuilder</span><span class="p">();</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">nodeId</span> <span class="o">==</span> <span class="kt">null</span><span class="p">)</span>
+            <span class="nx">builder.clearNodeId</span><span class="p">();</span>
+        <span class="n">this.nodeId</span> <span class="o">=</span> <span class="nx">nodeId</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p><strong>步骤 5</strong> 为通信协议提供客户端和服务器端实现。客户端代码放在org.apache.hadoop.yarn.server.api.impl.pb.client 包中,且类名为 ResourceTrackerPBClientImpl,实现如下:</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">ResourceTrackerPBClientImpl</span> <span class="n">implements</span> <span class="n">ResourceTracker</span><span class="p">,</span> <span class="n">Closeable</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">ResourceTrackerPB</span> <span class="n">proxy</span><span class="p">;</span>
+    <span class="n">public</span> <span class="nf">ResourceTrackerPBClientImpl</span><span class="p">(</span><span class="kt">long</span> <span class="n">clientVersion</span><span class="p">,</span> <span class="n">InetSocketAddress</span> <span class="n">addr</span><span class="p">,</span>
+        <span class="n">Configuration</span> <span class="n">conf</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
+        <span class="n">RPC</span><span class="p">.</span><span class="n">setProtocolEngine</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">ResourceTrackerPB</span><span class="p">.</span><span class="n">class</span><span class="p">,</span> <span class="n">ProtobufRpcEngine</span><span class="p">.</span><span class="n">class</span><span class="p">);</span>
+        <span class="n">proxy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ResourceTrackerPB</span><span class="p">)</span><span class="n">RPC</span><span class="p">.</span><span class="n">getProxy</span><span class="p">(</span>
+        <span class="n">ResourceTrackerPB</span><span class="p">.</span><span class="n">class</span><span class="p">,</span> <span class="n">clientVersion</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">conf</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="err">@</span><span class="n">Override</span>
+    <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
+    <span class="n">RegisterNodeManagerRequest</span> <span class="n">request</span><span class="p">)</span> <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span>
+    <span class="n">IOException</span> <span class="p">{</span>
+        <span class="n">RegisterNodeManagerRequestProto</span> <span class="n">requestProto</span> <span class="o">=</span> <span class="p">((</span><span class="n">RegisterNodeManagerRequestP</span>
+        <span class="n">BImpl</span><span class="p">)</span><span class="n">request</span><span class="p">).</span><span class="n">getProto</span><span class="p">();</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">new</span> <span class="n">RegisterNodeManagerResponsePBImpl</span><span class="p">(</span><span class="n">proxy</span><span class="p">.</span><span class="n">registerNodeManager</span><span class="p">(</span><span class="n">null</span><span class="p">,</span> <span class="n">requestProto</span><span class="p">));</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">ServiceException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">RPCUtil</span><span class="p">.</span><span class="n">unwrapAndThrowException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+            <span class="k">return</span> <span class="n">null</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>服务端代码放在org.apache.hadoop.yarn.server.api.impl.pb.server包中,且类名为ResourceTrackerPBServerImpl,实现如下:</p>
+<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">ResourceTrackerPBServiceImpl</span> <span class="n">implements</span> <span class="n">ResourceTrackerPB</span> <span class="p">{</span>
+    <span class="n">private</span> <span class="n">ResourceTracker</span> <span class="n">real</span><span class="p">;</span>
+    <span class="n">public</span> <span class="nf">ResourceTrackerPBServiceImpl</span><span class="p">(</span><span class="n">ResourceTracker</span> <span class="n">impl</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="p">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">impl</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="err">@</span><span class="n">Override</span>
+    <span class="n">public</span> <span class="n">RegisterNodeManagerResponseProto</span> <span class="n">registerNodeManager</span><span class="p">(</span>
+    <span class="n">RpcController</span> <span class="n">controller</span><span class="p">,</span> <span class="n">RegisterNodeManagerRequestProto</span> <span class="n">proto</span><span class="p">)</span>
+    <span class="n">throws</span> <span class="n">ServiceException</span> <span class="p">{</span>
+        <span class="n">RegisterNodeManagerRequestPBImpl</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">RegisterNodeManagerRequestPBImpl</span><span class="p">(</span><span class="n">proto</span><span class="p">);</span>
+        <span class="n">try</span> <span class="p">{</span>
+            <span class="n">RegisterNodeManagerResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">real</span><span class="p">.</span><span class="n">registerNodeManager</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
+            <span class="k">return</span> <span class="p">((</span><span class="n">RegisterNodeManagerResponsePBImpl</span><span class="p">)</span><span class="n">response</span><span class="p">).</span><span class="n">getProto</span><span class="p">();</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">YarnException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">throw</span> <span class="n">new</span> <span class="n">ServiceException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">throw</span> <span class="n">new</span> <span class="n">ServiceException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="p">...</span>
+<span class="p">}</span>
+</pre></div>
+
+
 <h1>事件库</h1>
 <hr>
 <h1>状态机</h1>
@@ -991,7 +1205,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4">更多内容请查看附录I <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back">↩</a></li></ol>
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li></ol>
 	<hr />
       </div>
     </div>
