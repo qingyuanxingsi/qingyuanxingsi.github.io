@@ -34,7 +34,7 @@
 	      <a href="./category/distributed-system.html ">Distributed System</a>
 	    <li >
 	      <a href="./category/life.html ">Life</a>
-	    <li >
+	    <li  class="active" >
 	      <a href="./category/machine-learning.html ">Machine Learning</a>
 	    <li >
 	      <a href="./category/pearls.html ">Pearls</a>
@@ -51,15 +51,12 @@
     <div class="row-fluid">
 
         <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="./ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html"><h1>机器学习系列(IV):聚类大观园</h1></a>
-        </div>
-    </div>
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>机器学习系列(IV):聚类大观园</h1b>
+           </div>
+      </div>
     <div class="row-fluid">
       <div class="span2">
 <p>五 11 四月 2014 </p>
@@ -73,7 +70,8 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p>
 </p>
       </div>
-      <div class="article-content span8">
+      
+      <div class="span8">
 	<p><em>Clustering</em>和<em>Classification</em>无疑是机器学习领域两个重量级的TASK,而且这两个概念作为初学者是比较容易混淆的。以下简要说明一下这两个概念之间的区别。Classification和Clustering都是要把一堆Objects分到不同的Group,但是两者还是有很明显的差异的。具体而言,Classification属于Supervised Learning,即训练样本必须是已标注样本，而聚类是Unsupervised Learning,我们要从未标注样本中进行学习，然后把Objects分到不同的Group中去。</p>
 <p>言归正传,Clustering,一言以概之,其核心思想就是"物以类聚,人以群分"。但是其核心前提在于<strong>物以何聚,人以何分</strong>,即使用什么用来度量Objects之间的差异性。一种比较自然的想法就是使用Objects属性之间的差异用以度量Objects之间的差异性。</p>
 <p>\begin{equation}
@@ -516,159 +514,26 @@ Lq &amp;= \lambda Dq \\
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
- 
-	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html">
-          <i class="icon-comment"></i> Comment </a>
+
 	<hr />
       </div>
-      
     </div>
+    <div class="span10">
+      <h3>Comments</h3>
     
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
 
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html"><h1>也说2048:Minimax算法以及Alpha-Beta剪枝</h1></a>
-      </div>
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
     </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 06 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/pearls.html">Pearls</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/ai.html">AI</a> <a href="./tag/2048.html">2048</a> <a href="./tag/minimax-alghorithm.html">Minimax Alghorithm</a> <a href="./tag/alpha-beta-pruning.html">Alpha-Beta Pruning</a> <a href="./tag/algorithm.html">Algorithm</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文对Minimax算法以及Alpha-Beta剪枝进行简述,同时结合2048游戏分析其在2048游戏中的基本实现。</p> 
-	<a class="btn btn-mini xsmall" href="./ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><h1>分布式计算系列(I):Yarn基础库初探</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 01 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/distributed-system.html">Distributed System</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/rpc.html">RPC</a> <a href="./tag/yarn.html">YARN</a> <a href="./tag/hadoop.html">Hadoop</a> <a href="./tag/designing-patterns.html">Designing Patterns</a> <a href="./tag/reactor-pattern.html">Reactor Pattern</a> <a href="./tag/proxy-pattern.html">Proxy Pattern</a> <a href="./tag/service.html">Service</a> <a href="./tag/event-driven-design.html">Event Driven Design</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,服务库以及事件库的相关知识(状态机库因为比较简单,本文不再论述),此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p> 
-	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><h1>机器学习系列(III):Gaussian Models</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>六 15 三月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/gaussian-models.html">Gaussian Models</a> <a href="./tag/generative-models.html">Generative Models</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Discriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p> 
-	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html"><h1>分布式计算与存储系列(序章):初入门径</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 11 三月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/distributed-system.html">Distributed System</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/fen-bu-shi-xi-tong.html">分布式系统</a> <a href="./tag/paxos.html">Paxos</a> <a href="./tag/zhi-xing-ha-xi-suan-fa.html">一致性哈希算法</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要就分布式存储的相关基础知识进行了梳理，分部分分别介绍了分布式系统的基本问题,单机存储系统、分布式系统的相关性能指标、分布式协议等,本文仅作为分布式计算与存储的入门材料，之后我们将从论文和源码两方面对分布式计算与存储的相关理论与实践进行更为深入的探讨。</p> 
-	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="./index.html">1</a></li>
-    <li class=""><a href="./index2.html">2</a></li>
-
-    <li class="next"><a href="./index2.html">Next &rarr;</a></li>
-
-</ul>
-</div>
- 
-  
         </div>
         
         
