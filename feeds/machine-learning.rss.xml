@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-11T00:00:00+08:00</updated><entry><title>机器学习系列(IV):聚类大观园</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html" rel="alternate"></link><updated>2014-04-11T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-11:ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Clustering&lt;/em&gt;和&lt;em&gt;Classification&lt;/em&gt;无疑是机器学习领域两个重量级的TASK,而且这两个概念作为初学者是比较容易混淆的。以下简要说明一下这两个概念之间的区别。Classification和Clustering都是要把一堆Objects分到不同的Group,但是两者还是有很明显的差异的。具体而言,Classification属于Supervised Learning,即训练样本必须是已标注样本，而聚类是Unsupervised Learning,我们要从未标注样本中进行学习，然后把Objects分到不同的Group中去。&lt;/p&gt;
-&lt;p&gt;言归正传,Clustering,一言以概之,其核心思想就是"物以类聚,人以群分"。但是其核心前提在于&lt;strong&gt;物以何聚,人以何分&lt;/strong&gt;,即使用什么用来度量Objects之间的差异性。一种比较自然的想法就是使用Objects属性之间的差异用以度量Objects之间的差异性。&lt;/p&gt;
+&lt;p&gt;言归正传,Clustering,一言以蔽之,其核心思想就是"物以类聚,人以群分"。但是其核心前提在于&lt;strong&gt;物以何聚,人以何分&lt;/strong&gt;,即使用什么用来度量Objects之间的差异性。一种比较自然的想法就是使用Objects属性之间的差异用以度量Objects之间的差异性。&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \Delta(x_i,x_{x\prime}） = \sum_{j=1}^D \Delta_j(x_{ij},x_{x\prime j})
 \end{equation}&lt;/p&gt;
