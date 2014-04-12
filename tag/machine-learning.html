@@ -57,56 +57,395 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-xi-lie-vju-lei-da-guan-yuan-hou-ji.html"><h1>机器学习系列(V):聚类大观园后记</h1></a>
+            <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><h1>机器学习系列(III):Gaussian Models</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>六 12 四月 2014 </p>
+<p>六 15 三月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/dirichlet-distribution.html">Dirichlet Distribution</a> <a href="../tag/dirichlet-process.html">Dirichlet Process</a> <a href="../tag/clustering.html">Clustering</a> </p>
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/generative-models.html">Generative Models</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<p>在上一篇<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html">机器学习系列(IV):聚类大观园</a>中,我们主要介绍了一些聚类的基本概念以及一些常用的聚类算法,本文中我们主要介绍一下Dirichlet Process(有了这个工具之后,不再由人工选取聚类数目$K$值就成为了可能,想想就各种高端大气上档次啊),此外我们对基于特征的聚类方法做一个简要的介绍。</p>
-<h1>Dirichlet Distribution</h1>
-<hr />
-<p>在正式介绍Dirichlet Process之前,我想我们有必要了解一下Dirichlet分布的基础知识。</p>
-<p>Dirichlet分布可以看做是分布之上的分布。如何理解这句话，我们可以先举个例子：假设我们有一个骰子，其有六面，分别为<em>{1,2,3,4,5,6}</em>。现在我们做了10000次投掷的实验，得到的实验结果是六面分别出现了<em>{2000,2000,2000,2000,1000,1000}</em>次，如果用每一面出现的次数与试验总数的比值估计这个面出现的概率，则我们得到六面出现的概率，分别为<em>{0.2,0.2,0.2,0.2,0.1,0.1}</em>。现在，我们还不满足，我们想要做10000次试验，每次试验中我们都投掷骰子10000次。我们想知道，出现这样的情况使得我们认为，骰子六面出现概率为<em>{0.2,0.2,0.2,0.2,0.1,0.1}</em>的概率是多少（说不定下次试验统计得到的概率为<em>{0.1, 0.1, 0.2, 0.2, 0.2, 0.2}</em>这样了）。这样我们就在思考骰子六面出现概率分布这样的分布之上的分布。而这样一个分布就是Dirichlet分布。</p>
-<p>我们之前在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a>一篇中曾经提到过Conjugate Prior(共轭先验分布）的概念,而采用和Likelihood相对应的共轭先验分布能在很大程度上简化计算，因此在计算Posterior时,共轭先验分布被广泛采用。同时,我们在那一篇里也提到其实贝塔分布是二项分布的共轭先验分布，而实际上<strong>狄利克雷分布则是多项分布的共轭先验分布</strong>。(<code>这个世界很奇妙,对吧?!!!</code>)</p>
-<p>下面正式进入狄利克雷分布介绍，首先说一下这个多项分布的参数$\mu$。在二项分布里，参数$\mu$就是抛硬币取某一面的概率，因为伯努利分布的状态空间只有<em>{0,1}</em>。但是在多项分布里，因为状态空间有$K$个取值，因此$\mu$变成了向量$\vec{\mu} = (\mu_1,...,\mu_k)^T$。多项分布的likelihood函数形式是$\prod\limits_{k=1}^{K}\mu_k^{m_k}$，因此就像选择二项分布的共轭先验贝塔函数时那样，狄利克雷分布的函数形式应该如下：</p>
+	<p>在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">上一篇</a>中我们着重介绍了对于离散数据的生成模型，紧接上一篇，本篇我们介绍对于连续数据的生成模型。好吧,废话我们就不多说了,直接进入正文。</p>
+<h1>MLE for MVN</h1>
+<hr>
+<h2>Basics about MVN</h2>
+<p>谈到连续分布,我们很自然地就会想到高斯分布,从小学到现在，印象中第一个走入我脑海中的看着比较高端大气上档次的就是Gaussian分布了。这次我们的重点也会完全集中在Gaussian分布之了,在正式讨论之前，我们先介绍一些关于Gaussian分布的基础知识。</p>
+<p>在$D$维空间中,MVN(Multivariate Normal)多变量正态分布的概率分布函数具有如下形式:</p>
 <p>\begin{equation}
-p(\mu|\alpha)\propto\prod\limits_{k=1}^{K}\mu_k^{\alpha_k-1}
+N(x|\mu,\Sigma) \triangleq \frac{1}{(2\pi)^{D/2}det(\Sigma)^{1/2}} exp[-\frac{1}{2}(x-\mu)^T\Sigma^{-1}(x-\mu)]
 \end{equation}</p>
-<p>上式中，$\sum_k\mu_k=1$,$\vec{\alpha}=(\alpha_1,~…,~\alpha_k)^T$是狄利克雷分布的参数。最后把上式归一化成为真正的狄利克雷分布：</p>
+<p>上式中的指数部分是$x$与$\mu$之间的<a href="http://en.wikipedia.org/wiki/Mahalanobis_distance">Mahalanobis距离</a>。为了更好地理解这个量,我们对$\Sigma$做特征值分解,即$\Sigma = U \Lambda U^T$,其中$U$是一正交阵,满足$U^TU=I$,而$\Lambda$是特征值矩阵。</p>
+<p>通过特征值分解,我们有:</p>
 <p>\begin{equation}
-Dir(\mu|\alpha)=\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)…\Gamma(\alpha_k)}\prod\limits_{k=1}^{K}\mu_k^{\alpha_k-1}
+\Sigma^{-1} = U^{-T}\Lambda^{-1}U^{-1} = U\Lambda^{-1}U^T = \sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T
 \end{equation}</p>
-<p>其中$\alpha_0=\sum\limits_{k=1}^{K}\alpha_k$。这个函数跟贝塔分布有点像（取$K=2$时就是Beta分布）。跟多项分布也有点像。就像Beta分布那样，狄利克雷分布就是它所对应的后验多项分布的参数$\vec{\mu}$ 的分布，只不过$\mu$是一个向量，下图是当$\vec{\mu}=(\mu_1,\mu_2,\mu_3$)时，即只有三个值时狄利克雷概率密度函数的例子。其中中间那个图的三角形表示一个平放的Simplex，三角形三个顶点分别表示$\vec{\mu} =(1,0,0)$,$\vec{\mu} =(0,1,0)$和$\vec{\mu}=(0,0,1)$，因此三角形中间部分的任意一个点就是$\vec{\mu}$的一个取值，纵轴就是这个$\vec{\mu}$的Simplex上的概率密度值(PDF)。</p>
-<p><img alt="Dirichlet Distribution Example" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/PRML_Dir_Distr_Example_zpsa5d1cf1e.png" /></p>
-<p>对于参数$\vec{\mu}$的估计时,由<strong>Posterior=Prior*Likelihood</strong>知,</p>
-<p>\begin{equation}
-p(\mathbf{\mu}|D,\mathbf{\alpha})\propto(D|\mathbf{\mu})p(\mathbf{\mu}|\mathbf{\alpha})\propto\prod\limits_{k=1}^{K}\mu_k^{\alpha_k+m_k-1}
-\end{equation}</p>
-<p>从这个形式可以看出，后验也是狄利克雷分布。类似于贝塔分布归一化后验的方法，我们把这个后验归一化一下，得到:</p>
+<p>其中,$u_i$是$U$的第$i$列。因此Mahalanobis距离可被改写为:</p>
 <p>\begin{equation}
 \begin{split}
-p(\mathbf{\mu}|D,\mathbf{\alpha}) &amp;=Dir(\mathbf{\mu}|\mathbf{\alpha}+\mathbf{m}) \\
-&amp;=\frac{\Gamma(\alpha_0+N)}{\Gamma(\alpha_1+m_1)…\Gamma(\alpha_K+m_K)}\prod\limits_{k=1}^{K}\mu_k^{\alpha_k+m_k-1}
+(x-\mu)^T\Sigma^{-1}(x-\mu) &amp;= (x-\mu)^T (\sum_{i=1}^{D}\frac{1}{\lambda_i}u_iu_i^T) (x-\mu)   \\
+                            &amp;= \sum_{i=1}^{D} \frac{1}{\lambda_i}(x-\mu)^T u_iu_i^T (x-\mu)    \\
+                            &amp;= \sum_{i=1}^{D} \frac{y_i^2}{x_i}                                \\
 \end{split}
 \end{equation}</p>
-<h1>参考文献</h1>
-<hr />
-<ol>
-<li><a href="http://www.xperseverance.net/blogs/2012/03/510/">The Dirichlet Distribution 狄利克雷分布 (PRML 2.2.1)</a></li>
-<li>Machine Learning:A Probabilistic Perspective(<em>Chapter 25</em>)</li>
-</ol><script type= "text/javascript">
+<p>其中,$y_i \triangleq u_i^T(x-\mu)$。另2维空间中的椭圆方程为:</p>
+<p>$$\frac{y_1^2}{\lambda_1} + \frac{y_2^2}{\lambda_2} = 1$$</p>
+<p>因此我们可知Gaussian概率密度的等高线沿着椭圆分布,特征向量决定椭圆的朝向,而特征值则决定椭圆有多<code>“椭”</code>。一般来说，如果我们将坐标系移动$\mu$,然后按$U$旋转，此时的欧拉距离即为Mahalanobis距离。</p>
+<h2>MLE for MVN</h2>
+<p>以下我们给出MVN参数的MLE(极大似然估计)的证明:</p>
+<blockquote>
+<p>Theorem 3.1 若我们获取的$N$个独立同分布的样本$x_i \sim\ N(x|\mu,\Sigma)$,则关于$\mu$以及
+$\Sigma$的极大似然分布如下:
+<img alt="MLE for Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/mle_zpscaea1f03.png"></p>
+</blockquote>
+<p>我们不加证明地给出如下公式组:</p>
+<blockquote>
+<p>\begin{equation}
+  \begin{split}
+  &amp;\frac{\partial(b^Ta)}{\partial a} = b  \\
+  &amp;\frac{\partial(a^TAa)}{\partial a} = (A+A^T)a \\
+  &amp;\frac{\partial}{\partial A} tr(BA) = B^T  \\
+  &amp;\frac{\partial}{\partial A} log |A| = A^{-T} \\
+  &amp;tr(ABC) = tr(CAB) = tr(BCA)
+  \end{split}
+  \end{equation}</p>
+</blockquote>
+<p>最后一个等式称为迹的循环置换性质(cyclic permutation property)。利用这个性质,我们使用<code>trace trick</code>可以得到下式:</p>
+<p>$$x^TAx = tr(x^TAx) = tr(xx^TA) = tr(Axx^T)$$</p>
+<p>证明:</p>
+<p>对数似然函数为:</p>
+<p>\begin{equation}
+l(\mu,\Sigma) = log p(D|\mu,\Sigma) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i=1}^{N} (x_i-\mu)^T \Lambda (x_i-\mu)
+\end{equation}</p>
+<p>其中，$\Lambda = \Sigma^{-1}$为精度矩阵。令$y_i=x_i-\mu$并利用链式法则有:</p>
+<p>\begin{equation}
+\frac{\partial}{\partial \mu}(x_i-\mu)^T \Sigma^{-1} (x_i-\mu) = \frac {\partial}{\partial y_i} y_i^T \Sigma^{-1} y_i \frac{\partial y_i}{\partial \mu}=-(\Sigma^{-T}+\Sigma^{-1})y_i
+\end{equation}</p>
+<p>即:</p>
+<p>\begin{equation}
+\frac{\partial}{\partial \mu} l(\mu,\Sigma) = -\frac{1}{2} \sum_{i=1}^{N} -2\Sigma^{-1}(x_i-\mu) = 0
+\end{equation}</p>
+<p>故有:</p>
+<p>\begin{equation}
+\hat{\mu} = \frac{1}{N} \sum_{i=1}^{N} x_i = \bar{x}
+\end{equation}</p>
+<p>即最大似然均值即为经验均值。</p>
+<p>利用trace trick我们重写对数似然函数为:</p>
+<p>\begin{equation}
+l(\Lambda) = \frac{N}{2} log |\Lambda| - \frac{1}{2} \sum_{i} tr[(x_i-\mu)(x_i-\mu)^T \Lambda]
+           = \frac{N}{2} log |\Lambda| - \frac{1}{2} tr[S_u\Lambda]
+\end{equation}</p>
+<p>其中，$S_u \triangleq \sum_{i=1}^{N} (x_i-\mu)(x_i-\mu)^T$,业界尊称其为分散度矩阵(<code>Scatter Matrix</code>),以后我们聊LDA的时候会再次碰到。对$\Lambda$求偏导有:</p>
+<p>\begin{equation}
+\frac{\partial l(\Lambda)}{\partial \Lambda} = \frac{N}{2}\Lambda^{-T} - \frac{1}{2} S_u^{T} = 0
+\end{equation}</p>
+<p>得:</p>
+<p>\begin{equation}
+\hat{\Sigma} = \frac{1}{N} \sum_{i=1}^{N} (x_i-\mu)(x_i-\mu)^T
+\end{equation}</p>
+<p>证毕。</p>
+<h1>Gaussian Discriminant Analysis</h1>
+<hr>
+<p>我们在上一篇中提到了Naive Bayes方法,其实质无非是估计在每一类下特定的样本出现的概率，进而我们可以把该特定样本分配给概率值最大的那个类。而对于连续数据而言，其实质其实也是一样的，每一个MVN(我们可以看做一类或者一个Component)都可能生成一些数据，我们估计在每一个Component下生成特定样本的概率，然后把该特定样本分配给概率值最大的那个Component即可。即我们可以定义如下的条件分布:</p>
+<p>\begin{equation}
+p(x|y=c,\theta) = N(x|\mu_c,\Sigma_c)
+\end{equation}</p>
+<p>上述模型即为高斯判别分析(Gaussian Discriminant Analysis,GDA)(<code>注意,该模型为生成模型，而不是判别模型</code>)。如果$\Sigma_c$是对角阵，即所有的特征都是独立的时，该模型等同于Naive Bayes.</p>
+<h2>QDA</h2>
+<p>在上式中带入高斯密度函数的定义，则有:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) = \frac{\pi_c |2\pi\Sigma_c|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_c)^T\Sigma_C^{-1}(x-\mu_c)]}{\sum_{c\prime}\pi_{c\prime} |2\pi\Sigma_{c\prime}|^{-1 \over 2}exp[-{1 \over 2}(x-\mu_{c\prime})^T\Sigma_{c\prime}^{-1}(x-\mu_{c\prime})]}
+\end{equation}</p>
+<p>上式中$\pi$为各个Component的先验概率分布。根据上式得到的模型则称为Quadratic Discriminant Analysis(QDA).以下给出在2类以及3类情形下可能的决策边界形状,如下图所示:</p>
+<p><img alt="Decision Boundary" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_boundary_zps289df588.jpeg"></p>
+<h2>Linear Discriminant Analysis(LDA)</h2>
+<p>当各个Gaussian Component的协方差矩阵相同时，此时我们有:</p>
+<p>\begin{equation}
+\begin{split}
+p(y=c|x,\theta) &amp;\propto \pi_c exp[\mu_c^T\Sigma^{-1}x-{1 \over 2}x^T\Sigma^{-1}x-{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c] \\
+&amp;= exp[\mu_c^T\Sigma^{-1}x-{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c+log\pi_c]exp[-{1 \over 2}x^T\Sigma^{-1}x]
+\end{split}
+\end{equation}</p>
+<p>上式中$exp[-{1 \over 2}x^T\Sigma^{-1}x]$是独立于$c$的，分子分母相除抵消到此项。</p>
+<p>令:</p>
+<p>\begin{equation}
+\begin{split}
+\gamma_c &amp;= -{1 \over 2}\mu_c^T\Sigma^{-1}\mu_c+log\pi_c \\
+\beta_c &amp;= \Sigma^{-1}\mu_c
+\end{split}
+\end{equation}</p>
+<p>于是有:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) = \frac{e^{\beta_c^Tx+\gamma_c}}{\sum_{c\prime}e^{\beta_{c\prime}^Tx+\gamma_{c\prime}}}=S(\eta)_c
+\end{equation}</p>
+<p>其中$\eta = [\beta_1^Tx+\gamma_1,...,\beta_C^Tx+\gamma_c]$,$S$为softmax函数(类似于max函数,故得此名),定义如下:</p>
+<p><img alt="Softmax Function" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/softmax_zpscdabec6d.png"></p>
+<p>若将$\eta_c$除以一个常数(temperature),当$T\to 0$时，我们有:</p>
+<p><img alt="Softmax Function" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boltzman_distribution_zpsa00cdbf0.jpeg"></p>
+<p>换句话说，当温度很低时，分布集中在概率最大的那个状态上，而当温度高时，所有的状态呈现均匀分布。</p>
+<blockquote>
+<p>NOTE:该术语来自于统计物理学，在统计物理学中，人们更倾向于使用波尔兹曼分布（Boltzmann distribution）一词。</p>
+</blockquote>
+<p>关于<code>式16</code>有一个有趣的性质，即对该式取log,我们则会得到一个关于$x$的线性方程。因此对于任意两类之间的决策边界将会是一条直线，据此该模型也被称为线性判别分析(Linear Discriminant Analysis,LDA)。而且对于二分类问题，我们可以得到:</p>
+<p>\begin{equation}
+p(y=c|x,\theta) = p(y=c\prime|x,\theta)
+\end{equation}</p>
+<p>\begin{equation}
+\beta_c^Tx+\gamma_c = \beta_{c\prime}^Tx+\gamma_{c\prime}
+\end{equation}</p>
+<p>\begin{equation}
+x^T(\beta_{c\prime}-\beta_c) = \gamma_{c\prime}-\gamma_c
+\end{equation}</p>
+<h2>Two-class LDA</h2>
+<p>为了加深对以上等式的理解，对于二分类的情况，我们做如下说明:</p>
+<p>\begin{equation}
+\begin{split}
+p(y=1|x,\theta) &amp;= \frac{e^{\beta_1^Tx+\gamma_1}}{e^{\beta_1^Tx+\gamma_1}+e^{\beta_0^Tx+\gamma_0}} \\
+&amp;= \frac{1}{1+e^{(\beta_0-\beta_1)^Tx+(\gamma_0-\gamma_1)}} \\
+&amp;=sigm((\beta_1-\beta_0)^Tx+(\gamma_1-\gamma_0))
+\end{split}
+\end{equation}</p>
+<p>其中,$sigm(\eta)$代表<a href="http://en.wikipedia.org/wiki/Sigmoid_function">Sigmoid函数</a>。</p>
+<p>现有:</p>
+<p>\begin{equation}
+\begin{split}
+\gamma_1-\gamma_0 &amp;= -{1 \over 2}\mu_1^T\Sigma^{-1}\mu_1+{1 \over 2}\mu_0^T\Sigma^{-1}\mu_0+log(\pi_1/\pi_0)  \\
+&amp;=-{1 \over 2}(\mu_1-\mu_0)^T\Sigma^{-1}(\mu_1+\mu_0)+log(\pi_1/\pi_0)
+\end{split}
+\end{equation}</p>
+<p>因此若我们另:</p>
+<p>\begin{equation}
+\begin{split}
+\omega &amp;= \beta_1-\beta_0 = \Sigma^{-1}(\mu_1-\mu_0) \\
+x_0 &amp;= {1 \over 2}(\mu_1+\mu_0)-(\mu_1-\mu_0)\frac{log(\pi_1/\pi_0)}{(\mu_1-\mu_0)^T\Sigma^{-1}(\mu_1-\mu_0)}
+\end{split}
+\end{equation}</p>
+<p>则有$\omega^Tx_0 = -(\gamma_1-\gamma_0)$,即:</p>
+<p>\begin{equation}
+p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
+\end{equation}</p>
+<p>因此最后的决策规则很简单:将$x$平移$x_0$,然后投影到$\omega$上，通过结果是正还是负决定它到底属于哪一类。</p>
+<p><img alt="Two class LDA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2_class_lda_zps98b80132.jpeg"></p>
+<p>当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" class="simple-footnote" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分">1</a></sup></p>
+<h1>Inference in joint Gaussian distributions</h1>
+<hr>
+<p>给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们仅给出结论,下式表明<strong>如果两变量符合联合高斯分布，则它们的边际分布以及条件分布也都是高斯分布</strong>。</p>
+<blockquote>
+<p>Theorem 3.2<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" class="simple-footnote" title="具体证明请参考ML:APP一书4.3.4.3一节">2</a></sup> 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
+\begin{equation}
+\mu = \left(
+        \begin{array}{ccc}
+        \mu_1 \\
+        \mu_2
+        \end{array}
+      \right)
+\end{equation}
+\begin{equation}
+\Sigma = \left(
+        \begin{array}{ccc}
+        \Sigma_{11} &amp; \Sigma_{12} \\
+        \Sigma_{21} &amp; \Sigma_{22}
+        \end{array}
+      \right)
+\end{equation}
+则我们可以得到如下边际概率分布:
+\begin{equation}
+p(x_1) = N(x_1|\mu_1,\Sigma_{11})  \\
+p(x_2) = N(x_2|\mu_2,\Sigma_{22})
+\end{equation}
+另其后验条件分布为:
+\begin{equation}
+p(x_1|x_2) = N(x_1|\mu_{1|2},\Sigma_{1|2})
+\end{equation}
+\begin{equation}
+\begin{split}
+\mu_{1|2} &amp;= \mu_1+\Sigma_{12}\Sigma_{22}^{-1}(x_2-\mu_2) \\
+&amp;=\mu_1-\Lambda_{11}^{-1}\Lambda_{12}(x_2-\mu_2) \\
+&amp;=\Sigma_{1|2}(\Lambda_{11}\mu_1-\Lambda_{12}(x_2-\mu_2)) \\
+\end{split}
+\end{equation}
+\begin{equation}
+\Sigma_{1|2} = \Sigma_{11}-\Sigma_{12}\Sigma_{22}^{-1}\Sigma_{21}=\Lambda_{11}^{-1}
+\end{equation}</p>
+</blockquote>
+<h1>Linear Gaussian Systems</h1>
+<hr>
+<p>给定两变量，$x$和$y$.令$x \in R^{D_x}$为一隐含变量,$y \in R^{D_y}$为关于$x$的包含噪声的观察值。此外，我们假定存在如下prior和likelihood:
+\begin{equation}
+\begin{split}
+p(x) &amp;= N(x|\mu_x,\Sigma_x) \\
+p(y|x) &amp;= N(y|Ax+b,\Sigma_y)
+\end{split}
+\end{equation}
+上式即称为<em>Linear Gaussian System</em>。此时我们有:</p>
+<blockquote>
+<p>Theorem 3.3<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3" class="simple-footnote" title="证明请参考ML:APP一书4.4.3节">3</a></sup> 给定一Linear Gaussian System.其后验分布$p(x|y)$具有如下形式:
+\begin{equation}
+\begin{split}
+p(x|y) &amp;= N(x|\mu_{x|y},\Sigma_{x|y}) \\
+\Sigma_{x|y}^{-1} &amp;= \Sigma_x^{-1}+A^T\Sigma_y^{-1}A  \\
+\mu_{x|y} &amp;= \Sigma_{x|y}[A^T\Sigma_y^{-1}(y-b)+\Sigma_x^{-1}\mu_x] 
+\end{split}
+\end{equation}</p>
+</blockquote>
+<h2>Inferring an unknown vector from noisy measurements</h2>
+<p>下面我们举一个简单的例子以进一步说明Linear Gaussian System:
+现有$N$个观测向量,$y_i \sim\ N(x,\Sigma_y)$,prior服从高斯分布$x \sim\ N(\mu_0,\Sigma_0)$.令$A=I,b=0$,此外，我们采用$\bar{y}$作为我们的有效估计值,其精度为$N\Sigma_y^{-1},$我们有:
+\begin{equation}
+\begin{split}
+p(x|y_1,...,y_N) &amp;= N(x|\mu_N,\Sigma_N) \\
+\Sigma_N^{-1} &amp;= \Sigma_{0}^{-1}+N\Sigma_{y}^{-1} \\
+\mu_N &amp;= \Sigma_N(\Sigma_y^{-1}(N\bar{y})+\Sigma_0^{-1}\mu_0)
+\end{split}
+\end{equation}
+为了更直观地解释以上模型,如下图所示:</p>
+<p><img alt="Radar Blips" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/radar_blips_zpsfd1a04d1.png"></p>
+<p>我们可将x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" class="simple-footnote" title="另外一种方法为Kalman Filter Algorithm">4</a></sup></p>
+<p>现假定我们有多个测量设备，且我们想利用多个设备的观测值进行估计，这种方法称为<code>sensor fusion</code>.如果我们有具有不同方差的多组观测值，那么posterior将会是它们的加权平均。如下图所示:</p>
+<p><img alt="Sensor Fusion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sensor_fusion_zps4ad8202f.png"></p>
+<p>我们采用不带任何信息的关于$x$的先验分布，即$p(x)=N(\mu_0,\Sigma_0)=N(0,10^10I_2)$,我们得到2个观测值,$y_1 \sim\ N(x,\Sigma_{y,1}$,$y_2 \sim\ N(x,\Sigma_{y,2})$,我们需要计算$p(x|y_1,y_2)$.</p>
+<p>如上图(a),我们设定$\Sigma_{y,1} = \Sigma_{y,2} = 0.01I_2$,因此两个传感器都相当可靠，posterior mean即位于两个观测值中间；如上图(b)，我们设定$\Sigma_{y,1}=0.05I_2$且$\Sigma_{y,2}=0.01I_2$,因此传感器2比传感器1可靠，此时posterior mean更靠近于$y_2$;如上图(c),我们有:
+\begin{equation}
+\Sigma_{y,1} = 0.01
+\left(
+\begin{array}{cc}
+10 &amp; 1 \\
+1  &amp; 1
+\end{array}
+\right),
+\Sigma_{y,2} = 0.01
+\left(
+\begin{array}{cc}
+1 &amp; 1 \\
+1  &amp; 10
+\end{array}
+\right)
+\end{equation}</p>
+<p>从上式我们不难看出，传感器1在第2个分量上更可靠，传感器2在第1个分量上也更可靠。此时，posterior mean采用传感器1的第二分量以及传感器1的第二分量。</p>
+<blockquote>
+<p>NOTE:当sensor测量精度未知时，我们则需要它们的测量精度也进行估计。</p>
+</blockquote>
+<h1>The Wishart Distribution</h1>
+<hr>
+<blockquote>
+<p>在多变量统计学中,Wishart分布是继高斯分布后最重要且最有用的模型。  ------Press</p>
+</blockquote>
+<p>既然Press他老人家都说了Wishart分布很重要，而且我们下一部分会用到它，那么我们就必须得介绍介绍它了。(它主要被用来Model关于协方差矩阵的不确定性)</p>
+<h2>Wishart Distribution</h2>
+<p>Wishart概率密度函数具有如下形式:
+\begin{equation}
+Wi(\Lambda|S,\nu)=\frac{1}{Z_{Wi}}|\Lambda|^{(\nu-D-1)/2}exp(-{1 \over 2}tr(\Lambda S^{-1}))
+\end{equation}</p>
+<p>其中,$\nu$为自由度，$S$为缩放矩阵。其归一项具有如下形式:(<code>很恐怖，对吧!</code>)
+\begin{equation}
+Z_{Wi}=2^{\nu D/2}\Gamma_D(\nu/2)|S|^{\nu/2}
+\end{equation}</p>
+<p>其中,$\Gamma_D(a)$为多变量Gamma函数:
+\begin{equation}
+\Gamma_D(x) = \pi^{D(D-1)/4}\prod_{i=1}^{D} \Gamma(x+(1-i)/2)
+\end{equation}</p>
+<p>于是有$\Gamma_1(a)=\Gamma(a)$且有:
+\begin{equation}
+\Gamma_D(\nu_0/2)=\prod_{i=1}^{D} \Gamma(\frac{\nu_0+1-i}{2})
+\end{equation}</p>
+<p><strong>仅当$\nu&gt;D-1$时归一项存在</strong>。</p>
+<p>其实Wishart分布和Gaussian分布是有联系的。具体而言，令$x_i \sim\ N(0,\Sigma)$,则离散度矩阵$S=\sum_{i=1}^{N}x_ix_i^T$服从Wishart分布,且$S \sim\ Wi(\Sigma,1)$。于是有$E(S)=N\Sigma$.</p>
+<p>更一般地，我们可以证明$Wi(S,\nu)$的mean和mode具有如下形式:
+\begin{equation}
+mean=\nu S,mode=(\nu-D-1)S
+\end{equation}</p>
+<p><strong>仅当$\nu&gt;D+1$时mode存在</strong>。</p>
+<p>当$D=1$时，Wishart分布退化为Gamma分布，且有:
+\begin{equation}
+Wi(\lambda|s^{-1},v) = Ga(\lambda|{\nu \over 2},{s \over 2})
+\end{equation}</p>
+<h2>Inverse Wishart Distribution</h2>
+<p>若$\Sigma^{-1} \sim\ Wi(S,\nu)$,则$\Sigma \sim\ IW(S^{-1},\nu+D+1)$,其中$IW$为逆Wishart分布。当$\nu&gt;D-1$且$S \succ 0$时,我们有:
+\begin{equation}
+\begin{split}
+IW(\Sigma|S,\nu) &amp;= \frac{1}{Z_{IW}}|\Sigma|^{-(\nu+D+1)/2}exp(-{1 \over 2}tr(S^{-1}\Sigma^{-1})) \\
+Z_{IW} &amp;= |S|^{-\nu/2}2^{\nu D/2}\Gamma_D(\nu/2)
+\end{split}
+\end{equation}</p>
+<p>此外我们可以证明逆Wishart分布具有如下性质:
+\begin{equation}
+mean=\frac{S^{-1}}{\nu-D-1},mode=\frac{S^{-1}}{\nu+D+1}
+\end{equation}</p>
+<p>当$D=1$时,它们退化为逆Gamma分布:
+\begin{equation}
+IW(\sigma^2|S^{-1},\nu)=IG(\sigma^2|\nu/2,S/2)
+\end{equation}</p>
+<h1>Inferring the parameters of an MVN<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" class="simple-footnote" title="本部分部分参考Regularized Gaussian Covariance Estimation">5</a></sup></h1>
+<hr>
+<p>到目前为止，我们已经讨论了在$\theta=(\mu,\Sigma)$已知的条件下如何inference，现我们讨论一下如何对参数本身进行估计。假定$x_i \sim\ N(\mu,\Sigma)$ for $i=1:N$.本节主要分为两个部分:</p>
+<ul>
+<li>计算$p(\mu|D,\Sigma)$;</li>
+<li>计算$p(\Sigma|D,\mu)$.</li>
+</ul>
+<h2>Posterior distribution of $\mu$</h2>
+<p>我们已经就如何计算$\mu$的极大似然估计值进行了讨论,现我们讨论如何计算其posterior.</p>
+<p>其likelihood具有如下形式:
+\begin{equation}
+p(D|\mu) = N(\bar{x}|\mu,{1 \over N}\Sigma)
+\end{equation}</p>
+<p>为了简便起见，我们采用共轭先验分布，即高斯。特别地，若$p(\mu)=N(\mu|m_0,V_0)$.此时我们可以根据之前Linear Gaussian System的结论得到(和我们之前提到的雷达的例子雷同):
+\begin{equation}
+\begin{split}
+p(\mu|D,\Sigma) &amp;= N(\mu|m_N,V_N) \\
+V_N^{-1} &amp;= V_0^{-1}+N\Sigma^{-1} \\
+m_N &amp;= V_N(\Sigma^{-1}(N\bar{x})+V_0^{-1}m_0)
+\end{split}
+\end{equation}</p>
+<p>我们可以通过设定$V_0 = \infty I$提供一个不带任何信息的先验，此时我们有$p(\mu|D,\Sigma)=N(\bar{x},{1 \over N}\Sigma)$,即和MLE得到的结果相同。</p>
+<h2>Posterior distribution of $\Sigma$</h2>
+<p>现我们讨论如何计算$p(\Sigma|D,\mu)$,其likelihood具有如下形式:<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6" class="simple-footnote" title="参见MLE for Gaussian部分">6</a></sup>
+\begin{equation}
+p(D|\mu,\Sigma) \propto |\Sigma|^{-{N \over 2}}exp(-{1 \over 2}tr(S_{\mu}\Sigma^{-1}))
+\end{equation}</p>
+<p>之前我们提到过如果采用共轭先验能够减少计算的复杂度，而此likelihood的共轭先验就是我们之前提到的非常恐怖的逆Wishart分布，即:</p>
+<p>\begin{equation}
+IW(\Sigma|S_0^{-1},\nu_0) \propto |\Sigma|^{-(\nu_0+D+1)/2}exp(-{1 \over 2}tr(S_0\Sigma^{-1}))
+\end{equation}</p>
+<p>上式中$N_0=\nu+D+1$控制着先验的强度,和likelihood中的$N$的作用基本相同。</p>
+<p>将先验和likelihood相乘我们得到如下posterior:</p>
+<p>\begin{equation}
+\begin{split}
+p(\Sigma|D,\mu) &amp;\propto |\Sigma|^{-{N \over 2}}exp(-{1 \over 2}tr(S_{\mu}\Sigma^{-1}))|\Sigma|^{-(\nu_0+D+1)/2}exp(-{1 \over 2}tr(S_0\Sigma^{-1})) \\
+&amp;=|\Sigma|^{-\frac{N+(\nu_0+D+1)}{2}}exp(-{1 \over 2}tr(\Sigma^{-1}(S_{\mu}+S_0))) \\
+&amp;=IW(\Sigma|S_N,\nu_N) \\
+\nu_N &amp;= \nu_0+N    \\
+S_N^{-1} &amp;= S_0+S_{\mu}
+\end{split}
+\end{equation}</p>
+<p>总而言之，从上式我们可以看到，posterior $v_N$的强度为$\nu_0$加$N$;posterior离散度矩阵是先验离散度矩阵$S_0$和数据离散度矩阵$S_{\mu}$之和。</p>
+<h3>MAP Estimation</h3>
+<p>根据我们之前得到的关于$\Sigma$的极大似然估计值,即:</p>
+<p><img alt="MLE for Covariance" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/mle_covariance_zpsb7265e9d.png"></p>
+<p>从上式我们可以看出矩阵的rank为$min(N,D)$。若$N$小于$D$,该矩阵不是full rank的，因此不可逆。另尽管$N$可能大于$D$,$\hat{\Sigma}$也可能是ill-conditioned(接近奇异)。</p>
+<p>为了解决上述问题，我们可以采用posterior mean或mode.我们可以证明$\Sigma$的MAP估计值如下:(使用我们推导MLE时所用的技巧，其实并不难，亲证下式正确):</p>
+<p>\begin{equation}
+\hat\Sigma_{MAP} = \frac{S_N}{\nu_N+D+1} = \frac{S_0+S_{\mu}}{N_0+N_{\mu}}
+\end{equation}</p>
+<p>当我们采用improper uniform prior，即$S_0=0,N_0=0$时，我们即得MLE估计值。</p>
+<p>当$D/N$较大时，选择一个包含信息的合适的prior就相当必要了。令$\mu=\bar{x}$,故有$S_{\mu}=S_{\bar{x}}$,此时MAP估计值可被重写为prior mode和MLE的convex combination.令$\Sigma_0 \triangleq  \frac{S_0}{N_0}$为prior mode,则有:</p>
+<p>\begin{equation}
+\begin{split}
+\hat\Sigma_{MAP} = \frac{S_0+S_{\bar{x}}}{N_0+N} &amp;= \frac{N_0}{N_0+N}\frac{S_0}{N_0}+\frac{N}{N_0+N}\frac{S}{N} \\
+&amp;=\lambda\Sigma_0+(1-\lambda)\hat{\Sigma}_{mle}
+\end{split}
+\end{equation}</p>
+<p>其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior <code>shrinkage</code>的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" class="simple-footnote" title="其他方法见ML:APP一书4.6.2.1节">7</a></sup></p>
+<p>而对于先验的协方差矩阵$S_0$,一般采用如下prior:$S_0=diag(\hat{\Sigma}_{mle})$.因此，我们有:</p>
+<p><img alt="S_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/S0_zps47da8ac0.png"></p>
+<p>由上式我们可以看出，对角线的元素和极大似然估计值相等，而非对角线则趋近于0.因此该技巧也被称为<em>shrinkage estimation,or regularized estimation</em>.</p><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -136,47 +475,14 @@ p(\mathbf{\mu}|D,\mathbf{\alpha}) &amp;=Dir(\mathbf{\mu}|\mathbf{\alpha}+\mathbf
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
- 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-vju-lei-da-guan-yuan-hou-ji.html">
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol> 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><h1>机器学习系列(III):Gaussian Models</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>六 15 三月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/generative-models.html">Generative Models</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Discriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
 
  
         
