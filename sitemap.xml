@@ -5,37 +5,44 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-04-11T22:04:10-00:00</lastmod>
+<lastmod>2014-04-12T21:22:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-04-11T22:04:10-00:00</lastmod>
+<lastmod>2014-04-12T21:22:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-04-11T22:04:10-00:00</lastmod>
+<lastmod>2014-04-12T21:22:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-04-11T22:04:10-00:00</lastmod>
+<lastmod>2014-04-12T21:22:53-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-04-11T22:04:10-00:00</lastmod>
+<lastmod>2014-04-12T21:22:53-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vju-lei-da-guan-yuan-hou-ji.html</loc>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -117,7 +124,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/category/machine-learning.html</loc>
-<lastmod>2014-04-11T00:00:00-00:00</lastmod>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -208,7 +215,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/clustering.html</loc>
-<lastmod>2014-04-11T00:00:00-00:00</lastmod>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -236,7 +243,14 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/machine-learning.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/dirichlet-distribution.html</loc>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -319,6 +333,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.qingyuanxingsi.com/tag/dirichlet-process.html</loc>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.qingyuanxingsi.com/tag/sui-bi.html</loc>
 <lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -355,7 +376,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/author/qingyuanxingsi.html</loc>
-<lastmod>2014-04-11T00:00:00-00:00</lastmod>
+<lastmod>2014-04-12T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

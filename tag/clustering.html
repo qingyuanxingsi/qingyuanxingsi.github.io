@@ -57,617 +57,54 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html"><h1>机器学习系列(IV):聚类大观园</h1></a>
+            <a href="../ji-qi-xue-xi-xi-lie-vju-lei-da-guan-yuan-hou-ji.html"><h1>机器学习系列(V):聚类大观园后记</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>五 11 四月 2014 </p>
+<p>六 12 四月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/clustering.html">Clustering</a> <a href="../tag/unsupervised-learning.html">Unsupervised Learning</a> <a href="../tag/k-means.html">K-Means</a> <a href="../tag/spectral-learning.html">Spectral Learning</a> <a href="../tag/hierarchical-clustering.html">Hierarchical Clustering</a> </p>
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/dirichlet-distribution.html">Dirichlet Distribution</a> <a href="../tag/dirichlet-process.html">Dirichlet Process</a> <a href="../tag/clustering.html">Clustering</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<p><em>Clustering</em>和<em>Classification</em>无疑是机器学习领域两个重量级的TASK,而且这两个概念作为初学者是比较容易混淆的。以下简要说明一下这两个概念之间的区别。Classification和Clustering都是要把一堆Objects分到不同的Group,但是两者还是有很明显的差异的。具体而言,Classification属于Supervised Learning,即训练样本必须是已标注样本，而聚类是Unsupervised Learning,我们要从未标注样本中进行学习，然后把Objects分到不同的Group中去。</p>
-<p>言归正传,Clustering,一言以蔽之,其核心思想就是"物以类聚,人以群分"。但是其核心前提在于<strong>物以何聚,人以何分</strong>,即使用什么用来度量Objects之间的差异性。一种比较自然的想法就是使用Objects属性之间的差异用以度量Objects之间的差异性。</p>
-<p>\begin{equation}
-\Delta(x_i,x_{x\prime}） = \sum_{j=1}^D \Delta_j(x_{ij},x_{x\prime j})
-\end{equation}</p>
-<p>常见的用来Capture属性之间差异性的函数则有如下几种:</p>
-<ul>
-<li>高斯距离</li>
-</ul>
-<p>大家最熟悉的无疑就是高斯距离了,当然，其只能应用于实数值。</p>
-<p>\begin{equation}
-\Delta_j (x_{ij},x_{x\prime j}) = (x_{ij}-x{i\prime j})^2
-\end{equation}</p>
-<ul>
-<li>街区距离($l_1$距离)</li>
-</ul>
-<p>高斯距离由于采用二次形式,因此较大的差异容易被放大化,因此在很多场景下Gaussian距离对于Outliers很敏感。为了解决这个问题,人们引入了街区距离(city block distance),直观上理解就是在一个街区中我们从一点到另外一点要经过的街区数。定义如下:</p>
-<p>\begin{equation}
-\Delta_j (x_{ij},x_{x\prime j}) = |x_{ij}-x_{i\prime j}|
-\end{equation}</p>
-<ul>
-<li>海明距离</li>
-</ul>
-<p>对于类别类型的变量,如<em>{red,green,blue}</em>，我们通常采用的办法则是当特征不同时,赋值为1,否则赋值为0;将所有的类别型变量相加有:</p>
-<p>\begin{equation}
-\Delta(x_i,x_{i\prime}) = \sum_{j=1}^D 1_{x_{ij} \neq x_{x\prime j}}
-\end{equation}</p>
-<p>有了衡量Objects之间差异性的尺度,我们就能采用合适的算法将Objects分到不同的Group当中去。在正式介绍相关算法之间,我们还是简要说明一下如何衡量不同的聚类方法的好坏。</p>
-<h1>聚类方法评价</h1>
+	<p>在上一篇<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html">机器学习系列(IV):聚类大观园</a>中,我们主要介绍了一些聚类的基本概念以及一些常用的聚类算法,本文中我们主要介绍一下Dirichlet Process(有了这个工具之后,不再由人工选取聚类数目$K$值就成为了可能,想想就各种高端大气上档次啊),此外我们对基于特征的聚类方法做一个简要的介绍。</p>
+<h1>Dirichlet Distribution</h1>
 <hr />
-<p>总体而言,聚类算法的核心目的即在于将相似的Objects分到同一类中去,并保证不同类之间的Objects之间的差异性。目前针对聚类算法广泛使用的评价指标有如下三种:</p>
-<h2>Purity</h2>
-<p><img alt="Cluster Objects" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cluster_objects_zps871f5eb1.png" /></p>
-<p>如上图所示,每一个圆圈代表一个Cluster,每个圆圈内的物体均已被标注为<em>{A,B,C}</em>中的一种。令$N_{ij}$表示Cluster i中label为j的物体的数目,$N_i$表示Cluster i中物体的总数。另一个cluster的纯度(purity)被定义为$p_i \triangleq max_j p_{ij}$,因此整个聚类结果的纯度为:</p>
+<p>在正式介绍Dirichlet Process之前,我想我们有必要了解一下Dirichlet分布的基础知识。</p>
+<p>Dirichlet分布可以看做是分布之上的分布。如何理解这句话，我们可以先举个例子：假设我们有一个骰子，其有六面，分别为<em>{1,2,3,4,5,6}</em>。现在我们做了10000次投掷的实验，得到的实验结果是六面分别出现了<em>{2000,2000,2000,2000,1000,1000}</em>次，如果用每一面出现的次数与试验总数的比值估计这个面出现的概率，则我们得到六面出现的概率，分别为<em>{0.2,0.2,0.2,0.2,0.1,0.1}</em>。现在，我们还不满足，我们想要做10000次试验，每次试验中我们都投掷骰子10000次。我们想知道，出现这样的情况使得我们认为，骰子六面出现概率为<em>{0.2,0.2,0.2,0.2,0.1,0.1}</em>的概率是多少（说不定下次试验统计得到的概率为<em>{0.1, 0.1, 0.2, 0.2, 0.2, 0.2}</em>这样了）。这样我们就在思考骰子六面出现概率分布这样的分布之上的分布。而这样一个分布就是Dirichlet分布。</p>
+<p>我们之前在<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a>一篇中曾经提到过Conjugate Prior(共轭先验分布）的概念,而采用和Likelihood相对应的共轭先验分布能在很大程度上简化计算，因此在计算Posterior时,共轭先验分布被广泛采用。同时,我们在那一篇里也提到其实贝塔分布是二项分布的共轭先验分布，而实际上<strong>狄利克雷分布则是多项分布的共轭先验分布</strong>。(<code>这个世界很奇妙,对吧?!!!</code>)</p>
+<p>下面正式进入狄利克雷分布介绍，首先说一下这个多项分布的参数$\mu$。在二项分布里，参数$\mu$就是抛硬币取某一面的概率，因为伯努利分布的状态空间只有<em>{0,1}</em>。但是在多项分布里，因为状态空间有$K$个取值，因此$\mu$变成了向量$\vec{\mu} = (\mu_1,...,\mu_k)^T$。多项分布的likelihood函数形式是$\prod\limits_{k=1}^{K}\mu_k^{m_k}$，因此就像选择二项分布的共轭先验贝塔函数时那样，狄利克雷分布的函数形式应该如下：</p>
 <p>\begin{equation}
-purity \triangleq \sum_{i} \frac{N_i}{N}p_i
+p(\mu|\alpha)\propto\prod\limits_{k=1}^{K}\mu_k^{\alpha_k-1}
 \end{equation}</p>
-<p>根据上述定义,上图中聚类结果的纯度为:</p>
-<p>${6 \over 17}{5 \over 6}+{6 \over 17}{4 \over 6}+{5 \over 17}{3 \over 5} = 0.71$ </p>
-<p>不难看出,聚类的纯度越高，则表明该聚类算法越好。</p>
-<h2>Rand index</h2>
-<p>令$U={u_1,...,u_R}$和$V={v_1,...,v_C}$分别表示对于$N$个数据点的两种不同的划分方式。例如,$U$可能是我们估计的聚类结果，而$V$则是根据物体的Label得到的参考聚类结果。现我们定义如下四个值:</p>
-<ul>
-<li>TP(True Positives):同时属于$U$和$V$中同一集合的物体对的数目,即不管对于$U$还是$V$而言,这些物体对均被分配到同一集合中;</li>
-<li>TN(True Negatives):对于$U$和$V$而言,被分配到不同集合的物体对的数目,即在参考聚类中,它们被分到不同的集合,在我们估计的聚类结果中,它们也被划分到不同的集合。</li>
-<li>FP(False Positives):在$V$中被分配到不同集合，而在$U$中被分配到相同集合的物体对的数目。</li>
-<li>FN(False Negatives):在$V$中被分配到相同集合，而在$U$中被分配到不同集合的物体对的数目。</li>
-</ul>
-<p>而Rand index被定义为:</p>
+<p>上式中，$\sum_k\mu_k=1$,$\vec{\alpha}=(\alpha_1,~…,~\alpha_k)^T$是狄利克雷分布的参数。最后把上式归一化成为真正的狄利克雷分布：</p>
 <p>\begin{equation}
-R \triangleq \frac{TP+TN}{TP+FP+FN+TN}
+Dir(\mu|\alpha)=\frac{\Gamma(\alpha_0)}{\Gamma(\alpha_1)…\Gamma(\alpha_k)}\prod\limits_{k=1}^{K}\mu_k^{\alpha_k-1}
 \end{equation}</p>
-<p>即我们估计的结果中被分配到正确的类中的物体对所占的比例。显然,$0 \leq R \leq 1$.</p>
-<p>还是举上图中的例子为例,说明其计算过程:</p>
-<p>上图中三个Cluster中点的个数分别是6,6,5.因此其中“positives”的数目为:</p>
+<p>其中$\alpha_0=\sum\limits_{k=1}^{K}\alpha_k$。这个函数跟贝塔分布有点像（取$K=2$时就是Beta分布）。跟多项分布也有点像。就像Beta分布那样，狄利克雷分布就是它所对应的后验多项分布的参数$\vec{\mu}$ 的分布，只不过$\mu$是一个向量，下图是当$\vec{\mu}=(\mu_1,\mu_2,\mu_3$)时，即只有三个值时狄利克雷概率密度函数的例子。其中中间那个图的三角形表示一个平放的Simplex，三角形三个顶点分别表示$\vec{\mu} =(1,0,0)$,$\vec{\mu} =(0,1,0)$和$\vec{\mu}=(0,0,1)$，因此三角形中间部分的任意一个点就是$\vec{\mu}$的一个取值，纵轴就是这个$\vec{\mu}$的Simplex上的概率密度值(PDF)。</p>
+<p><img alt="Dirichlet Distribution Example" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/PRML_Dir_Distr_Example_zpsa5d1cf1e.png" /></p>
+<p>对于参数$\vec{\mu}$的估计时,由<strong>Posterior=Prior*Likelihood</strong>知,</p>
 <p>\begin{equation}
-TP+FP = C_6^2+C_6^2+C_5^2 = 40
+p(\mathbf{\mu}|D,\mathbf{\alpha})\propto(D|\mathbf{\mu})p(\mathbf{\mu}|\mathbf{\alpha})\propto\prod\limits_{k=1}^{K}\mu_k^{\alpha_k+m_k-1}
 \end{equation}</p>
-<p>其中True Positives的数目为:</p>
-<p>\begin{equation}
-TP = C_5^2+C_4^2+C_2^2+C_3^2 = 20
-\end{equation}</p>
-<p>同理我们可以得到$FN=24,TN=72$.因此我们有$R = \frac{20+72}{40+24+72} = 0.68$.</p>
-<h2>Mutual Information</h2>
-<p>另外一种衡量聚类质量的方法是计算$U$和$V$之间的互信息。关于互信息的内容请参考<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a>,此处不再赘述。</p>
-<h1>基本聚类算法</h1>
-<hr />
-<p>本部分会着重介绍三种聚类算法,包括K-means,Spectral Clustering以及Hierarchical Clustering,且容我一一道来。</p>
-<h2>K-Means &amp; K-Medoids</h2>
-<p><img alt="Cluster Points" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cluster_01_zps3c7151b4.png" /></p>
-<p>如上图所示,对于二维空间上的若干个点,我们要将它们分成若干类。我们直观上来看,上图中数据点大致可以分为3类,如果我们将每一类用不同的颜色标注，则可得到下图:</p>
-<p><img alt="Cluster Color" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cluster_color_zps7de900bf.png" /></p>
-<p>那么计算机要如何来完成这个任务呢？当然，计算机还没有高级到能够“通过形状大致看出来”，不过，对于这样的$N$维欧氏空间中的点进行聚类，有一个非常简单的经典算法，也就是本节我们要介绍的K-Means。在介绍K-Means的具体步骤之前，让我们先来看看它对于需要进行聚类的数据的一个基本假设吧：对于每一个cluster，我们可以选出一个中心点(center)，使得该cluster中的所有的点到该中心点的距离小于到其他cluster的中心的距离。虽然实际情况中得到的数据并不能保证总是满足这样的约束，但这通常已经是我们所能达到的最好的结果，而那些误差通常是固有存在的或者问题本身的不可分性造成的。例如下图所示的两个高斯分布，从两个分布中随机地抽取一些数据点出来，混杂到一起，现在要让你将这些混杂在一起的数据点按照它们被生成的那个分布分开来：</p>
-<p><img alt="Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gaussian_zpsb3e5d8e5.png" /></p>
-<p>由于这两个分布本身有很大一部分重叠在一起了，例如，对于数据点2.5来说，它由两个分布产生的概率都是相等的，你所做的只能是一个猜测；稍微好一点的情况是2，通常我们会将它归类为左边的那个分布，因为概率大一些，然而此时它由右边的分布生成的概率仍然是比较大的，我们仍然有不小的几率会猜错。而整个阴影部分是我们所能达到的最小的猜错的概率，这来自于问题本身的不可分性，无法避免。因此，我们将K-Means所依赖的这个假设看作是合理的。</p>
-<p>基于这样一个假设,我们再来导出K-Means所要优化的目标函数:设我们一共有$N$个数据点需要分为$K$个cluster,K-Means要做的就是最小化:</p>
-<p>\begin{equation}
-J = \sum_{n=1}^N\sum_{k=1}^K r_{nk} \|x_n-\mu_k\|^2
-\end{equation}</p>
-<p>其中$r_{nk}$在数据点$n$被归类到cluster k的时候为1,否则为0。直接寻找$r_{nk}$和$\mu_k$来最小化$J$并不容易，不过我们可以采取迭代的办法：先固定$\mu_k$,选择最优的$r_{nk}$，很容易看出，只要将数据点归类到离他最近的那个中心就能保证J最小。下一步则固定$r_{nk}$，再求最优的$\mu_k$。将$J$对$\mu_k$ 求导并令导数等于零，很容易得到$J$最小的时候$\mu_k$应该满足：</p>
-<p>\begin{equation}
-\mu_k=\frac{\sum_n r_{nk}x_n}{\sum_n r_{nk}}
-\end{equation}
-亦即$\mu_k$的值应当是所有cluster k中的数据点的平均值。由于每一次迭代都是取到$J$的最小值，因此$J$只会不断地减小（或者不变），而不会增加，这保证了K-Means最终会到达一个极小值。虽然K-Means并不能保证总是能得到全局最优解，但是对于这样的问题，像K-Means这种复杂度的算法，这样的结果已经是很不错的了。</p>
-<p>下面我们来总结一下K-Means算法的具体步骤：</p>
-<ol>
-<li>选定$K$个中心$\mu_k$的初值。这个过程通常是针对具体的问题有一些启发式的选取方法，或者大多数情况下采用随机选取的办法。因为前面说过K-Means并不能保证全局最优，而是否能收敛到全局最优解其实和初值的选取有很大的关系，所以有时候我们会多次选取初值跑K-Means,并取其中最好的一次结果。</li>
-<li>将每个数据点归类到离它最近的那个中心点所代表的cluster中。</li>
-<li>用公式$\mu_k = \frac{1}{N_k}\sum_{j\in\text{cluster}_k}x_j$计算出每个cluster的新的中心点。</li>
-<li>重复第二步，一直到迭代了最大的步数或者前后的$J$的值相差小于一个阈值为止。</li>
-</ol>
-<blockquote>
-<p>NOTE:<strong>K-Means</strong>并不能保证全局最优,而且该算法得到的结果的好坏直接依赖于初始值的选取,当初始值选取不当时,最后得到的结果可能并不好,所以一般采用的方法是多次随机选取初始值,并选择结果最好的一次就行。</p>
-</blockquote>
-<p>K-Means方法有一个很明显的局限就是它的距离衡量标准是高斯函数,所以只适用于特征是实数值的情形,而不能适用于当数据包含类型数据的情形。因此人们引入了K-Medoids算法。</p>
-<p>K-Medoids算法在K-Means算法的基础上做出了如下两个改变:</p>
-<ul>
-<li>将原来的目标函数$J$中的欧氏距离改为一个任意的dissimilarity measure函数$\mathcal{V}$：</li>
-</ul>
-<p>\begin{equation}
-\tilde{J} = \sum_{n=1}^N\sum_{k=1}^K r_{nk}\mathcal{V}(x_n,\mu_k)
-\end{equation}</p>
-<p>最常见的方式是构造一个dissimilarity matrix $\mathbf{D}$来代表$\mathcal{V}$，其中的元素$\mathbf{D}_{ij}$表示Object $i$和Object $j$之间的差异程度。</p>
-<ul>
-<li>中心点的选取不再取同一Cluster数据的均值,<strong>而是从在已有的数据点里面选取的</strong>,具体而言,选一个到该Cluster中其他点距离之和最小的点。这使得K-Medoids算法不容易受到那些由于误差之类的原因产生的Outlier的影响，更加robust一些。</li>
-</ul>
-<h2>Spectral Clustering</h2>
-<p>Spectral Clustering(谱聚类)是一种基于图论的聚类方法，它能够识别任意形状的样本空间且收敛于全局最优解，其基本思想是利用样本数据的相似矩阵进行特征分解后得到的特征向量进行聚类，可见，它与样本feature无关而只与样本个数有关。</p>
-<h3>图的划分</h3>
-<p>图划分的目的是将有权无向图划分为两个或以上子图，使得子图规模差不多而割边权重之和最小。图的划分可以看做是有约束的最优化问题，它的目的是看怎么把每个点划分到某个子图中，比较不幸的是当你选择各种目标函数后发现该优化问题往往是NP-hard的。</p>
-<p>怎么解决这个问题呢？松弛方法往往是一种利器(比如SVM中的松弛变量),对于图的划分可以认为能够将某个点的一部分划分在子图1中，另一部分划分在子图2中,而不是非此即彼,使用松弛方法的目的是将组合优化问题转化为数值优化问题，从而可以在多项式时间内解决之，最后在还原划分时可以通过阈值来还原，或者使用类似K-Means这样的方法，之后会有相关说明。</p>
-<h3>相关定义</h3>
-<ol>
-<li>用$G=(V,E)$表示无向图，其中$V$和$E$分别为其顶点集和边集；</li>
-<li>说某条边属于某个子图是指该边的两个顶点都包含在子图中；</li>
-<li>假设边$e$的两个不同端点为$i$和$j$，则该边的权重用$\omega_{i,j}$表示，对于无向无环图有$\omega_{i,j} = \omega_{j,i}$且$\omega_{i,i}=0$,为方便以下的“图”都指无向无环图；</li>
-<li>对于图的某种划分方案$Cut$的定义为：所有两端点不在同一子图中的边的权重之和，它可以被看成该划分方案的<strong>损失函数</strong>,希望这种损失越小越好,本文以二分无向图为例，假设原无向图$G$被划分为$G_1$和$G_2$，那么有:</li>
-</ol>
-<p>\begin{equation}
-Cut(G_1,G_2) = \sum_{i \in G_1,j \in G_2} \omega_{i,j}
-\end{equation}</p>
-<h3>Laplacian矩阵</h3>
-<p>假设无向图$G$被划分为$G_1$和$G_2$两个子图，该图的顶点数为:n=|V|，用$q$表示维指示向量，表明该划分方案，每个分量定义如下:</p>
-<p>\begin{equation}
-q_i = 
-\left \lbrace
-\begin{array}{cc}
-c_1 &amp; i \in G_1 \\
-c_2 &amp; i \in G_2 
-\end{array}
-\right.
-\end{equation}</p>
-<p>于是有:</p>
-<p>\begin{equation}
-Cut(G_1,G_2) = \sum_{i \in G_1,j \in G_2} \omega_{i,j} = \frac{\sum_{i=1}^n \sum_{j=1}^n \omega_{i,j}(q_i-q_j)^2}{2(c_1-c_2)^2}
-\end{equation}</p>
-<p>又因为：</p>
+<p>从这个形式可以看出，后验也是狄利克雷分布。类似于贝塔分布归一化后验的方法，我们把这个后验归一化一下，得到:</p>
 <p>\begin{equation}
 \begin{split}
-\sum_{i=1}^n \sum_{j=1}^n \omega_{i,j}(q_i-q_j)^2 &amp;= \sum_{i=1}^n \sum_{j=1}^n \omega_{i,j}(q_i^2-2q_iq_j+q_j^2) \\
-&amp;= \sum_{i=1}^n \sum_{j=1}^n -2\omega_{i,j}q_iq_j + \sum_{i=1}^n \sum_{j=1}^n \omega_{i,j}(q_i^2+q_j^2) \\
-&amp;= \sum_{i=1}^n \sum_{j=1}^n -2\omega_{i,j}q_iq_j + \sum_{i=1}^n 2q_i^2(\sum_{j=1}^n \omega_{i,j}) \\
-&amp;=2q^T(D-W)q
+p(\mathbf{\mu}|D,\mathbf{\alpha}) &amp;=Dir(\mathbf{\mu}|\mathbf{\alpha}+\mathbf{m}) \\
+&amp;=\frac{\Gamma(\alpha_0+N)}{\Gamma(\alpha_1+m_1)…\Gamma(\alpha_K+m_K)}\prod\limits_{k=1}^{K}\mu_k^{\alpha_k+m_k-1}
 \end{split}
 \end{equation}</p>
-<p>其中，$D$为对角矩阵，对角线元素为:</p>
-<p>\begin{equation}
-D_{i,i} = \sum_{j=1}^n \omega_{i,j}
-\end{equation}</p>
-<p>$W$为权重矩阵：$W_{i,j} = \omega_{i,j}$且$W_{i,i}=0$。</p>
-<p>重新定义一个对称矩阵$L$，它便是Laplacian矩阵：</p>
-<p>\begin{equation}
-L=D-W
-\end{equation}</p>
-<p>矩阵元素为:</p>
-<p>\begin{equation}
-L_{i,j} = 
-\left \lbrace
-\begin{array}{cc}
-\sum_{j=1}^n \omega_{i,j} &amp; i = j \\
--\omega_{i,j} &amp; i \neq j
-\end{array}
-\right.
-\end{equation}</p>
-<p>进一步观察：</p>
-<p>\begin{equation}
-q^TLq = {1 \over 2} \sum_{i=1}^n \sum_{j=1}^n \omega_{i,j}(q_i-q_j)^2
-\end{equation}</p>
-<p>如果所有权重值都为非负，那么就有，这说明Laplacian矩阵是半正定矩阵；而当无向图为连通图时有特征值0且对应特征向量为$[1,1,1...1]^T$，这反映了，如果将无向图划分成两个子图，一个为其本身，另一个为空时，为0(当然，这种划分是没有意义的)。</p>
-<p>其实上面推导的目的在于得到下面的关系：</p>
-<p>\begin{equation}
-Cut(G_1,G_2) = \frac{q^TLq}{(c_1-c_2)^2}
-\end{equation}</p>
-<p>这个等式的核心价值在于：将最小化划分的问题转变为最小化二次函数；从另一个角度看，实际上是把原来求离散值松弛为求连续实数值。</p>
-<p>观察下图：</p>
-<p><img alt="Graph" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/graph_zps39bd50fe.png" /></p>
-<p>根据上图我们可以得到:</p>
-<p>\begin{equation}
-W = 
-\left[
-\begin{array}{cc}
-0.0  &amp; 0.8 &amp; 0.6 &amp; 0.0 &amp; 0.1 &amp; 0.0 \\
-0.8  &amp; 0.0 &amp; 0.8 &amp; 0.0 &amp; 0.0 &amp; 0.0 \\
-0.6  &amp; 0.8 &amp; 0.0 &amp; 0.2 &amp; 0.0 &amp; 0.0 \\
-0.0  &amp; 0.0 &amp; 0.2 &amp; 0.0 &amp; 0.8 &amp; 0.7 \\
-0.1  &amp; 0.0 &amp; 0.0 &amp; 0.8 &amp; 0.0 &amp; 0.8 \\
-0.0  &amp; 0.0 &amp; 0.0 &amp; 0.7 &amp; 0.8 &amp; 0.0
-\end{array}
-\right]
-\end{equation}</p>
-<p>\begin{equation}
-D = 
-\left[
-\begin{array}{cc}
-1.5  &amp; 0.0 &amp; 0.0 &amp; 0.0 &amp; 0.0 &amp; 0.0 \\
-0.0  &amp; 1.6 &amp; 0.0 &amp; 0.0 &amp; 0.0 &amp; 0.0 \\
-0.0  &amp; 0.0 &amp; 1.6 &amp; 0.0 &amp; 0.0 &amp; 0.0 \\
-0.0  &amp; 0.0 &amp; 0.0 &amp; 1.7 &amp; 0.0 &amp; 0.0 \\
-0.0  &amp; 0.0 &amp; 0.0 &amp; 0.0 &amp; 1.7 &amp; 0.0 \\
-0.0  &amp; 0.0 &amp; 0.0 &amp; 0.0 &amp; 0.0 &amp; 1.5
-\end{array}
-\right]
-\end{equation}</p>
-<p>Laplacian矩阵为：
-\begin{equation}
-L = 
-\left[
-\begin{array}{cc}
-1.5  &amp; -0.8 &amp; -0.6 &amp; 0.0 &amp; -0.1 &amp; 0.0 \\
--0.8  &amp; 1.6 &amp; -0.8 &amp; 0.0 &amp; 0.0 &amp; 0.0 \\
--0.6  &amp; -0.8 &amp; 1.6 &amp; -0.2 &amp; 0.0 &amp; 0.0 \\
-0.0  &amp; 0.0 &amp; -0.2 &amp; 1.7 &amp; -0.8 &amp; -0.7 \\
--0.1  &amp; 0.0 &amp; 0.0 &amp; -0.8 &amp; 1.7 &amp; -0.8 \\
-0.0  &amp; 0.0 &amp; 0.0 &amp; -0.7 &amp; -0.8 &amp; 1.5
-\end{array}
-\right]
-\end{equation}</p>
-<p>Laplacian矩阵是一种有效表示图的方式，任何一个Laplacian矩阵都对应一个权重非负地无向有权图,而满足以下条件的就是Laplacian矩阵:</p>
-<ol>
-<li>为对称半正定矩阵，保证所有特征值都大于等于0;</li>
-<li>矩阵有唯一的0特征值，其对应的特征向量为$[1,1,1...1]^T$，它反映了图的一种划分方式：一个子图包含原图所有端点，另一个子图为空。</li>
-</ol>
-<h3>划分方法</h3>
-<h4>Minimum Cut方法</h4>
-<p>考虑最简单情况，另$C_1=1=-C_2$,无向图划分指示向量定义为:</p>
-<p>\begin{equation}
-q_i = 
-\left \lbrace
-\begin{array}{cc}
-1 &amp; i \in G_1 \\
--1 &amp; i \in G_2 
-\end{array}
-\right.
-\end{equation}                          </p>
-<p>要优化的目标为$Cut(G_1,G_2)$，由之前的推导可以将该问题松弛为以下问题：</p>
-<p>\begin{equation}
-min \ q^TLq \\
-s.t. [1,1,...1]^Tq=0 \\
-q^Tq = n
-\end{equation}</p>
-<p>从这个问题的形式可以联想到<strong>Rayleigh quotient</strong>:</p>
-<p>\begin{equation}
-R(L,q) = \frac{q^TLq}{q^Tq}
-\end{equation}</p>
-<p>原问题的最优解就是该Rayleigh quotient的最优解，而由Rayleigh quotient的性质可知：它的最小值，第二小值，......，最大值分别对应矩阵$L$的最小特征值，第二小特征值，......，最大特征值，且极值$q$在相应的特征向量处取得，即需要求解下特征系统的特征值和特征向量：</p>
-<p>\begin{equation}
-Lq = \lambda q
-\end{equation}</p>
-<p>这里需要注意约束条件$[1,1,...1]^Tq=0$，显然的最小特征值为0,此时对应特征向量为[1,1,...1]^T,不满足这个约束条件(剔除了无意义划分)，于是最优解应该在第二小特征值对应的特征向量处取得。</p>
-<p>当然，求得特征向量后还要考虑如何恢复划分，比如可以这样：特征向量分量值为正所对应的端点划分为$G_1$，反之划分为$G_2$；也可以这样：将特征向量分量值从小到大排列，以中位数为界划分$G_1$和$G_2$；还可以用K-Means算法聚类。</p>
-<h4>Ratio Cut方法</h4>
-<p>实际当中，划分图时除了要考虑最小化$Cut$外还要考虑划分的平衡性，为缓解出现类似一个子图包含非常多端点而另一个只包含很少端点的情况，出现了Ratio Cut，它衡量子图大小的标准是子图包含的端点个数。</p>
-<p>定义$n_1$为子图1包含端点数，$n_2$为子图2包含端点数，$n_2=n-n_1$，则优化目标函数为：</p>
-<p>\begin{equation}
-obj = Cut(G_1,G_2)(\frac{1}{n_1}+\frac{1}{n_2})
-\end{equation}</p>
-<p>其中：</p>
-<p>\begin{equation}
-Cut(G_1,G_2) = \sum_{i \in G_1,j \in G_2} \omega_{i,j}
-\end{equation}</p>
-<p>做一个简单变换：</p>
-<p>\begin{equation}
-\begin{split}
-obj &amp;= Cut(G_1,G_2)(\frac{1}{n_1}+\frac{1}{n_2}) = \sum_{i \in G_1,j \in G_2} \omega_{i,j}(\frac{1}{n_1}+\frac{1}{n_2}) \\
-&amp;= \sum_{i \in G_1,j \in G_2} \omega_{i,j}(\frac{n_1+n_2}{n_1n_2})=\sum_{i \in G_1,j \in G_2} \omega_{i,j}(\frac{(n_1+n_2)^2}{n_1n_2n}) \\
-&amp;= \sum_{i \in G_1,j \in G_2} \omega_{i,j}(\sqrt{\frac{n_1}{n_2n}}+\sqrt{\frac{n_2}{n_1n}})^2 \\
-&amp;= \sum_{i \in G_1,j \in G_2} \omega_{i,j}(q_i-q_j)^2
-\end{split}
-\end{equation}</p>
-<p>其中：</p>
-<p>\begin{equation}
-q_i = 
-\left \lbrace
-\begin{array}{cc}
-\sqrt{\frac{n_1}{n_2n}} &amp; i \in G_1 \\
-\sqrt{\frac{n_2}{n_1n}} &amp; i \in G_2
-\end{array}
-\right.
-\end{equation}</p>
-<p>看吧，这形式多给力，原问题就松弛为下面这个问题了：</p>
-<p>\begin{equation}
-min \ q^TLq \\
-s.t. q^Te=0 \\
-q^Tq = 1
-\end{equation}</p>
-<p>依然用<strong>Rayleigh quotient</strong>求解其第二小特征值及其特征向量。</p>
-<blockquote>
-<p>NOTE:关于原问题为什么能松弛为上述形式,没看懂,望高人指点(Normalized Cut这部分也没完全懂)</p>
-</blockquote>
-<h4>Normalized Cut方法</h4>
-<p>与Ratio Cut类似，不同之处是，它衡量子图大小的标准是:子图各个端点的Degree之和。
-定义:$d_1$为子图1Degree之和:</p>
-<p>\begin{equation}
-d_1 = \sum_{i \in G_1} d_i
-\end{equation}</p>
-<p>$d_2$为子图2Degree之和:</p>
-<p>\begin{equation}
-d_2 = \sum_{i \in G_2} d_i
-\end{equation}</p>
-<p>则优化目标函数为：</p>
-<p>\begin{equation}
-\begin{split}
-obj = Cut(G_1,G_2)(\frac{1}{d_1}+\frac{1}{d_2}) = \sum_{i \in G_1,j \in G_2} \omega_{i,j}(q_i-q_j)^2
-\end{split}
-\end{equation}</p>
-<p>其中：</p>
-<p>\begin{equation}
-q_i = 
-\left \lbrace
-\begin{array}{cc}
-\sqrt{\frac{d_1}{d_2d}} &amp; i \in G_1 \\
-\sqrt{\frac{d_2}{d_1d}} &amp; i \in G_2
-\end{array}
-\right.
-\end{equation}</p>
-<p>原问题就松弛为下面这个问题了：</p>
-<p>\begin{equation}
-min \ q^TLq \\
-s.t. q^De=0 \\
-q^Dq = 1
-\end{equation}</p>
-<p>用泛化的Rayleigh quotient表示为：</p>
-<p>\begin{equation}
-R(L,q) = \frac{q^TLq}{q^TDq}
-\end{equation}</p>
-<p>那问题就变成求解下特征系统的特征值和特征向量：</p>
-<p>\begin{equation}
-\begin{split}
-Lq &amp;= \lambda Dq \\
-&amp;\Leftrightarrow Lq = \lambda D^{1 \over 2}D^{1 \over 2}q \\
-&amp;\Leftrightarrow D^{-\frac{1}{2}}LD^{-\frac{1}{2}}D^{1 \over 2}q = \lambda D^{1 \over 2}q \\
-&amp;\Leftrightarrow L\prime q\prime = \lambda q\prime
-\end{split}
-\end{equation}</p>
-<p>其中,$L\prime = D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$,$q\prime=D^{1 \over 2}q$
-                                                                                                显然，上式中最上面式子和最下面式子有相同的特征值，但是对应特征值的特征向量关系为:$q\prime=D^{1 \over 2}q$，因此我们可以先求最下面式子的特征值及其特征向量，然后为每个特征向量乘以$D^{-\frac{1}{2}}$就得到最上面式子的特征向量。</p>
-<p>哦,对了,矩阵$L\prime = D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$叫做Normalized Laplacian，因为它对角线元素值都为1。</p>
-<h3>Spectral Clustering</h3>
-<p>上边说了这么多，其实就是想将图的划分应用于聚类，而且这种聚类只需要样本的相似矩阵即可，把每个样本看成图中的一个顶点，样本之间的相似度看成由这两点组成的边的权重值，那么相似矩阵就是一幅有权无向图。对照图的划分方法，有下列两类Spectral Clustering算法，他们的区别在于Laplacian矩阵是否是规范化的:</p>
-<p><img alt="SC_Classify" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sc_classify_zpse5f47df7.png" /></p>
-<ul>
-<li>Unnormalized Spectral Clustering算法</li>
-</ul>
-<p>算法输入：样本相似矩阵$S$和要聚类的类别数$K$。</p>
-<ol>
-<li>根据矩阵$S$建立权重矩阵$W$、三角矩阵$D$；</li>
-<li>建立Laplacian矩阵$L$；</li>
-<li>求矩阵$L$的前$K$小个特征值及其对应的特征向量，注意最小的那个特征值一定是0且对应的特征向量为[1,1,...1]^T；</li>
-<li>以这K组特征向量组成新的矩阵，其行数为样本数，列数为$K$，这里就是做了降维操作，从$N$维降到$K$维，(实际上除去那个全为1的向量维度降为了$K-1$)；</li>
-<li>
-<p>使用K-Means算法进行聚类，得到$K$个Cluster。</p>
-</li>
-<li>
-<p>Normalized Spectral Clustering算法</p>
-</li>
-</ol>
-<p>算法输入：样本相似矩阵$S$和要聚类的类别数$K$。</p>
-<ol>
-<li>根据矩阵$S$建立权重矩阵$W$、三角矩阵$D$；</li>
-<li>建立Laplacian矩阵$L$以及$L\prime = D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$；</li>
-<li>求矩阵$L\prime$的前$K$小个特征值及其对应的特征向量，注意最小的那个特征值一定是0且对应的特征向量为$[1,1...1]^T$；</li>
-<li>利用$q\prime=D^{1 \over 2}q$求得矩阵$L$前$K$小个特征向量；</li>
-<li>以这$K$组特征向量组成新的矩阵，其行数为样本数$N$，列数为$K$；</li>
-<li>使用K-Means算法进行聚类，得到$K$个Cluster。</li>
-</ol>
-<h3>源码实现</h3>
-<p>以下我们给出Unnormalized Spectral Clustering的Python源码实现:</p>
-<div class="highlight"><pre><span class="n">import</span> <span class="n">sys</span>
-
-<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-<span class="n">import</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">pyplot</span> <span class="n">as</span> <span class="n">plt</span>
-
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">linalg</span> <span class="n">import</span> <span class="n">eig</span>
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">cluster</span><span class="p">.</span><span class="n">vq</span> <span class="n">import</span> <span class="n">kmeans2</span>
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">sparse</span><span class="p">.</span><span class="n">linalg</span> <span class="n">import</span> <span class="n">eigen</span>
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">spatial</span><span class="p">.</span><span class="n">kdtree</span> <span class="n">import</span> <span class="n">KDTree</span>
-
-<span class="n">def</span> <span class="n">get_noise</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="mi">2</span><span class="n">d</span> <span class="n">gaussian</span> <span class="n">random</span> <span class="n">noise</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">numpoints</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">numpoints</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-
-<span class="n">def</span> <span class="n">get_circle</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">use</span> <span class="n">polar</span> <span class="n">coordinates</span> <span class="n">to</span> <span class="n">get</span> <span class="n">uniformly</span> <span class="n">distributed</span> <span class="n">points</span>
-    <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">numpoints</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-
-<span class="n">def</span> <span class="n">radial_kernel</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">inner</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
-        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">.</span><span class="n">conj</span><span class="p">()))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">inner</span>
-
-<span class="n">def</span> <span class="n">circle_samples</span><span class="p">()</span><span class="o">:</span>
-    <span class="s">&quot;Generate noisy circle points&quot;</span>
-    <span class="n">circles</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">radius</span> <span class="n">in</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">circles</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span> <span class="o">+</span> <span class="n">get_noise</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">circles</span><span class="p">)</span>
-
-<span class="n">def</span> <span class="n">mutual_knn</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">radial_kernel</span><span class="p">())</span><span class="o">:</span>
-    <span class="n">knn</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">kt</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">point</span> <span class="n">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">:</span>
-        <span class="err">#</span> <span class="n">cannot</span> <span class="n">use</span> <span class="n">euclidean</span> <span class="n">distance</span> <span class="n">directly</span>
-        <span class="k">for</span> <span class="n">neighbour</span> <span class="n">in</span> <span class="n">kt</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">neighbour</span><span class="o">:</span>
-                <span class="n">knn</span><span class="p">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[]).</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="n">neighbour</span><span class="p">]),</span> <span class="n">neighbour</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">knn</span>
-
-<span class="n">def</span> <span class="n">get_distance_matrix</span><span class="p">(</span><span class="n">knn</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">len</span><span class="p">(</span><span class="n">knn</span><span class="p">)</span>
-    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">point</span><span class="p">,</span> <span class="n">nearest_neighbours</span> <span class="n">in</span> <span class="n">knn</span><span class="p">.</span><span class="n">iteritems</span><span class="p">()</span><span class="o">:</span>
-        <span class="k">for</span> <span class="n">distance</span><span class="p">,</span> <span class="n">neighbour</span> <span class="n">in</span> <span class="n">nearest_neighbours</span><span class="o">:</span>
-            <span class="n">W</span><span class="p">[</span><span class="n">point</span><span class="p">][</span><span class="n">neighbour</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span>
-    <span class="k">return</span> <span class="n">W</span>
-
-<span class="n">def</span> <span class="n">rename_clusters</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">so</span> <span class="n">that</span> <span class="n">first</span> <span class="n">cluster</span> <span class="n">has</span> <span class="n">index</span> <span class="mi">0</span>
-    <span class="n">num</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">newidx</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">id</span> <span class="n">in</span> <span class="n">idx</span><span class="o">:</span>
-        <span class="k">if</span> <span class="n">id</span> <span class="n">not</span> <span class="n">in</span> <span class="n">seen</span><span class="o">:</span>
-            <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">seen</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span>
-        <span class="n">newidx</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">seen</span><span class="p">[</span><span class="n">id</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
-
-<span class="n">def</span> <span class="n">cluster_points</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">sparse</span> <span class="n">eigen</span> <span class="n">is</span> <span class="n">a</span> <span class="n">little</span> <span class="n">bit</span> <span class="n">faster</span> <span class="n">than</span> <span class="n">eig</span>
-    <span class="err">#</span><span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span> <span class="o">=</span> <span class="n">eigen</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s">&quot;SM&quot;</span><span class="p">)</span>
-    <span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-    <span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span> <span class="o">=</span> <span class="n">evals</span><span class="p">.</span><span class="n">real</span><span class="p">,</span> <span class="n">evcts</span><span class="p">.</span><span class="n">real</span>
-    <span class="n">edict</span> <span class="o">=</span> <span class="n">dict</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span><span class="p">.</span><span class="n">transpose</span><span class="p">()))</span>
-    <span class="n">evals</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">edict</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="err">#</span> <span class="n">second</span> <span class="n">and</span> <span class="n">third</span> <span class="n">smallest</span> <span class="n">eigenvalue</span> <span class="o">+</span> <span class="n">vector</span>
-    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">edict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="n">in</span> <span class="n">evals</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]]).</span><span class="n">transpose</span><span class="p">()</span>
-    <span class="n">res</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">kmeans2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">minit</span><span class="o">=</span><span class="err">&#39;</span><span class="n">random</span><span class="err">&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">evals</span><span class="p">[</span><span class="o">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">Y</span><span class="p">,</span> <span class="n">rename_clusters</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
-
-<span class="n">def</span> <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span><span class="o">:</span>
-    <span class="k">for</span> <span class="n">tl</span> <span class="n">in</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_xticklabels</span><span class="p">()</span><span class="o">:</span>
-        <span class="n">tl</span><span class="p">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">tl</span> <span class="n">in</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_yticklabels</span><span class="p">()</span><span class="o">:</span>
-        <span class="n">tl</span><span class="p">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-
-<span class="n">def</span> <span class="n">get_colormap</span><span class="p">()</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">map</span> <span class="n">cluster</span> <span class="n">label</span> <span class="n">to</span> <span class="n">color</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">orange</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="n">green</span><span class="p">)</span>
-    <span class="n">from</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">colors</span> <span class="n">import</span> <span class="n">ListedColormap</span>
-    <span class="n">orange</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.918</span><span class="p">,</span> <span class="mf">0.545</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="n">blue</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.169</span><span class="p">,</span> <span class="mf">0.651</span><span class="p">,</span> <span class="mf">0.914</span><span class="p">)</span>
-    <span class="n">green</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="mf">0.365</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="n">orange</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="n">green</span><span class="p">])</span>
-
-<span class="n">def</span> <span class="n">plot_circles</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;x2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-
-<span class="n">def</span> <span class="n">plot_eigenvalues</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">evals</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">evals</span><span class="p">)),</span> <span class="n">evals</span><span class="p">,</span>
-        <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="mf">0.365</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Number&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Eigenvalue&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-
-<span class="n">def</span> <span class="n">plot_eigenvectors</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">from</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">ticker</span> <span class="n">import</span> <span class="n">MaxNLocator</span>
-    <span class="n">from</span> <span class="n">mpl_toolkits</span><span class="p">.</span><span class="n">axes_grid</span> <span class="n">import</span> <span class="n">make_axes_locatable</span>
-    <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax2</span> <span class="o">=</span> <span class="n">divider</span><span class="p">.</span><span class="n">new_vertical</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s">&quot;100%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">fig1</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_figure</span><span class="p">()</span>
-    <span class="n">fig1</span><span class="p">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">ax2</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Eigenvectors&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)),</span> <span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">yaxis</span><span class="p">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">yaxis</span><span class="p">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)),</span> <span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;index&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;2nd Smallest&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;3nd Smallest&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-    <span class="k">for</span> <span class="n">tl</span> <span class="n">in</span> <span class="n">ax2</span><span class="p">.</span><span class="n">get_xticklabels</span><span class="p">()</span><span class="o">:</span>
-        <span class="n">tl</span><span class="p">.</span><span class="n">set_visible</span><span class="p">(</span><span class="n">False</span><span class="p">)</span>
-
-<span class="n">def</span> <span class="n">plot_spec_clustering</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Spectral Clustering&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
-        <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Second Smallest Eigenvector&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Third Smallest Eigenvector&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-
-<span class="n">def</span> <span class="n">plot_figure</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">evals</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">colormap</span> <span class="o">=</span> <span class="n">get_colormap</span><span class="p">()</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
-
-    <span class="n">fig</span><span class="p">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">plot_circles</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
-
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">plot_eigenvalues</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">evals</span><span class="p">)</span>
-
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">plot_eigenvectors</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
-
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">plot_spec_clustering</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
-
-    <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="n">def</span> <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">circle_samples</span><span class="p">()</span>
-    <span class="n">knn_points</span> <span class="o">=</span> <span class="n">mutual_knn</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-    <span class="n">W</span> <span class="o">=</span> <span class="n">get_distance_matrix</span><span class="p">(</span><span class="n">knn_points</span><span class="p">)</span>
-    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">([</span><span class="n">sum</span><span class="p">(</span><span class="n">Wi</span><span class="p">)</span> <span class="k">for</span> <span class="n">Wi</span> <span class="n">in</span> <span class="n">W</span><span class="p">])</span>
-
-    <span class="err">#</span> <span class="n">unnormalized</span> <span class="n">graph</span> <span class="n">Laplacian</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="n">G</span> <span class="o">-</span> <span class="n">W</span>
-    <span class="n">evals</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">cluster_points</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-
-    <span class="n">plot_figure</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">evals</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-    <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
-</pre></div>
-
-
-<p>运行源码得到下图:</p>
-<p><img alt="Spectral Clustering" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/SpectralClustering_zpsb5f59a0e.png" /></p>
-<h3>总结</h3>
-<ul>
-<li>图划分问题中的关键点在于选择合适的指示向量并将其进行松弛化处理，从而将最小化划分的问题转变为最小化二次函数，进而转化为求Rayleigh quotient极值的问题;</li>
-<li>
-<p>Spectral Clustering的各个阶段为：</p>
-<ol>
-<li>选择合适的相似性函数计算相似度矩阵；</li>
-<li>计算矩阵L的特征值及其特征向量，比如可以用<code>Lanczos</code>迭代算法；</li>
-<li>如何选择K，可以采用启发式方法，比如，发现第1到m的特征值都挺小的，到了m+1突然变成较大的数，那么就可以选择K=m；</li>
-<li>用K-Means算法聚类，当然它不是唯一选择；</li>
-<li>Normalized Spectral Clustering在让Cluster间相似度最小而Cluster内部相似度最大方面表现要更好，所以首选这类方法。</li>
-</ol>
-</li>
-</ul>
-<h2>Hierarchical Clustering</h2>
-<p><img alt="Hierarchical_Clustering" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hierarchical_clustering_zps8134ae3b.png" /></p>
-<p>Hierarchical Clustering正如它字面上的意思那样，是层次化的聚类，得出来的结构是一棵树，如上图所示。在前面我们介绍过不少聚类方法，但是都是“平坦”型的聚类，然而他们还有一个更大的共同点，或者说是弱点，就是难以确定类别数。我们这里要说的Hierarchical Clustering则从某种意义上来说也算是解决了这个问题，因为在做Clustering的时候并不需要知道类别数，而得到的结果是一棵树，事后可以在任意的地方横切一刀，得到指定数目的cluster,按需取即可。</p>
-<p>听上去很诱人，不过其实Hierarchical Clustering的想法很简单，主要分为两大类：Agglomerative(自底向上)和Divisive(自顶向下)。首先说前者，自底向上，一开始，每个数据点各自为一个类别，然后每一次迭代选取距离最近的两个类别，把他们合并，直到最后只剩下一个类别为止，至此一棵树构造完成。</p>
-<p>看起来很简单吧？其实确实也是比较简单的，不过还是有两个问题需要先说清除才行：</p>
-<ol>
-<li>如何计算两个点的距离？这个通常是problem dependent的，一般情况下可以直接用一些比较通用的距离就可以了，比如欧氏距离等。</li>
-<li>
-<p>如何计算两个类别之间的距离？一开始所有的类别都是一个点，计算距离只是计算两个点之间的距离，但是经过后续合并之后，一个类别里就不止一个点了，那距离又要怎样算呢？到这里又有三个变种：</p>
-<ul>
-<li>Single Linkage：又叫做nearest-neighbor,就是取两个集合中距离最近的两个点的距离作为这两个集合的距离，容易造成一种叫做Chaining的效果，两个cluster明明从“大局”上离得比较远，但是由于其中个别的点距离比较近就被合并了,并且这样合并之后Chaining效应会进一步扩大,最后会得到比较松散的cluster 。</li>
-<li>Complete Linkage：这个则完全是Single Linkage的反面极端，取两个集合中距离最远的两个点的距离作为两个集合的距离。其效果也是刚好相反的，限制非常大，两个cluster即使已经很接近了，但是只要有不配合的点存在，就顽固到底，老死不相合并，也是不太好的办法。</li>
-<li>Group Average：这种方法看起来相对有道理一些，也就是把两个集合中的点两两的距离全部放在一起求一个平均值,相对也能得到合适一点的结果。</li>
-</ul>
-</li>
-</ol>
-<p>总的来说，一般都不太用Single Linkage或者Complete Linkage这两种过于极端的方法。整个agglomerative hierarchical clustering 的算法就是这个样子，描述起来还是相当简单的，不过计算起来复杂度还是比较高的，要找出距离最近的两个点，需要一个双重循环，而且 Group Average计算距离的时候也是一个双重循环。</p>
-<p>另外，需要提一下的是本文一开始的那个树状结构图，它有一个专门的称呼，叫做Dendrogram，其实就是一种二叉树，画的时候让子树的高度和它两个后代合并时相互之间的距离大小成比例，就可以得到一个相对直观的结构概览。</p>
-<p>Agglomerative clustering差不多就这样了，再来看Divisive clustering,也就是自顶向下的层次聚类，这种方法并没有Agglomerative clustering这样受关注，大概因为把一个节点分割为两个并不如把两个节点结合为一个那么简单吧，通常在需要做hierarchical clustering 但总体的cluster数目又不太多的时候可以考虑这种方法，这时可以分割到符合条件为止，而不必一直分割到每个数据点一个cluster 。</p>
-<p>总的来说，Divisive clustering 的每一次分割需要关注两个方面：一是选哪一个cluster来分割；二是如何分割。关于cluster的选取，通常采用一些衡量松散程度的度量值来比较，例如cluster中距离最远的两个数据点之间的距离，或者cluster中所有节点相互距离的平均值等，直接选取最“松散”的一个cluster来进行分割。而分割的方法也有多种，比如，直接采用普通的flat clustering算法（例如K-Means来进行二类聚类，不过这样的方法计算量变得很大，而且像K-Means 这样的和初值选取关系很大的算法，会导致结果不稳定。另一种比较常用的分割方法(<code>简而言之就是一个排除异己的过程</code>)如下：</p>
-<ol>
-<li>待分割的cluster记为$G$,在$G$中取出一个到其他点的平均距离最远的点$x$,构成新cluster H；</li>
-<li>在 G 中选取这样的点$x\prime$,$x\prime$到$G$中其他点的平均距离减去$x\prime$到$H$中所有点的平均距离这个差值最大，将其归入$H$中；</li>
-<li>重复上一个步骤，直到差值为负。</li>
-</ol>
-<p>到此为止，关于Hierarchical clustering介绍就结束了。总的来说，Hierarchical clustering算法似乎都是描述起来很简单，计算起来很困难（计算量很大）。并且，不管是Agglomerative还是 Divisive 实际上都是贪心算法了，也并不能保证能得到全局最优的。而得到的结果，虽然说可以从直观上来得到一个比较形象的大局观，但是似乎实际用处并不如众多Flat clustering 算法那么广泛。</p>
 <h1>参考文献</h1>
+<hr />
 <ol>
-<li><a href="http://en.wikipedia.org/wiki/Adjusted_rand_index#Adjusted_Rand_index">Rand Index</a></li>
-<li><a href="http://blog.pluskid.org/?p=17">漫谈 Clustering (1): k-means</a></li>
-<li><a href="http://blog.pluskid.org/?p=40">漫谈 Clustering (2): k-medoids</a></li>
-<li><a href="http://www.cnblogs.com/vivounicorn/archive/2012/02/10/2343377.html">Spectral Clustering</a></li>
+<li><a href="http://www.xperseverance.net/blogs/2012/03/510/">The Dirichlet Distribution 狄利克雷分布 (PRML 2.2.1)</a></li>
 <li>Machine Learning:A Probabilistic Perspective(<em>Chapter 25</em>)</li>
 </ol><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -700,13 +137,46 @@ Lq &amp;= \lambda Dq \\
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html">
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-vju-lei-da-guan-yuan-hou-ji.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="../ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html"><h1>机器学习系列(IV):聚类大观园</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>五 11 四月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/machine-learning.html">Machine Learning</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/clustering.html">Clustering</a> <a href="../tag/unsupervised-learning.html">Unsupervised Learning</a> <a href="../tag/k-means.html">K-Means</a> <a href="../tag/spectral-learning.html">Spectral Learning</a> <a href="../tag/hierarchical-clustering.html">Hierarchical Clustering</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>作为Unsupervised Learning的一个重要组成部分,聚类算法无疑在机器学习领域有着非常广泛的应用。本文主要介绍几种常见的聚类算法。</p> 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
 <div class="pagination">
 <ul>
     <li class="prev disabled"><a href="#">&larr; Previous</a></li>
