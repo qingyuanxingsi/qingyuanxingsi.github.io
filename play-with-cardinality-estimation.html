@@ -36,7 +36,7 @@
 	      <a href="./category/life.html ">Life</a>
 	    <li >
 	      <a href="./category/machine-learning.html ">Machine Learning</a>
-	    <li >
+	    <li  class="active" >
 	      <a href="./category/pearls.html ">Pearls</a>
 	    <li >
 	      <a href="./category/viewpoint.html ">Viewpoint</a>
@@ -51,15 +51,12 @@
     <div class="row-fluid">
 
         <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="./play-with-cardinality-estimation.html"><h1>Play With Cardinality Estimation</h1></a>
-        </div>
-    </div>
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>Play With Cardinality Estimation</h1b>
+           </div>
+      </div>
     <div class="row-fluid">
       <div class="span2">
 <p>一 14 四月 2014 </p>
@@ -73,7 +70,8 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <p>
 </p>
       </div>
-      <div class="article-content span8">
+      
+      <div class="span8">
 	<p>记得之前某周例会的时候一个博士师兄抛出一个小问题:在大数据环境下,如何估计一个可能含有重复元素的集合中不同元素的数目,当时其实没有怎么在意。这两天因为看CNN的东西实在无法完全理解,所以到处逛了逛(<code>好吧,我每次逛了逛都能发现特别好玩的算法呀</code>),于是不经意间发现了解决上述问题的一些现有算法,很是高兴呀。</p>
 <p>在开始今天的相关介绍之前,咱们扯点闲话吧,个人不是特别喜欢纯科研的科研,如果一个算法或者一个数据结构以至于一个理论不能应用到实际生活中去,不能解决实际生活中的某个问题的话,个人认为这种理论或者算法/数据结构的研究就是无意义的。个人还是比较倾向于好玩的科研吧,一方面研究的东西自己觉得有意思,另一方面又能应用到实际项目或生活实际中去,成为一个研究好玩问题的研究人员估计就是我毕生最大的志向了吧,呵呵。好吧,其实说这么多只是为了说明基数估计这个东西真的很好玩呀。(<strong>以后只要在Pearls目录下的博文均收集自他人博客,原始链接见脚注,版权属于原作者所有,无意侵犯,特此说明,以后不再说明</strong>)</p>
 <p>言归正传,开始我们正式的介绍。</p>
@@ -459,160 +457,26 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-play-with-cardinality-estimation-1"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html">解读Cardinality Estimation算法（第一部分：基本概念）</a> <a href="#sf-play-with-cardinality-estimation-1-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-2"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html">解读Cardinality Estimation算法（第二部分：Linear Counting）</a> <a href="#sf-play-with-cardinality-estimation-2-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-3"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html">解读Cardinality Estimation算法（第三部分：LogLog Counting）</a> <a href="#sf-play-with-cardinality-estimation-3-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-4"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html">解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）</a> <a href="#sf-play-with-cardinality-estimation-4-back" class="simple-footnote-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="./play-with-cardinality-estimation.html">
-          <i class="icon-comment"></i> Comment </a>
+<ol class="simple-footnotes"><li id="sf-play-with-cardinality-estimation-1"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html">解读Cardinality Estimation算法（第一部分：基本概念）</a> <a href="#sf-play-with-cardinality-estimation-1-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-2"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html">解读Cardinality Estimation算法（第二部分：Linear Counting）</a> <a href="#sf-play-with-cardinality-estimation-2-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-3"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html">解读Cardinality Estimation算法（第三部分：LogLog Counting）</a> <a href="#sf-play-with-cardinality-estimation-3-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-4"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html">解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）</a> <a href="#sf-play-with-cardinality-estimation-4-back" class="simple-footnote-back">↩</a></li></ol>
 	<hr />
       </div>
-      
     </div>
+    <div class="span10">
+      <h3>Comments</h3>
     
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
 
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html"><h1>机器学习外传之Deep Learning(I):Sparse Autoencoder</h1></a>
-      </div>
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
     </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 13 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/deep-learning.html">Deep Learning</a> <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/back-propagation.html">Back Propagation</a> <a href="./tag/bp-neural-network.html">BP Neural Network</a> <a href="./tag/sparse-autoencoder.html">Sparse Autoencoder</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文简要介绍一下Deep Learning是什么以及其基本使用场景;在此基础上,我们会简要介绍一下BP神经网络以及Back Propagation反向传播算法。接下来在充分理解Back Propagation的基础之上,我们介绍一下Sparse Autoencoder稀疏自编码器。</p> 
-	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html"><h1>机器学习系列(IV):聚类大观园</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>五 11 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/clustering.html">Clustering</a> <a href="./tag/unsupervised-learning.html">Unsupervised Learning</a> <a href="./tag/k-means.html">K-Means</a> <a href="./tag/spectral-learning.html">Spectral Learning</a> <a href="./tag/hierarchical-clustering.html">Hierarchical Clustering</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>作为Unsupervised Learning的一个重要组成部分,聚类算法无疑在机器学习领域有着非常广泛的应用。本文主要介绍几种常见的聚类算法。</p> 
-	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-xi-lie-ivju-lei-da-guan-yuan.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html"><h1>也说2048:Minimax算法以及Alpha-Beta剪枝</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 06 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/pearls.html">Pearls</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/ai.html">AI</a> <a href="./tag/2048.html">2048</a> <a href="./tag/minimax-alghorithm.html">Minimax Alghorithm</a> <a href="./tag/alpha-beta-pruning.html">Alpha-Beta Pruning</a> <a href="./tag/algorithm.html">Algorithm</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文对Minimax算法以及Alpha-Beta剪枝进行简述,同时结合2048游戏分析其在2048游戏中的基本实现。</p> 
-	<a class="btn btn-mini xsmall" href="./ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html"><h1>分布式计算系列(I):Yarn基础库初探</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 01 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/distributed-system.html">Distributed System</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/rpc.html">RPC</a> <a href="./tag/yarn.html">YARN</a> <a href="./tag/hadoop.html">Hadoop</a> <a href="./tag/designing-patterns.html">Designing Patterns</a> <a href="./tag/reactor-pattern.html">Reactor Pattern</a> <a href="./tag/proxy-pattern.html">Proxy Pattern</a> <a href="./tag/service.html">Service</a> <a href="./tag/event-driven-design.html">Event Driven Design</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>上一篇我们比较初步地介绍了一下分布式计算与存储的基础知识，从这一篇开始，我们开始探索分布式计算的相关理论与实践。本系列的若干篇都会从Hadoop 2.0源码出发，拿YARN(<em>Yet Another Resource Negotiator</em>)开刀，以期对分布式计算的基本框架有一个初步的认识。作为分布式计算系列的第一篇，本文会分别介绍Hadoop RPC,服务库以及事件库的相关知识(状态机库因为比较简单,本文不再论述),此外,作为一款优秀的开源软件,其设计架构中必然会掺杂很多设计模式，本文会以源码为基础，对其中的部分设计模式展开讨论。</p> 
-	<a class="btn btn-mini xsmall" href="./fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="./index.html">1</a></li>
-    <li class=""><a href="./index2.html">2</a></li>
-    <li class=""><a href="./index3.html">3</a></li>
-
-    <li class="next"><a href="./index2.html">Next &rarr;</a></li>
-
-</ul>
-</div>
- 
-  
         </div>
         
         

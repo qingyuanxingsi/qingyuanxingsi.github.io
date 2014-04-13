@@ -5,37 +5,44 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-04-13T19:56:28-00:00</lastmod>
+<lastmod>2014-04-14T02:21:58-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-04-13T19:56:28-00:00</lastmod>
+<lastmod>2014-04-14T02:21:58-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-04-13T19:56:28-00:00</lastmod>
+<lastmod>2014-04-14T02:21:58-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-04-13T19:56:28-00:00</lastmod>
+<lastmod>2014-04-14T02:21:58-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-04-13T19:56:28-00:00</lastmod>
+<lastmod>2014-04-14T02:21:58-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/play-with-cardinality-estimation.html</loc>
+<lastmod>2014-04-14T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -131,7 +138,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/category/pearls.html</loc>
-<lastmod>2014-04-06T00:00:00-00:00</lastmod>
+<lastmod>2014-04-14T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -160,6 +167,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/ai.html</loc>
 <lastmod>2014-04-06T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/big-data.html</loc>
+<lastmod>2014-04-14T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -251,6 +265,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/sparse-autoencoder.html</loc>
 <lastmod>2014-04-13T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/cardinality-estimation.html</loc>
+<lastmod>2014-04-14T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -354,6 +375,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.qingyuanxingsi.com/tag/ji-shu-gu-ji.html</loc>
+<lastmod>2014-04-14T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.qingyuanxingsi.com/tag/sui-bi.html</loc>
 <lastmod>2013-06-30T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -383,7 +411,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/author/codinglabs.html</loc>
-<lastmod>2014-04-06T00:00:00-00:00</lastmod>
+<lastmod>2014-04-14T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
