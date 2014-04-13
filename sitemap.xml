@@ -5,37 +5,44 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-04-12T22:05:34-00:00</lastmod>
+<lastmod>2014-04-13T19:45:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-04-12T22:05:34-00:00</lastmod>
+<lastmod>2014-04-13T19:45:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-04-12T22:05:34-00:00</lastmod>
+<lastmod>2014-04-13T19:45:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-04-12T22:05:34-00:00</lastmod>
+<lastmod>2014-04-13T19:45:28-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-04-12T22:05:34-00:00</lastmod>
+<lastmod>2014-04-13T19:45:28-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html</loc>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -117,7 +124,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/category/machine-learning.html</loc>
-<lastmod>2014-04-11T00:00:00-00:00</lastmod>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -153,6 +160,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/ai.html</loc>
 <lastmod>2014-04-06T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/deep-learning.html</loc>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -235,8 +249,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.qingyuanxingsi.com/tag/sparse-autoencoder.html</loc>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.qingyuanxingsi.com/tag/machine-learning.html</loc>
-<lastmod>2014-03-15T00:00:00-00:00</lastmod>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -249,15 +270,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/hierarchical-clustering.html</loc>
-<lastmod>2014-04-11T00:00:00-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tag/event-driven-design.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/event-driven-design.html</loc>
-<lastmod>2014-04-01T00:00:00-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tag/fen-bu-shi-xi-tong.html</loc>
+<lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -270,8 +291,15 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/fen-bu-shi-xi-tong.html</loc>
-<lastmod>2014-03-11T00:00:00-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tag/alpha-beta-pruning.html</loc>
+<lastmod>2014-04-06T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/back-propagation.html</loc>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -305,6 +333,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.qingyuanxingsi.com/tag/bp-neural-network.html</loc>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.qingyuanxingsi.com/tag/yarn.html</loc>
 <lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -312,8 +347,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/alpha-beta-pruning.html</loc>
-<lastmod>2014-04-06T00:00:00-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tag/hierarchical-clustering.html</loc>
+<lastmod>2014-04-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -355,7 +390,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/author/qingyuanxingsi.html</loc>
-<lastmod>2014-04-11T00:00:00-00:00</lastmod>
+<lastmod>2014-04-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
