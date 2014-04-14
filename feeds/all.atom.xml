@@ -149,7 +149,7 @@ m &amp;gt; \beta(e^t-t-1)
 &lt;p&gt;上一部分介绍的Linear Counting算法相较于直接映射Bitmap的方法能大大节省内存（大约只需后者1/10的内存），但毕竟只是一个常系数级的降低，空间复杂度仍然为$O(N_max)$。而本文要介绍的LogLog Counting却只有$O(log_2(log_2(N_{max})))$。例如，假设基数的上限为1亿，原始Bitmap方法需要12.5M内存，而LogLog Counting只需不到1K内存（640字节）就可以在标准误差不超过4%的精度下对基数进行估计，效果可谓十分惊人。&lt;/p&gt;
 &lt;p&gt;本部分将介绍LogLog Counting。&lt;/p&gt;
 &lt;h2&gt;简介&lt;/h2&gt;
-&lt;p&gt;LogLog Counting（以下简称LLC）出自论文“Loglog Counting of Large Cardinalities”。LLC的空间复杂度仅有$O(log_2(log_2(N_max)))$，使得通过KB级内存估计数亿级别的基数成为可能，因此目前在处理大数据的基数计算问题时，所采用算法基本为LLC或其几个变种。下面来具体看一下这个算法。&lt;/p&gt;
+&lt;p&gt;LogLog Counting（以下简称LLC）出自论文“Loglog Counting of Large Cardinalities”。LLC的空间复杂度仅有$O(log_2(log_2(N_{max})))$，使得通过KB级内存估计数亿级别的基数成为可能，因此目前在处理大数据的基数计算问题时，所采用算法基本为LLC或其几个变种。下面来具体看一下这个算法。&lt;/p&gt;
 &lt;h2&gt;基本算法&lt;/h2&gt;
 &lt;h3&gt;均匀随机化&lt;/h3&gt;
 &lt;p&gt;与LC一样，在使用LLC之前需要选取一个哈希函数$H$应用于所有元素，然后对哈希值进行基数估计。$H$必须满足如下条件（定性的）：&lt;/p&gt;
@@ -227,12 +227,7 @@ P_n(X = k)=(1-1/2^k)^n - (1-1/2^{k-1})^n
 \hat{n}=\alpha _m 2^{\frac{1}{m}\sum{M[i]}}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;其中：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\begin{split}
-\alpha &lt;em 0="0"&gt;m &amp;amp;= (\Gamma (-1/m)\frac{1-2^{1/m}}{log2})^{-m} \\
-\Gamma (s)&amp;amp;=\frac{1}{s}\int&lt;/em&gt;^{\infty }e^{-t}t^sdt
-\end{split}
-\end{equation}&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Equation_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/equation_one_zps76f405b2.png"&gt;&lt;/p&gt;
 &lt;p&gt;其中$m$是分桶数。这就是LLC最终使用的估计量。&lt;/p&gt;
 &lt;h3&gt;误差分析&lt;/h3&gt;
 &lt;p&gt;不加证明给出如下结论：&lt;/p&gt;
