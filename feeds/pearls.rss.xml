@@ -141,12 +141,12 @@ m &amp;gt; \beta(e^t-t-1)
 &lt;p&gt;其中$\beta = max(5, 1/(\epsilon t)^2)$&lt;/p&gt;
 &lt;p&gt;下图是论文作者预先计算出的关于不同基数量级和误差情况下，$m$的选择表：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="m choice" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/m_choice_zpsb78fb0f8.png"&gt;&lt;/p&gt;
-&lt;p&gt;可以看出精度要求越高，则Bitmap的长度越大。随着$m$和$n$的增大，$m$大约为$n$的十分之一。因此LC所需要的空间只有传统的Bitmap直接映射方法的1/10，但是从渐进复杂性的角度看，空间复杂度仍为$O(N_max)$。&lt;/p&gt;
+&lt;p&gt;可以看出精度要求越高，则Bitmap的长度越大。随着$m$和$n$的增大，$m$大约为$n$的十分之一。因此LC所需要的空间只有传统的Bitmap直接映射方法的1/10，但是从渐进复杂性的角度看，空间复杂度仍为$O(N_{max})$。&lt;/p&gt;
 &lt;h3&gt;合并&lt;/h3&gt;
 &lt;p&gt;LC非常方便于合并，合并方案与传统Bitmap映射方法无异，都是通过按位或的方式。&lt;/p&gt;
 &lt;h1&gt;LogLog Counting&lt;sup id="sf-play-with-cardinality-estimation-3-back"&gt;&lt;a href="#sf-play-with-cardinality-estimation-3" class="simple-footnote" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
-&lt;p&gt;上一部分介绍的Linear Counting算法相较于直接映射Bitmap的方法能大大节省内存（大约只需后者1/10的内存），但毕竟只是一个常系数级的降低，空间复杂度仍然为$O(N_max)$。而本文要介绍的LogLog Counting却只有$O(log_2(log_2(N_max)))$。例如，假设基数的上限为1亿，原始Bitmap方法需要12.5M内存，而LogLog Counting只需不到1K内存（640字节）就可以在标准误差不超过4%的精度下对基数进行估计，效果可谓十分惊人。&lt;/p&gt;
+&lt;p&gt;上一部分介绍的Linear Counting算法相较于直接映射Bitmap的方法能大大节省内存（大约只需后者1/10的内存），但毕竟只是一个常系数级的降低，空间复杂度仍然为$O(N_max)$。而本文要介绍的LogLog Counting却只有$O(log_2(log_2(N_{max})))$。例如，假设基数的上限为1亿，原始Bitmap方法需要12.5M内存，而LogLog Counting只需不到1K内存（640字节）就可以在标准误差不超过4%的精度下对基数进行估计，效果可谓十分惊人。&lt;/p&gt;
 &lt;p&gt;本部分将介绍LogLog Counting。&lt;/p&gt;
 &lt;h2&gt;简介&lt;/h2&gt;
 &lt;p&gt;LogLog Counting（以下简称LLC）出自论文“Loglog Counting of Large Cardinalities”。LLC的空间复杂度仅有$O(log_2(log_2(N_max)))$，使得通过KB级内存估计数亿级别的基数成为可能，因此目前在处理大数据的基数计算问题时，所采用算法基本为LLC或其几个变种。下面来具体看一下这个算法。&lt;/p&gt;
@@ -165,7 +165,12 @@ m &amp;gt; \beta(e^t-t-1)
 &lt;p&gt;&lt;img alt="LLC Structure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/llc_structure_zpsefad7ee9.png"&gt;&lt;/p&gt;
 &lt;p&gt;又因为$a$是从服从均与分布的样本空间中随机抽取的一个样本，因此$a$每个比特位服从如下分布且相互独立。&lt;/p&gt;
 &lt;p&gt;\begin{equation}
-P(x=k)=\left{\begin{matrix} 0.5 (k=0)\\ 0.5 (k=1)\end{matrix}\right.
+P(x=k)=\left \lbrace
+\begin{array}{cc}
+0.5 &amp;amp; (k=0) \\ 
+0.5 &amp;amp; (k=1)
+\end{array}
+\right.
 \end{equation}&lt;/p&gt;
 &lt;p&gt;通俗说就是$a$的每个比特位为0和1的概率各为0.5，且相互之间是独立的。&lt;/p&gt;
 &lt;p&gt;设$\rho(a)$为$a$的比特串中第一个“1”出现的位置，显然$1≤\rho(a)≤L$，这里我们忽略比特串全为0的情况（概率为$1/2^L$）。如果我们遍历集合中所有元素的比特串，取$\rho_{max}$为所有$\rho(a)$的最大值。&lt;/p&gt;
@@ -310,11 +315,12 @@ SE_{llc}(\hat{n}/n)=1.30/\sqrt{m}
 &lt;p&gt;因此可以知道，当空桶率大于0.051时，LC的标准误差较小，而当小于0.051时，LLC的标准误差较小。
 完整的AC算法如下：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
-\hat{n}=\left{ \begin{array} \alpha_m m2^{\frac{1}{m}\sum{M}} &amp;amp; if &amp;amp; 0 \leq \beta &amp;lt; 0.051 \\ -mlog(\beta) &amp;amp; if &amp;amp; 0.051 \leq \beta \leq 1 \end{array} \right.
+\hat{n}=\left \lbrace 
+\begin{array}{cc}
+\alpha_m m2^{\frac{1}{m}\sum{M}} &amp;amp; if &amp;amp; 0 \leq \beta &amp;lt; 0.051 \\ 
+-mlog(\beta) &amp;amp; if &amp;amp; 0.051 \leq \beta \leq 1 \end{array} 
+\right.
 \end{equation}&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;NOTE:此公式格式有点问题,待修正。&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;h3&gt;误差分析&lt;/h3&gt;
 &lt;p&gt;因为AC只是LC和LLC的简单组合，所以误差分析可以依照LC和LLC进行。值得注意的是，当β&amp;lt;0.051时，LLC最大的偏差不超过0.17%，因此可以近似认为是无偏的。&lt;/p&gt;
 &lt;h2&gt;HyperLogLog Counting&lt;/h2&gt;
