@@ -5,35 +5,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-04-14T11:22:57-00:00</lastmod>
+<lastmod>2014-04-14T16:15:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-04-14T11:22:57-00:00</lastmod>
+<lastmod>2014-04-14T16:15:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-04-14T11:22:57-00:00</lastmod>
+<lastmod>2014-04-14T16:15:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-04-14T11:22:57-00:00</lastmod>
+<lastmod>2014-04-14T16:15:47-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-04-14T11:22:57-00:00</lastmod>
+<lastmod>2014-04-14T16:15:47-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
 </url>
@@ -68,6 +68,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</loc>
 <lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
@@ -242,6 +249,20 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.qingyuanxingsi.com/tag/shou-cang-jia.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/suan-fa.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.qingyuanxingsi.com/tag/service.html</loc>
 <lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -277,6 +298,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
+<loc>http://www.qingyuanxingsi.com/tag/staff.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
 <loc>http://www.qingyuanxingsi.com/tag/machine-learning.html</loc>
 <lastmod>2014-04-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -306,6 +334,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/proxy-pattern.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/bloom-filter.html</loc>
 <lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
@@ -377,6 +412,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/ji-shu-gu-ji.html</loc>
 <lastmod>2014-04-14T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/fun.html</loc>
+<lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
