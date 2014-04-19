@@ -8,6 +8,7 @@
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
+&lt;h2&gt;PART I:Introduction to PGM&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-1-Introduction-Combined.pdf"&gt;Introduction and Overview&lt;/a&gt;;主要介绍了PGM的背景以及Factor的基础知识。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Bayes-Nets.pdf"&gt;Bayesian Network Fundamentals&lt;/a&gt;;简要介绍了什么是Bayesian Network、Reasoning Patterns以及Influence Flow.最后简要介绍了一下Naive Bayes Classifier.&lt;/li&gt;
@@ -23,6 +24,7 @@
 &lt;li&gt;Linear Gaussian &amp;amp; generalizations&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Markov-Nets.pdf"&gt;Markov Network Fundamentals&lt;/a&gt;;本部分涵盖的内容有Markov Network,General Gibbs Distribution,CRF,Log-Linear Models.(&lt;strong&gt;Logistic Models is a simple CRF;CRF does not need to concern about the correlation between features!&lt;/strong&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
