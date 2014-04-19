@@ -46,6 +46,11 @@
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf"&gt;Sampling Methods&lt;/a&gt;;Basic Sampling Methods.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;PART III:PGM Learning&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-1.pdf"&gt;Learning: Parameter Estimation, Part 1&lt;/a&gt; &amp;amp; &lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-2.pdf"&gt;Learning: Parameter Estimation, Part 2&lt;/a&gt;;Parameter Estimation for BN and MN;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-BN-Structures.pdf"&gt;Structure Learning&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Incomplete-Data.pdf"&gt;Learning With Incomplete Data&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
