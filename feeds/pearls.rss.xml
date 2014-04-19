@@ -26,6 +26,7 @@
 &lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Markov-Nets.pdf"&gt;Markov Network Fundamentals&lt;/a&gt;;本部分涵盖的内容有Markov Network,General Gibbs Distribution,CRF,Log-Linear Models.(&lt;strong&gt;Logistic Models is a simple CRF;CRF does not need to concern about the correlation between features!&lt;/strong&gt;)&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h2&gt;PART II:PGM Inference&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
