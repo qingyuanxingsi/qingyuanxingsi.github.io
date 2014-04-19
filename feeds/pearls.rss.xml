@@ -15,6 +15,14 @@
 &lt;p&gt;&lt;img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png" /&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Template-Models.pdf"&gt;Template Models&lt;/a&gt;;主要介绍了Template Models,包括Bayesian Network(HMM)以及Plate Models;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-CPDs.pdf"&gt;Structured CPDs&lt;/a&gt;;介绍了几种CPD表示的其他常见形式,包括:&lt;ul&gt;
+&lt;li&gt;Deterministic CPDs&lt;/li&gt;
+&lt;li&gt;Tree-structured CPDs&lt;/li&gt;
+&lt;li&gt;Logistic CPDs &amp;amp; generalizations&lt;/li&gt;
+&lt;li&gt;Noisy OR/AND&lt;/li&gt;
+&lt;li&gt;Linear Gaussian &amp;amp; generalizations&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
