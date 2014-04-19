@@ -31,6 +31,16 @@
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Variable-Elimination.pdf"&gt;Variable Elimination&lt;/a&gt;;简要介绍了如何在Bayesian Network以及Ｍarkov Network中执行VE算法;接着对其复杂度进行了分析;最后从图的视角重新审视了一下VE算法.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf"&gt;Belief Propagation(I)&lt;/a&gt; &amp;amp; &lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf"&gt;Belief Propagation(II)&lt;/a&gt;;其基本内容如下:&lt;ul&gt;
+&lt;li&gt;Belief Propagation算法基本流程;&lt;/li&gt;
+&lt;li&gt;Cluster Graph的基本性质(&lt;code&gt;BP does poorly when we have strong correlations!&lt;/code&gt;);&lt;/li&gt;
+&lt;li&gt;BP算法的基本性质;&lt;/li&gt;
+&lt;li&gt;Clique Tree Algorithm.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png" /&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
