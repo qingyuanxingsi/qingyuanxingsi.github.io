@@ -41,6 +41,11 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png" /&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-MAP.pdf"&gt;MAP Estimation&lt;/a&gt;;关于MAP Inference的基础知识。&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf"&gt;Sampling Methods&lt;/a&gt;;Basic Sampling Methods.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;PART III:PGM Learning&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -50,6 +55,8 @@
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Ising Model&lt;/li&gt;
+&lt;li&gt;Dual Decomposition&lt;/li&gt;
+&lt;li&gt;Decision Making&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category></entry><entry><title>Play With Cardinality Estimation</title><link href="http://www.qingyuanxingsi.com/play-with-cardinality-estimation.html" rel="alternate"></link><updated>2014-04-14T00:00:00+08:00</updated><author><name>CodingLabs</name></author><id>tag:www.qingyuanxingsi.com,2014-04-14:play-with-cardinality-estimation.html</id><summary type="html">&lt;p&gt;记得之前某周例会的时候一个博士师兄抛出一个小问题:在大数据环境下,如何估计一个可能含有重复元素的集合中不同元素的数目,当时其实没有怎么在意。这两天因为看CNN的东西实在无法完全理解,所以到处逛了逛(&lt;code&gt;好吧,我每次逛了逛都能发现特别好玩的算法呀&lt;/code&gt;),于是不经意间发现了解决上述问题的一些现有算法,很是高兴呀。&lt;/p&gt;
 &lt;p&gt;在开始今天的相关介绍之前,咱们扯点闲话吧,个人不是特别喜欢纯科研的科研,如果一个算法或者一个数据结构以至于一个理论不能应用到实际生活中去,不能解决实际生活中的某个问题的话,个人认为这种理论或者算法/数据结构的研究就是无意义的。个人还是比较倾向于好玩的科研吧,一方面研究的东西自己觉得有意思,另一方面又能应用到实际项目或生活实际中去,成为一个研究好玩问题的研究人员估计就是我毕生最大的志向了吧,呵呵。好吧,其实说这么多只是为了说明基数估计这个东西真的很好玩呀。(&lt;strong&gt;以后只要在Pearls目录下的博文均收集自他人博客,原始链接见脚注,版权属于原作者所有,无意侵犯,特此说明,以后不再说明&lt;/strong&gt;)&lt;/p&gt;
