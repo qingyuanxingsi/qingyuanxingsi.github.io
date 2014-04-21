@@ -5,6 +5,15 @@
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://www.cnblogs.com/heaad/archive/2011/01/02/1924195.html"&gt;那些优雅的数据结构(1) : BloomFilter——大规模数据处理利器&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;在过去的若干年里,有一个心结一直萦绕在我的心头挥之不去,它存在于我的脑海里，我的梦里，我的歌声里,TA就是&lt;strong&gt;B树&lt;/strong&gt;(好吧,其实是因为没有机会好好地研究一下它啦)。以下给出两个链接,它们主要介绍了B树的基本概念,性质以及针对B树的插入、删除操作,两个PPT还是相当直观的,应该能够比较直观地了解B树这个数据结构!&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://cecs.wright.edu/~tkprasad/courses/cs707/L04-X-B-Trees.ppt"&gt;B-Trees&lt;/a&gt;;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://zh.scribd.com/doc/18210/B-TREE-TUTORIAL-PPT"&gt;B TREE TUTORIAL PPT&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
