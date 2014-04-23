@@ -1,5 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-20T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-20T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-20:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;算法&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-23T00:00:00+08:00</updated><entry><title>机器学习系列(V): Generalized linear models and the exponential family</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html" rel="alternate"></link><updated>2014-04-23T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-23:ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html</id><summary type="html">&lt;h1&gt;指数分布族&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;一件特别神奇的事是实际上我们学过或者用到的很多分布函数均可以写成一种一致的形式,事实上，属于这个家族的分布函数还是很多的，例如高斯分布、Bernoulli分布、二项分布、多项分布、指数分布、泊松分布、Dirichlet分布等,作为一个庞大家族的一员，这些分布函数具有一个它们引以为豪的共同的名字------&lt;strong&gt;指数分布族&lt;/strong&gt;。以下我们就介绍一下指数分布族的基础知识吧。&lt;/p&gt;
+&lt;h2&gt;定义&lt;/h2&gt;
+&lt;p&gt;传说中的这个神奇的家族中的分一个分布函数均可写成如下形式:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+p(x) = h(x)e^{\theta^T T(x)-A(\theta)}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$\theta$为参数向量,$T(x)$为Sufficient statistics"向量,$A(\theta)$为cumulate generating function.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;上式中我们不难注意到$\theta$和$x$仅在$\theta^T T(x)$一项中&lt;code&gt;耦合&lt;/code&gt;在一起。另,指数分布族函数之积仍是指数分布族函数,只是可能不再具有良好的参数形式。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;为了得到一个归一化的分布，我们有:对于任一$\theta$,&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\int p(x)dx = e^{-A(\theta)}\int h(x) e^{\theta^T T(x)} dx = 1
+\end{equation}&lt;/p&gt;
+&lt;p&gt;即:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+e^{A(\theta)} = \int h(x) e^{\theta^T T(x)} dx
+\end{equation}&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;当$T(x)=x$时,$A(\theta)$是对于$h(x)$做&lt;strong&gt;拉普拉斯变换&lt;/strong&gt;之后的$log$值。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以下我们举几个实例以使我们对其有一个更为清晰的认识:&lt;/p&gt;
+&lt;h3&gt;Bernoulli Distribution&lt;/h3&gt;
+&lt;p&gt;对于Bernoulli分布,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+p(x) &amp;amp;= \alpha^x (1-\alpha)^{1-x}   \\
+     &amp;amp;= exp[log(\alpha^x (1-\alpha)^{1-x})]  \\
+     &amp;amp;= exp[xlog \alpha + (1-x) log(1-\alpha)] \\
+     &amp;amp;= exp[xlog \frac{\alpha}{1-\alpha}+log(1-\alpha)]  \\
+     &amp;amp;= exp[x\theta - log(1+e^{\theta})]
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;于是我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+T(x) &amp;amp;= x \\
+\theta &amp;amp;= log \frac{\alpha}{1-\alpha} \\
+A(\theta) &amp;amp;= log(1+e^{\theta})
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;h3&gt;Univariate Gaussian&lt;/h3&gt;
+&lt;p&gt;对于单变量高斯分布,我们有:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Univariate Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_zps8407f3a0.png" /&gt;&lt;/p&gt;
+&lt;p&gt;其中:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Univariate Gaussian Params" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_params_zps58c5d9d3.png" /&gt;&lt;/p&gt;
+&lt;h3&gt;Multivariate Gaussian&lt;/h3&gt;
+&lt;p&gt;对于形如下式的多变量高斯分布:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+p(x) = \frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}} e^{(x-\mu)^T \Sigma^{-1} (x-\mu)/2}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;我们有:(下式我并未真正推导)&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+h(x) &amp;amp;= (2\pi)^{-D/2} \\
+T(x) &amp;amp;= \left(
+\begin{array}{cc}
+x \\
+xx^T
+\end{array}
+\right) \\
+\theta &amp;amp;= \left(
+\begin{array}{cc}
+\Sigma^{-1}\mu \\
+-{1 \over 2}\Sigma^{-1}
+\end{array}
+\right)
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;h2&gt;$A(\theta)$一阶导数&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="First Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/first_derivative_zps6152bd77.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;$A(\theta)$ 二阶导数&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Second Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/second_deriative_zps8d444606.png" /&gt;&lt;/p&gt;
+&lt;p&gt;即$A(\theta)$是凸的($\succeq$表示正定positive definite)&lt;/p&gt;
+&lt;h2&gt;Maximum Likelihood&lt;/h2&gt;
+&lt;p&gt;根据$p(x)$的定义,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+l(\theta) = \sum_{i=1}^{N} log p(x_i|\theta) = \sum_{i=1}^{N} [log h(x_i) + \theta^T T(x_i) - A(\theta)]
+\end{equation}&lt;/p&gt;
+&lt;p&gt;为了求得极大似然解,我们对$\theta$求偏导有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
+\end{equation}&lt;/p&gt;
+&lt;p&gt;于是我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+A\prime(\hat{\theta}&lt;em i="1"&gt;{ML}) = \frac{1}{N} \sum&lt;/em&gt;^{N} T(x_i)
+\end{equation}&lt;/p&gt;
+&lt;h2&gt;Conjugate Priors in Bayesian Statistics&lt;/h2&gt;
+&lt;p&gt;根据Bayes Rule,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+p(\theta|x) = \frac{p(x|\theta)p(\theta)}{\int p(x|\theta)p(\theta) d\theta}
+\end{equation}&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE:分母项只是一归一化项,其值与$\theta$无关。于是我们有$p(\theta|x) \propto p(x|\theta)p(\theta)$.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;正如我们之前提到的那样，为了简化计算,我们最好使得先验分布$p(\theta)$与Marginal Likelihood $p(x|\theta)$具有相似的形式(此时它们成为共轭分布)。如当先验分布是Dirichlet分布时,当我们取Marginal Likelihood为多项式分布时,后验分布为Dirichlet分布。由于Dirichlet分布与多项式分布具有相似的形式,在一定程度上可以简化我们的计算。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE:关于Dirichlet与Multinomial之间的关系我们会在之后的&lt;strong&gt;Dirichlet Process&lt;/strong&gt;一篇中详细展开,敬请期待,此处不再赘述。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;常见的共轭分布如下表所示:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Conjugate Prior" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/conjugate_priors_zps0d694b87.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;参考文献&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://www.cs.columbia.edu/~jebara/4771/tutorials/lecture12.pdf"&gt;Exponential Family&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Machine Learning"></category><category term="Exponential Family"></category><category term="Generalized Linear Models"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-20T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-20:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;算法&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
