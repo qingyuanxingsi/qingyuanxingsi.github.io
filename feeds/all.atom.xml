@@ -86,7 +86,7 @@ l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
 \end{equation}&lt;/p&gt;
 &lt;p&gt;于是我们有:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
-A\prime(\hat{\theta}&lt;em i="1"&gt;{ML}) = \frac{1}{N} \sum&lt;/em&gt;^{N} T(x_i)
+A \prime(\hat{\theta}&lt;em i="1"&gt;{ML}) = \frac{1}{N} \sum&lt;/em&gt;^{N} T(x_i)
 \end{equation}&lt;/p&gt;
 &lt;h2&gt;Conjugate Priors in Bayesian Statistics&lt;/h2&gt;
 &lt;p&gt;根据Bayes Rule,我们有:&lt;/p&gt;
@@ -98,7 +98,7 @@ p(\theta|x) = \frac{p(x|\theta)p(\theta)}{\int p(x|\theta)p(\theta) d\theta}
 &lt;/blockquote&gt;
 &lt;p&gt;正如我们之前提到的那样，为了简化计算,我们最好使得先验分布$p(\theta)$与Marginal Likelihood $p(x|\theta)$具有相似的形式(此时它们成为共轭分布)。如当先验分布是Dirichlet分布时,当我们取Marginal Likelihood为多项式分布时,后验分布为Dirichlet分布。由于Dirichlet分布与多项式分布具有相似的形式,在一定程度上可以简化我们的计算。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;NOTE:关于Dirichlet与Multinomial之间的关系我们会在之后的&lt;strong&gt;Dirichlet Process&lt;/strong&gt;一篇中详细展开,敬请期待,此处不再赘述。&lt;/p&gt;
+&lt;p&gt;NOTE:关于Dirichlet与Multinomial之间的关系我们会在之后的&lt;em&gt;Dirichlet Process&lt;/em&gt;一篇中详细展开,敬请期待,此处不再赘述。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;常见的共轭分布如下表所示:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Conjugate Prior" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/conjugate_priors_zps0d694b87.png" /&gt;&lt;/p&gt;
