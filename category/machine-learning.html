@@ -57,221 +57,209 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html"><h1>机器学习系列(V): Generalized linear models and the exponential family</h1></a>
+            <a href="../ji-qi-xue-xi-xi-lie-vilatent-linear-models.html"><h1>机器学习系列(VI):Latent Linear Models</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>三 23 四月 2014 </p>
+<p>四 24 四月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/exponential-family.html">Exponential Family</a> <a href="../tag/generalized-linear-models.html">Generalized Linear Models</a> </p>
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/latent-linear-models.html">Latent Linear Models</a> <a href="../tag/factor-analysis.html">Factor Analysis</a> <a href="../tag/em.html">EM</a> <a href="../tag/pca.html">PCA</a> <a href="../tag/ica.html">ICA</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<h1>指数分布族</h1>
+	<h1>因子分析</h1>
 <hr />
-<p>一件特别神奇的事是实际上我们学过或者用到的很多分布函数均可以写成一种一致的形式,事实上，属于这个家族的分布函数还是很多的，例如高斯分布、Bernoulli分布、二项分布、多项分布、指数分布、泊松分布、Dirichlet分布等,作为一个庞大家族的一员，这些分布函数具有一个它们引以为豪的共同的名字------<strong>指数分布族</strong>。以下我们就介绍一下指数分布族的基础知识吧。</p>
-<h2>定义</h2>
-<p>传说中的这个神奇的家族中的分一个分布函数均可写成如下形式:</p>
-<p>\begin{equation}
-p(x) = h(x)e^{\theta^T T(x)-A(\theta)}
-\end{equation}</p>
-<p>其中,$\theta$为参数向量,$T(x)$为"Sufficient statistics"向量,$A(\theta)$为cumulate generating function.</p>
-<blockquote>
-<p>上式中我们不难注意到$\theta$和$x$仅在$\theta^T T(x)$一项中<code>耦合</code>在一起。另,指数分布族函数之积仍是指数分布族函数,只是可能不再具有良好的参数形式。</p>
-</blockquote>
-<p>为了得到一个归一化的分布，我们有:对于任一$\theta$,</p>
-<p>\begin{equation}
-\int p(x)dx = e^{-A(\theta)}\int h(x) e^{\theta^T T(x)} dx = 1
-\end{equation}</p>
-<p>即:</p>
-<p>\begin{equation}
-e^{A(\theta)} = \int h(x) e^{\theta^T T(x)} dx
-\end{equation}</p>
-<blockquote>
-<p>当$T(x)=x$时,$A(\theta)$是对于$h(x)$做<strong>拉普拉斯变换</strong>之后的$log$值。</p>
-</blockquote>
-<p>以下我们举几个实例以使我们对其有一个更为清晰的认识:</p>
-<h3>Bernoulli Distribution</h3>
-<p>对于Bernoulli分布,我们有:</p>
+<h2>问题</h2>
+<p>当样本个数$m$远远大于其特征个数$n$时，这样不管是进行回归、聚类等都没有太大的问题。然而当训练样例个数$m$太小，甚至$m \ll n$的时候，使用梯度下降法进行回归时，如果初值不同，得到的参数结果会有很大偏差（因为方程数小于参数个数）。另外，如果使用多元高斯分布(Multivariate Gaussian distribution)对数据进行拟合时，也会有问题。让我们来演算一下，看看会有什么问题：</p>
+<p>多元高斯分布的参数估计公式如下:</p>
 <p>\begin{equation}
 \begin{split}
-p(x) &amp;= \alpha^x (1-\alpha)^{1-x}   \\
-     &amp;= exp[log(\alpha^x (1-\alpha)^{1-x})]  \\
-     &amp;= exp[xlog \alpha + (1-x) log(1-\alpha)] \\
-     &amp;= exp[xlog \frac{\alpha}{1-\alpha}+log(1-\alpha)]  \\
-     &amp;= exp[x\theta - log(1+e^{\theta})]
+\mu &amp;= {1 \over m}\sum_{i=1}^m x^{(i)} \\
+\Sigma &amp;= {1 \over m}\sum_{i=1}^m (x^{(i)}-\mu)(x^{(i)}-\mu)^T
 \end{split}
 \end{equation}</p>
-<p>于是我们有:</p>
+<p>其中,$x^{(i)}$表示样例，共有$m$个，每个样例$n$个特征，因此$\mu$是$n$维向量，$\Sigma$是$n*n$协方差矩阵。</p>
+<p><strong>当$m \ll n$时，我们会发现$\Sigma$是奇异阵($|\Sigma|=0$)</strong>，也就是说$\Sigma^{-1}$不存在，没办法拟合出多元高斯分布了，确切的说是我们估计不出来$\Sigma$。</p>
+<p>如果我们仍然想用多元高斯分布来估计样本，那怎么办呢？</p>
+<h3>限制协方差矩阵</h3>
+<p>当没有足够的数据去估计$\Sigma$时，那么只能对模型参数进行一定假设，之前我们想估计出完全的$\Sigma$(矩阵中的全部元素），现在我们假设$\Sigma$就是对角阵（各特征间相互独立），那么我们只需要计算每个特征的方差即可，最后的$\Sigma$只有对角线上的元素不为0.</p>
 <p>\begin{equation}
-\begin{split}
-T(x) &amp;= x \\
-\theta &amp;= log \frac{\alpha}{1-\alpha} \\
-A(\theta) &amp;= log(1+e^{\theta})
-\end{split}
+\Sigma_{jj} = {1 \over m}\sum_{i=1}^m (x_j^{(i)}-\mu_j)^2
 \end{equation}</p>
-<h3>Univariate Gaussian</h3>
-<p>对于单变量高斯分布,我们有:</p>
-<p><img alt="Univariate Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_zps8407f3a0.png" /></p>
+<p>回想我们之前在<strong>Gaussian Models</strong>一文中讨论过的二维多元高斯分布的几何特性，在平面上的投影是个椭圆，中心点由$\mu$决定，椭圆的形状由$\Sigma$决定。$\Sigma$如果变成对角阵，就意味着椭圆的两个轴都和坐标轴平行了。</p>
+<p><img alt="Cov Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cov_matrix_zps81794a47.jpg" /></p>
+<p>如果我们想对$\Sigma$进一步限制的话，可以假设对角线上的元素都是等值的。</p>
+<p>\begin{equation}
+\Sigma = \sigma^2 I
+\end{equation}</p>
 <p>其中:</p>
-<p><img alt="Univariate Gaussian Params" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_params_zps58c5d9d3.png" /></p>
-<h3>Multivariate Gaussian</h3>
-<p>对于形如下式的多变量高斯分布:</p>
 <p>\begin{equation}
-p(x) = \frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}} e^{(x-\mu)^T \Sigma^{-1} (x-\mu)/2}
+\sigma^2 = \frac{1}{mn}\sum_{j=1}^n \sum_{i=1}^m (x_j^{(i)}-\mu_j)^2
 \end{equation}</p>
-<p>我们有:(下式我并未真正推导)</p>
+<p>也就是上一步对角线上元素的均值，反映到二维高斯分布图上就是椭圆变成圆。</p>
+<p>当我们要估计出完整的$\Sigma$时，我们需要$m&gt;=n+1$才能保证在最大似然估计下得出的$\Sigma$是非奇异的。然而在上面的任何一种假设限定条件下，只要$m&gt;=2$都可以估计出限定的$\Sigma$。</p>
+<p>这样做的缺点也是显然易见的，我们认为特征间独立，这个假设太强。接下来，我们给出一种称为因子分析的方法，使用更多的参数来分析特征间的关系，并且不需要计算一个完整的$\Sigma$。</p>
+<h2>因子分析</h2>
+<p>下面通过一个简单例子，来引出因子分析背后的思想。</p>
+<p>因子分析的实质是认为$m$个$n$维特征的训练样例$x^{(i)}$的产生过程如下：</p>
+<ul>
+<li>首先在一个$k$维的空间中按照多元高斯分布生成$m$个$z^{(i)}$（$k$维向量),即</li>
+</ul>
+<p>\begin{equation}
+z^{(i)} \sim\ N(0,I)
+\end{equation}</p>
+<ul>
+<li>然后存在一个变换矩阵$\Lambda \in R^{n*k}$，将$z^{(i)}$映射到$n$维空间中，即</li>
+</ul>
+<p>\begin{equation}
+\Lambda z^{(i)}
+\end{equation}</p>
+<p>因为$z^{(i)}$的均值是0，映射后仍然是0。</p>
+<ul>
+<li>然后将$\Lambda z^{(i)}$加上一个均值$\mu$（$n$维），即</li>
+</ul>
+<p>\begin{equation}
+\mu + \Lambda z^{(i)}
+\end{equation}</p>
+<p>对应的意义是将变换后的$\Lambda z^{(i)}$（$n$维向量）移动到样本$x^{(i)}$的中心点$\mu$。</p>
+<ul>
+<li>由于真实样例$x^{(i)}$与上述模型生成的有误差，因此我们继续加上误差$\epsilon$($n$维向量),而且$\epsilon$符合多元高斯分布，即</li>
+</ul>
 <p>\begin{equation}
 \begin{split}
-h(x) &amp;= (2\pi)^{-D/2} \\
-T(x) &amp;= \left(
+\epsilon \sim\ N(0,\mathbf \Psi) \\
+\mu + \Lambda z^{(i)} + \epsilon 
+\end{split}
+\end{equation}</p>
+<ul>
+<li>最后的结果认为是真实的训练样例$x^{(i)}$的生成公式</li>
+</ul>
+<p>\begin{equation}
+x^{(i)} = \mu + \Lambda z^{(i)} + \epsilon 
+\end{equation}</p>
+<p>让我们使用一种直观方法来解释上述过程：</p>
+<p>假设我们有$m=5$个2维的样本点$x^{(i)}$（两个特征），如下：</p>
+<p><img alt="Original Data" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/original_data_zps9626b246.png" /></p>
+<p>那么按照因子分析的理解，样本点的生成过程如下：</p>
+<ul>
+<li>我们首先认为在1维空间（这里$k=1$），存在着按正态分布生成的$m$个点$z^{(i)}$，如下:</li>
+</ul>
+<p><img alt="Demo_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_1_zps3e189697.png" /></p>
+<p>均值为0，方差为1。</p>
+<ul>
+<li>然后使用某个$\Lambda=(a,b)^T$将一维的$z$映射到2维，图形表示如下：</li>
+</ul>
+<p><img alt="Demo_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_2_zps166db3d8.png" /></p>
+<ul>
+<li>之后加上$\mu\ (\mu_1,\mu_2)^T$，即将所有点的横坐标移动$\mu_1$，纵坐标移动$\mu_2$，将直线移到一个位置，使得直线过点$\mu$，原始左边轴的原点现在为$\mu$(红色点)。</li>
+</ul>
+<p><img alt="Demo_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_3_zps178e1a6a.png" /></p>
+<p>然而，样本点不可能这么规则，在模型上会有一定偏差，因此我们需要将上步生成的点做一些扰动（误差），扰动$\epsilon \sim\ N(0,\mathbf \Psi)$。</p>
+<ul>
+<li>加入扰动后，我们得到黑色样本$x^{(i)}$如下：</li>
+</ul>
+<p><img alt="Demo_4" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_4_zps0cc40309.png" /></p>
+<ul>
+<li>其中由于$z$和$\epsilon$的均值都为0，因此$\mu$也是原始样本点（黑色点）的均值。</li>
+</ul>
+<p>由以上的直观分析，我们知道了<strong>因子分析其实就是认为高维样本点实际上是由低维样本点经过高斯分布、线性变换、误差扰动生成的，因此高维数据可以使用低维来表示</strong>。</p>
+<h2>因子分析模型</h2>
+<p>上面的过程是从隐含随机变量$z$经过变换和误差扰动来得到观测到的样本点。其中$z$被称为因子，是低维的。</p>
+<p>我们将式子再列一遍如下：</p>
+<p>\begin{equation}
+\begin{split}
+z &amp;\sim\ N(0,I)   \\
+\epsilon &amp;\sim\ N(0,\mathbf \Psi) \\
+x &amp;= \mu + \Lambda z + \epsilon
+\end{split}
+\end{equation}</p>
+<p>其中误差$\epsilon$和$z$是独立的。</p>
+<p>下面使用的因子分析表示方法是矩阵表示法，在参考资料中给出了一些其他的表示方法，如果不明白矩阵表示法，可以参考其他资料。</p>
+<p>矩阵表示法认为$z$和$x$联合符合多元高斯分布，如下:</p>
+<p>\begin{equation}
+\left[
 \begin{array}{cc}
-x \\
-xx^T
+z \\
+x
 \end{array}
-\right) \\
-\theta &amp;= \left(
+\right]\sim\ N(\mu_{zx},\Sigma)
+\end{equation}</p>
+<p>求$\mu_{zx}$之前需要求$E[x]$</p>
+<p>\begin{equation}
+\begin{split}
+E[x] &amp;= E[\mu + \Lambda z + \epsilon] \\
+&amp;= \mu + \Lambda E[z] + E[\epsilon] \\
+&amp;= \mu
+\end{split}
+\end{equation}</p>
+<p>我们已知$E[z]=0$，因此:</p>
+<p>\begin{equation}
+\mu_{zx} = \left[
 \begin{array}{cc}
-\Sigma^{-1}\mu \\
--{1 \over 2}\Sigma^{-1}
+0 \\
+\mu
 \end{array}
+\right]
+\end{equation}</p>
+<p>下一步是计算$\Sigma$，其中$\Sigma_{zz} = Cov(z) = I$.接着求$\Sigma_{zx}$</p>
+<p>\begin{equation}
+\begin{split}
+E[(z-E[z])(x-E[x])^T] &amp;= E[z(\mu + \Lambda z + \epsilon - \mu)^T]   \\
+&amp;= E[zz^T]\Lambda^T + E[z\epsilon^T] \\
+&amp;= \Lambda^T
+\end{split}
+\end{equation}</p>
+<p>这个过程中利用了$z$和$\epsilon$独立假设($E[z\epsilon^T] = E[z]E[\epsilon^T]=0$)。并将$\Lambda$看作已知变量。</p>
+<p>接着求$\Sigma_{xx}$</p>
+<p>\begin{equation}
+\begin{split}
+E[(x-E(x))(x-E[x])^T] &amp;= E[(\mu+\Lambda z+\epsilon -\mu)(\mu+\Lambda z+\epsilon -\mu)^T]  \\
+&amp;= E[\Lambda zz^T \Lambda^T+ \epsilon z^T \Lambda^T+\Lambda z \epsilon^T+\epsilon \epsilon^T] \\
+&amp;= \Lambda E[zz^T] \Lambda^T + E[\epsilon \epsilon^T]  \\
+&amp;= \Lambda \Lambda^T + \mathbf \Psi
+\end{split}
+\end{equation}</p>
+<p>然后得出联合分布的最终形式:</p>
+<p>\begin{equation}
+\left[
+\begin{array}{cc}
+z \\
+x 
+\end{array}
+\right] \sim\
+N\left(
+\left[
+\begin{array}{cc}
+0 \\
+\mu
+\end{array}
+\right],
+\left[
+\begin{array}{cc}
+I &amp; \Lambda^T \\
+\Lambda &amp; \Lambda \Lambda^T + \mathbf \Psi
+\end{array}
+\right]
 \right)
-\end{split}
 \end{equation}</p>
-<h2>一阶导数</h2>
-<p><img alt="First Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/first_derivative_zps6152bd77.png" /></p>
-<h2>二阶导数</h2>
-<p><img alt="Second Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/second_deriative_zps8d444606.png" /></p>
-<p>即$A(\theta)$是凸的($\succeq$表示正定positive definite)</p>
-<h2>Maximum Likelihood</h2>
-<p>根据$p(x)$的定义,我们有:</p>
+<p>从上式中可以看出$x$的边缘分布为$x \sim\ N(\mu,\Lambda \Lambda^T + \mathbf \Psi)$.</p>
+<p>那么对样本${x^{(i);i=1,...,m}}$进行最大似然估计</p>
 <p>\begin{equation}
-l(\theta) = \sum_{i=1}^{N} log p(x_i|\theta) = \sum_{i=1}^{N} [log h(x_i) + \theta^T T(x_i) - A(\theta)]
+\ell(\mu,\Lambda,\mathbf \Psi) = log \prod_{i=1}^m \frac{1}{(2\pi)^{n/2} |\Lambda \Lambda^T+\mathbf \Psi|}exp(-{1 \over 2}(x^{(i)}-\mu)^T(\Lambda \Lambda^T + \mathbf \Psi)^{-1} (x^{(i)}-\mu))
 \end{equation}</p>
-<p>为了求得极大似然解,我们对$\theta$求偏导有:</p>
-<p>\begin{equation}
-l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
-\end{equation}</p>
-<p>于是我们有:</p>
-<p>\begin{equation}
-A(\hat\theta_{ML})=\frac{1}{N} \sum_{i=1}^N T(x_i)
-\end{equation}</p>
-<h2>Conjugate Priors in Bayesian Statistics</h2>
-<p>根据Bayes Rule,我们有:</p>
-<p>\begin{equation}
-p(\theta|x) = \frac{p(x|\theta)p(\theta)}{\int p(x|\theta)p(\theta) d\theta}
-\end{equation}</p>
-<blockquote>
-<p>NOTE:分母项只是一归一化项,其值与$\theta$无关。于是我们有$p(\theta|x) \propto p(x|\theta)p(\theta)$.</p>
-</blockquote>
-<p>正如我们之前提到的那样，为了简化计算,我们最好使得先验分布$p(\theta)$与Marginal Likelihood $p(x|\theta)$具有相似的形式(此时它们成为共轭分布)。如当先验分布是Dirichlet分布时,当我们取Marginal Likelihood为多项式分布时,后验分布为Dirichlet分布。由于Dirichlet分布与多项式分布具有相似的形式,在一定程度上可以简化我们的计算。</p>
-<blockquote>
-<p>NOTE:关于Dirichlet与Multinomial之间的关系我们会在之后的<em>Dirichlet Process</em>一篇中详细展开,敬请期待,此处不再赘述。</p>
-</blockquote>
-<p>常见的共轭分布如下表所示:</p>
-<p><img alt="Conjugate Prior" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/conjugate_priors_zps0d694b87.png" /></p>
-<h1>广义线性模型</h1>
-<hr />
-<p>从软件工程的视角来看,如果我们把广义线性模型(Generalized Linear Models,GLM)看作一个类,线性回归与Logistic回归只不过是该类的两个实例而已,由此可见GLM是一个较为高大上的东东啊!以下对其进行一个较为简单的介绍:</p>
-<h2>基础知识</h2>
-<p>为了理解GLM,我们首先引入:</p>
-<p>\begin{equation}
-p(y_i|\theta,\sigma^2) = exp[\frac{y_i\theta-A(\theta)}{\sigma^2}+c(y_i,\sigma^2)]
-\end{equation}</p>
-<p>其中,$\sigma^2$为<em>dispersion parameter</em>(一般设置为1),$\theta$为自然参数,$A$为partition function,$c$为归一化常数.如对于Logistic Regression而言,$\theta$为log-odds ratio,$\theta = log(\frac{\mu}{1-\mu})$,其中$\mu = E[y] = p(y=1)$为mean.为了将mean转化为自然参数,我们引入函数$\psi$,有:$\theta = \mathbf \Psi(\mu)$.实际上,如果存在逆向映射,我们则有:$\mu = \mathbf \Psi^{-1}(\theta)$.此外,根据我们以上推导的$A(\theta)$的一阶导数知:</p>
-<p>\begin{equation}
-\mu = \Psi^{-1}(\theta) = A\prime(\theta)
-\end{equation}</p>
-<p>若我们令:</p>
-<p>\begin{equation}
-\eta_i = w^T x_i
-\end{equation}</p>
-<p>我们可以定义如下mean function,记为$g^{-1}$,使得:</p>
-<p>\begin{equation}
-\mu_i = g^{-1}(\eta_i) = g^{-1}(w^T x_i)
-\end{equation}</p>
-<p>Mean function的逆函数,即$g()$,则称为<em>Link function</em>.我们可以选取任意函数作为$g()$,只要它是可逆的,且使得逆函数具有合适的取值范围。如针对Logistic Regression而言,我们有:$\mu_i = g^{-1}(\eta_i) = sigm(\eta_i)$</p>
-<p>一种最为简单的Link function的函数是取$g=\psi$,称为Canonical Link Function.上面我们定义$\theta_i = \eta_i = w^Tx_i$,于是模型变为:</p>
-<p>\begin{equation}
-p(y_i|x_i,w,\sigma^2) = exp[\frac{y_iw^Tx_i-A(w^Tx_i)}{\sigma^2}+c(y_i,\sigma^2)]
-\end{equation}</p>
-<p>下表中,我们给出一些常见分布函数及其对应的Canonical Link Functions.我们可以看到对于Bernoulli和二项分布而言,Canonical Link Function为logit函数,$g(\mu)=log(\frac{\eta}{1-\eta})$,其逆函数为logistic函数,$\mu = sigm(\eta)$.</p>
-<p>根据我们第一部分对一阶导数以及二阶导数的推导我们有:</p>
-<p>\begin{equation}
-\begin{split}
-E[y|x_i,w,\sigma^2] &amp;= \mu_i = A\prime(\theta_i) \\
-var[y|x_i,w,\sigma^2] &amp;= \sigma_i^2 = A\prime\prime(\theta_i)\sigma^2
-\end{split}
-\end{equation}</p>
-<p>为了更便于理解,我们举几个具体的例子:</p>
-<ul>
-<li>对于线性回归而言,我们有:</li>
-</ul>
-<p>\begin{equation}
-log p(y_i|x_i,w,\sigma^2) = \frac{y_i\mu_i-\frac{\mu_i^2}{2}}{\sigma^2} - {1 \over 2}(\frac{y_i^2}{\sigma_i^2}+log(2\pi \sigma^2))
-\end{equation}</p>
-<p>其中,$y_i \in R$,且$\theta_i = \mu_i = w^T x_i$,这里我们取$A(\theta) = \theta^2/2$,因此$E[y_i] = \mu_i$,且$var[y_i]=\sigma^2$.</p>
-<ul>
-<li>对于二项分布而言,我们有:(<strong>后面这两个未证明结论的正确性</strong>)</li>
-</ul>
-<p>\begin{equation}
-log p(y_i|x_i,w) = y_i log(\frac{\pi_i}{1-\pi_i}) +N_ilog(1-\pi_i)+log 
-\left(
-\begin{array}{cc}
-N_i \\
-y_i
-\end{array}
-\right)
-\end{equation}</p>
-<p>其中,$y_i \in {0,1,...,N_i}$,$\pi_i = sigm(w^Tx_i)$,$\theta_i = log(\pi_i/(1-\pi_i))=w^Tx_i$，且$\sigma^2=1$.这里我们取$A(\theta) = N_ilog(1+e^{\theta})$.于是我们有$E[y_i] = N_i \pi_i=\mu_i$,$var[y_i] = N_i \pi_i (1-\pi_i)$.</p>
-<ul>
-<li>对于Poisson Regression而言,我们有:</li>
-</ul>
-<p>\begin{equation}
-log p(y_i|x_i,w) = y_i log \mu_i - \mu_i - log(y_i!)
-\end{equation}</p>
-<p>其中,$y_i \in {0,1,2,...}$,$\mu_i = exp(w^Tx_i)$,$\theta_i = log(\mu_i) = w^Tx_i$且$\sigma^2=1$.这里我们取$A(\theta) = e^{\theta}$,于是我们有$E[y_i] = var[y_i] = \mu_i$.</p>
-<h2>ML Estimation</h2>
-<p>其极大似然函数具有如下形式:</p>
-<p>\begin{equation}
-\begin{split}
-\ell(w) = log p(D|w) &amp;= \frac{1}{\sigma^2}\sum_{i=1}^N \ell_i \\
-\ell_i &amp;\triangleq \theta_iy_i-A(\theta_i)
-\end{split}
-\end{equation}</p>
-<p>我们可通过下式计算其梯度向量:</p>
-<p>\begin{equation}
-\begin{split}
-\frac{\ell_i}{w_j} &amp;= \frac{\ell_i}{\theta_i}\frac{\theta_i}{\mu_i}\frac{\mu_i}{\eta_i}\frac{\eta_i}{w_j} \\
-&amp;= (y_i - A\prime(\theta_i))\frac{\theta_i}{\mu_i}\frac{\mu_i}{\eta_i}x_{ij} \\
-&amp;= (y_i-\mu_i)\frac{\theta_i}{\mu_i}\frac{\mu_i}{\eta_i}x_{ij}
-\end{split}
-\end{equation}</p>
-<p>如果我们采用Canonical Link Function,$\theta_i = \eta_i$,上式可简化为:</p>
-<p>\begin{equation}
-\bigtriangledown_w \ell(w) = \frac{1}{\sigma^2}[\sum_{i=1}^N (y_i-\mu_i)x_i]
-\end{equation}</p>
-<p>利用该结果执行梯度下降即可得到ML估计值。</p>
-<blockquote>
-<p><em>TODO Board</em>:</p>
-<ul>
-<li>Probit Regression</li>
-<li>Multi-task Learning(<em>Transfer Learning</em>)</li>
-<li>Generalized Linear Mixture Models</li>
-<li>Learning to rank</li>
-</ul>
-</blockquote>
+<p>然后对各个参数求偏导数不就得到各个参数的值了么？可惜我们得不到closed-form。想想也是，如果能得到，还干嘛将$z$和$x$放在一起求联合分布呢。根据之前对参数估计的理解，在有隐含变量z时，我们可以考虑使用EM来进行估计。</p>
+<h2>因子分析的EM估计</h2>
 <h1>参考文献</h1>
 <hr />
 <ol>
-<li><a href="http://www.cs.columbia.edu/~jebara/4771/tutorials/lecture12.pdf">Exponential Family</a></li>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/05/11/2043317.html">因子分析（Factor Analysis)</a></li>
 </ol><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
@@ -303,13 +291,46 @@ log p(y_i|x_i,w) = y_i log \mu_i - \mu_i - log(y_i!)
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-vilatent-linear-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html"><h1>机器学习系列(V): Generalized linear models and the exponential family</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>三 23 四月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/machine-learning.html">Machine Learning</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/exponential-family.html">Exponential Family</a> <a href="../tag/generalized-linear-models.html">Generalized Linear Models</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>本文主要介绍广义线性模型以及指数分布族。</p> 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
 
  
         
@@ -403,39 +424,6 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
       <div class="summary span8">
 	<p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Discriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p> 
 	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html"><h1>机器学习系列(II):Generative models for discrete data</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 04 三月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/classfication.html">Classfication</a> <a href="../tag/generative-models.html">Generative Models</a> <a href="../tag/mutual-information.html">Mutual Information</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文为机器学习系列第二篇，主要研究一下离散数据生成模型。我们会介绍两种模型，一为Dirichlet-multinomial model,一为朴素贝叶斯分类器（Naive Bayes Classfier，NBC),最后我们介绍一下关于互信息的基本知识以及将其用于特征选择。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>
