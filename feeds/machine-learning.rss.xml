@@ -184,6 +184,15 @@ log p(y_i|x_i,w) = y_i log \mu_i - \mu_i - log(y_i!)
 \bigtriangledown_w \ell(w) = \frac{1}{\sigma^2}[\sum_{i=1}^N (y_i-\mu_i)x_i]
 \end{equation}&lt;/p&gt;
 &lt;p&gt;利用该结果执行梯度下降即可得到ML估计值。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Probit Regression&lt;/li&gt;
+&lt;li&gt;Multi-task Learning(&lt;em&gt;Transfer Learning&lt;/em&gt;)&lt;/li&gt;
+&lt;li&gt;Generalized Linear Mixture Models&lt;/li&gt;
+&lt;li&gt;Learning to rank&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ol&gt;
