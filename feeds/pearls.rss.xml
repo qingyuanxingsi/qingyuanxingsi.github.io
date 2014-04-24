@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-20T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-20T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-20:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;算法&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-24T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-24T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-24:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;算法&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
@@ -14,6 +14,12 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;h1&gt;Machine Learning&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;看的有点累了,不想看&lt;em&gt;EM&lt;/em&gt;算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍&lt;em&gt;Mixture Models&lt;/em&gt;和&lt;em&gt;EM&lt;/em&gt;算法吧!&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://blog.pluskid.org/?p=39"&gt;漫谈 Clustering (3): Gaussian Mixture Model&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
