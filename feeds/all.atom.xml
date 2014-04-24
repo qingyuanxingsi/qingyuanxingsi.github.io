@@ -86,7 +86,7 @@ l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
 \end{equation}&lt;/p&gt;
 &lt;p&gt;于是我们有:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
-A(\hat\theta_{ML})=\frac{1}{N} \sum_{i=1}^N T(x_i)
+A\prime(\hat\theta_{ML})=\frac{1}{N} \sum_{i=1}^N T(x_i)
 \end{equation}&lt;/p&gt;
 &lt;h2&gt;Conjugate Priors in Bayesian Statistics&lt;/h2&gt;
 &lt;p&gt;根据Bayes Rule,我们有:&lt;/p&gt;
