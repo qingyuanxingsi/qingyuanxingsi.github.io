@@ -70,9 +70,9 @@ xx^T
 \right)
 \end{split}
 \end{equation}&lt;/p&gt;
-&lt;h2&gt;$A(\theta)$一阶导数&lt;/h2&gt;
+&lt;h2&gt;一阶导数&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="First Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/first_derivative_zps6152bd77.png" /&gt;&lt;/p&gt;
-&lt;h2&gt;$A(\theta)$ 二阶导数&lt;/h2&gt;
+&lt;h2&gt;二阶导数&lt;/h2&gt;
 &lt;p&gt;&lt;img alt="Second Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/second_deriative_zps8d444606.png" /&gt;&lt;/p&gt;
 &lt;p&gt;即$A(\theta)$是凸的($\succeq$表示正定positive definite)&lt;/p&gt;
 &lt;h2&gt;Maximum Likelihood&lt;/h2&gt;
@@ -86,7 +86,7 @@ l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
 \end{equation}&lt;/p&gt;
 &lt;p&gt;于是我们有:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
-A \prime(\hat \theta &lt;em i="1"&gt;{ML}) = \frac{1}{N} \sum&lt;/em&gt;^{N} T(x_i)
+A \prime(\hat \theta &lt;em i="1"&gt;{ML}) = \frac{1}{N}\sum&lt;/em&gt;^{N}T(x_i)
 \end{equation}&lt;/p&gt;
 &lt;h2&gt;Conjugate Priors in Bayesian Statistics&lt;/h2&gt;
 &lt;p&gt;根据Bayes Rule,我们有:&lt;/p&gt;
