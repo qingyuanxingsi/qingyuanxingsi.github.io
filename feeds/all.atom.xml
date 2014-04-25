@@ -313,7 +313,7 @@ eigenvectors=\left(
 &lt;p&gt;上面是两个特征值，下面是对应的特征向量，特征值0.0490833989对应特征向量为$(-0.735178656,0.677873399)^T$，这里的特征向量都归一化为单位向量。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;第四步&lt;/strong&gt;，将特征值按照从大到小的顺序排序，选择其中最大的$k$个，然后将其对应的$k$个特征向量分别作为列向量组成特征向量矩阵。&lt;/p&gt;
 &lt;p&gt;这里特征值只有两个，我们选择其中最大的那个，这里是1.28402771，对应的特征向量是$(-0.677873399,-0.735178656)^T$。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第五步&lt;/strong&gt;，将样本点投影到选取的特征向量上。假设样例数为$m$，特征数为$n$，减去均值后的样本矩阵为$DataAdjust(m&lt;em&gt;n)$，协方差矩阵是$n&lt;/em&gt;n$，选取的$k$个特征向量组成的矩阵为$EigenVectors(n*k)$。那么投影后的数据$FinalData$为&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第五步&lt;/strong&gt;，将样本点投影到选取的特征向量上。假设样例数为m，特征数为n，减去均值后的样本矩阵为DataAdjust(m&lt;em&gt;n)，协方差矩阵是n&lt;/em&gt;n，选取的k个特征向量组成的矩阵为EigenVectors(n*k)。那么投影后的数据FinalData为&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 FinalData(m&lt;em&gt;k) = DataAdjust(m&lt;/em&gt;n) * EigenVectors(n*k)
 \end{equation}&lt;/p&gt;
