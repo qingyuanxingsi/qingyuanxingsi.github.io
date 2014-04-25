@@ -386,10 +386,7 @@ eigenvectors=\left(
 <p>上面是两个特征值，下面是对应的特征向量，特征值0.0490833989对应特征向量为$(-0.735178656,0.677873399)^T$，这里的特征向量都归一化为单位向量。</p>
 <p><strong>第四步</strong>，将特征值按照从大到小的顺序排序，选择其中最大的$k$个，然后将其对应的$k$个特征向量分别作为列向量组成特征向量矩阵。</p>
 <p>这里特征值只有两个，我们选择其中最大的那个，这里是1.28402771，对应的特征向量是$(-0.677873399,-0.735178656)^T$。</p>
-<p><strong>第五步</strong>，将样本点投影到选取的特征向量上。假设样例数为m，特征数为n，减去均值后的样本矩阵为DataAdjust(m<em>n)，协方差矩阵是n</em>n，选取的k个特征向量组成的矩阵为EigenVectors(n*k)。那么投影后的数据FinalData为</p>
-<p>\begin{equation}
-FinalData(m<em>k) = DataAdjust(m</em>n) * EigenVectors(n*k)
-\end{equation}</p>
+<p><strong>第五步</strong>，将样本点投影到选取的特征向量上。假设样例数为m，特征数为n，减去均值后的样本矩阵为DataAdjust(m<em>n)，协方差矩阵是n</em>n，选取的k个特征向量组成的矩阵为EigenVectors(n<em>k)。那么投影后的数据FinalData为$FinalData(m</em>k) = DataAdjust(m<em>n) * EigenVectors(n</em>k)$.</p>
 <p>于是我们得到结果:</p>
 <p><img alt="Data_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/data_2_zps92a790d2.png" /></p>
 <p>这样，就将原始样例的$n$维特征变成了$k$维，这$k$维就是原始特征在$k$维上的投影。上面的数据可以认为是learn和study特征融合为一个新的特征叫做LS特征，该特征基本上代表了这两个特征。这样PCA的过程基本结束。在第一步减均值之后，其实应该还有一步对特征做方差归一化。比如一个特征是汽车速度（0到100），一个是汽车的座位数（2到6），显然第二个的方差比第一个小。因此，如果样本特征中存在这种情况，那么在第一步之后，求每个特征的标准差$\sigma$，然后对每个样例在该特征下的数据除以$\sigma$。</p>
