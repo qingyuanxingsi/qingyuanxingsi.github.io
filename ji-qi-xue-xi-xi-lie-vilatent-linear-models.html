@@ -339,6 +339,81 @@ E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T] &amp;= \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(
 </blockquote>
 <h1>PCA</h1>
 <hr />
+<p>PCA的思想是将$n$维特征映射到$k$维上($k&lt;n$），这$k$维是全新的正交特征。这$k$维特征称为主元，是重新构造出来的$k$维特征，而不是简单地从$n$维特征中去除其余$n-k$维特征。</p>
+<h2>PCA计算过程</h2>
+<p>首先介绍PCA的计算过程,假设我们得到的2维数据如下:</p>
+<p><img alt="PCA_DATA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/pca_data_zps6051a959.png" /></p>
+<p>行代表了样例，列代表特征，这里有10个样例，每个样例两个特征。可以这样认为，有10篇文档，$x$是10篇文档中“learn”出现的TF-IDF，$y$是10篇文档中“study”出现的TF-IDF。也可以认为有10辆汽车，$x$是千米/小时的速度，$y$是英里/小时的速度，等等。</p>
+<p><strong>第一步</strong>:分别求$x$和$y$的平均值，然后对于所有的样例，都减去对应的均值。这里$x$的均值是1.81，$y$的均值是1.91，那么第一个样例减去均值后即为（0.69,0.49），得到</p>
+<p><img alt="Data_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/data_1_zpsa7474565.png" /></p>
+<p><strong>第二步</strong>，求特征协方差矩阵，如果数据是3维，那么协方差矩阵是</p>
+<p>\begin{equation}
+C=\left(
+\begin{array}{cc}
+cov(x,x) &amp; cov(x,y) &amp; cov(x,z) \\
+cov(y,x) &amp; cov(y,y) &amp; cov(y,z) \\
+cov(z,x) &amp; cov(z,y) &amp; cov(z,z)
+\end{array}
+\right)
+\end{equation}</p>
+<p>这里只有$x$和$y$，求解得</p>
+<p>\begin{equation}
+cov=\left(
+\begin{array}{cc}
+.616555566 &amp; .615444444 \\
+.615444444 &amp; .716555556
+\end{array}
+\right)
+\end{equation}</p>
+<p>对角线上分别是$x$和$y$的方差，非对角线上是协方差。协方差大于0表示$x$和$y$若有一个增，另一个也增；小于0表示一个增，一个减；协方差为0时，两者独立。协方差绝对值越大，两者对彼此的影响越大，反之越小。</p>
+<p><strong>第三步</strong>，求协方差的特征值和特征向量，得到:</p>
+<p>\begin{equation}
+eigenvalues=\left(
+\begin{array}{cc}
+.0490833989 \\
+1.28402771
+\end{array}
+\right)
+\end{equation}</p>
+<p>\begin{equation}
+eigenvectors=\left(
+\begin{array}{cc}
+-.735178656 &amp; -.677873399 \\
+.677873399 &amp; -.735178656
+\end{array}
+\right)
+\end{equation}</p>
+<p>上面是两个特征值，下面是对应的特征向量，特征值0.0490833989对应特征向量为$(-0.735178656,0.677873399)^T$，这里的特征向量都归一化为单位向量。</p>
+<p><strong>第四步</strong>，将特征值按照从大到小的顺序排序，选择其中最大的$k$个，然后将其对应的$k$个特征向量分别作为列向量组成特征向量矩阵。</p>
+<p>这里特征值只有两个，我们选择其中最大的那个，这里是1.28402771，对应的特征向量是$(-0.677873399,-0.735178656)^T$。</p>
+<p><strong>第五步</strong>，将样本点投影到选取的特征向量上。假设样例数为$m$，特征数为$n$，减去均值后的样本矩阵为$DataAdjust(m<em>n)$，协方差矩阵是$n</em>n$，选取的$k$个特征向量组成的矩阵为EigenVectors(n*k)。那么投影后的数据FinalData为</p>
+<p>\begin{equation}
+FinalData(m<em>k) = DataAdjust(m</em>n) * EigenVectors(n*k)
+\end{equation}</p>
+<p>于是我们得到结果:</p>
+<p><img alt="Data_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/data_2_zps92a790d2.png" /></p>
+<p>这样，就将原始样例的$n$维特征变成了$k$维，这$k$维就是原始特征在$k$维上的投影。上面的数据可以认为是learn和study特征融合为一个新的特征叫做LS特征，该特征基本上代表了这两个特征。这样PCA的过程基本结束。在第一步减均值之后，其实应该还有一步对特征做方差归一化。比如一个特征是汽车速度（0到100），一个是汽车的座位数（2到6），显然第二个的方差比第一个小。因此，如果样本特征中存在这种情况，那么在第一步之后，求每个特征的标准差$\sigma$，然后对每个样例在该特征下的数据除以$\sigma$。</p>
+<p>归纳一下，使用我们之前熟悉的表示方法，在求协方差之前的步骤是：</p>
+<ol>
+<li>Let $\mu = {1 \over m}\sum_{i=1}^m x^{(i)}$;</li>
+<li>Replace each $x^{(i)}$ with $x^{(i)}-\mu$;</li>
+<li>Let $\sigma_j^2 = {1 \over m}\sum_i (x_j^{(i)})^2$;</li>
+<li>Replace each $x_j^{i}$ with $x_j^{i}/\sigma_j$.</li>
+</ol>
+<p>其中$x^{(i)}$是样例，共$m$个，每个样例$n$个特征，也就是说$x^{(i)}$是$n$维向量。$x_j^{(i)}$是第$i$个样例的第$j$个特征。$\mu$是样例均值。$\sigma_j$是第$j$个特征的标准差。</p>
+<p>整个PCA过程貌似及其简单，就是求协方差的特征值和特征向量，然后做数据转换。但是有没有觉得很神奇，为什么求协方差的特征向量就是最理想的$k$维向量？其背后隐藏的意义是什么？整个PCA的意义是什么？</p>
+<h2>PCA理论基础</h2>
+<p>要解释为什么协方差矩阵的特征向量就是$k$维理想特征，我看到的有三个理论：分别是最大方差理论、最小错误理论和坐标轴相关度理论。这里简单探讨前两种，最后一种在讨论PCA意义时简单概述。</p>
+<h3>最大方差理论</h3>
+<p>在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。因此我们认为，最好的$k$维特征是将$n$维样本点转换为$k$维后，每一维上的样本方差都很大。</p>
+<p>比如下图有5个样本点：（已经做过预处理，均值为0，特征方差归一）</p>
+<p><img alt="Max_var_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_1_zpsb6611a20.png" /></p>
+<p>下面将样本投影到某一维上，这里用一条过原点的直线表示（预处理的过程实质是将原点移到样本点的中心点）。</p>
+<p><img alt="Max_var_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_2_zps05e7cd62.jpg" /></p>
+<p>假设我们选择两条不同的直线做投影，那么左右两条中哪个好呢？根据我们之前的方差最大化理论，左边的好，因为投影后的样本点之间方差最大。</p>
+<p>这里先解释一下投影的概念：</p>
+<p><img alt="Max_var_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_3_zps46d5b364.png" /></p>
+<p>红色点表示样例$x^{(i)}$，蓝色点表示$x^{(i)}$在$u$上的投影，$u$是直线的斜率也是直线的方向向量，而且是单位向量。蓝色点是示$x^{(i)}$在$u$上的投影点，离原点的距离是$&lt; x^{(i)},\mu&gt;$.</p>
 <h1>ICA</h1>
 <hr />
 <blockquote>
