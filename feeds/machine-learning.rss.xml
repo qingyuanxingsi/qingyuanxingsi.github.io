@@ -181,10 +181,104 @@ I &amp;amp; \Lambda^T \\
 \end{equation}&lt;/p&gt;
 &lt;p&gt;然后对各个参数求偏导数不就得到各个参数的值了么？可惜我们得不到closed-form。想想也是，如果能得到，还干嘛将$z$和$x$放在一起求联合分布呢。根据之前对参数估计的理解，在有隐含变量$z$时，我们可以考虑使用EM来进行估计。&lt;/p&gt;
 &lt;h2&gt;因子分析的EM估计&lt;/h2&gt;
+&lt;p&gt;我们先来明确一下各个参数,$z$为隐含变量,$\mu,\Lambda,\mathbf \Psi$为待估参数。&lt;/p&gt;
+&lt;p&gt;回想EM算法两个步骤:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;循环重复直至收敛{
+(&lt;strong&gt;E Step&lt;/strong&gt;)对于每一个$i$,计算:
+\begin{equation}
+Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)};\theta)
+\end{equation}
+(&lt;strong&gt;M Step&lt;/strong&gt;)计算:
+\begin{equation}
+\theta := arg max_{\theta} \sum_{i} \sum_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
+\end{equation}
+}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们套用一下:&lt;/p&gt;
+&lt;p&gt;(&lt;strong&gt;E Step&lt;/strong&gt;):&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+Q_i(z^{(i)}) := p(z^{(i)}|\mu,\Lambda,\mathbf \Psi)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;根据之前在&lt;em&gt;Gaussian Models&lt;/em&gt;中提到过的&lt;strong&gt;Posterior Conditional&lt;/strong&gt;的相关知识,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\mu_{z^{(i)}|x^{i}} &amp;amp;= \Lambda^T (\Lambda \Lambda^T+\mathbf \Psi)^{-1}(x^{(i)}-\mu)  \\
+\Sigma_{z^{(i)}|x^{i}} &amp;amp;= I - \Lambda^T (\Lambda \Lambda^T+\mathbf \Psi)^{-1} \Lambda
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;那么根据多元高斯分布公式，得到:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+Q_i(z^{(i)}) = \frac{1}{(2\pi)^{k/2}|\Sigma_{z^{(i)}|x^{(i)}}|^{1/2}}exp(-{1 \over 2}(z^{(i)}-\mu_{z^{(i)}|x^{(i)}})^T \Sigma_{z^{(i)}|x^{(i)}}^{-1} (z^{(i)}-\mu_{z^{(i)}|x^{(i)}}))
+\end{equation}&lt;/p&gt;
+&lt;p&gt;(&lt;strong&gt;M步&lt;/strong&gt;):&lt;/p&gt;
+&lt;p&gt;直接写要最大化的目标是:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\sum_{i=1}^m \int_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} dz^{(i)}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中待估参数是$\mu,\Lambda,\mathbf \Psi$.下面我们重点求$\Lambda$的估计公式&lt;/p&gt;
+&lt;p&gt;首先将上式简化为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\sum_{i=1}^m &amp;amp;\int_{z^{(i)}} Q_i(z^{(i)}) \ [log p(x^{(i)}|z^{(i)};\mu,\Lambda,\mathbf \Psi) +p(z^{(i)})-log\ Q_i(z^{(i)})]dz^{(i)} \\
+&amp;amp;= \sum_{i=1}^m E_{z^{(i)} \sim\ Q_i} [log p(x^{(i)}|z^{(i)};\mu,\Lambda,\mathbf \Psi) +p(z^{(i)})-log\ Q_i(z^{(i)})]
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这里$z^{(i)} \sim\ Q_i$表示$z^{(i)}$服从$Q_i$分布。然后去掉与$\Lambda$不相关的项（后两项），得&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\sum_{i=1}^m &amp;amp; E[log p(x^{(i)}|z^{(I)};\mu,\Lambda,\Psi)] \\
+&amp;amp;= \sum_{i=1}^m E[log \frac{1}{(2\pi)^{n/2}|\mathbf \Psi|^{1/2}}exp(-{1 \over 2}(x^{(i)}-\mu-\Lambda z^{(i)})^T |\mathbf \Psi|^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})]
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;去掉不相关的前两项后，对$\Lambda$求偏导得:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\bigtriangledown_{\Lambda} &amp;amp; \sum_{i=1}^N -E[{1 \over 2}(x^{(i)}-\mu-\Lambda z^{(i)})^T |\mathbf \Psi|^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})] \\
+&amp;amp;= \sum_{i=1}^m \bigtriangledown_{\Lambda} E[- tr({1 \over 2}{z^{(i)}}^T\Lambda^T \Psi^{-1} z^{(i)}) + tr({z^{(i)}}^T\Lambda^T \Psi^{-1} (x^{(i)}-\mu))] \\
+&amp;amp;= \sum_{i=1}^m \bigtriangledown_{\Lambda} E[- tr({1 \over 2}\Lambda^T \Psi^{-1} z^{(i)}{z^{(i)}}^T) + tr(\Lambda^T \Psi^{-1} (x^{(i)}-\mu){z^{(i)}}^T)]  \\
+&amp;amp;= \sum_{i=1}^m E[-\Psi^{-1} z^{(i)}{z^{(i)}}^T) + \Psi^{-1} (x^{(i)}-\mu){z^{(i)}}^T]
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;最后让其值为0，并且化简得:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\Lambda = (\sum_{i=1}^m (x^{(i)}-\mu) E_{z^{(i)} \sim\ Q_i}{z^{(i)}}^T)(\sum_{i=1}^m E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T])^{-1}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;到这里我们发现，这个公式有点眼熟，与之前回归中的最小二乘法矩阵形式类似:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\theta^T = (y^TX)(X^TX)^{-1}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这里解释一下两者的相似性，我们这里的$x$是$z$的线性函数（包含了一定的噪声）。在E步得到$z$的估计后，我们找寻的$\Lambda$实际上是$x$和$z$的线性关系。而最小二乘法也是去找特征和结果直接的线性关系。&lt;/p&gt;
+&lt;p&gt;到这还没完，我们需要求得括号里面的值.&lt;/p&gt;
+&lt;p&gt;根据我们之前对$z|x$的定义，我们知道:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+E_{z^{(i)} \sim\ Q_i}{z^{(i)}}^T &amp;amp;= \mu_{z^{(i)}|x^{(i)}}^T \\
+E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T] &amp;amp;= \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}}^T + \Sigma_{z^{(i)}|x^{(i)}}
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;将上式带入即可得到$\Lambda$的EM估计值。其他参数也可以通过类似的方法获得。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;根据上面的EM的过程，要对样本$X$进行因子分析，只需知道要分解的因子数($z$的维度)即可。通过EM，我们能够得到转换矩阵$\Lambda$和误差协方差$\Psi$。&lt;/p&gt;
+&lt;p&gt;因子分析实际上是降维，在得到各个参数后，可以求得$z$。但是$z$的各个参数含义需要自己去琢磨。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;因子分析(&lt;strong&gt;Factor Analysis&lt;/strong&gt;)是一种数据简化的技术。它通过研究众多变量之间的内部依赖关系，探求观测数据中的基本结构，并用少数几个假想变量来表示其基本的数据结构。这几个假想变量能够反映原来众多变量的主要信息。原始的变量是可观测的显在变量，而假想变量是不可观测的潜在变量，称为因子。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;PCA&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;h1&gt;ICA&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;TODO Board:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="http://www.cnblogs.com/jerrylead/archive/2011/05/11/2043317.html"&gt;因子分析（Factor Analysis)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm"&gt;Expectation–maximization algorithm&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');

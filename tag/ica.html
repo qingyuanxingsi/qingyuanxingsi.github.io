@@ -256,10 +256,104 @@ I &amp; \Lambda^T \\
 \end{equation}</p>
 <p>然后对各个参数求偏导数不就得到各个参数的值了么？可惜我们得不到closed-form。想想也是，如果能得到，还干嘛将$z$和$x$放在一起求联合分布呢。根据之前对参数估计的理解，在有隐含变量$z$时，我们可以考虑使用EM来进行估计。</p>
 <h2>因子分析的EM估计</h2>
+<p>我们先来明确一下各个参数,$z$为隐含变量,$\mu,\Lambda,\mathbf \Psi$为待估参数。</p>
+<p>回想EM算法两个步骤:</p>
+<blockquote>
+<p>循环重复直至收敛{
+(<strong>E Step</strong>)对于每一个$i$,计算:
+\begin{equation}
+Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)};\theta)
+\end{equation}
+(<strong>M Step</strong>)计算:
+\begin{equation}
+\theta := arg max_{\theta} \sum_{i} \sum_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
+\end{equation}
+}</p>
+</blockquote>
+<p>我们套用一下:</p>
+<p>(<strong>E Step</strong>):</p>
+<p>\begin{equation}
+Q_i(z^{(i)}) := p(z^{(i)}|\mu,\Lambda,\mathbf \Psi)
+\end{equation}</p>
+<p>根据之前在<em>Gaussian Models</em>中提到过的<strong>Posterior Conditional</strong>的相关知识,我们有:</p>
+<p>\begin{equation}
+\begin{split}
+\mu_{z^{(i)}|x^{i}} &amp;= \Lambda^T (\Lambda \Lambda^T+\mathbf \Psi)^{-1}(x^{(i)}-\mu)  \\
+\Sigma_{z^{(i)}|x^{i}} &amp;= I - \Lambda^T (\Lambda \Lambda^T+\mathbf \Psi)^{-1} \Lambda
+\end{split}
+\end{equation}</p>
+<p>那么根据多元高斯分布公式，得到:</p>
+<p>\begin{equation}
+Q_i(z^{(i)}) = \frac{1}{(2\pi)^{k/2}|\Sigma_{z^{(i)}|x^{(i)}}|^{1/2}}exp(-{1 \over 2}(z^{(i)}-\mu_{z^{(i)}|x^{(i)}})^T \Sigma_{z^{(i)}|x^{(i)}}^{-1} (z^{(i)}-\mu_{z^{(i)}|x^{(i)}}))
+\end{equation}</p>
+<p>(<strong>M步</strong>):</p>
+<p>直接写要最大化的目标是:</p>
+<p>\begin{equation}
+\sum_{i=1}^m \int_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} dz^{(i)}
+\end{equation}</p>
+<p>其中待估参数是$\mu,\Lambda,\mathbf \Psi$.下面我们重点求$\Lambda$的估计公式</p>
+<p>首先将上式简化为：</p>
+<p>\begin{equation}
+\begin{split}
+\sum_{i=1}^m &amp;\int_{z^{(i)}} Q_i(z^{(i)}) \ [log p(x^{(i)}|z^{(i)};\mu,\Lambda,\mathbf \Psi) +p(z^{(i)})-log\ Q_i(z^{(i)})]dz^{(i)} \\
+&amp;= \sum_{i=1}^m E_{z^{(i)} \sim\ Q_i} [log p(x^{(i)}|z^{(i)};\mu,\Lambda,\mathbf \Psi) +p(z^{(i)})-log\ Q_i(z^{(i)})]
+\end{split}
+\end{equation}</p>
+<p>这里$z^{(i)} \sim\ Q_i$表示$z^{(i)}$服从$Q_i$分布。然后去掉与$\Lambda$不相关的项（后两项），得</p>
+<p>\begin{equation}
+\begin{split}
+\sum_{i=1}^m &amp; E[log p(x^{(i)}|z^{(I)};\mu,\Lambda,\Psi)] \\
+&amp;= \sum_{i=1}^m E[log \frac{1}{(2\pi)^{n/2}|\mathbf \Psi|^{1/2}}exp(-{1 \over 2}(x^{(i)}-\mu-\Lambda z^{(i)})^T |\mathbf \Psi|^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})]
+\end{split}
+\end{equation}</p>
+<p>去掉不相关的前两项后，对$\Lambda$求偏导得:</p>
+<p>\begin{equation}
+\begin{split}
+\bigtriangledown_{\Lambda} &amp; \sum_{i=1}^N -E[{1 \over 2}(x^{(i)}-\mu-\Lambda z^{(i)})^T |\mathbf \Psi|^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})] \\
+&amp;= \sum_{i=1}^m \bigtriangledown_{\Lambda} E[- tr({1 \over 2}{z^{(i)}}^T\Lambda^T \Psi^{-1} z^{(i)}) + tr({z^{(i)}}^T\Lambda^T \Psi^{-1} (x^{(i)}-\mu))] \\
+&amp;= \sum_{i=1}^m \bigtriangledown_{\Lambda} E[- tr({1 \over 2}\Lambda^T \Psi^{-1} z^{(i)}{z^{(i)}}^T) + tr(\Lambda^T \Psi^{-1} (x^{(i)}-\mu){z^{(i)}}^T)]  \\
+&amp;= \sum_{i=1}^m E[-\Psi^{-1} z^{(i)}{z^{(i)}}^T) + \Psi^{-1} (x^{(i)}-\mu){z^{(i)}}^T]
+\end{split}
+\end{equation}</p>
+<p>最后让其值为0，并且化简得:</p>
+<p>\begin{equation}
+\Lambda = (\sum_{i=1}^m (x^{(i)}-\mu) E_{z^{(i)} \sim\ Q_i}{z^{(i)}}^T)(\sum_{i=1}^m E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T])^{-1}
+\end{equation}</p>
+<p>到这里我们发现，这个公式有点眼熟，与之前回归中的最小二乘法矩阵形式类似:</p>
+<p>\begin{equation}
+\theta^T = (y^TX)(X^TX)^{-1}
+\end{equation}</p>
+<p>这里解释一下两者的相似性，我们这里的$x$是$z$的线性函数（包含了一定的噪声）。在E步得到$z$的估计后，我们找寻的$\Lambda$实际上是$x$和$z$的线性关系。而最小二乘法也是去找特征和结果直接的线性关系。</p>
+<p>到这还没完，我们需要求得括号里面的值.</p>
+<p>根据我们之前对$z|x$的定义，我们知道:</p>
+<p>\begin{equation}
+\begin{split}
+E_{z^{(i)} \sim\ Q_i}{z^{(i)}}^T &amp;= \mu_{z^{(i)}|x^{(i)}}^T \\
+E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T] &amp;= \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}}^T + \Sigma_{z^{(i)}|x^{(i)}}
+\end{split}
+\end{equation}</p>
+<p>将上式带入即可得到$\Lambda$的EM估计值。其他参数也可以通过类似的方法获得。</p>
+<h2>总结</h2>
+<p>根据上面的EM的过程，要对样本$X$进行因子分析，只需知道要分解的因子数($z$的维度)即可。通过EM，我们能够得到转换矩阵$\Lambda$和误差协方差$\Psi$。</p>
+<p>因子分析实际上是降维，在得到各个参数后，可以求得$z$。但是$z$的各个参数含义需要自己去琢磨。</p>
+<blockquote>
+<p>因子分析(<strong>Factor Analysis</strong>)是一种数据简化的技术。它通过研究众多变量之间的内部依赖关系，探求观测数据中的基本结构，并用少数几个假想变量来表示其基本的数据结构。这几个假想变量能够反映原来众多变量的主要信息。原始的变量是可观测的显在变量，而假想变量是不可观测的潜在变量，称为因子。</p>
+</blockquote>
+<h1>PCA</h1>
+<hr />
+<h1>ICA</h1>
+<hr />
+<blockquote>
+<p><em>TODO Board:</em></p>
+<ul>
+<li>Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。</li>
+</ul>
+</blockquote>
 <h1>参考文献</h1>
 <hr />
 <ol>
 <li><a href="http://www.cnblogs.com/jerrylead/archive/2011/05/11/2043317.html">因子分析（Factor Analysis)</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">Expectation–maximization algorithm</a></li>
 </ol><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
