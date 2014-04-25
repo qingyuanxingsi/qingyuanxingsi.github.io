@@ -313,7 +313,7 @@ eigenvectors=\left(
 &lt;p&gt;上面是两个特征值，下面是对应的特征向量，特征值0.0490833989对应特征向量为$(-0.735178656,0.677873399)^T$，这里的特征向量都归一化为单位向量。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;第四步&lt;/strong&gt;，将特征值按照从大到小的顺序排序，选择其中最大的$k$个，然后将其对应的$k$个特征向量分别作为列向量组成特征向量矩阵。&lt;/p&gt;
 &lt;p&gt;这里特征值只有两个，我们选择其中最大的那个，这里是1.28402771，对应的特征向量是$(-0.677873399,-0.735178656)^T$。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;第五步&lt;/strong&gt;，将样本点投影到选取的特征向量上。假设样例数为$m$，特征数为$n$，减去均值后的样本矩阵为$DataAdjust(m&lt;em&gt;n)$，协方差矩阵是$n&lt;/em&gt;n$，选取的$k$个特征向量组成的矩阵为EigenVectors(n*k)。那么投影后的数据FinalData为&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第五步&lt;/strong&gt;，将样本点投影到选取的特征向量上。假设样例数为$m$，特征数为$n$，减去均值后的样本矩阵为$DataAdjust(m&lt;em&gt;n)$，协方差矩阵是$n&lt;/em&gt;n$，选取的$k$个特征向量组成的矩阵为$EigenVectors(n*k)$。那么投影后的数据$FinalData$为&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 FinalData(m&lt;em&gt;k) = DataAdjust(m&lt;/em&gt;n) * EigenVectors(n*k)
 \end{equation}&lt;/p&gt;
@@ -340,7 +340,35 @@ FinalData(m&lt;em&gt;k) = DataAdjust(m&lt;/em&gt;n) * EigenVectors(n*k)
 &lt;p&gt;假设我们选择两条不同的直线做投影，那么左右两条中哪个好呢？根据我们之前的方差最大化理论，左边的好，因为投影后的样本点之间方差最大。&lt;/p&gt;
 &lt;p&gt;这里先解释一下投影的概念：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Max_var_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_3_zps46d5b364.png" /&gt;&lt;/p&gt;
-&lt;p&gt;红色点表示样例$x^{(i)}$，蓝色点表示$x^{(i)}$在$u$上的投影，$u$是直线的斜率也是直线的方向向量，而且是单位向量。蓝色点是示$x^{(i)}$在$u$上的投影点，离原点的距离是$&amp;lt; x^{(i)},\mu&amp;gt;$.&lt;/p&gt;
+&lt;p&gt;红色点表示样例$x^{(i)}$，蓝色点表示$x^{(i)}$在$u$上的投影，$u$是直线的斜率也是直线的方向向量，而且是单位向量。蓝色点是示$x^{(i)}$在$u$上的投影点，离原点的距离是${x^{(i)}}^Tu$或$u^Tx^{(i)}$.由于这些样本点（样例）的每一维特征均值都为0，因此投影到$u$上的样本点（只有一个到原点的距离值）的均值仍然是0。&lt;/p&gt;
+&lt;p&gt;回到上面左右图中的左图，我们要求的是最佳的$u$，使得投影后的样本点方差最大。&lt;/p&gt;
+&lt;p&gt;由于投影后均值为0，因此方差为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+{1 \over m}\sum_{i=1}^m ({x^{(i)}}^Tu)^2 &amp;amp;= {1 \over m}\sum_{i=1}^m u^Tx^{(i)}{x^{(i)}}^Tu  \\
+&amp;amp;= u^T ({1 \over m}\sum_{i=1}^m x^{(i)}{x^{(i)}}^T)u.
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;中间那部分很熟悉啊，不就是样本特征的协方差矩阵么（$x^{(i)}$的均值为0，一般协方差矩阵都除以$m-1$，这里用$m$）。&lt;/p&gt;
+&lt;p&gt;用$\lambda$来表示${1 \over m}\sum_{i=1}^m ({x^{(i)}}^Tu)^2$，$\Sigma$表示${1 \over m}\sum_{i=1}^m x^{(i)}{x^{(i)}}^T$，那么上式可写作:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\lambda = u^T \Sigma u
+\end{equation}&lt;/p&gt;
+&lt;p&gt;由于$u$是单位向量，即$u^Tu=1$，上式两边都左乘$u$得，$u\lambda = \lambda u = uu^T \Sigma u$&lt;/p&gt;
+&lt;p&gt;即$\Sigma u = \lambda u$&lt;/p&gt;
+&lt;p&gt;We got it！$\lambda$就是$\Sigma$的特征值，$u$是特征向量。最佳的投影直线是特征值$\lambda$最大时对应的特征向量，其次是$\lambda$第二大对应的特征向量，依次类推。&lt;/p&gt;
+&lt;p&gt;因此，我们只需要对协方差矩阵进行特征值分解，得到的前$k$大特征值对应的特征向量就是最佳的$k$维新特征，而且这$k$维新特征是正交的。得到前$k$个$u$以后，样例$x^{(i)}$通过以下变换可以得到新的样本。&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+y^{(i)} = \left[
+\begin{array}{cc}
+u_1^Tx^{(i)} \\
+u_2^Tx^{(i)} \\
+...  \\
+u_k^Tx^{(i)}
+\end{array}
+\right] \in R^k
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中的第$j$维就是$x^{(i)}$在$u_j$上的投影。通过选取最大的$k$个$u$，使得方差较小的特征（如噪声）被丢弃。&lt;/p&gt;
 &lt;h1&gt;ICA&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;blockquote&gt;
