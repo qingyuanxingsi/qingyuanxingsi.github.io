@@ -184,8 +184,8 @@ I &amp;amp; \Lambda^T \\
 &lt;p&gt;我们先来明确一下各个参数,$z$为隐含变量,$\mu,\Lambda,\mathbf \Psi$为待估参数。&lt;/p&gt;
 &lt;p&gt;回想EM算法两个步骤:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;循环重复直至收敛{
-(&lt;strong&gt;E Step&lt;/strong&gt;)对于每一个$i$,计算:
+&lt;p&gt;循环重复直至收敛{ &lt;/p&gt;
+&lt;p&gt;(&lt;strong&gt;E Step&lt;/strong&gt;)对于每一个$i$,计算:
 \begin{equation}
 Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)};\theta)
 \end{equation}
