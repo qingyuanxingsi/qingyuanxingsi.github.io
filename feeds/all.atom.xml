@@ -211,7 +211,7 @@ Q_i(z^{(i)}) := p(z^{(i)}|\mu,\Lambda,\mathbf \Psi)
 &lt;p&gt;\begin{equation}
 Q_i(z^{(i)}) = \frac{1}{(2\pi)^{k/2}|\Sigma_{z^{(i)}|x^{(i)}}|^{1/2}}exp(-{1 \over 2}(z^{(i)}-\mu_{z^{(i)}|x^{(i)}})^T \Sigma_{z^{(i)}|x^{(i)}}^{-1} (z^{(i)}-\mu_{z^{(i)}|x^{(i)}}))
 \end{equation}&lt;/p&gt;
-&lt;p&gt;(&lt;strong&gt;M步&lt;/strong&gt;):&lt;/p&gt;
+&lt;p&gt;(&lt;strong&gt;M Step&lt;/strong&gt;):&lt;/p&gt;
 &lt;p&gt;直接写要最大化的目标是:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \sum_{i=1}^m \int_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} dz^{(i)}
