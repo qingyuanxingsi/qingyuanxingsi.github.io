@@ -382,6 +382,7 @@ u_k^Tx^{(i)}
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="http://www.cnblogs.com/jerrylead/archive/2011/05/11/2043317.html"&gt;因子分析（Factor Analysis)&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm"&gt;Expectation–maximization algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html"&gt;主成分分析（Principal components analysis-最大方差解释&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
