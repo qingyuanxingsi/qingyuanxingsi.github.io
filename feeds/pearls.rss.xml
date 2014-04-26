@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-26T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-26T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-26:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;算法&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-26T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-26T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-26:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;Pocket&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html"&gt;罗辑思维 2014：迷茫时代的明白人 11&lt;/a&gt;;活在当下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;算法&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
@@ -68,14 +74,6 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:该课程网址见&lt;a href="https://class.coursera.org/pgm-003"&gt;PGM&lt;/a&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h1&gt;Pocket&lt;/h1&gt;
-&lt;hr /&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
-&lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html"&gt;罗辑思维 2014：迷茫时代的明白人 11&lt;/a&gt;;活在当下。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Ising Model&lt;/li&gt;
