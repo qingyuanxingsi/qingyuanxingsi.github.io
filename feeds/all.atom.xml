@@ -441,6 +441,7 @@ Se = \lambda e
 &lt;p&gt;NOTE:&lt;/p&gt;
 &lt;p&gt;PCA技术的一大好处是对数据进行降维的处理。我们可以对新求出的“主元”向量的重要性进行排序，根据需要取前面最重要的部分，将后面的维数省去，可以达到降维从而简化模型或是对数据进行压缩的效果。同时最大程度的保持了原有数据的信息。&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h2&gt;SVD分解&lt;/h2&gt;
 &lt;h1&gt;ICA&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;blockquote&gt;
