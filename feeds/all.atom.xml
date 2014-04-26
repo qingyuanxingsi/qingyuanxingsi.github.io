@@ -369,12 +369,85 @@ u_k^Tx^{(i)}
 \right] \in R^k
 \end{equation}&lt;/p&gt;
 &lt;p&gt;其中的第$j$维就是$x^{(i)}$在$u_j$上的投影。通过选取最大的$k$个$u$，使得方差较小的特征（如噪声）被丢弃。&lt;/p&gt;
+&lt;h3&gt;最小平方误差理论&lt;/h3&gt;
+&lt;p&gt;&lt;img alt="Least Squard Error" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lqe_zps9c291e8a.png" /&gt;&lt;/p&gt;
+&lt;p&gt;假设有这样的二维样本点（红色点），回顾我们前面探讨的是求一条直线，使得样本点投影到直线上的点的方差最大。本质是求直线，那么度量直线求的好不好，不仅仅只有方差最大化的方法。再回想我们学过的线性回归等，目的也是求一个线性函数使得直线能够最佳拟合样本点，那么我们能不能认为最佳的直线就是回归后的直线呢？回归时我们的最小二乘法度量的是样本点到直线的坐标轴距离。比如这个问题中，特征是$x$，类标签是$y$。回归时最小二乘法度量的是距离$d$。如果使用回归方法来度量最佳直线，那么就是直接在原始样本上做回归了，跟特征选择就没什么关系了。&lt;/p&gt;
+&lt;p&gt;因此，我们打算选用另外一种评价直线好坏的方法，使用点到直线的距离$d\prime$来度量。&lt;/p&gt;
+&lt;p&gt;现在有$n$个样本点$(x_1,x_2,\dots,x_n)$，每个样本点为$m$维（这节内容中使用的符号与上面的不太一致，需要重新理解符号的意义）。将样本点$x_k$在直线上的投影记为$x_k \prime$，那么我们就是要最小化&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\sum_{k=1}^n ||x_k \prime - x_k||^2
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这个公式称作最小平方误差（Least Squared Error）。&lt;/p&gt;
+&lt;p&gt;而确定一条直线，一般只需要确定一个点，并且确定方向即可。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第一步确定点&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;假设要在空间中找一点$x_0$来代表这$n$个样本点，“代表”这个词不是量化的，因此要量化的话，我们就是要找一个$m$维的点$x_0$，使得&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+J_0(x_0) = \sum_{k=1}^n ||x_0-x_k||^2
+\end{equation}&lt;/p&gt;
+&lt;p&gt;最小。其中$J_0(x_0)$是平方错误评价函数（squared-error criterion function).对$x_0$求偏导易知:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+x_0 = \sum_{k=1}^n x_k
+\end{equation}&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;第二步确定方向&lt;/strong&gt;：
+我们从$x_0$拉出要求的直线，假设直线的方向是单位向量$e$。那么直线上任意一点，比如$x_k \prime$就可以用点$x_0$和$e$来表示&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+x_k \prime = x_0 + a_k e
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$a_k$是$x_k \prime$到点$x_0$的距离。&lt;/p&gt;
+&lt;p&gt;我们重新定义最小平方误差：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+J_1(a_1,\dots,a_n,e) = \sum_{k=1}^n ||x_k \prime - x_k||^2 = \sum_{k=1}^n ||(x_0+a_ke)-x_k)||^2
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这里的$k$只是相当于$i$。$J_1$就是最小平方误差函数，其中的未知参数是$a_1,\dots,a_n$和$e$。&lt;/p&gt;
+&lt;p&gt;实际上是求$J_1$的最小值。首先将上式展开：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+J_1(a_1,\dots,a_n,e) &amp;amp;= \sum_{k=1}^n ||(x_0+a_ke)-x_k)||^2 = \sum_{k=1}^n ||a_ke-(x_k-x_0)||^2 \\
+&amp;amp;= \sum_{k=1}^n a_k^2||e||^2 - 2\sum_{k=1}^n a_ke^T(x_k-x_0)+ \sum_{k=1}^n ||x_k-x_0||^2
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;我们首先固定$e$，将其看做是常量,$||e||^2 = 1$，然后对$a_k$进行求导，得:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+a_k = e^T(x_k-x_0)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这个结果意思是说，如果知道了$e$，那么将$x_k-x_0$与$e$做内积，就可以知道了$x_k$在$e$上的投影离$x_0$的长度距离，不过这个结果不用求都知道。&lt;/p&gt;
+&lt;p&gt;然后是固定$a_k$，对$e$求偏导数，我们先将上式代入$J_1$，得 &lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+J_1(e) &amp;amp;= \sum_{k=1}^n a_k^2||e||^2 - 2\sum_{k=1}^n a_k^2 + \sum_{k=1}^n ||x_k -x_0||^2 \\
+&amp;amp;= -\sum_{k=1}^n [e^T(x_k-x_0)]^2 + \sum_{k=1}^n ||x_k - x_0 ||^2  \\
+&amp;amp;= -\sum_{k=1}^n e^T (x_k-x_0)(x_k-x_0)^T e + \sum_{k=1}^n ||x_k - x_0 ||^2 \\
+&amp;amp;= -e^TSe+\sum_{k=1}^n ||x_k-x_0||^2
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$S=\sum_{k=1}^n (x_k-x_0)(x_k-x_0)^T$与协方差矩阵类似，只是缺少个分母$n-1$，我们称之为散列矩阵（scatter matrix）。&lt;/p&gt;
+&lt;p&gt;然后可以对$e$求偏导数，但是$e$需要首先满足$e^Te=1$，引入拉格朗日乘子$\lambda$，来使$e^TSe$最大（$J_1$最小），令:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+u = e^TSe - \lambda(e^Te-1)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;求偏导:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\frac{\partial u}{\partial e} = 2Se - 2\lambda e = 0 
+\end{equation}&lt;/p&gt;
+&lt;p&gt;于是我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+Se = \lambda e
+\end{equation}&lt;/p&gt;
+&lt;p&gt;两边除以$n-1$就变成了，对协方差矩阵求特征值向量了。&lt;/p&gt;
+&lt;p&gt;从不同的思路出发，最后得到同一个结果，对协方差矩阵求特征向量，求得后特征向量上就成为了新的坐标，如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="PCA_Transform" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/pca_transform_zps137a3ecb.png" /&gt;&lt;/p&gt;
+&lt;p&gt;这时候点都聚集在新的坐标轴周围，因为我们使用的最小平方误差的意义就在此。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE: 
+PCA技术的一大好处是对数据进行降维的处理。我们可以对新求出的“主元”向量的重要性进行排序，根据需要取前面最重要的部分，将后面的维数省去，可以达到降维从而简化模型或是对数据进行压缩的效果。同时最大程度的保持了原有数据的信息。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1&gt;ICA&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board:&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。&lt;/li&gt;
+&lt;li&gt;Kernel-PCA&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
