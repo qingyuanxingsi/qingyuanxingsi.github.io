@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-26T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-26T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-26:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;Pocket&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-27T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-27T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-27:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;Pocket&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
@@ -26,6 +26,10 @@
 &lt;li&gt;看的有点累了,不想看&lt;em&gt;EM&lt;/em&gt;算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍&lt;em&gt;Mixture Models&lt;/em&gt;和&lt;em&gt;EM&lt;/em&gt;算法吧!&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://blog.pluskid.org/?p=39"&gt;漫谈 Clustering (3): Gaussian Mixture Model&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;近期为了理解卷积,于是到处找资料,无意中发现了这一篇神一般的理解。(&lt;strong&gt;墙裂推荐&lt;/strong&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://www.guokr.com/post/342476/"&gt;关于卷积的一个血腥的讲解，看完给跪了&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
