@@ -41,8 +41,9 @@
 &lt;p&gt;&lt;strong&gt;Whitening&lt;/strong&gt;的目的是去掉数据之间的相关联度，是很多算法进行预处理的步骤。比如说当训练图片数据时，由于图片中相邻像素值有一定的关联，所以很多信息是冗余的。这时候去相关的操作就可以采用白化操作。数据的Whitening必须满足两个条件：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;不同特征间相关性最小，接近0；&lt;/li&gt;
-&lt;li&gt;所有特征的方差相等（不一定为1）。常见的白化操作有PCA whitening和ZCA whitening。&lt;/li&gt;
+&lt;li&gt;所有特征的方差相等（不一定为1）。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;常见的白化操作有PCA whitening和ZCA whitening。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;PCA whitening&lt;/em&gt;是指将数据x经过PCA降维为z后，可以看出z中每一维是独立的，满足whitening白化的第一个条件，这是只需要将z中的每一维都除以标准差就得到了每一维的方差为1，也就是说方差相等。公式为：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 x_{PCAwhite,i} = \frac{x_{rot,i}}{\sqrt{\lambda_i}}
