@@ -30,6 +30,10 @@
 &lt;li&gt;近期为了理解卷积,于是到处找资料,无意中发现了这一篇神一般的理解。(&lt;strong&gt;墙裂推荐&lt;/strong&gt;)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://www.guokr.com/post/342476/"&gt;关于卷积的一个血腥的讲解，看完给跪了&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;PCA数据预处理Whitening&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="PCA Whitening" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/pca_whitening_zps484d5829.png" /&gt;&lt;/p&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
