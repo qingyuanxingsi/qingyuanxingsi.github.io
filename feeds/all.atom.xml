@@ -31,9 +31,27 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://www.guokr.com/post/342476/"&gt;关于卷积的一个血腥的讲解，看完给跪了&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;PCA数据预处理Whitening&lt;/li&gt;
+&lt;li&gt;PCA数据预处理&lt;em&gt;Whitening&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="PCA Whitening" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/pca_whitening_zps484d5829.png" /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在使用PCA前需要对数据进行预处理，首先是均值化，即对每个特征维，都减掉该维的平均值，然后就是将不同维的数据范围归一化到同一范围，方法一般都是&lt;strong&gt;除以最大值&lt;/strong&gt;。但是比较奇怪的是，在对自然图像进行均值处理时并不是不是减去该维的平均值，而是减去这张图片本身的平均值。因为PCA的预处理是按照不同应用场合来定的。&lt;/p&gt;
+&lt;p&gt;自然图像指的是人眼经常看见的图像，其符合某些统计特征。一般实际过程中，只要是拿正常相机拍的，没有加入很多人工创作进去的图片都可以叫做是自然图片，因为很多算法对这些图片的输入类型还是比较鲁棒的。在对自然图像进行学习时，其实不需要太关注对图像做方差归一化，因为自然图像每一部分的统计特征都相似，只需做均值为0化就ok了。不过对其它的图片进行训练时，比如首先字识别等，就需要进行方差归一化了。&lt;/p&gt;
+&lt;p&gt;有一个观点需要注意，那就是&lt;strong&gt;PCA并不能阻止过拟合现象&lt;/strong&gt;。表明上看PCA是降维了，因为在同样多的训练样本数据下，其特征数变少了，应该是更不容易产生过拟合现象。但是在实际操作过程中，这个方法阻止过拟合现象效果很小，主要还是通过&lt;strong&gt;规则项&lt;/strong&gt;来进行阻止过拟合的。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Whitening&lt;/strong&gt;：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Whitening&lt;/strong&gt;的目的是去掉数据之间的相关联度，是很多算法进行预处理的步骤。比如说当训练图片数据时，由于图片中相邻像素值有一定的关联，所以很多信息是冗余的。这时候去相关的操作就可以采用白化操作。数据的Whitening必须满足两个条件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不同特征间相关性最小，接近0；&lt;/li&gt;
+&lt;li&gt;所有特征的方差相等（不一定为1）。常见的白化操作有PCA whitening和ZCA whitening。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;PCA whitening&lt;/em&gt;是指将数据x经过PCA降维为z后，可以看出z中每一维是独立的，满足whitening白化的第一个条件，这是只需要将z中的每一维都除以标准差就得到了每一维的方差为1，也就是说方差相等。公式为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+x_{PCAwhite,i} = \frac{x_{rot,i}}{\sqrt{\lambda_i}}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;ZCA whitening&lt;/em&gt;是指数据x先经过PCA变换为z，但是并不降维，因为这里是把所有的成分都选进去了。这是也同样满足whtienning的第一个条件，特征间相互独立。然后同样进行方差为1的操作，最后将得到的矩阵左乘一个特征向量矩阵U即可。ZCA whitening公式为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+x_{ZCAwhite} = Ux_{PCAwhite}
+\end{equation}&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
@@ -90,7 +108,37 @@
 &lt;li&gt;Bayesian Scores&lt;/li&gt;
 &lt;li&gt;Learning With Incomplete Data&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>机器学习系列(VI):Latent Linear Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vilatent-linear-models.html" rel="alternate"></link><updated>2014-04-26T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-26:ji-qi-xue-xi-xi-lie-vilatent-linear-models.html</id><summary type="html">&lt;h1&gt;因子分析&lt;/h1&gt;
+&lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>机器学习系列(VI):Latent Linear Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vilatent-linear-models.html" rel="alternate"></link><updated>2014-04-26T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-26:ji-qi-xue-xi-xi-lie-vilatent-linear-models.html</id><summary type="html">&lt;h1&gt;因子分析&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;h2&gt;问题&lt;/h2&gt;
 &lt;p&gt;当样本个数$m$远远大于其特征个数$n$时，这样不管是进行回归、聚类等都没有太大的问题。然而当训练样例个数$m$太小，甚至$m \ll n$的时候，使用梯度下降法进行回归时，如果初值不同，得到的参数结果会有很大偏差（因为方程数小于参数个数）。另外，如果使用多元高斯分布(Multivariate Gaussian distribution)对数据进行拟合时，也会有问题。让我们来演算一下，看看会有什么问题：&lt;/p&gt;
