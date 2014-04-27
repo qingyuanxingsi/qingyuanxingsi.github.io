@@ -93,7 +93,7 @@ Filed under <a href="../category/distributed-system.html">Distributed System</a>
 </ul>
 <p>为了解决以上几个问题,Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。Hadoop目前集成了Protocol Buffer以及Apache Avro的序列化部分,而函数调用调用机制仍采用Hadoop自带的,其中RPC采用Protocol Buffer,而Apache Avro则用于日志系统。以下对这两种序列化机制进行一个简要的介绍:</p>
 <h2>持久化框架</h2>
-<h3>Protocol Buffer<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" class="simple-footnote" title="https://developers.google.com/protocol-buffers/docs/javatutorial">1</a></sup></h3>
+<h3>Protocol Buffer<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" title="https://developers.google.com/protocol-buffers/docs/javatutorial">1</a></sup></h3>
 <p>Protocol Buffers 是一种轻便高效的结构化数据存储格式,可以用于结构化数据序列化/反序列化。它很适合做数据存储或RPC的数据交换格式,常用作通信协议、数据存储等领域的与语言无关、平台无关、可扩展的序列化结构数据格式。目前支持C++、Java、Python三种语言。在
 Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffers。</p>
 <p>相比于常见的XML格式,Protocol Buffers官方网站这样描述它的优点:</p>
@@ -340,7 +340,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </pre></div>
 
 
-<h3>Apache Avro<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" class="simple-footnote" title="http://avro.apache.org/docs/current/gettingstartedjava.html">2</a></sup></h3>
+<h3>Apache Avro<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" title="http://avro.apache.org/docs/current/gettingstartedjava.html">2</a></sup></h3>
 <p>Apache Avro 是Hadoop 下的一个子项目。它本身既是一个序列化框架,同时也实现了RPC 的功能。Avro官网描述Avro的特性和功能如下:</p>
 <ul>
 <li>丰富的数据结构类型;</li>
@@ -606,7 +606,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </pre></div>
 
 
-<h2>也说动态代理<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3" class="simple-footnote" title="参考java动态代理(JDK和cglib)">3</a></sup></h2>
+<h2>也说动态代理<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3" title="参考java动态代理(JDK和cglib)">3</a></sup></h2>
 <p>Hadoop RPC中设计的基本设计模式就是代理模式,因此想要看懂RPC部分源码，代理不可不知。</p>
 <p>代理模式是常用的java设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。 </p>
 <p>按照代理的创建时期，代理类可以分为两种。 </p>
@@ -946,7 +946,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 <li>ipc.Server 类分析</li>
 </ul>
 <p>Hadoop采用了Master/Slave 结构,其中Master是整个系统的单点,如NameNode或JobTracker ,这是制约系统性能和可扩展性的最关键因素之一 ;而Master通过ipc.Server接收并处理所有Slave发送的请求,这就要求ipc.Server将高并发和可扩展性作为设计目标为此,ipc.Server采用了很多提高并发处理能力的技术,主要包括线程池、事件驱动和Reactor设计模式等,这些技术均采用了JDK自带的库实现,这里重点分析它是如何利用Reactor设计模式提高整体性能的。HDFS的单点故障已经在Hadoop 2.0中得到了解决,MRv1中的JobTracker的单点故障在CDH4中也得到了解决。</p>
-<p>Reactor<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4" class="simple-footnote" title="如若时间允许,该设计模式会进行详尽的分析。">4</a></sup>是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。</p>
+<p>Reactor<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4" title="如若时间允许,该设计模式会进行详尽的分析。">4</a></sup>是并发编程中的一种基于事件驱动的设计模式,它具有以下两个特点:通过派发/分离I/O操作事件提高系统的并发性能;提供了粗粒度的并发控制,使用单线程实现,避免了复杂的同步处理。典型的Reactor实现原理如下图所示。</p>
 <p><img alt="Reactor Pattern" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/reactor_pattern_zps5fc183a4.png"></p>
 <p>典型的Reactor模式中主要包括以下几个角色。</p>
 <p>❑ Reactor:I/O事件的派发者。</p>
@@ -1188,7 +1188,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 <p>YARN中关于服务模型的类图(位于包org.apache.hadoop.service中)如下图所示。</p>
 <p><img alt="Yarn Service" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/service_zps0c2f0998.png"></p>
 <p>在这个图中,我们可以看到,所有的服务对象最终均实现了接口Service,它定义了最基本的服务初始化、启动、停止等操作,而AbstractService类提供了一个最基本的Service实现。YARN中所有对象,如果是非组合服务,直接继承AbstractService类即可,否则需继承CompositeService。比如,对于ResourceManager而言,它是一个组合服务,它组合了各种服务对象,包括ClientRMService、ApplicationMasterLauncher、ApplicationMasterService 等。在 YARN 中,ResourceManager和NodeManager属于组合服务,它们内部包含多个单一服务和组合服务,以实现对内部多种服务的统一管理。</p>
-<h2>事件库<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back"><a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5" class="simple-footnote" title="其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。">5</a></sup></h2>
+<h2>事件库<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5" title="其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。">5</a></sup></h2>
 <p>YARN采用了基于事件驱动的并发模型,该模型能够大大增强并发性,从而提高系统整体性能。为了构建该模型,YARN将各种处理逻辑抽象成事件和对应事件调度器,并将每类事件的处理过程分割成多个步骤,用有限状态机表示。YARN中的事件处理模型可概括为下图。</p>
 <p><img alt="Yarn Events" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/yarn_event_zpsbaeaa655.png"></p>
 <p>整个处理过程大致为:处理请求会作为事件进入系统,由中央异步调度器(Async-Dispatcher)负责传递给相应事件调度器(Event Handler)。该事件调度器可能将该事件转发给另外一个事件调度器,也可能交给一个带有有限状态机的事件处理器,其处理结果也以事
@@ -1430,7 +1430,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4">如若时间允许,该设计模式会进行详尽的分析。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5">其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。 <a href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1">https://developers.google.com/protocol-buffers/docs/javatutorial <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2">http://avro.apache.org/docs/current/gettingstartedjava.html <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3">参考<a href="http://www.cnblogs.com/jqyp/archive/2010/08/20/1805041.html">java动态代理(JDK和cglib)</a> <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4">如若时间允许,该设计模式会进行详尽的分析。 <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-4-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5">其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。 <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="../fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />

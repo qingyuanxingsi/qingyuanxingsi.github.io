@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-27T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-27T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-27:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;Pocket&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-27T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-04-27T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-27:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;Deep Learning&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;稀疏编码(&lt;em&gt;Sparse Coding&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://blog.csdn.net/zouxy09/article/details/8777094"&gt;Deep Learning（深度学习）学习笔记整理系列之（五)&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;Pocket&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
@@ -109,6 +115,8 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;li&gt;Decision Making&lt;/li&gt;
 &lt;li&gt;Bayesian Scores&lt;/li&gt;
 &lt;li&gt;Learning With Incomplete Data&lt;/li&gt;
+&lt;li&gt;Lassos&lt;/li&gt;
+&lt;li&gt;凸QP&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -143,7 +151,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 </summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>Play With Cardinality Estimation</title><link href="http://www.qingyuanxingsi.com/play-with-cardinality-estimation.html" rel="alternate"></link><updated>2014-04-14T00:00:00+08:00</updated><author><name>CodingLabs</name></author><id>tag:www.qingyuanxingsi.com,2014-04-14:play-with-cardinality-estimation.html</id><summary type="html">&lt;p&gt;记得之前某周例会的时候一个博士师兄抛出一个小问题:在大数据环境下,如何估计一个可能含有重复元素的集合中不同元素的数目,当时其实没有怎么在意。这两天因为看CNN的东西实在无法完全理解,所以到处逛了逛(&lt;code&gt;好吧,我每次逛了逛都能发现特别好玩的算法呀&lt;/code&gt;),于是不经意间发现了解决上述问题的一些现有算法,很是高兴呀。&lt;/p&gt;
 &lt;p&gt;在开始今天的相关介绍之前,咱们扯点闲话吧,个人不是特别喜欢纯科研的科研,如果一个算法或者一个数据结构以至于一个理论不能应用到实际生活中去,不能解决实际生活中的某个问题的话,个人认为这种理论或者算法/数据结构的研究就是无意义的。个人还是比较倾向于好玩的科研吧,一方面研究的东西自己觉得有意思,另一方面又能应用到实际项目或生活实际中去,成为一个研究好玩问题的研究人员估计就是我毕生最大的志向了吧,呵呵。好吧,其实说这么多只是为了说明基数估计这个东西真的很好玩呀。(&lt;strong&gt;以后只要在Pearls目录下的博文均收集自他人博客,原始链接见脚注,版权属于原作者所有,无意侵犯,特此说明,以后不再说明&lt;/strong&gt;)&lt;/p&gt;
 &lt;p&gt;言归正传,开始我们正式的介绍。&lt;/p&gt;
-&lt;h1&gt;基本概念&lt;sup id="sf-play-with-cardinality-estimation-1-back"&gt;&lt;a href="#sf-play-with-cardinality-estimation-1" class="simple-footnote" title="解读Cardinality Estimation算法（第一部分：基本概念）"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1&gt;基本概念&lt;sup id="sf-play-with-cardinality-estimation-1-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-1" title="解读Cardinality Estimation算法（第一部分：基本概念）"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;基数计数(&lt;strong&gt;Cardinality Counting&lt;/strong&gt;）是实际应用中一种常见的计算场景，在数据分析、网络监控及数据库优化等领域都有相关需求。精确的基数计数算法由于种种原因，在面对大数据场景时往往力不从心，因此如何在误差可控的情况下对基数进行估计就显得十分重要。目前常见的基数估计算法有Linear Counting、LogLog Counting、HyperLogLog Counting及Adaptive Counting等。这几种算法都是基于概率统计理论所设计的概率算法，它们克服了精确基数计数算法的诸多弊端（如内存需求过大或难以合并等），同时可以通过一定手段将误差控制在所要求的范围内。&lt;/p&gt;
 &lt;p&gt;以下我们主要介绍一下基数估计(Cardinality Estimation)的基本概念。&lt;/p&gt;
@@ -195,7 +203,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;p&gt;显然，与B树不同Bitmap可以高效的进行合并，只需进行按位或（or）运算就可以，而位运算在计算机中的运算效率是很高的。但是Bitmap方式也有自己的问题，就是内存使用问题。&lt;/p&gt;
 &lt;p&gt;很容易发现，Bitmap的长度与集合中元素个数无关，而是与基数的上限有关。例如在上面的例子中，假如要计算上限为1亿的基数，则需要12.5M字节的Bitmap，十个链接就需要125M。关键在于，这个内存使用与集合元素数量无关，即使一个链接仅仅有一个1UV，也要为其分配12.5M字节。&lt;/p&gt;
 &lt;p&gt;由此可见，虽然Bitmap方式易于合并，却由于内存使用问题而无法广泛用于大数据场景。&lt;/p&gt;
-&lt;h1&gt;Linear Counting&lt;sup id="sf-play-with-cardinality-estimation-2-back"&gt;&lt;a href="#sf-play-with-cardinality-estimation-2" class="simple-footnote" title="解读Cardinality Estimation算法（第二部分：Linear Counting）"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1&gt;Linear Counting&lt;sup id="sf-play-with-cardinality-estimation-2-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-2" title="解读Cardinality Estimation算法（第二部分：Linear Counting）"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;通过上面的介绍我们知道传统的精确基数计数算法在数据量大时会存在一定瓶颈，瓶颈主要来自于&lt;strong&gt;数据结构合并和内存使用&lt;/strong&gt;两个方面。因此出现了很多基数估计的概率算法，这些算法虽然计算出的结果不是精确的，但误差可控，重要的是这些算法所使用的数据结构易于合并，同时比传统方法大大节省内存。&lt;/p&gt;
 &lt;p&gt;作为本文的第二部分，我们讨论Linear Counting算法。&lt;/p&gt;
@@ -285,7 +293,7 @@ m &amp;gt; \beta(e^t-t-1)
 &lt;p&gt;可以看出精度要求越高，则Bitmap的长度越大。随着$m$和$n$的增大，$m$大约为$n$的十分之一。因此LC所需要的空间只有传统的Bitmap直接映射方法的1/10，但是从渐进复杂性的角度看，空间复杂度仍为$O(N_{max})$。&lt;/p&gt;
 &lt;h3&gt;合并&lt;/h3&gt;
 &lt;p&gt;LC非常方便于合并，合并方案与传统Bitmap映射方法无异，都是通过按位或的方式。&lt;/p&gt;
-&lt;h1&gt;LogLog Counting&lt;sup id="sf-play-with-cardinality-estimation-3-back"&gt;&lt;a href="#sf-play-with-cardinality-estimation-3" class="simple-footnote" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1&gt;LogLog Counting&lt;sup id="sf-play-with-cardinality-estimation-3-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-3" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;上一部分介绍的Linear Counting算法相较于直接映射Bitmap的方法能大大节省内存（大约只需后者1/10的内存），但毕竟只是一个常系数级的降低，空间复杂度仍然为$O(N_max)$。而本文要介绍的LogLog Counting却只有$O(log_2(log_2(N_{max})))$。例如，假设基数的上限为1亿，原始Bitmap方法需要12.5M内存，而LogLog Counting只需不到1K内存（640字节）就可以在标准误差不超过4%的精度下对基数进行估计，效果可谓十分惊人。&lt;/p&gt;
 &lt;p&gt;本部分将介绍LogLog Counting。&lt;/p&gt;
@@ -393,7 +401,7 @@ m &amp;gt; (\frac{1.30}{\epsilon})^2
 &lt;p&gt;内存使用与$m$的大小及哈希值得长度（或说基数上限）有关。假设$H$的值为32bit，由于$\rho_{max} \leq 32$，因此每个桶需要5bit空间存储这个桶的$\rho_{max}$，$m$个桶就是$5 \times m/8$字节。例如基数上限为一亿（约227），当分桶数$m$为1024时，每个桶的基数上限约为227/210=217，而$log_2(log_2(217))=4.09$，因此每个桶需要5bit，需要字节数就是$5×1024/8=640$，误差为$1.30 / \sqrt{1024} = 0.040625$，也就是约为$4%$。&lt;/p&gt;
 &lt;h3&gt;合并&lt;/h3&gt;
 &lt;p&gt;与LC不同，LLC的合并是以桶为单位而不是bit为单位，由于LLC只需记录桶的$\rho_{max}$，因此合并时取相同桶编号数值最大者为合并后此桶的数值即可。&lt;/p&gt;
-&lt;h1&gt;HyperLogLog Counting及Adaptive Counting&lt;sup id="sf-play-with-cardinality-estimation-4-back"&gt;&lt;a href="#sf-play-with-cardinality-estimation-4" class="simple-footnote" title="解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1&gt;HyperLogLog Counting及Adaptive Counting&lt;sup id="sf-play-with-cardinality-estimation-4-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-4" title="解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;在前一部分，我们了解了LogLog Counting。LLC算法的空间复杂度为$O(log_2(log_2(N_{max})))$，并且具有较高的精度，因此非常适合用于大数据场景的基数估计。不过LLC也有自己的问题，就是当基数不太大时，估计值的误差会比较大。这主要是因为当基数不太大时，可能存在一些空桶，这些空桶的$\rho_{max}$为0。由于LLC的估计值依赖于各桶$\rho_{max}$的几何平均数，而几何平均数对于特殊值（这里就是指0）非常敏感，因此当存在一些空桶时，LLC的估计效果就变得较差。&lt;/p&gt;
 &lt;p&gt;本部分将要介绍的HyperLogLog Counting及Adaptive Counting算法均是对LLC算法的改进，可以有效克服LLC对于较小基数估计效果差的缺点。&lt;/p&gt;
@@ -526,7 +534,7 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-play-with-cardinality-estimation-1"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html"&gt;解读Cardinality Estimation算法（第一部分：基本概念）&lt;/a&gt; &lt;a href="#sf-play-with-cardinality-estimation-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-2"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html"&gt;解读Cardinality Estimation算法（第二部分：Linear Counting）&lt;/a&gt; &lt;a href="#sf-play-with-cardinality-estimation-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-3"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html"&gt;解读Cardinality Estimation算法（第三部分：LogLog Counting）&lt;/a&gt; &lt;a href="#sf-play-with-cardinality-estimation-3-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-4"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html"&gt;解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）&lt;/a&gt; &lt;a href="#sf-play-with-cardinality-estimation-4-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="基数估计"></category><category term="Cardinality Estimation"></category><category term="Big Data"></category></entry><entry><title>也说2048:Minimax算法以及Alpha-Beta剪枝</title><link href="http://www.qingyuanxingsi.com/ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html" rel="alternate"></link><updated>2014-04-06T00:00:00+08:00</updated><author><name>CodingLabs</name></author><id>tag:www.qingyuanxingsi.com,2014-04-06:ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html</id><summary type="html">&lt;p&gt;今天看机器学习Logistic Regression,脑子实在转不过来了,于是到处游荡了一下,然后不经意间发现了这篇特别好玩的文章&lt;a href="http://blog.codinglabs.org/articles/2048-ai-analysis.html"&gt;2048-AI程序算法分析&lt;/a&gt;,于是摘录如下。(&lt;strong&gt;版权属原作者所有,特此声明&lt;/strong&gt;)&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-play-with-cardinality-estimation-1"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html"&gt;解读Cardinality Estimation算法（第一部分：基本概念）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-2"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html"&gt;解读Cardinality Estimation算法（第二部分：Linear Counting）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-3"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html"&gt;解读Cardinality Estimation算法（第三部分：LogLog Counting）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-4"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html"&gt;解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="基数估计"></category><category term="Cardinality Estimation"></category><category term="Big Data"></category></entry><entry><title>也说2048:Minimax算法以及Alpha-Beta剪枝</title><link href="http://www.qingyuanxingsi.com/ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html" rel="alternate"></link><updated>2014-04-06T00:00:00+08:00</updated><author><name>CodingLabs</name></author><id>tag:www.qingyuanxingsi.com,2014-04-06:ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html</id><summary type="html">&lt;p&gt;今天看机器学习Logistic Regression,脑子实在转不过来了,于是到处游荡了一下,然后不经意间发现了这篇特别好玩的文章&lt;a href="http://blog.codinglabs.org/articles/2048-ai-analysis.html"&gt;2048-AI程序算法分析&lt;/a&gt;,于是摘录如下。(&lt;strong&gt;版权属原作者所有,特此声明&lt;/strong&gt;)&lt;/p&gt;
 &lt;p&gt;针对目前火爆的2048游戏，有人实现了一个AI程序，可以以较大概率（高于90%）赢得游戏，想一睹该AI程序的童鞋们请移步&lt;a href="http://ov3y.github.io/2048-AI/"&gt;2048AI实现&lt;/a&gt;,点击Auto-run按钮即可运行。此外作者在&lt;a href="http://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048"&gt;stackoverflow上简要介绍了AI的算法框架和实现思路&lt;/a&gt;。但是这个回答主要集中在启发函数的选取上，对AI用到的核心算法并没有仔细说明。这篇文章将主要分为两个部分，第一部分介绍其中用到的基础算法，即Minimax和Alpha-beta剪枝；第二部分分析作者具体的实现。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="2048" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2048_zps4f3b681e.png"&gt;&lt;/p&gt;
 &lt;h1&gt;基础算法&lt;/h1&gt;
@@ -575,7 +583,7 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 &lt;li&gt;因为上述原因，Minimax一般是寻找一个局部最优解而不是全局最优解，搜索深度越大越可能找到更好的解，但计算耗时会呈指数级膨胀。&lt;/li&gt;
 &lt;li&gt;也是因为无法一次构造出完整的格局树，所以真实问题中Minimax一般是边对弈边计算局部格局树，而不是只计算一次，但已计算的中间结果可以缓存。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Alpha-beta剪枝&lt;sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"&gt;&lt;a href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" class="simple-footnote" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;h2&gt;Alpha-beta剪枝&lt;sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
 &lt;p&gt;简单的Minimax算法有一个很大的问题就是计算复杂性。由于所需搜索的节点数随最大深度呈指数膨胀，而算法的效果往往和深度相关，因此这极大限制了算法的效果。&lt;/p&gt;
 &lt;p&gt;Alpha-beta剪枝是对Minimax的补充和改进。采用Alpha-beta剪枝后，我们可不必构造和搜索最大深度D内的所有节点，在构造过程中，如果发现当前格局再往下不能找到更好的解，我们就停止在这个格局及以下的搜索，也就是剪枝。&lt;/p&gt;
 &lt;p&gt;Alpha-beta基于这样一种朴素的思想：&lt;strong&gt;时时刻刻记得当前已经知道的最好选择，如果从当前格局搜索下去，不可能找到比已知最优解更好的解，则停止这个格局分支的搜索（剪枝），回溯到父节点继续搜索&lt;/strong&gt;。&lt;/p&gt;
@@ -755,4 +763,4 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1"&gt;以下描述看不懂可参考&lt;a href="http://www.youtube.com/watch?v=xBXHtz4Gbdo"&gt;Step by Step:Alpha-Beta Cutting Example&lt;/a&gt; &lt;a href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="AI"></category><category term="2048"></category><category term="Minimax Algorithm"></category><category term="Alpha-Beta Pruning"></category><category term="Algorithm"></category></entry></feed>
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1"&gt;以下描述看不懂可参考&lt;a href="http://www.youtube.com/watch?v=xBXHtz4Gbdo"&gt;Step by Step:Alpha-Beta Cutting Example&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="AI"></category><category term="2048"></category><category term="Minimax Algorithm"></category><category term="Alpha-Beta Pruning"></category><category term="Algorithm"></category></entry></feed>

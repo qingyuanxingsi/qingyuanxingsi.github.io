@@ -234,12 +234,12 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 \end{equation}</p>
 <p>因此最后的决策规则很简单:将$x$平移$x_0$,然后投影到$\omega$上，通过结果是正还是负决定它到底属于哪一类。</p>
 <p><img alt="Two class LDA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2_class_lda_zps98b80132.jpeg"></p>
-<p>当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" class="simple-footnote" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分">1</a></sup></p>
+<p>当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分">1</a></sup></p>
 <h1>Inference in joint Gaussian distributions</h1>
 <hr>
 <p>给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们仅给出结论,下式表明<strong>如果两变量符合联合高斯分布，则它们的边际分布以及条件分布也都是高斯分布</strong>。</p>
 <blockquote>
-<p>Theorem 3.2<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" class="simple-footnote" title="具体证明请参考ML:APP一书4.3.4.3一节">2</a></sup> 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
+<p>Theorem 3.2<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" title="具体证明请参考ML:APP一书4.3.4.3一节">2</a></sup> 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
 \begin{equation}
 \mu = \left(
         \begin{array}{ccc}
@@ -287,7 +287,7 @@ p(y|x) &amp;= N(y|Ax+b,\Sigma_y)
 \end{equation}
 上式即称为<em>Linear Gaussian System</em>。此时我们有:</p>
 <blockquote>
-<p>Theorem 3.3<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3" class="simple-footnote" title="证明请参考ML:APP一书4.4.3节">3</a></sup> 给定一Linear Gaussian System.其后验分布$p(x|y)$具有如下形式:
+<p>Theorem 3.3<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3" title="证明请参考ML:APP一书4.4.3节">3</a></sup> 给定一Linear Gaussian System.其后验分布$p(x|y)$具有如下形式:
 \begin{equation}
 \begin{split}
 p(x|y) &amp;= N(x|\mu_{x|y},\Sigma_{x|y}) \\
@@ -308,7 +308,7 @@ p(x|y_1,...,y_N) &amp;= N(x|\mu_N,\Sigma_N) \\
 \end{equation}
 为了更直观地解释以上模型,如下图所示:</p>
 <p><img alt="Radar Blips" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/radar_blips_zpsfd1a04d1.png"></p>
-<p>我们可将x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" class="simple-footnote" title="另外一种方法为Kalman Filter Algorithm">4</a></sup></p>
+<p>我们可将x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" title="另外一种方法为Kalman Filter Algorithm">4</a></sup></p>
 <p>现假定我们有多个测量设备，且我们想利用多个设备的观测值进行估计，这种方法称为<code>sensor fusion</code>.如果我们有具有不同方差的多组观测值，那么posterior将会是它们的加权平均。如下图所示:</p>
 <p><img alt="Sensor Fusion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sensor_fusion_zps4ad8202f.png"></p>
 <p>我们采用不带任何信息的关于$x$的先验分布，即$p(x)=N(\mu_0,\Sigma_0)=N(0,10^10I_2)$,我们得到2个观测值,$y_1 \sim\ N(x,\Sigma_{y,1}$,$y_2 \sim\ N(x,\Sigma_{y,2})$,我们需要计算$p(x|y_1,y_2)$.</p>
@@ -383,7 +383,7 @@ mean=\frac{S^{-1}}{\nu-D-1},mode=\frac{S^{-1}}{\nu+D+1}
 \begin{equation}
 IW(\sigma^2|S^{-1},\nu)=IG(\sigma^2|\nu/2,S/2)
 \end{equation}</p>
-<h1>Inferring the parameters of an MVN<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" class="simple-footnote" title="本部分部分参考Regularized Gaussian Covariance Estimation">5</a></sup></h1>
+<h1>Inferring the parameters of an MVN<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" title="本部分部分参考Regularized Gaussian Covariance Estimation">5</a></sup></h1>
 <hr>
 <p>到目前为止，我们已经讨论了在$\theta=(\mu,\Sigma)$已知的条件下如何inference，现我们讨论一下如何对参数本身进行估计。假定$x_i \sim\ N(\mu,\Sigma)$ for $i=1:N$.本节主要分为两个部分:</p>
 <ul>
@@ -406,7 +406,7 @@ m_N &amp;= V_N(\Sigma^{-1}(N\bar{x})+V_0^{-1}m_0)
 \end{equation}</p>
 <p>我们可以通过设定$V_0 = \infty I$提供一个不带任何信息的先验，此时我们有$p(\mu|D,\Sigma)=N(\bar{x},{1 \over N}\Sigma)$,即和MLE得到的结果相同。</p>
 <h2>Posterior distribution of $\Sigma$</h2>
-<p>现我们讨论如何计算$p(\Sigma|D,\mu)$,其likelihood具有如下形式:<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6" class="simple-footnote" title="参见MLE for Gaussian部分">6</a></sup>
+<p>现我们讨论如何计算$p(\Sigma|D,\mu)$,其likelihood具有如下形式:<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6" title="参见MLE for Gaussian部分">6</a></sup>
 \begin{equation}
 p(D|\mu,\Sigma) \propto |\Sigma|^{-{N \over 2}}exp(-{1 \over 2}tr(S_{\mu}\Sigma^{-1}))
 \end{equation}</p>
@@ -442,7 +442,7 @@ S_N^{-1} &amp;= S_0+S_{\mu}
 &amp;=\lambda\Sigma_0+(1-\lambda)\hat{\Sigma}_{mle}
 \end{split}
 \end{equation}</p>
-<p>其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior <code>shrinkage</code>的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"><a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" class="simple-footnote" title="其他方法见ML:APP一书4.6.2.1节">7</a></sup></p>
+<p>其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior <code>shrinkage</code>的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。<sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" title="其他方法见ML:APP一书4.6.2.1节">7</a></sup></p>
 <p>而对于先验的协方差矩阵$S_0$,一般采用如下prior:$S_0=diag(\hat{\Sigma}_{mle})$.因此，我们有:</p>
 <p><img alt="S_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/S0_zps47da8ac0.png"></p>
 <p>由上式我们可以看出，对角线的元素和极大似然估计值相等，而非对角线则趋近于0.因此该技巧也被称为<em>shrinkage estimation,or regularized estimation</em>.</p><script type="text/javascript">
@@ -475,7 +475,7 @@ S_N^{-1} &amp;= S_0+S_{\mu}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1">LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2">具体证明请参考ML:APP一书4.3.4.3一节 <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3">证明请参考ML:APP一书4.4.3节 <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4">另外一种方法为Kalman Filter Algorithm <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5">本部分部分参考<a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6">参见MLE for Gaussian部分 <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back">↩</a></li><li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7">其他方法见ML:APP一书4.6.2.1节 <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />

@@ -123,7 +123,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <li>因为上述原因，Minimax一般是寻找一个局部最优解而不是全局最优解，搜索深度越大越可能找到更好的解，但计算耗时会呈指数级膨胀。</li>
 <li>也是因为无法一次构造出完整的格局树，所以真实问题中Minimax一般是边对弈边计算局部格局树，而不是只计算一次，但已计算的中间结果可以缓存。</li>
 </ul>
-<h2>Alpha-beta剪枝<sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"><a href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" class="simple-footnote" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example">1</a></sup></h2>
+<h2>Alpha-beta剪枝<sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"><a class="simple-footnote" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example">1</a></sup></h2>
 <p>简单的Minimax算法有一个很大的问题就是计算复杂性。由于所需搜索的节点数随最大深度呈指数膨胀，而算法的效果往往和深度相关，因此这极大限制了算法的效果。</p>
 <p>Alpha-beta剪枝是对Minimax的补充和改进。采用Alpha-beta剪枝后，我们可不必构造和搜索最大深度D内的所有节点，在构造过程中，如果发现当前格局再往下不能找到更好的解，我们就停止在这个格局及以下的搜索，也就是剪枝。</p>
 <p>Alpha-beta基于这样一种朴素的思想：<strong>时时刻刻记得当前已经知道的最好选择，如果从当前格局搜索下去，不可能找到比已知最优解更好的解，则停止这个格局分支的搜索（剪枝），回溯到父节点继续搜索</strong>。</p>
@@ -303,7 +303,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1">以下描述看不懂可参考<a href="http://www.youtube.com/watch?v=xBXHtz4Gbdo">Step by Step:Alpha-Beta Cutting Example</a> <a href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1">以下描述看不懂可参考<a href="http://www.youtube.com/watch?v=xBXHtz4Gbdo">Step by Step:Alpha-Beta Cutting Example</a> <a class="simple-footnote-back" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="../ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />

@@ -1755,12 +1755,12 @@ p(y=1|x,\theta) = sigm(\omega^T(x-x_0))
 \end{equation}&lt;/p&gt;
 &lt;p&gt;因此最后的决策规则很简单:将$x$平移$x_0$,然后投影到$\omega$上，通过结果是正还是负决定它到底属于哪一类。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Two class LDA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2_class_lda_zps98b80132.jpeg"&gt;&lt;/p&gt;
-&lt;p&gt;当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&amp;gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" class="simple-footnote" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;当$\Sigma = \sigma^2I$时，$\omega$与$\mu_1-\mu_0$同向。这时我们只需要判断投影点离$\mu_1$和$\mu_0$中的那个点近。当它们的先验概率$\pi_1 = \pi_0$时，投影点位于其中点；当$\pi_1&amp;gt;\pi_0$时，则$x_0$越趋近于$\mu_0$,直线的更大部分先验地属于类1;反之亦然。&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1" title="LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;h1&gt;Inference in joint Gaussian distributions&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;给定联合概率分布$p(x_1,x_2)$,如果我们能够计算边际概率分布$p(x1)$以及条件概率分布$p(x_1|x_2)$想必是极好的而且是及有用的。以下我们仅给出结论,下式表明&lt;strong&gt;如果两变量符合联合高斯分布，则它们的边际分布以及条件分布也都是高斯分布&lt;/strong&gt;。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Theorem 3.2&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" class="simple-footnote" title="具体证明请参考ML:APP一书4.3.4.3一节"&gt;2&lt;/a&gt;&lt;/sup&gt; 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
+&lt;p&gt;Theorem 3.2&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2" title="具体证明请参考ML:APP一书4.3.4.3一节"&gt;2&lt;/a&gt;&lt;/sup&gt; 假定$x=(x_1,x_2)$服从联合高斯分布,且参数如下:
 \begin{equation}
 \mu = \left(
         \begin{array}{ccc}
@@ -1808,7 +1808,7 @@ p(y|x) &amp;amp;= N(y|Ax+b,\Sigma_y)
 \end{equation}
 上式即称为&lt;em&gt;Linear Gaussian System&lt;/em&gt;。此时我们有:&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;Theorem 3.3&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3" class="simple-footnote" title="证明请参考ML:APP一书4.4.3节"&gt;3&lt;/a&gt;&lt;/sup&gt; 给定一Linear Gaussian System.其后验分布$p(x|y)$具有如下形式:
+&lt;p&gt;Theorem 3.3&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3" title="证明请参考ML:APP一书4.4.3节"&gt;3&lt;/a&gt;&lt;/sup&gt; 给定一Linear Gaussian System.其后验分布$p(x|y)$具有如下形式:
 \begin{equation}
 \begin{split}
 p(x|y) &amp;amp;= N(x|\mu_{x|y},\Sigma_{x|y}) \\
@@ -1829,7 +1829,7 @@ p(x|y_1,...,y_N) &amp;amp;= N(x|\mu_N,\Sigma_N) \\
 \end{equation}
 为了更直观地解释以上模型,如下图所示:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Radar Blips" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/radar_blips_zpsfd1a04d1.png"&gt;&lt;/p&gt;
-&lt;p&gt;我们可将x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" class="simple-footnote" title="另外一种方法为Kalman Filter Algorithm"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;我们可将x视为2维空间中一个物体的真实位置(但我们并不知道),例如一枚导弹或者一架飞机,$y_i$则是我们的观测值(含噪声),可以视为雷达上的一些点。当我们得到越来越多的点时，我们就能够更好地进行定位。&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4" title="另外一种方法为Kalman Filter Algorithm"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;p&gt;现假定我们有多个测量设备，且我们想利用多个设备的观测值进行估计，这种方法称为&lt;code&gt;sensor fusion&lt;/code&gt;.如果我们有具有不同方差的多组观测值，那么posterior将会是它们的加权平均。如下图所示:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Sensor Fusion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sensor_fusion_zps4ad8202f.png"&gt;&lt;/p&gt;
 &lt;p&gt;我们采用不带任何信息的关于$x$的先验分布，即$p(x)=N(\mu_0,\Sigma_0)=N(0,10^10I_2)$,我们得到2个观测值,$y_1 \sim\ N(x,\Sigma_{y,1}$,$y_2 \sim\ N(x,\Sigma_{y,2})$,我们需要计算$p(x|y_1,y_2)$.&lt;/p&gt;
@@ -1904,7 +1904,7 @@ mean=\frac{S^{-1}}{\nu-D-1},mode=\frac{S^{-1}}{\nu+D+1}
 \begin{equation}
 IW(\sigma^2|S^{-1},\nu)=IG(\sigma^2|\nu/2,S/2)
 \end{equation}&lt;/p&gt;
-&lt;h1&gt;Inferring the parameters of an MVN&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" class="simple-footnote" title="本部分部分参考Regularized Gaussian Covariance Estimation"&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1&gt;Inferring the parameters of an MVN&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5" title="本部分部分参考Regularized Gaussian Covariance Estimation"&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;到目前为止，我们已经讨论了在$\theta=(\mu,\Sigma)$已知的条件下如何inference，现我们讨论一下如何对参数本身进行估计。假定$x_i \sim\ N(\mu,\Sigma)$ for $i=1:N$.本节主要分为两个部分:&lt;/p&gt;
 &lt;ul&gt;
@@ -1927,7 +1927,7 @@ m_N &amp;amp;= V_N(\Sigma^{-1}(N\bar{x})+V_0^{-1}m_0)
 \end{equation}&lt;/p&gt;
 &lt;p&gt;我们可以通过设定$V_0 = \infty I$提供一个不带任何信息的先验，此时我们有$p(\mu|D,\Sigma)=N(\bar{x},{1 \over N}\Sigma)$,即和MLE得到的结果相同。&lt;/p&gt;
 &lt;h2&gt;Posterior distribution of $\Sigma$&lt;/h2&gt;
-&lt;p&gt;现我们讨论如何计算$p(\Sigma|D,\mu)$,其likelihood具有如下形式:&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6" class="simple-footnote" title="参见MLE for Gaussian部分"&gt;6&lt;/a&gt;&lt;/sup&gt;
+&lt;p&gt;现我们讨论如何计算$p(\Sigma|D,\mu)$,其likelihood具有如下形式:&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6" title="参见MLE for Gaussian部分"&gt;6&lt;/a&gt;&lt;/sup&gt;
 \begin{equation}
 p(D|\mu,\Sigma) \propto |\Sigma|^{-{N \over 2}}exp(-{1 \over 2}tr(S_{\mu}\Sigma^{-1}))
 \end{equation}&lt;/p&gt;
@@ -1963,7 +1963,7 @@ S_N^{-1} &amp;amp;= S_0+S_{\mu}
 &amp;amp;=\lambda\Sigma_0+(1-\lambda)\hat{\Sigma}_{mle}
 \end{split}
 \end{equation}&lt;/p&gt;
-&lt;p&gt;其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior &lt;code&gt;shrinkage&lt;/code&gt;的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"&gt;&lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" class="simple-footnote" title="其他方法见ML:APP一书4.6.2.1节"&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
+&lt;p&gt;其中$\lambda=\frac{N_0}{N_0+N}$,控制着向prior &lt;code&gt;shrinkage&lt;/code&gt;的程度。对于$\lambda$而言，我们可以通过交叉验证设置其值。&lt;sup id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7" title="其他方法见ML:APP一书4.6.2.1节"&gt;7&lt;/a&gt;&lt;/sup&gt;&lt;/p&gt;
 &lt;p&gt;而对于先验的协方差矩阵$S_0$,一般采用如下prior:$S_0=diag(\hat{\Sigma}_{mle})$.因此，我们有:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="S_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/S0_zps47da8ac0.png"&gt;&lt;/p&gt;
 &lt;p&gt;由上式我们可以看出，对角线的元素和极大似然估计值相等，而非对角线则趋近于0.因此该技巧也被称为&lt;em&gt;shrinkage estimation,or regularized estimation&lt;/em&gt;.&lt;/p&gt;&lt;script type="text/javascript"&gt;
@@ -1996,7 +1996,7 @@ S_N^{-1} &amp;amp;= S_0+S_{\mu}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1"&gt;LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2"&gt;具体证明请参考ML:APP一书4.3.4.3一节 &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3"&gt;证明请参考ML:APP一书4.4.3节 &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4"&gt;另外一种方法为Kalman Filter Algorithm &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5"&gt;本部分部分参考&lt;a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/"&gt;Regularized Gaussian Covariance Estimation&lt;/a&gt; &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6"&gt;参见MLE for Gaussian部分 &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7"&gt;其他方法见ML:APP一书4.6.2.1节 &lt;a href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back" class="simple-footnote-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Generative Models"></category></entry><entry><title>机器学习系列(II):Generative models for discrete data</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="alternate"></link><updated>2014-03-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-04:ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</id><summary type="html">&lt;h1&gt;博客若干事&lt;/h1&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1"&gt;LDA算法可能导致overfitting,具体解决方法请参阅Machine Learning:a probabilistic perspective一书4.2.*部分 &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2"&gt;具体证明请参考ML:APP一书4.3.4.3一节 &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3"&gt;证明请参考ML:APP一书4.4.3节 &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4"&gt;另外一种方法为Kalman Filter Algorithm &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5"&gt;本部分部分参考&lt;a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/"&gt;Regularized Gaussian Covariance Estimation&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-5-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6"&gt;参见MLE for Gaussian部分 &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-6-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7"&gt;其他方法见ML:APP一书4.6.2.1节 &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-xi-lie-iiigaussian-models-7-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Generative Models"></category></entry><entry><title>机器学习系列(II):Generative models for discrete data</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html" rel="alternate"></link><updated>2014-03-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-03-04:ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html</id><summary type="html">&lt;h1&gt;博客若干事&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;h2&gt;博客更新&lt;/h2&gt;
 &lt;p&gt;根据目前的学习进度、自己的空闲时间以及时间的充裕度，现将博客的更新时间定于周三，更新周期为每一周或者两周更新一次。另由于目前自己对于Latex公式还不是特别熟，所以博文中的公式可能会出现部分错误，请大家谅解。此外，博客刚刚创建，很多东西都在完善当中，包括博客的插件，博文的排版等等，这些方面之后会慢慢完善，目前已开放的功能仅基本支持博文的显示以及评论。&lt;/p&gt;

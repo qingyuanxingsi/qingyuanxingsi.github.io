@@ -105,7 +105,7 @@ Filed under <a href="../category/distributed-system.html">Distributed System</a>
 <p>分布式数据库一般是从单机关系数据库扩展而来，用于存储结构化数据。分布式数据库采用二维表格组织数据，提供SQL 关系查询语言，支持多表关联，嵌套子查询等复杂操作，并提供数据库事务以及并发控制。典型的系统包括MySQL数据库分片（MySQL Sharding）集群，Amazon RDS 以及Microsoft SQL Azure。分布式数据库支持的功能最为丰富，符合用户使用习惯，但可扩展性往往受到限制。当然，这一点并不是绝对的.Google Spanner系统是一个支持多数据中心的分布式数据库，它不仅支持丰富的关系数据库功能，还能扩展到多个数据中心的成千上万台机器。</p>
 <blockquote>
 <p>NOTE:
-传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1" class="simple-footnote" title="关于NoSQL的详细资料参见NoSQL数据库笔谈">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
+传统关系数据库的事务以及二维关系模型很难高效地扩展到多个存储节点上，另外，关系数据库对于要求高并发的应用在性能上优化空间较大。为了解决关系数据库面临的可扩展性、高并发以及性能方面的问题，各种各样的非关系数据库风起云涌，这类系统成为NoSQL<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1" title="关于NoSQL的详细资料参见NoSQL数据库笔谈">1</a></sup>系统，可以理解为“Not Only SQL”系统。NoSQL系统多得让人眼花缭乱，每个系统都有自己的独到之处，适合解决某种特定的问题。(阿里日照)</p>
 </blockquote>
 <h1>单机存储系统</h1>
 <hr>
@@ -155,7 +155,7 @@ Filed under <a href="../category/distributed-system.html">Distributed System</a>
 <p>LevelDB写入操作很简单，但是读取操作比较复杂，需要在内存以及各个层级文件中按照从新到老依次查找，代价很高。为了加快读取速度，LevelDB内部会执行Compaction操作来对已有的记录进行整理压缩，从而删除一些不再有效的记录，减少数据规模和文件数量。</p>
 <p>LevelDB的Compaction操作分为两种：minor compaction 和major compaction。Minor compaction 是指当内存中的MemTable 大小到了一定值时，将内存数据转储到SSTable文件中。每个层级下有多个SSTable，当某个层级下的SSTable文件数目超过一定设置后，levelDB会从这个层级中选择SSTable 文件，将其和高一层级的SSTable 文件合并，这就是major compaction。major compaction相当于执行一次多路归并：按照主键顺序依次迭代出所有SSTable文件中的记录，如果没有保存价值，则直接抛弃；否则，将其写入到新生成的SSTable 文件中。</p>
 <h2>事务与并发控制</h2>
-<h3>写时复制以及多版本控制<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2" class="simple-footnote" title="该部分未完全弄懂，TODO!">2</a></sup></h3>
+<h3>写时复制以及多版本控制<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2" title="该部分未完全弄懂，TODO!">2</a></sup></h3>
 <h1>分布式系统</h1>
 <hr>
 <h2>基本概念</h2>
@@ -210,7 +210,7 @@ Filed under <a href="../category/distributed-system.html">Distributed System</a>
 <p>分布式存储系统的一个基本要求就是透明性,包括<strong>数据分布透明性,数据迁移透明性,数据复制透明性,故障处理透明性</strong>。本节介绍数据分布以及数据迁移相关的基础知识。</p>
 <h3>哈希分布</h3>
 <p>哈希取模的方法很常见,其方法是根据数据的某一种特征计算哈希值,并将哈希值与集群中的服务器建立映射关系,从而将不同哈希值的数据分布到不同的服务器上。所谓数据特征可以是key-value系统中的主键(key),也可以是其他与业务逻辑相关的值。例如,将集群中的服务器按 0 到 N-1 编号(N为服务器的数量),根据数据的主键(hash(key)%N)或者数据所属的用户id(hash(user_id)% N)计算哈希值,来决定将数据映射到哪一台服务器。如果哈希函数的散列特性很好,哈希方式可以将数据比较均匀地分布到集群中去。而且,哈希方式需要记录的元信息也非常简单,每个节点只需要知道哈希函数的计算方式以及模的服务器的个数就可以计算出处理的数据应该属于哪台机器。然而,找出一个散列特性很好的哈希函数是很难的。这是因为,如果按照主键散列,那么同一个用户 id下的数据可能被分散到多台服务器,这会使得一次操作同一个用户id下的多条记录变得困难;如果按照用户id散列,容易出现“数据倾斜”(data skew)问题,即某些大用户的数据量很大,无论集群的规模有多大,这些用户始终由一台服务器处理。处理大用户问题一般有两种方式,一种方式是手动拆分,即线下标记系统中的大用户(例如运行一次MapReduce作业),并根据这些大用户的数据量将其拆分到多台服务器上。这就相当于在哈希分布的基础上针对这些大用户特殊处理;另一种方式是自动拆分,即数据分布算法能够动态调整,自动将大用户的数据拆分到多台服务器上。</p>
-<p>传统的哈希分布算法还有一个问题:当服务器上线或者下线时,N值发生变化,数据映射完全被打乱,几乎所有的数据都需要重新分布,这将带来大量的数据迁移。一种思路是不再简单地将哈希值和服务器个数做除法取模映射,而是将哈希值与服务器的对应关系作为元数据,交给专门的元数据服务器来管理。访问数据时,首先计算哈希值,再查询元数据服务器,获得该哈希值对应的服务器。这样,集群扩容时,可以将部分哈希值分配给新加入的机器并迁移对应的数据。另一种思路就是采用一致性哈希(Distributed Hash Table,DHT) 算法。一致性哈希的具体思想如下:<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back"><a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3" class="simple-footnote" title="该部分参考一致性hash算法">3</a></sup></p>
+<p>传统的哈希分布算法还有一个问题:当服务器上线或者下线时,N值发生变化,数据映射完全被打乱,几乎所有的数据都需要重新分布,这将带来大量的数据迁移。一种思路是不再简单地将哈希值和服务器个数做除法取模映射,而是将哈希值与服务器的对应关系作为元数据,交给专门的元数据服务器来管理。访问数据时,首先计算哈希值,再查询元数据服务器,获得该哈希值对应的服务器。这样,集群扩容时,可以将部分哈希值分配给新加入的机器并迁移对应的数据。另一种思路就是采用一致性哈希(Distributed Hash Table,DHT) 算法。一致性哈希的具体思想如下:<sup id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3" title="该部分参考一致性hash算法">3</a></sup></p>
 <h4>基本场景</h4>
 <p>比如你有N个cache 服务（后面简称cache)，那么如何将一个对象object映射到N个cache上呢，你很可能会采用类似下面的通用方法计算object的hash 值，然后均匀的映射到到N个cache:</p>
 <p>$$ hash(object) \% N $$</p>
@@ -378,7 +378,7 @@ objec1-&gt;cache A2；objec2-&gt;cache A1；objec3-&gt;cache C1；objec4-&gt;cac
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back" class="simple-footnote-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1">关于NoSQL的详细资料参见<a href="http://sebug.net/paper/databases/nosql/Nosql.html">NoSQL数据库笔谈</a> <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-1-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2">该部分未完全弄懂，TODO! <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-2-back">↩</a></li><li id="sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3">该部分参考<a href="http://blog.csdn.net/sparkliang/article/details/5279393">一致性hash算法</a> <a class="simple-footnote-back" href="#sf-fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing-3-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="../fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />

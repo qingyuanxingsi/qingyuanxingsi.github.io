@@ -77,7 +77,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 	<p>记得之前某周例会的时候一个博士师兄抛出一个小问题:在大数据环境下,如何估计一个可能含有重复元素的集合中不同元素的数目,当时其实没有怎么在意。这两天因为看CNN的东西实在无法完全理解,所以到处逛了逛(<code>好吧,我每次逛了逛都能发现特别好玩的算法呀</code>),于是不经意间发现了解决上述问题的一些现有算法,很是高兴呀。</p>
 <p>在开始今天的相关介绍之前,咱们扯点闲话吧,个人不是特别喜欢纯科研的科研,如果一个算法或者一个数据结构以至于一个理论不能应用到实际生活中去,不能解决实际生活中的某个问题的话,个人认为这种理论或者算法/数据结构的研究就是无意义的。个人还是比较倾向于好玩的科研吧,一方面研究的东西自己觉得有意思,另一方面又能应用到实际项目或生活实际中去,成为一个研究好玩问题的研究人员估计就是我毕生最大的志向了吧,呵呵。好吧,其实说这么多只是为了说明基数估计这个东西真的很好玩呀。(<strong>以后只要在Pearls目录下的博文均收集自他人博客,原始链接见脚注,版权属于原作者所有,无意侵犯,特此说明,以后不再说明</strong>)</p>
 <p>言归正传,开始我们正式的介绍。</p>
-<h1>基本概念<sup id="sf-play-with-cardinality-estimation-1-back"><a href="#sf-play-with-cardinality-estimation-1" class="simple-footnote" title="解读Cardinality Estimation算法（第一部分：基本概念）">1</a></sup></h1>
+<h1>基本概念<sup id="sf-play-with-cardinality-estimation-1-back"><a class="simple-footnote" href="#sf-play-with-cardinality-estimation-1" title="解读Cardinality Estimation算法（第一部分：基本概念）">1</a></sup></h1>
 <hr>
 <p>基数计数(<strong>Cardinality Counting</strong>）是实际应用中一种常见的计算场景，在数据分析、网络监控及数据库优化等领域都有相关需求。精确的基数计数算法由于种种原因，在面对大数据场景时往往力不从心，因此如何在误差可控的情况下对基数进行估计就显得十分重要。目前常见的基数估计算法有Linear Counting、LogLog Counting、HyperLogLog Counting及Adaptive Counting等。这几种算法都是基于概率统计理论所设计的概率算法，它们克服了精确基数计数算法的诸多弊端（如内存需求过大或难以合并等），同时可以通过一定手段将误差控制在所要求的范围内。</p>
 <p>以下我们主要介绍一下基数估计(Cardinality Estimation)的基本概念。</p>
@@ -129,7 +129,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <p>显然，与B树不同Bitmap可以高效的进行合并，只需进行按位或（or）运算就可以，而位运算在计算机中的运算效率是很高的。但是Bitmap方式也有自己的问题，就是内存使用问题。</p>
 <p>很容易发现，Bitmap的长度与集合中元素个数无关，而是与基数的上限有关。例如在上面的例子中，假如要计算上限为1亿的基数，则需要12.5M字节的Bitmap，十个链接就需要125M。关键在于，这个内存使用与集合元素数量无关，即使一个链接仅仅有一个1UV，也要为其分配12.5M字节。</p>
 <p>由此可见，虽然Bitmap方式易于合并，却由于内存使用问题而无法广泛用于大数据场景。</p>
-<h1>Linear Counting<sup id="sf-play-with-cardinality-estimation-2-back"><a href="#sf-play-with-cardinality-estimation-2" class="simple-footnote" title="解读Cardinality Estimation算法（第二部分：Linear Counting）">2</a></sup></h1>
+<h1>Linear Counting<sup id="sf-play-with-cardinality-estimation-2-back"><a class="simple-footnote" href="#sf-play-with-cardinality-estimation-2" title="解读Cardinality Estimation算法（第二部分：Linear Counting）">2</a></sup></h1>
 <hr>
 <p>通过上面的介绍我们知道传统的精确基数计数算法在数据量大时会存在一定瓶颈，瓶颈主要来自于<strong>数据结构合并和内存使用</strong>两个方面。因此出现了很多基数估计的概率算法，这些算法虽然计算出的结果不是精确的，但误差可控，重要的是这些算法所使用的数据结构易于合并，同时比传统方法大大节省内存。</p>
 <p>作为本文的第二部分，我们讨论Linear Counting算法。</p>
@@ -219,7 +219,7 @@ m &gt; \beta(e^t-t-1)
 <p>可以看出精度要求越高，则Bitmap的长度越大。随着$m$和$n$的增大，$m$大约为$n$的十分之一。因此LC所需要的空间只有传统的Bitmap直接映射方法的1/10，但是从渐进复杂性的角度看，空间复杂度仍为$O(N_{max})$。</p>
 <h3>合并</h3>
 <p>LC非常方便于合并，合并方案与传统Bitmap映射方法无异，都是通过按位或的方式。</p>
-<h1>LogLog Counting<sup id="sf-play-with-cardinality-estimation-3-back"><a href="#sf-play-with-cardinality-estimation-3" class="simple-footnote" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）">3</a></sup></h1>
+<h1>LogLog Counting<sup id="sf-play-with-cardinality-estimation-3-back"><a class="simple-footnote" href="#sf-play-with-cardinality-estimation-3" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）">3</a></sup></h1>
 <hr>
 <p>上一部分介绍的Linear Counting算法相较于直接映射Bitmap的方法能大大节省内存（大约只需后者1/10的内存），但毕竟只是一个常系数级的降低，空间复杂度仍然为$O(N_max)$。而本文要介绍的LogLog Counting却只有$O(log_2(log_2(N_{max})))$。例如，假设基数的上限为1亿，原始Bitmap方法需要12.5M内存，而LogLog Counting只需不到1K内存（640字节）就可以在标准误差不超过4%的精度下对基数进行估计，效果可谓十分惊人。</p>
 <p>本部分将介绍LogLog Counting。</p>
@@ -327,7 +327,7 @@ m &gt; (\frac{1.30}{\epsilon})^2
 <p>内存使用与$m$的大小及哈希值得长度（或说基数上限）有关。假设$H$的值为32bit，由于$\rho_{max} \leq 32$，因此每个桶需要5bit空间存储这个桶的$\rho_{max}$，$m$个桶就是$5 \times m/8$字节。例如基数上限为一亿（约227），当分桶数$m$为1024时，每个桶的基数上限约为227/210=217，而$log_2(log_2(217))=4.09$，因此每个桶需要5bit，需要字节数就是$5×1024/8=640$，误差为$1.30 / \sqrt{1024} = 0.040625$，也就是约为$4%$。</p>
 <h3>合并</h3>
 <p>与LC不同，LLC的合并是以桶为单位而不是bit为单位，由于LLC只需记录桶的$\rho_{max}$，因此合并时取相同桶编号数值最大者为合并后此桶的数值即可。</p>
-<h1>HyperLogLog Counting及Adaptive Counting<sup id="sf-play-with-cardinality-estimation-4-back"><a href="#sf-play-with-cardinality-estimation-4" class="simple-footnote" title="解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）">4</a></sup></h1>
+<h1>HyperLogLog Counting及Adaptive Counting<sup id="sf-play-with-cardinality-estimation-4-back"><a class="simple-footnote" href="#sf-play-with-cardinality-estimation-4" title="解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）">4</a></sup></h1>
 <hr>
 <p>在前一部分，我们了解了LogLog Counting。LLC算法的空间复杂度为$O(log_2(log_2(N_{max})))$，并且具有较高的精度，因此非常适合用于大数据场景的基数估计。不过LLC也有自己的问题，就是当基数不太大时，估计值的误差会比较大。这主要是因为当基数不太大时，可能存在一些空桶，这些空桶的$\rho_{max}$为0。由于LLC的估计值依赖于各桶$\rho_{max}$的几何平均数，而几何平均数对于特殊值（这里就是指0）非常敏感，因此当存在一些空桶时，LLC的估计效果就变得较差。</p>
 <p>本部分将要介绍的HyperLogLog Counting及Adaptive Counting算法均是对LLC算法的改进，可以有效克服LLC对于较小基数估计效果差的缺点。</p>
@@ -460,7 +460,7 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-play-with-cardinality-estimation-1"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html">解读Cardinality Estimation算法（第一部分：基本概念）</a> <a href="#sf-play-with-cardinality-estimation-1-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-2"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html">解读Cardinality Estimation算法（第二部分：Linear Counting）</a> <a href="#sf-play-with-cardinality-estimation-2-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-3"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html">解读Cardinality Estimation算法（第三部分：LogLog Counting）</a> <a href="#sf-play-with-cardinality-estimation-3-back" class="simple-footnote-back">↩</a></li><li id="sf-play-with-cardinality-estimation-4"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html">解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）</a> <a href="#sf-play-with-cardinality-estimation-4-back" class="simple-footnote-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-play-with-cardinality-estimation-1"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html">解读Cardinality Estimation算法（第一部分：基本概念）</a> <a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-1-back">↩</a></li><li id="sf-play-with-cardinality-estimation-2"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html">解读Cardinality Estimation算法（第二部分：Linear Counting）</a> <a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-2-back">↩</a></li><li id="sf-play-with-cardinality-estimation-3"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html">解读Cardinality Estimation算法（第三部分：LogLog Counting）</a> <a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-3-back">↩</a></li><li id="sf-play-with-cardinality-estimation-4"><a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html">解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）</a> <a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-4-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="../play-with-cardinality-estimation.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
