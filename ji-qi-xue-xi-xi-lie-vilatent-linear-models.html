@@ -66,7 +66,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/latent-linear-models.html">Latent Linear Models</a> <a href="./tag/factor-analysis.html">Factor Analysis</a> <a href="./tag/em.html">EM</a> <a href="./tag/pca.html">PCA</a> <a href="./tag/ica.html">ICA</a> </p>
+    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/latent-linear-models.html">Latent Linear Models</a> <a href="./tag/factor-analysis.html">Factor Analysis</a> <a href="./tag/em.html">EM</a> <a href="./tag/pca.html">PCA</a> </p>
 <p>
 </p>
       </div>
@@ -535,50 +535,15 @@ X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
 <p>其中$D=S^2$是包含奇异值平方的对角阵。于是有：$(X^TX)V = VD$</p>
 <p>故$V$为$X^TX$的特征向量集合，$D$为$X^TX$的特征值集合(奇异值的平方)。对$XX^T$也能得到类似的结果。</p>
 <p>实际上,PCA的过程实际上是取$S$中最大的若干特征值(为了降维，我们并不是取所有的特征值）然后重新构造原矩阵的过程，即<strong>PCA只是对于原矩阵的低秩近似</strong>。</p>
-<h1>ICA</h1>
 <hr />
-<h2>问题</h2>
-<p>假设你在一个非常嘈杂的屋子里，很多人都在交谈。你的耳朵实际上扮演了两个听筒的功能,它听到不同说话者混杂在一起的声音。我们的经验告诉我们，其实大多数情况下人耳都是能准确分辨出每个人各自的声音的。那么人是怎么做到这一点的呢？也许我们能通过<strong>ICA</strong>模型予以解答。</p>
 <blockquote>
-<p>这一问题被称为<strong>鸡尾酒会问题(Cocktail party problem)</strong>,又被称为<strong>盲源分离(Blind Source Separation)</strong>.</p>
-</blockquote>
-<h2>形式化</h2>
-<p>我们可以对这一问题做如下形式化表述:</p>
-<p>另$x_t \in R^D$为$t$时刻传感器接收到的信号，$z_t \in R^L$为源信号向量。我们假定:</p>
-<p>\begin{equation}
-x_t = Wz_t + \epsilon_t
-\end{equation}</p>
-<p>其中$W$为$D \times L$矩阵(<em>mixing matrix</em>)，且$\epsilon_t \sim\ N(0,\mathbf \Psi)$.在本节中，我们假定每一个时间点的观察均是独立的，即我们并不对时序间存在的联系进行建模）通常情况下，为了简化，我们会假定$\mathbf \Psi = 0$。我们的目标是推断$p(z_t|x_t,\theta)$.如下图所示:</p>
-<p><img alt="ICA_DEMO" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/ica_demo_zpsb459beec.png" /></p>
-<p>在PCA中，我们假定每个源均是独立的，且服从：</p>
-<p>\begin{equation}
-p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
-\end{equation}</p>
-<p>我们现在放松这一假定,允许源分布服从任一非高斯分布。不失一般性地，我们可以限定源分布的方差为1(其他方差可以通过对$W$的行适当缩放得到)。这时我们得到的模型称为独立成分分析(Independent Component Analysis,ICA）。</p>
-<h2>ICA的不确定性</h2>
-<p>由于$W$和$z_t$都不确定，那么在没有先验知识的情况下，无法同时确定这两个相关参数。比如上面的公式$x_t = Wz_t$。当$W$扩大两倍时，$z_t$只需要同时缩小一倍即可，等式仍然满足，因此无法得到唯一的$z_t$。同时如果将源的编号打乱，变成另外一个顺序，那么只需要调换$W$的列向量顺序即可，因此也无法单独确定$z_t$。这两种情况称为原信号不确定。</p>
-<p>还有一种ICA不适用的情况，那就是信号不能是高斯分布的。假设只有两个人发出的声音信号符合多值正态分布,$z^{t}  \sim\ N(0,I))$，$I$是2*2的单位矩阵，$z^{t}$的概率密度函数就不用说了吧，以均值0为中心，投影面是椭圆的山峰状（参见多值高斯分布）。因为$x^t = Wz^t$，因此，$x_t$也是高斯分布的，均值为0，协方差为$E[x_t x_t^T]=E[Wz_t z_t^TW^T]= WW^T$。</p>
-<p>令$R$是正交阵$(RR^T = R^TR = I)$，$W\prime  =WR $。如果将$W$替换成$W\prime$。那么$x^t \prime=W\prime z_t $。$z_t$分布没变，因此$x_t \prime$仍然是均值为0，协方差$E[x_t \prime x_t (\prime)^T] = E[W\prime z_t z_t^T (W\prime)^T]=WW^T$。</p>
-<p>因此，不管混合矩阵是$W$还是$W\prime$，$x_t$的分布情况是一样的，那么就无法确定混合矩阵，也就无法确定原信号。所以ICA适用要求之一是不能所有的源信号都服从高斯分布。</p>
-<h2>MLE估计</h2>
-<p>我们令$V = W^{-1}$,$V$被称为<em>Recognition weights</em>,相应地,$W$被称为<em>Generative weights</em>.</p>
-<p>由$x = Wz$,我们有:</p>
-<p>\begin{equation}
-p_x(Wz_t) = p_z(z_t) |det(W^{-1}| = p_z(Vx_t) |det(V)|
-\end{equation}</p>
-<p>因此我们可以得到对数似然为:</p>
-<p>\begin{equation}
-{1 \over T}log P(D|V) = log |det(V)| + {1 \over T}\sum_{j=1}^L \sum_{t=1}^T log p_j(v_j^Tx_t)
-\end{equation}</p>
-<p>其中,$v_j$为$V$的第$j$行。</p>
-<blockquote>
-<p>NOTE:未完待续。</p>
 <p><em>TODO Board:</em></p>
 <ul>
 <li>Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。</li>
 <li>Kernel-PCA</li>
 <li>Probablistic PCA</li>
 <li>如何确定隐含变量空间的维度</li>
+<li>ICA</li>
 </ul>
 </blockquote>
 <h1>参考文献</h1>

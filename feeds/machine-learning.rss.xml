@@ -462,50 +462,15 @@ X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
 &lt;p&gt;其中$D=S^2$是包含奇异值平方的对角阵。于是有：$(X^TX)V = VD$&lt;/p&gt;
 &lt;p&gt;故$V$为$X^TX$的特征向量集合，$D$为$X^TX$的特征值集合(奇异值的平方)。对$XX^T$也能得到类似的结果。&lt;/p&gt;
 &lt;p&gt;实际上,PCA的过程实际上是取$S$中最大的若干特征值(为了降维，我们并不是取所有的特征值）然后重新构造原矩阵的过程，即&lt;strong&gt;PCA只是对于原矩阵的低秩近似&lt;/strong&gt;。&lt;/p&gt;
-&lt;h1&gt;ICA&lt;/h1&gt;
 &lt;hr /&gt;
-&lt;h2&gt;问题&lt;/h2&gt;
-&lt;p&gt;假设你在一个非常嘈杂的屋子里，很多人都在交谈。你的耳朵实际上扮演了两个听筒的功能,它听到不同说话者混杂在一起的声音。我们的经验告诉我们，其实大多数情况下人耳都是能准确分辨出每个人各自的声音的。那么人是怎么做到这一点的呢？也许我们能通过&lt;strong&gt;ICA&lt;/strong&gt;模型予以解答。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;这一问题被称为&lt;strong&gt;鸡尾酒会问题(Cocktail party problem)&lt;/strong&gt;,又被称为&lt;strong&gt;盲源分离(Blind Source Separation)&lt;/strong&gt;.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2&gt;形式化&lt;/h2&gt;
-&lt;p&gt;我们可以对这一问题做如下形式化表述:&lt;/p&gt;
-&lt;p&gt;另$x_t \in R^D$为$t$时刻传感器接收到的信号，$z_t \in R^L$为源信号向量。我们假定:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-x_t = Wz_t + \epsilon_t
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中$W$为$D \times L$矩阵(&lt;em&gt;mixing matrix&lt;/em&gt;)，且$\epsilon_t \sim\ N(0,\mathbf \Psi)$.在本节中，我们假定每一个时间点的观察均是独立的，即我们并不对时序间存在的联系进行建模）通常情况下，为了简化，我们会假定$\mathbf \Psi = 0$。我们的目标是推断$p(z_t|x_t,\theta)$.如下图所示:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="ICA_DEMO" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/ica_demo_zpsb459beec.png" /&gt;&lt;/p&gt;
-&lt;p&gt;在PCA中，我们假定每个源均是独立的，且服从：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;我们现在放松这一假定,允许源分布服从任一非高斯分布。不失一般性地，我们可以限定源分布的方差为1(其他方差可以通过对$W$的行适当缩放得到)。这时我们得到的模型称为独立成分分析(Independent Component Analysis,ICA）。&lt;/p&gt;
-&lt;h2&gt;ICA的不确定性&lt;/h2&gt;
-&lt;p&gt;由于$W$和$z_t$都不确定，那么在没有先验知识的情况下，无法同时确定这两个相关参数。比如上面的公式$x_t = Wz_t$。当$W$扩大两倍时，$z_t$只需要同时缩小一倍即可，等式仍然满足，因此无法得到唯一的$z_t$。同时如果将源的编号打乱，变成另外一个顺序，那么只需要调换$W$的列向量顺序即可，因此也无法单独确定$z_t$。这两种情况称为原信号不确定。&lt;/p&gt;
-&lt;p&gt;还有一种ICA不适用的情况，那就是信号不能是高斯分布的。假设只有两个人发出的声音信号符合多值正态分布,$z^{t}  \sim\ N(0,I))$，$I$是2*2的单位矩阵，$z^{t}$的概率密度函数就不用说了吧，以均值0为中心，投影面是椭圆的山峰状（参见多值高斯分布）。因为$x^t = Wz^t$，因此，$x_t$也是高斯分布的，均值为0，协方差为$E[x_t x_t^T]=E[Wz_t z_t^TW^T]= WW^T$。&lt;/p&gt;
-&lt;p&gt;令$R$是正交阵$(RR^T = R^TR = I)$，$W\prime  =WR $。如果将$W$替换成$W\prime$。那么$x^t \prime=W\prime z_t $。$z_t$分布没变，因此$x_t \prime$仍然是均值为0，协方差$E[x_t \prime x_t (\prime)^T] = E[W\prime z_t z_t^T (W\prime)^T]=WW^T$。&lt;/p&gt;
-&lt;p&gt;因此，不管混合矩阵是$W$还是$W\prime$，$x_t$的分布情况是一样的，那么就无法确定混合矩阵，也就无法确定原信号。所以ICA适用要求之一是不能所有的源信号都服从高斯分布。&lt;/p&gt;
-&lt;h2&gt;MLE估计&lt;/h2&gt;
-&lt;p&gt;我们令$V = W^{-1}$,$V$被称为&lt;em&gt;Recognition weights&lt;/em&gt;,相应地,$W$被称为&lt;em&gt;Generative weights&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;由$x = Wz$,我们有:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-p_x(Wz_t) = p_z(z_t) |det(W^{-1}| = p_z(Vx_t) |det(V)|
-\end{equation}&lt;/p&gt;
-&lt;p&gt;因此我们可以得到对数似然为:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-{1 \over T}log P(D|V) = log |det(V)| + {1 \over T}\sum_{j=1}^L \sum_{t=1}^T log p_j(v_j^Tx_t)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中,$v_j$为$V$的第$j$行。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;NOTE:未完待续。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;TODO Board:&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。&lt;/li&gt;
 &lt;li&gt;Kernel-PCA&lt;/li&gt;
 &lt;li&gt;Probablistic PCA&lt;/li&gt;
 &lt;li&gt;如何确定隐含变量空间的维度&lt;/li&gt;
+&lt;li&gt;ICA&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
@@ -547,7 +512,7 @@ p_x(Wz_t) = p_z(z_t) |det(W^{-1}| = p_z(Vx_t) |det(V)|
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-</summary><category term="Machine Learning"></category><category term="Latent Linear Models"></category><category term="Factor Analysis"></category><category term="EM"></category><category term="PCA"></category><category term="ICA"></category></entry><entry><title>机器学习系列(V): Generalized linear models and the exponential family</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html" rel="alternate"></link><updated>2014-04-23T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-23:ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html</id><summary type="html">&lt;h1&gt;指数分布族&lt;/h1&gt;
+</summary><category term="Machine Learning"></category><category term="Latent Linear Models"></category><category term="Factor Analysis"></category><category term="EM"></category><category term="PCA"></category></entry><entry><title>机器学习系列(V): Generalized linear models and the exponential family</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html" rel="alternate"></link><updated>2014-04-23T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-23:ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html</id><summary type="html">&lt;h1&gt;指数分布族&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;一件特别神奇的事是实际上我们学过或者用到的很多分布函数均可以写成一种一致的形式,事实上，属于这个家族的分布函数还是很多的，例如高斯分布、Bernoulli分布、二项分布、多项分布、指数分布、泊松分布、Dirichlet分布等,作为一个庞大家族的一员，这些分布函数具有一个它们引以为豪的共同的名字------&lt;strong&gt;指数分布族&lt;/strong&gt;。以下我们就介绍一下指数分布族的基础知识吧。&lt;/p&gt;
 &lt;h2&gt;定义&lt;/h2&gt;
