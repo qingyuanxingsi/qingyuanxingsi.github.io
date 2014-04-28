@@ -563,7 +563,18 @@ p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
 <p>令$R$是正交阵$(RR^T = R^TR = I)$，$W\prime  =WR $。如果将$W$替换成$W\prime$。那么$x^t \prime=W\prime z_t $。$z_t$分布没变，因此$x_t \prime$仍然是均值为0，协方差$E[x_t \prime x_t (\prime)^T] = E[W\prime z_t z_t^T (W\prime)^T]=WW^T$。</p>
 <p>因此，不管混合矩阵是$W$还是$W\prime$，$x_t$的分布情况是一样的，那么就无法确定混合矩阵，也就无法确定原信号。所以ICA适用要求之一是不能所有的源信号都服从高斯分布。</p>
 <h2>MLE估计</h2>
+<p>我们令$V = W^{-1}$,$V$被称为<em>Recognition weights</em>,相应地,$W$被成为Generative weights.</p>
+<p>由$x = Wz$,我们有:</p>
+<p>\begin{equation}
+p_x(Wz_t) = p_z(z_t) |det(W^{-1}| = p_z(Vx_t) |det(V)|
+\end{equation}</p>
+<p>因此我们可以得到对数似然为:</p>
+<p>\begin{equation}
+{1 \over T}log P(D|V) = log |det(V)| + {1 \over T}\sum_{j=1}^L \sum_{t=1}^T log p_j(v_j^Tx_t)
+\end{equation}</p>
+<p>其中,$v_j$为$V$的第$j$行。</p>
 <blockquote>
+<p>NOTE:未完待续。</p>
 <p><em>TODO Board:</em></p>
 <ul>
 <li>Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。</li>

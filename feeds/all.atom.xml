@@ -488,7 +488,18 @@ p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
 &lt;p&gt;令$R$是正交阵$(RR^T = R^TR = I)$，$W\prime  =WR $。如果将$W$替换成$W\prime$。那么$x^t \prime=W\prime z_t $。$z_t$分布没变，因此$x_t \prime$仍然是均值为0，协方差$E[x_t \prime x_t (\prime)^T] = E[W\prime z_t z_t^T (W\prime)^T]=WW^T$。&lt;/p&gt;
 &lt;p&gt;因此，不管混合矩阵是$W$还是$W\prime$，$x_t$的分布情况是一样的，那么就无法确定混合矩阵，也就无法确定原信号。所以ICA适用要求之一是不能所有的源信号都服从高斯分布。&lt;/p&gt;
 &lt;h2&gt;MLE估计&lt;/h2&gt;
+&lt;p&gt;我们令$V = W^{-1}$,$V$被称为&lt;em&gt;Recognition weights&lt;/em&gt;,相应地,$W$被成为Generative weights.&lt;/p&gt;
+&lt;p&gt;由$x = Wz$,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+p_x(Wz_t) = p_z(z_t) |det(W^{-1}| = p_z(Vx_t) |det(V)|
+\end{equation}&lt;/p&gt;
+&lt;p&gt;因此我们可以得到对数似然为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+{1 \over T}log P(D|V) = log |det(V)| + {1 \over T}\sum_{j=1}^L \sum_{t=1}^T log p_j(v_j^Tx_t)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$v_j$为$V$的第$j$行。&lt;/p&gt;
 &lt;blockquote&gt;
+&lt;p&gt;NOTE:未完待续。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;TODO Board:&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。&lt;/li&gt;
