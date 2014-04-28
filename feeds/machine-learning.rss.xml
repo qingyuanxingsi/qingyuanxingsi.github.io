@@ -442,6 +442,26 @@ Se = \lambda e
 &lt;p&gt;PCA技术的一大好处是对数据进行降维的处理。我们可以对新求出的“主元”向量的重要性进行排序，根据需要取前面最重要的部分，将后面的维数省去，可以达到降维从而简化模型或是对数据进行压缩的效果。同时最大程度的保持了原有数据的信息。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2&gt;SVD分解&lt;/h2&gt;
+&lt;p&gt;以上我们介绍了获得PCA solution的两种方法，现我们提供基于奇异值分解(&lt;strong&gt;Singular Value Decomposition&lt;/strong&gt;)另一种方法.任一$N \times D$矩阵$X$均可分解为如下形式:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+X = USV^T
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$U$是一$N \times N$矩阵,其列向量均正交(即$U^TU = I_N$),$V$是一$D \times D$矩阵且行列向量均正交（即$V^TV = VV^T = I_D$,$S$为一$N \times D$矩阵，其主对角线上包含$r = min(N,D)$奇异值$\sigma_i \geq 0$(&lt;code&gt;Why?&lt;/code&gt;),其余则由0填充。如下图中(a)所示：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="SVD" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/svd_zpsfec54ad5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;假定$N&amp;gt;D$,则最多有$D$个奇异值；$U$右边的$N-D$行由于与$0$相乘，所以是无关项，于是我们得到的&lt;em&gt;Economy sized SVD&lt;/em&gt;或者&lt;em&gt;Thin SVD&lt;/em&gt;避免了对于这些无关元素的计算，可被表示为如下形式：若$N&amp;gt;D$,我们有：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+X = \hat{U} \hat{S} \hat{V}^T
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$\hat{S}$为$D \times D$矩阵，$\hat{V}$为$D \times D$矩阵。&lt;/p&gt;
+&lt;p&gt;若$N&amp;lt;D$,此时$\hat{U}$为$N \times N$矩阵，$\hat{S}$为$N \times N$矩阵，$\hat{V}$为$N \times D$矩阵。&lt;/p&gt;
+&lt;p&gt;以下正式开始我们对PCA solution的推导：&lt;/p&gt;
+&lt;p&gt;若$X = USV^T$,则有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$D=S^2$是包含奇异值平方的对角阵。于是有：$(X^TX)V = VD$&lt;/p&gt;
+&lt;p&gt;故$V$为$X^TX$的特征向量集合，$D$为$X^TX$的特征值集合(奇异值的平方)。对$XX^T$也能得到类似的结果。&lt;/p&gt;
+&lt;p&gt;实际上,PCA的过程实际上是取$S$中最大的若干特征值(为了降维，我们并不是取所有的特征值）然后重新构造原矩阵的过程，即&lt;strong&gt;PCA只是对于原矩阵的低秩近似&lt;/strong&gt;。&lt;/p&gt;
 &lt;h1&gt;ICA&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;blockquote&gt;
