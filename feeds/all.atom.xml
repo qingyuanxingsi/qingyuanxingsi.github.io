@@ -470,6 +470,7 @@ X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
 &lt;li&gt;Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。&lt;/li&gt;
 &lt;li&gt;Kernel-PCA&lt;/li&gt;
 &lt;li&gt;Probablistic PCA&lt;/li&gt;
+&lt;li&gt;如何确定隐含变量空间的维度&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
