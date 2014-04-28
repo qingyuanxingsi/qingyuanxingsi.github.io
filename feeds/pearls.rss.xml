@@ -9,6 +9,9 @@
 &lt;li&gt;非支持向量不参与模型的计算过程之中。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=685"&gt;支持向量机: Kernel&lt;/a&gt;;&lt;strong&gt;Kernel&lt;/strong&gt;的基本思想。&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=692"&gt;支持向量机：Outliers&lt;/a&gt;;通过引入松弛变量处理Outliers,而实际上最后的优化形式只是加上$\alpha_i \leq C$的限制。&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=696"&gt;支持向量机：Numerical Optimization&lt;/a&gt;;以非常通俗易懂的方式介绍了一下&lt;strong&gt;SMO(Sequential Minimal Optimization)&lt;/strong&gt;,赞一个。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1&gt;Deep Learning&lt;/h1&gt;
 &lt;hr /&gt;
@@ -142,6 +145,8 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;li&gt;凸QP&lt;/li&gt;
 &lt;li&gt;Duality&lt;/li&gt;
 &lt;li&gt;KKT条件&lt;/li&gt;
+&lt;li&gt;支持向量机番外篇I:&lt;a href="http://blog.pluskid.org/?p=702"&gt;支持向量机：Duality&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;支持向量机番外篇II:&lt;a href="http://blog.pluskid.org/?p=723"&gt;支持向量机：Kernel II&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
