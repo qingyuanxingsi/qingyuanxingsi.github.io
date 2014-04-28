@@ -57,155 +57,504 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="./xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html"><h1>小小收藏夹[持续更新中]</h1></a>
+            <a href="./ji-qi-xue-xi-xi-lie-vilatent-linear-models.html"><h1>机器学习系列(VI):Latent Linear Models</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>日 27 四月 2014 </p>
+<p>一 28 四月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="./category/pearls.html">Pearls</a>
+Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="./tag/suan-fa.html">算法</a> <a href="./tag/fun.html">Fun</a> <a href="./tag/staff.html">Staff</a> <a href="./tag/shou-cang-jia.html">收藏夹</a> <a href="./tag/bloom-filter.html">Bloom Filter</a> <a href="./tag/b-trees.html">B Trees</a> <a href="./tag/data-structure.html">Data Structure</a> <a href="./tag/algorithm.html">Algorithm</a> <a href="./tag/pgm.html">PGM</a> </p>
+    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/latent-linear-models.html">Latent Linear Models</a> <a href="./tag/factor-analysis.html">Factor Analysis</a> <a href="./tag/em.html">EM</a> <a href="./tag/pca.html">PCA</a> <a href="./tag/ica.html">ICA</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<h1>Deep Learning</h1>
+	<h1>因子分析</h1>
 <hr />
+<h2>问题</h2>
+<p>当样本个数$m$远远大于其特征个数$n$时，这样不管是进行回归、聚类等都没有太大的问题。然而当训练样例个数$m$太小，甚至$m \ll n$的时候，使用梯度下降法进行回归时，如果初值不同，得到的参数结果会有很大偏差（因为方程数小于参数个数）。另外，如果使用多元高斯分布(Multivariate Gaussian distribution)对数据进行拟合时，也会有问题。让我们来演算一下，看看会有什么问题：</p>
+<p>多元高斯分布的参数估计公式如下:</p>
+<p>\begin{equation}
+\begin{split}
+\mu &amp;= {1 \over m}\sum_{i=1}^m x^{(i)} \\
+\Sigma &amp;= {1 \over m}\sum_{i=1}^m (x^{(i)}-\mu)(x^{(i)}-\mu)^T
+\end{split}
+\end{equation}</p>
+<p>其中,$x^{(i)}$表示样例，共有$m$个，每个样例$n$个特征，因此$\mu$是$n$维向量，$\Sigma$是$n*n$协方差矩阵。</p>
+<p><strong>当$m \ll n$时，我们会发现$\Sigma$是奇异阵($|\Sigma|=0$)</strong>，也就是说$\Sigma^{-1}$不存在，没办法拟合出多元高斯分布了，确切的说是我们估计不出来$\Sigma$。</p>
+<p>如果我们仍然想用多元高斯分布来估计样本，那怎么办呢？</p>
+<h3>限制协方差矩阵</h3>
+<p>当没有足够的数据去估计$\Sigma$时，那么只能对模型参数进行一定假设，之前我们想估计出完全的$\Sigma$(矩阵中的全部元素），现在我们假设$\Sigma$就是对角阵（各特征间相互独立），那么我们只需要计算每个特征的方差即可，最后的$\Sigma$只有对角线上的元素不为0.</p>
+<p>\begin{equation}
+\Sigma_{jj} = {1 \over m}\sum_{i=1}^m (x_j^{(i)}-\mu_j)^2
+\end{equation}</p>
+<p>回想我们之前在<strong>Gaussian Models</strong>一文中讨论过的二维多元高斯分布的几何特性，在平面上的投影是个椭圆，中心点由$\mu$决定，椭圆的形状由$\Sigma$决定。$\Sigma$如果变成对角阵，就意味着椭圆的两个轴都和坐标轴平行了。</p>
+<p><img alt="Cov Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cov_matrix_zps81794a47.jpg" /></p>
+<p>如果我们想对$\Sigma$进一步限制的话，可以假设对角线上的元素都是等值的。</p>
+<p>\begin{equation}
+\Sigma = \sigma^2 I
+\end{equation}</p>
+<p>其中:</p>
+<p>\begin{equation}
+\sigma^2 = \frac{1}{mn}\sum_{j=1}^n \sum_{i=1}^m (x_j^{(i)}-\mu_j)^2
+\end{equation}</p>
+<p>也就是上一步对角线上元素的均值，反映到二维高斯分布图上就是椭圆变成圆。</p>
+<p>当我们要估计出完整的$\Sigma$时，我们需要$m&gt;=n+1$才能保证在最大似然估计下得出的$\Sigma$是非奇异的。然而在上面的任何一种假设限定条件下，只要$m&gt;=2$都可以估计出限定的$\Sigma$。</p>
+<p>这样做的缺点也是显然易见的，我们认为特征间独立，这个假设太强。接下来，我们给出一种称为因子分析的方法，使用更多的参数来分析特征间的关系，并且不需要计算一个完整的$\Sigma$。</p>
+<h2>因子分析</h2>
+<p>下面通过一个简单例子，来引出因子分析背后的思想。</p>
+<p>因子分析的实质是认为$m$个$n$维特征的训练样例$x^{(i)}$的产生过程如下：</p>
 <ul>
-<li>稀疏编码(<em>Sparse Coding</em>)</li>
+<li>首先在一个$k$维的空间中按照多元高斯分布生成$m$个$z^{(i)}$（$k$维向量),即</li>
 </ul>
-<p><a href="http://blog.csdn.net/zouxy09/article/details/8777094">Deep Learning（深度学习）学习笔记整理系列之（五)</a></p>
+<p>\begin{equation}
+z^{(i)} \sim\ N(0,I)
+\end{equation}</p>
 <ul>
-<li>Deep Learning总结</li>
+<li>然后存在一个变换矩阵$\Lambda \in R^{n*k}$，将$z^{(i)}$映射到$n$维空间中，即</li>
 </ul>
-<p><a href="http://blog.csdn.net/zouxy09/article/details/8782018">Deep Learning（深度学习）学习笔记整理系列之（八)</a></p>
-<h1>Pocket</h1>
-<hr />
+<p>\begin{equation}
+\Lambda z^{(i)}
+\end{equation}</p>
+<p>因为$z^{(i)}$的均值是0，映射后仍然是0。</p>
 <ul>
-<li><a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html">罗辑思维 2014：右派为什么这么横 10</a>;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!</li>
-<li><a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html">罗辑思维 2014：迷茫时代的明白人 11</a>;活在当下。</li>
+<li>然后将$\Lambda z^{(i)}$加上一个均值$\mu$（$n$维），即</li>
 </ul>
-<h1>算法</h1>
-<hr />
+<p>\begin{equation}
+\mu + \Lambda z^{(i)}
+\end{equation}</p>
+<p>对应的意义是将变换后的$\Lambda z^{(i)}$（$n$维向量）移动到样本$x^{(i)}$的中心点$\mu$。</p>
 <ul>
-<li>今天看了一下网上流传的传说中的高大上的所谓的<code>十大海量数据处理算法</code>,看了一下,实际上没有什么东西,唯独<strong>Bloom Filter</strong>看着还挺好玩的,所以以下给出一个通俗易懂的链接。</li>
+<li>由于真实样例$x^{(i)}$与上述模型生成的有误差，因此我们继续加上误差$\epsilon$($n$维向量),而且$\epsilon$符合多元高斯分布，即</li>
 </ul>
-<p><a href="http://www.cnblogs.com/heaad/archive/2011/01/02/1924195.html">那些优雅的数据结构(1) : BloomFilter——大规模数据处理利器</a></p>
+<p>\begin{equation}
+\begin{split}
+\epsilon \sim\ N(0,\mathbf \Psi) \\
+\mu + \Lambda z^{(i)} + \epsilon 
+\end{split}
+\end{equation}</p>
 <ul>
-<li>
-<p>在过去的若干年里,有一个心结一直萦绕在我的心头挥之不去,它存在于我的脑海里，我的梦里，我的歌声里,TA就是<strong>B树</strong>(好吧,其实是因为没有机会好好地研究一下它啦)。以下给出两个链接,它们主要介绍了B树的基本概念,性质以及针对B树的插入、删除操作,两个PPT还是相当直观的,应该能够比较直观地了解B树这个数据结构!</p>
+<li>最后的结果认为是真实的训练样例$x^{(i)}$的生成公式</li>
+</ul>
+<p>\begin{equation}
+x^{(i)} = \mu + \Lambda z^{(i)} + \epsilon 
+\end{equation}</p>
+<p>让我们使用一种直观方法来解释上述过程：</p>
+<p>假设我们有$m=5$个2维的样本点$x^{(i)}$（两个特征），如下：</p>
+<p><img alt="Original Data" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/original_data_zps9626b246.png" /></p>
+<p>那么按照因子分析的理解，样本点的生成过程如下：</p>
 <ul>
-<li><a href="http://cecs.wright.edu/~tkprasad/courses/cs707/L04-X-B-Trees.ppt">B-Trees</a>;</li>
-<li><a href="http://zh.scribd.com/doc/18210/B-TREE-TUTORIAL-PPT">B TREE TUTORIAL PPT</a>.</li>
+<li>我们首先认为在1维空间（这里$k=1$），存在着按正态分布生成的$m$个点$z^{(i)}$，如下:</li>
 </ul>
-</li>
-<li>
-<p>今天又重新看了一下这个写的很不错的<strong>A*算法</strong>,恩,这篇文章想来是极好的。</p>
-</li>
-</ul>
-<p><a href="http://www.raywenderlich.com/zh-hans/21503/a%E6%98%9F%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D">A星寻路算法介绍</a></p>
+<p><img alt="Demo_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_1_zps3e189697.png" /></p>
+<p>均值为0，方差为1。</p>
 <ul>
-<li>复习一下之前做智能提示时用到的<strong>Trie Tree</strong>.</li>
+<li>然后使用某个$\Lambda=(a,b)^T$将一维的$z$映射到2维，图形表示如下：</li>
 </ul>
-<p><a href="https://www.cs.umd.edu/class/fall2005/cmsc132/lecs/lec29.ppt">Indexed Search Tree (Trie) - Computer Science Department</a></p>
-<h1>Machine Learning</h1>
-<hr />
+<p><img alt="Demo_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_2_zps166db3d8.png" /></p>
 <ul>
-<li>看的有点累了,不想看<em>EM</em>算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍<em>Mixture Models</em>和<em>EM</em>算法吧!</li>
+<li>之后加上$\mu\ (\mu_1,\mu_2)^T$，即将所有点的横坐标移动$\mu_1$，纵坐标移动$\mu_2$，将直线移到一个位置，使得直线过点$\mu$，原始左边轴的原点现在为$\mu$(红色点)。</li>
 </ul>
-<p><a href="http://blog.pluskid.org/?p=39">漫谈 Clustering (3): Gaussian Mixture Model</a></p>
+<p><img alt="Demo_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_3_zps178e1a6a.png" /></p>
+<p>然而，样本点不可能这么规则，在模型上会有一定偏差，因此我们需要将上步生成的点做一些扰动（误差），扰动$\epsilon \sim\ N(0,\mathbf \Psi)$。</p>
 <ul>
-<li>近期为了理解卷积,于是到处找资料,无意中发现了这一篇神一般的理解。(<strong>墙裂推荐</strong>)</li>
+<li>加入扰动后，我们得到黑色样本$x^{(i)}$如下：</li>
 </ul>
-<p><a href="http://www.guokr.com/post/342476/">关于卷积的一个血腥的讲解，看完给跪了</a></p>
+<p><img alt="Demo_4" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/demo_4_zps0cc40309.png" /></p>
 <ul>
-<li>PCA数据预处理<em>Whitening</em></li>
+<li>其中由于$z$和$\epsilon$的均值都为0，因此$\mu$也是原始样本点（黑色点）的均值。</li>
 </ul>
+<p>由以上的直观分析，我们知道了<strong>因子分析其实就是认为高维样本点实际上是由低维样本点经过高斯分布、线性变换、误差扰动生成的，因此高维数据可以使用低维来表示</strong>。</p>
+<h2>因子分析模型</h2>
+<p>上面的过程是从隐含随机变量$z$经过变换和误差扰动来得到观测到的样本点。其中$z$被称为因子，是低维的。</p>
+<p>我们将式子再列一遍如下：</p>
+<p>\begin{equation}
+\begin{split}
+z &amp;\sim\ N(0,I)   \\
+\epsilon &amp;\sim\ N(0,\mathbf \Psi) \\
+x &amp;= \mu + \Lambda z + \epsilon
+\end{split}
+\end{equation}</p>
+<p>其中误差$\epsilon$和$z$是独立的。</p>
+<p>下面使用的因子分析表示方法是矩阵表示法，在参考资料中给出了一些其他的表示方法，如果不明白矩阵表示法，可以参考其他资料。</p>
+<p>矩阵表示法认为$z$和$x$联合符合多元高斯分布，如下:</p>
+<p>\begin{equation}
+\left[
+\begin{array}{cc}
+z \\
+x
+\end{array}
+\right]\sim\ N(\mu_{zx},\Sigma)
+\end{equation}</p>
+<p>求$\mu_{zx}$之前需要求$E[x]$</p>
+<p>\begin{equation}
+\begin{split}
+E[x] &amp;= E[\mu + \Lambda z + \epsilon] \\
+&amp;= \mu + \Lambda E[z] + E[\epsilon] \\
+&amp;= \mu
+\end{split}
+\end{equation}</p>
+<p>我们已知$E[z]=0$，因此:</p>
+<p>\begin{equation}
+\mu_{zx} = \left[
+\begin{array}{cc}
+0 \\
+\mu
+\end{array}
+\right]
+\end{equation}</p>
+<p>下一步是计算$\Sigma$，其中$\Sigma_{zz} = Cov(z) = I$.接着求$\Sigma_{zx}$</p>
+<p>\begin{equation}
+\begin{split}
+E[(z-E[z])(x-E[x])^T] &amp;= E[z(\mu + \Lambda z + \epsilon - \mu)^T]   \\
+&amp;= E[zz^T]\Lambda^T + E[z\epsilon^T] \\
+&amp;= \Lambda^T
+\end{split}
+\end{equation}</p>
+<p>这个过程中利用了$z$和$\epsilon$独立假设($E[z\epsilon^T] = E[z]E[\epsilon^T]=0$)。并将$\Lambda$看作已知变量。</p>
+<p>接着求$\Sigma_{xx}$</p>
+<p>\begin{equation}
+\begin{split}
+E[(x-E(x))(x-E[x])^T] &amp;= E[(\mu+\Lambda z+\epsilon -\mu)(\mu+\Lambda z+\epsilon -\mu)^T]  \\
+&amp;= E[\Lambda zz^T \Lambda^T+ \epsilon z^T \Lambda^T+\Lambda z \epsilon^T+\epsilon \epsilon^T] \\
+&amp;= \Lambda E[zz^T] \Lambda^T + E[\epsilon \epsilon^T]  \\
+&amp;= \Lambda \Lambda^T + \mathbf \Psi
+\end{split}
+\end{equation}</p>
+<p>然后得出联合分布的最终形式:</p>
+<p>\begin{equation}
+\left[
+\begin{array}{cc}
+z \\
+x 
+\end{array}
+\right] \sim\
+N\left(
+\left[
+\begin{array}{cc}
+0 \\
+\mu
+\end{array}
+\right],
+\left[
+\begin{array}{cc}
+I &amp; \Lambda^T \\
+\Lambda &amp; \Lambda \Lambda^T + \mathbf \Psi
+\end{array}
+\right]
+\right)
+\end{equation}</p>
+<p>从上式中可以看出$x$的边缘分布为$x \sim\ N(\mu,\Lambda \Lambda^T + \mathbf \Psi)$.</p>
+<p>那么对样本${x^{(i);i=1,...,m}}$进行最大似然估计</p>
+<p>\begin{equation}
+\ell(\mu,\Lambda,\mathbf \Psi) = log \prod_{i=1}^m \frac{1}{(2\pi)^{n/2} |\Lambda \Lambda^T+\mathbf \Psi|}exp(-{1 \over 2}(x^{(i)}-\mu)^T(\Lambda \Lambda^T + \mathbf \Psi)^{-1} (x^{(i)}-\mu))
+\end{equation}</p>
+<p>然后对各个参数求偏导数不就得到各个参数的值了么？可惜我们得不到closed-form。想想也是，如果能得到，还干嘛将$z$和$x$放在一起求联合分布呢。根据之前对参数估计的理解，在有隐含变量$z$时，我们可以考虑使用EM来进行估计。</p>
+<h2>因子分析的EM估计</h2>
+<p>我们先来明确一下各个参数,$z$为隐含变量,$\mu,\Lambda,\mathbf \Psi$为待估参数。</p>
+<p>回想EM算法两个步骤:</p>
 <blockquote>
-<p>在使用PCA前需要对数据进行预处理，首先是均值化，即对每个特征维，都减掉该维的平均值，然后就是将不同维的数据范围归一化到同一范围，方法一般都是<strong>除以最大值</strong>。但是比较奇怪的是，在对自然图像进行均值处理时并不是不是减去该维的平均值，而是减去这张图片本身的平均值。因为PCA的预处理是按照不同应用场合来定的。</p>
-<p>自然图像指的是人眼经常看见的图像，其符合某些统计特征。一般实际过程中，只要是拿正常相机拍的，没有加入很多人工创作进去的图片都可以叫做是自然图片，因为很多算法对这些图片的输入类型还是比较鲁棒的。在对自然图像进行学习时，其实不需要太关注对图像做方差归一化，因为自然图像每一部分的统计特征都相似，只需做均值为0化就ok了。不过对其它的图片进行训练时，比如首先字识别等，就需要进行方差归一化了。</p>
-<p>有一个观点需要注意，那就是<strong>PCA并不能阻止过拟合现象</strong>。表明上看PCA是降维了，因为在同样多的训练样本数据下，其特征数变少了，应该是更不容易产生过拟合现象。但是在实际操作过程中，这个方法阻止过拟合现象效果很小，主要还是通过<strong>规则项</strong>来进行阻止过拟合的。</p>
-<p><strong>Whitening</strong>：</p>
-<p><strong>Whitening</strong>的目的是去掉数据之间的相关联度，是很多算法进行预处理的步骤。比如说当训练图片数据时，由于图片中相邻像素值有一定的关联，所以很多信息是冗余的。这时候去相关的操作就可以采用白化操作。数据的Whitening必须满足两个条件：</p>
-<ul>
-<li>不同特征间相关性最小，接近0；</li>
-<li>所有特征的方差相等（不一定为1）。</li>
-</ul>
-<p>常见的白化操作有PCA whitening和ZCA whitening。</p>
-<p><em>PCA whitening</em>是指将数据x经过PCA降维为z后，可以看出z中每一维是独立的，满足whitening白化的第一个条件，这是只需要将z中的每一维都除以标准差就得到了每一维的方差为1，也就是说方差相等。公式为：</p>
-<p>\begin{equation}
-x_{PCAwhite,i} = \frac{x_{rot,i}}{\sqrt{\lambda_i}}
-\end{equation}</p>
-<p><em>ZCA whitening</em>是指数据x先经过PCA变换为z，但是并不降维，因为这里是把所有的成分都选进去了。这是也同样满足whtienning的第一个条件，特征间相互独立。然后同样进行方差为1的操作，最后将得到的矩阵左乘一个特征向量矩阵U即可。ZCA whitening公式为：</p>
-<p>\begin{equation}
-x_{ZCAwhite} = Ux_{PCAwhite}
-\end{equation}</p>
-<p>参考<a href="http://www.cnblogs.com/tornadomeet/archive/2013/03/21/2973231.html">Deep learning：十(PCA和whitening)</a></p>
+<p>循环重复直至收敛{ </p>
+<p>(<strong>E Step</strong>)对于每一个$i$,计算:
+\begin{equation}
+Q_i(z^{(i)}) := p(z^{(i)}|x^{(i)};\theta)
+\end{equation}
+(<strong>M Step</strong>)计算:
+\begin{equation}
+\theta := arg max_{\theta} \sum_{i} \sum_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})}
+\end{equation}
+}</p>
 </blockquote>
-<h1>PGM</h1>
-<hr />
-<p>以下给出讲解PGM比较深入浅出的一系列Lecture Slides。</p>
-<h2>PART I:Introduction to PGM</h2>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-1-Introduction-Combined.pdf">Introduction and Overview</a>;主要介绍了PGM的背景以及Factor的基础知识。</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Bayes-Nets.pdf">Bayesian Network Fundamentals</a>;简要介绍了什么是Bayesian Network、Reasoning Patterns以及Influence Flow.最后简要介绍了一下Naive Bayes Classifier.</li>
-</ul>
-<p><img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png" /></p>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Template-Models.pdf">Template Models</a>;主要介绍了Template Models,包括Bayesian Network(HMM)以及Plate Models;</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-CPDs.pdf">Structured CPDs</a>;介绍了几种CPD表示的其他常见形式,包括:<ul>
-<li>Deterministic CPDs</li>
-<li>Tree-structured CPDs</li>
-<li>Logistic CPDs &amp; generalizations</li>
-<li>Noisy OR/AND</li>
-<li>Linear Gaussian &amp; generalizations</li>
-</ul>
-</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Markov-Nets.pdf">Markov Network Fundamentals</a>;本部分涵盖的内容有Markov Network,General Gibbs Distribution,CRF,Log-Linear Models.(<strong>Logistic Models is a simple CRF;CRF does not need to concern about the correlation between features!</strong>)</li>
-</ul>
-<h2>PART II:PGM Inference</h2>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Variable-Elimination.pdf">Variable Elimination</a>;简要介绍了如何在Bayesian Network以及Ｍarkov Network中执行VE算法;接着对其复杂度进行了分析;最后从图的视角重新审视了一下VE算法.</li>
-</ul>
-<p><img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png" /></p>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf">Belief Propagation(I)</a> &amp; <a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf">Belief Propagation(II)</a>;其基本内容如下:<ul>
-<li>Belief Propagation算法基本流程;</li>
-<li>Cluster Graph的基本性质(<code>BP does poorly when we have strong correlations!</code>);</li>
-<li>BP算法的基本性质;</li>
-<li>Clique Tree Algorithm.</li>
-</ul>
-</li>
-</ul>
-<p><img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png" /></p>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-MAP.pdf">MAP Estimation</a>;关于MAP Inference的基础知识。</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf">Sampling Methods</a>;Basic Sampling Methods.</li>
-</ul>
-<h2>PART III:PGM Learning</h2>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-1.pdf">Learning: Parameter Estimation, Part 1</a> &amp; <a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-2.pdf">Learning: Parameter Estimation, Part 2</a>;Parameter Estimation for BN and MN;</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-BN-Structures.pdf">Structure Learning</a>;</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Incomplete-Data.pdf">Learning With Incomplete Data</a></li>
-</ul>
+<p>我们套用一下:</p>
+<p>(<strong>E Step</strong>):</p>
+<p>\begin{equation}
+Q_i(z^{(i)}) := p(z^{(i)}|\mu,\Lambda,\mathbf \Psi)
+\end{equation}</p>
+<p>根据之前在<em>Gaussian Models</em>中提到过的<strong>Posterior Conditional</strong>的相关知识,我们有:</p>
+<p>\begin{equation}
+\begin{split}
+\mu_{z^{(i)}|x^{i}} &amp;= \Lambda^T (\Lambda \Lambda^T+\mathbf \Psi)^{-1}(x^{(i)}-\mu)  \\
+\Sigma_{z^{(i)}|x^{i}} &amp;= I - \Lambda^T (\Lambda \Lambda^T+\mathbf \Psi)^{-1} \Lambda
+\end{split}
+\end{equation}</p>
+<p>那么根据多元高斯分布公式，得到:</p>
+<p>\begin{equation}
+Q_i(z^{(i)}) = \frac{1}{(2\pi)^{k/2}|\Sigma_{z^{(i)}|x^{(i)}}|^{1/2}}exp(-{1 \over 2}(z^{(i)}-\mu_{z^{(i)}|x^{(i)}})^T \Sigma_{z^{(i)}|x^{(i)}}^{-1} (z^{(i)}-\mu_{z^{(i)}|x^{(i)}}))
+\end{equation}</p>
+<p>(<strong>M Step</strong>):</p>
+<p>直接写要最大化的目标是:</p>
+<p>\begin{equation}
+\sum_{i=1}^m \int_{z^{(i)}} Q_i(z^{(i)}) \ log \frac{p(x^{(i)},z^{(i)};\theta)}{Q_i(z^{(i)})} dz^{(i)}
+\end{equation}</p>
+<p>其中待估参数是$\mu,\Lambda,\mathbf \Psi$.下面我们重点求$\Lambda$的估计公式</p>
+<p>首先将上式简化为：</p>
+<p>\begin{equation}
+\begin{split}
+\sum_{i=1}^m &amp;\int_{z^{(i)}} Q_i(z^{(i)}) \ [log p(x^{(i)}|z^{(i)};\mu,\Lambda,\mathbf \Psi) +p(z^{(i)})-log\ Q_i(z^{(i)})]dz^{(i)} \\
+&amp;= \sum_{i=1}^m E_{z^{(i)} \sim\ Q_i} [log p(x^{(i)}|z^{(i)};\mu,\Lambda,\mathbf \Psi) +p(z^{(i)})-log\ Q_i(z^{(i)})]
+\end{split}
+\end{equation}</p>
+<p>这里$z^{(i)} \sim\ Q_i$表示$z^{(i)}$服从$Q_i$分布。然后去掉与$\Lambda$不相关的项（后两项），得</p>
+<p>\begin{equation}
+\begin{split}
+\sum_{i=1}^m &amp; E[log p(x^{(i)}|z^{(I)};\mu,\Lambda,\Psi)] \\
+&amp;= \sum_{i=1}^m E[log \frac{1}{(2\pi)^{n/2}|\mathbf \Psi|^{1/2}}exp(-{1 \over 2}(x^{(i)}-\mu-\Lambda z^{(i)})^T |\mathbf \Psi|^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})]
+\end{split}
+\end{equation}</p>
+<p>去掉不相关的前两项后，对$\Lambda$求偏导得:</p>
+<p>\begin{equation}
+\begin{split}
+\bigtriangledown_{\Lambda} &amp; \sum_{i=1}^N -E[{1 \over 2}(x^{(i)}-\mu-\Lambda z^{(i)})^T |\mathbf \Psi|^{-1} (x^{(i)}-\mu-\Lambda z^{(i)})] \\
+&amp;= \sum_{i=1}^m \bigtriangledown_{\Lambda} E[- tr({1 \over 2}{z^{(i)}}^T\Lambda^T \Psi^{-1} z^{(i)}) + tr({z^{(i)}}^T\Lambda^T \Psi^{-1} (x^{(i)}-\mu))] \\
+&amp;= \sum_{i=1}^m \bigtriangledown_{\Lambda} E[- tr({1 \over 2}\Lambda^T \Psi^{-1} z^{(i)}{z^{(i)}}^T) + tr(\Lambda^T \Psi^{-1} (x^{(i)}-\mu){z^{(i)}}^T)]  \\
+&amp;= \sum_{i=1}^m E[-\Psi^{-1} z^{(i)}{z^{(i)}}^T) + \Psi^{-1} (x^{(i)}-\mu){z^{(i)}}^T]
+\end{split}
+\end{equation}</p>
+<p>最后让其值为0，并且化简得:</p>
+<p>\begin{equation}
+\Lambda = (\sum_{i=1}^m (x^{(i)}-\mu) E_{z^{(i)} \sim\ Q_i}{z^{(i)}}^T)(\sum_{i=1}^m E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T])^{-1}
+\end{equation}</p>
+<p>到这里我们发现，这个公式有点眼熟，与之前回归中的最小二乘法矩阵形式类似:</p>
+<p>\begin{equation}
+\theta^T = (y^TX)(X^TX)^{-1}
+\end{equation}</p>
+<p>这里解释一下两者的相似性，我们这里的$x$是$z$的线性函数（包含了一定的噪声）。在E步得到$z$的估计后，我们找寻的$\Lambda$实际上是$x$和$z$的线性关系。而最小二乘法也是去找特征和结果直接的线性关系。</p>
+<p>到这还没完，我们需要求得括号里面的值.</p>
+<p>根据我们之前对$z|x$的定义，我们知道:</p>
+<p>\begin{equation}
+\begin{split}
+E_{z^{(i)} \sim\ Q_i}{z^{(i)}}^T &amp;= \mu_{z^{(i)}|x^{(i)}}^T \\
+E_{z^{(i)} \sim\ Q_i}[{z^{(i)}z^{(i)}}^T] &amp;= \mu_{z^{(i)}|x^{(i)}} \mu_{z^{(i)}|x^{(i)}}^T + \Sigma_{z^{(i)}|x^{(i)}}
+\end{split}
+\end{equation}</p>
+<p>将上式带入即可得到$\Lambda$的EM估计值。其他参数也可以通过类似的方法获得。</p>
+<h2>总结</h2>
+<p>根据上面的EM的过程，要对样本$X$进行因子分析，只需知道要分解的因子数($z$的维度)即可。通过EM，我们能够得到转换矩阵$\Lambda$和误差协方差$\Psi$。</p>
+<p>因子分析实际上是降维，在得到各个参数后，可以求得$z$。但是$z$的各个参数含义需要自己去琢磨。</p>
 <blockquote>
-<p>NOTE:该课程网址见<a href="https://class.coursera.org/pgm-003">PGM</a>.</p>
-<p><em>TODO Board</em>:</p>
+<p>因子分析(<strong>Factor Analysis</strong>)是一种数据简化的技术。它通过研究众多变量之间的内部依赖关系，探求观测数据中的基本结构，并用少数几个假想变量来表示其基本的数据结构。这几个假想变量能够反映原来众多变量的主要信息。原始的变量是可观测的显在变量，而假想变量是不可观测的潜在变量，称为因子。</p>
+</blockquote>
+<h1>PCA</h1>
+<hr />
+<p>PCA的思想是将$n$维特征映射到$k$维上($k&lt;n$），这$k$维是全新的正交特征。这$k$维特征称为主元，是重新构造出来的$k$维特征，而不是简单地从$n$维特征中去除其余$n-k$维特征。</p>
+<h2>PCA计算过程</h2>
+<p>首先介绍PCA的计算过程,假设我们得到的2维数据如下:</p>
+<p><img alt="PCA_DATA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/pca_data_zps6051a959.png" /></p>
+<p>行代表了样例，列代表特征，这里有10个样例，每个样例两个特征。可以这样认为，有10篇文档，$x$是10篇文档中“learn”出现的TF-IDF，$y$是10篇文档中“study”出现的TF-IDF。也可以认为有10辆汽车，$x$是千米/小时的速度，$y$是英里/小时的速度，等等。</p>
+<p><strong>第一步</strong>:分别求$x$和$y$的平均值，然后对于所有的样例，都减去对应的均值。这里$x$的均值是1.81，$y$的均值是1.91，那么第一个样例减去均值后即为（0.69,0.49），得到</p>
+<p><img alt="Data_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/data_1_zpsa7474565.png" /></p>
+<p><strong>第二步</strong>，求特征协方差矩阵，如果数据是3维，那么协方差矩阵是</p>
+<p>\begin{equation}
+C=\left(
+\begin{array}{cc}
+cov(x,x) &amp; cov(x,y) &amp; cov(x,z) \\
+cov(y,x) &amp; cov(y,y) &amp; cov(y,z) \\
+cov(z,x) &amp; cov(z,y) &amp; cov(z,z)
+\end{array}
+\right)
+\end{equation}</p>
+<p>这里只有$x$和$y$，求解得</p>
+<p>\begin{equation}
+cov=\left(
+\begin{array}{cc}
+.616555566 &amp; .615444444 \\
+.615444444 &amp; .716555556
+\end{array}
+\right)
+\end{equation}</p>
+<p>对角线上分别是$x$和$y$的方差，非对角线上是协方差。协方差大于0表示$x$和$y$若有一个增，另一个也增；小于0表示一个增，一个减；协方差为0时，两者独立。协方差绝对值越大，两者对彼此的影响越大，反之越小。</p>
+<p><strong>第三步</strong>，求协方差的特征值和特征向量，得到:</p>
+<p>\begin{equation}
+eigenvalues=\left(
+\begin{array}{cc}
+.0490833989 \\
+1.28402771
+\end{array}
+\right)
+\end{equation}</p>
+<p>\begin{equation}
+eigenvectors=\left(
+\begin{array}{cc}
+-.735178656 &amp; -.677873399 \\
+.677873399 &amp; -.735178656
+\end{array}
+\right)
+\end{equation}</p>
+<p>上面是两个特征值，下面是对应的特征向量，特征值0.0490833989对应特征向量为$(-0.735178656,0.677873399)^T$，这里的特征向量都归一化为单位向量。</p>
+<p><strong>第四步</strong>，将特征值按照从大到小的顺序排序，选择其中最大的$k$个，然后将其对应的$k$个特征向量分别作为列向量组成特征向量矩阵。</p>
+<p>这里特征值只有两个，我们选择其中最大的那个，这里是1.28402771，对应的特征向量是$(-0.677873399,-0.735178656)^T$。</p>
+<p><strong>第五步</strong>，将样本点投影到选取的特征向量上。假设样例数为$m$，特征数为$n$，减去均值后的样本矩阵为$DataAdjust(m \times n)$，协方差矩阵是$n \times n$，选取的$k$个特征向量组成的矩阵为$EigenVectors(n \times k)$。那么投影后的数据FinalData为:</p>
+<p>\begin{equation}
+FinalData(m \times k) = DataAdjust(m \times n) EigenVectors(n \times k)
+\end{equation}</p>
+<p>于是我们得到结果:</p>
+<p><img alt="Data_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/data_2_zps92a790d2.png" /></p>
+<p>这样，就将原始样例的$n$维特征变成了$k$维，这$k$维就是原始特征在$k$维上的投影。上面的数据可以认为是learn和study特征融合为一个新的特征叫做LS特征，该特征基本上代表了这两个特征。这样PCA的过程基本结束。在第一步减均值之后，其实应该还有一步对特征做方差归一化。比如一个特征是汽车速度（0到100），一个是汽车的座位数（2到6），显然第二个的方差比第一个小。因此，如果样本特征中存在这种情况，那么在第一步之后，求每个特征的标准差$\sigma$，然后对每个样例在该特征下的数据除以$\sigma$。</p>
+<p>归纳一下，使用我们之前熟悉的表示方法，在求协方差之前的步骤是：</p>
+<ol>
+<li>Let $\mu = {1 \over m}\sum_{i=1}^m x^{(i)}$;</li>
+<li>Replace each $x^{(i)}$ with $x^{(i)}-\mu$;</li>
+<li>Let $\sigma_j^2 = {1 \over m}\sum_i (x_j^{(i)})^2$;</li>
+<li>Replace each $x_j^{i}$ with $x_j^{i}/\sigma_j$.</li>
+</ol>
+<p>其中$x^{(i)}$是样例，共$m$个，每个样例$n$个特征，也就是说$x^{(i)}$是$n$维向量。$x_j^{(i)}$是第$i$个样例的第$j$个特征。$\mu$是样例均值。$\sigma_j$是第$j$个特征的标准差。</p>
+<p>整个PCA过程貌似及其简单，就是求协方差的特征值和特征向量，然后做数据转换。但是有没有觉得很神奇，为什么求协方差的特征向量就是最理想的$k$维向量？其背后隐藏的意义是什么？整个PCA的意义是什么？</p>
+<h2>PCA理论基础</h2>
+<p>要解释为什么协方差矩阵的特征向量就是$k$维理想特征，我看到的有三个理论：分别是最大方差理论、最小错误理论和坐标轴相关度理论。这里简单探讨前两种，最后一种在讨论PCA意义时简单概述。</p>
+<h3>最大方差理论</h3>
+<p>在信号处理中认为信号具有较大的方差，噪声有较小的方差，信噪比就是信号与噪声的方差比，越大越好。因此我们认为，最好的$k$维特征是将$n$维样本点转换为$k$维后，每一维上的样本方差都很大。</p>
+<p>比如下图有5个样本点：（已经做过预处理，均值为0，特征方差归一）</p>
+<p><img alt="Max_var_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_1_zpsb6611a20.png" /></p>
+<p>下面将样本投影到某一维上，这里用一条过原点的直线表示（预处理的过程实质是将原点移到样本点的中心点）。</p>
+<p><img alt="Max_var_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_2_zps05e7cd62.jpg" /></p>
+<p>假设我们选择两条不同的直线做投影，那么左右两条中哪个好呢？根据我们之前的方差最大化理论，左边的好，因为投影后的样本点之间方差最大。</p>
+<p>这里先解释一下投影的概念：</p>
+<p><img alt="Max_var_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_var_3_zps46d5b364.png" /></p>
+<p>红色点表示样例$x^{(i)}$，蓝色点表示$x^{(i)}$在$u$上的投影，$u$是直线的斜率也是直线的方向向量，而且是单位向量。蓝色点是示$x^{(i)}$在$u$上的投影点，离原点的距离是${x^{(i)}}^Tu$或$u^Tx^{(i)}$.由于这些样本点（样例）的每一维特征均值都为0，因此投影到$u$上的样本点（只有一个到原点的距离值）的均值仍然是0。</p>
+<p>回到上面左右图中的左图，我们要求的是最佳的$u$，使得投影后的样本点方差最大。</p>
+<p>由于投影后均值为0，因此方差为：</p>
+<p>\begin{equation}
+\begin{split}
+{1 \over m}\sum_{i=1}^m ({x^{(i)}}^Tu)^2 &amp;= {1 \over m}\sum_{i=1}^m u^Tx^{(i)}{x^{(i)}}^Tu  \\
+&amp;= u^T ({1 \over m}\sum_{i=1}^m x^{(i)}{x^{(i)}}^T)u.
+\end{split}
+\end{equation}</p>
+<p>中间那部分很熟悉啊，不就是样本特征的协方差矩阵么（$x^{(i)}$的均值为0，一般协方差矩阵都除以$m-1$，这里用$m$）。</p>
+<p>用$\lambda$来表示${1 \over m}\sum_{i=1}^m ({x^{(i)}}^Tu)^2$，$\Sigma$表示${1 \over m}\sum_{i=1}^m x^{(i)}{x^{(i)}}^T$，那么上式可写作:</p>
+<p>\begin{equation}
+\lambda = u^T \Sigma u
+\end{equation}</p>
+<p>由于$u$是单位向量，即$u^Tu=1$，上式两边都左乘$u$得，$u\lambda = \lambda u = uu^T \Sigma u$</p>
+<p>即$\Sigma u = \lambda u$</p>
+<p>We got it！$\lambda$就是$\Sigma$的特征值，$u$是特征向量。最佳的投影直线是特征值$\lambda$最大时对应的特征向量，其次是$\lambda$第二大对应的特征向量，依次类推。</p>
+<p>因此，我们只需要对协方差矩阵进行特征值分解，得到的前$k$大特征值对应的特征向量就是最佳的$k$维新特征，而且这$k$维新特征是正交的。得到前$k$个$u$以后，样例$x^{(i)}$通过以下变换可以得到新的样本。</p>
+<p>\begin{equation}
+y^{(i)} = \left[
+\begin{array}{cc}
+u_1^Tx^{(i)} \\
+u_2^Tx^{(i)} \\
+...  \\
+u_k^Tx^{(i)}
+\end{array}
+\right] \in R^k
+\end{equation}</p>
+<p>其中的第$j$维就是$x^{(i)}$在$u_j$上的投影。通过选取最大的$k$个$u$，使得方差较小的特征（如噪声）被丢弃。</p>
+<h3>最小平方误差理论</h3>
+<p><img alt="Least Squard Error" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lqe_zps9c291e8a.png" /></p>
+<p>假设有这样的二维样本点（红色点），回顾我们前面探讨的是求一条直线，使得样本点投影到直线上的点的方差最大。本质是求直线，那么度量直线求的好不好，不仅仅只有方差最大化的方法。再回想我们学过的线性回归等，目的也是求一个线性函数使得直线能够最佳拟合样本点，那么我们能不能认为最佳的直线就是回归后的直线呢？回归时我们的最小二乘法度量的是样本点到直线的坐标轴距离。比如这个问题中，特征是$x$，类标签是$y$。回归时最小二乘法度量的是距离$d$。如果使用回归方法来度量最佳直线，那么就是直接在原始样本上做回归了，跟特征选择就没什么关系了。</p>
+<p>因此，我们打算选用另外一种评价直线好坏的方法，使用点到直线的距离$d\prime$来度量。</p>
+<p>现在有$n$个样本点$(x_1,x_2,\dots,x_n)$，每个样本点为$m$维（这节内容中使用的符号与上面的不太一致，需要重新理解符号的意义）。将样本点$x_k$在直线上的投影记为$x_k \prime$，那么我们就是要最小化</p>
+<p>\begin{equation}
+\sum_{k=1}^n ||x_k \prime - x_k||^2
+\end{equation}</p>
+<p>这个公式称作最小平方误差（Least Squared Error）。</p>
+<p>而确定一条直线，一般只需要确定一个点，并且确定方向即可。</p>
+<p><strong>第一步确定点</strong>：</p>
+<p>假设要在空间中找一点$x_0$来代表这$n$个样本点，“代表”这个词不是量化的，因此要量化的话，我们就是要找一个$m$维的点$x_0$，使得</p>
+<p>\begin{equation}
+J_0(x_0) = \sum_{k=1}^n ||x_0-x_k||^2
+\end{equation}</p>
+<p>最小。其中$J_0(x_0)$是平方错误评价函数（squared-error criterion function).对$x_0$求偏导易知:</p>
+<p>\begin{equation}
+x_0 = \sum_{k=1}^n x_k
+\end{equation}</p>
+<p><strong>第二步确定方向</strong>:</p>
+<p>我们从$x_0$拉出要求的直线，假设直线的方向是单位向量$e$。那么直线上任意一点，比如$x_k \prime$就可以用点$x_0$和$e$来表示</p>
+<p>\begin{equation}
+x_k \prime = x_0 + a_k e
+\end{equation}</p>
+<p>其中$a_k$是$x_k \prime$到点$x_0$的距离。</p>
+<p>我们重新定义最小平方误差：</p>
+<p>\begin{equation}
+J_1(a_1,\dots,a_n,e) = \sum_{k=1}^n ||x_k \prime - x_k||^2 = \sum_{k=1}^n ||(x_0+a_ke)-x_k)||^2
+\end{equation}</p>
+<p>这里的$k$只是相当于$i$。$J_1$就是最小平方误差函数，其中的未知参数是$a_1,\dots,a_n$和$e$。</p>
+<p>实际上是求$J_1$的最小值。首先将上式展开：</p>
+<p>\begin{equation}
+\begin{split}
+J_1(a_1,\dots,a_n,e) &amp;= \sum_{k=1}^n ||(x_0+a_ke)-x_k)||^2 = \sum_{k=1}^n ||a_ke-(x_k-x_0)||^2 \\
+&amp;= \sum_{k=1}^n a_k^2||e||^2 - 2\sum_{k=1}^n a_ke^T(x_k-x_0)+ \sum_{k=1}^n ||x_k-x_0||^2
+\end{split}
+\end{equation}</p>
+<p>我们首先固定$e$，将其看做是常量,$||e||^2 = 1$，然后对$a_k$进行求导，得:</p>
+<p>\begin{equation}
+a_k = e^T(x_k-x_0)
+\end{equation}</p>
+<p>这个结果意思是说，如果知道了$e$，那么将$x_k-x_0$与$e$做内积，就可以知道了$x_k$在$e$上的投影离$x_0$的长度距离，不过这个结果不用求都知道。</p>
+<p>然后是固定$a_k$，对$e$求偏导数，我们先将上式代入$J_1$，得 </p>
+<p>\begin{equation}
+\begin{split}
+J_1(e) &amp;= \sum_{k=1}^n a_k^2||e||^2 - 2\sum_{k=1}^n a_k^2 + \sum_{k=1}^n ||x_k -x_0||^2 \\
+&amp;= -\sum_{k=1}^n [e^T(x_k-x_0)]^2 + \sum_{k=1}^n ||x_k - x_0 ||^2  \\
+&amp;= -\sum_{k=1}^n e^T (x_k-x_0)(x_k-x_0)^T e + \sum_{k=1}^n ||x_k - x_0 ||^2 \\
+&amp;= -e^TSe+\sum_{k=1}^n ||x_k-x_0||^2
+\end{split}
+\end{equation}</p>
+<p>其中$S=\sum_{k=1}^n (x_k-x_0)(x_k-x_0)^T$与协方差矩阵类似，只是缺少个分母$n-1$，我们称之为散列矩阵（scatter matrix）。</p>
+<p>然后可以对$e$求偏导数，但是$e$需要首先满足$e^Te=1$，引入拉格朗日乘子$\lambda$，来使$e^TSe$最大（$J_1$最小），令:</p>
+<p>\begin{equation}
+u = e^TSe - \lambda(e^Te-1)
+\end{equation}</p>
+<p>求偏导:</p>
+<p>\begin{equation}
+\frac{\partial u}{\partial e} = 2Se - 2\lambda e = 0 
+\end{equation}</p>
+<p>于是我们有:</p>
+<p>\begin{equation}
+Se = \lambda e
+\end{equation}</p>
+<p>两边除以$n-1$就变成了，对协方差矩阵求特征值向量了。</p>
+<p>从不同的思路出发，最后得到同一个结果，对协方差矩阵求特征向量，求得后特征向量上就成为了新的坐标，如下图：</p>
+<p><img alt="PCA_Transform" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/pca_transform_zps137a3ecb.png" /></p>
+<p>这时候点都聚集在新的坐标轴周围，因为我们使用的最小平方误差的意义就在此。</p>
+<blockquote>
+<p>NOTE:</p>
+<p>PCA技术的一大好处是对数据进行降维的处理。我们可以对新求出的“主元”向量的重要性进行排序，根据需要取前面最重要的部分，将后面的维数省去，可以达到降维从而简化模型或是对数据进行压缩的效果。同时最大程度的保持了原有数据的信息。</p>
+</blockquote>
+<h2>SVD分解</h2>
+<p>以上我们介绍了获得PCA solution的两种方法，现我们提供基于奇异值分解(<strong>Singular Value Decomposition</strong>)另一种方法.任一$N \times D$矩阵$X$均可分解为如下形式:</p>
+<p>\begin{equation}
+X = USV^T
+\end{equation}</p>
+<p>其中,$U$是一$N \times N$矩阵,其列向量均正交(即$U^TU = I_N$),$V$是一$D \times D$矩阵且行列向量均正交（即$V^TV = VV^T = I_D$,$S$为一$N \times D$矩阵，其主对角线上包含$r = min(N,D)$奇异值$\sigma_i \geq 0$(<code>Why?</code>),其余则由0填充。如下图中(a)所示：</p>
+<p><img alt="SVD" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/svd_zpsfec54ad5.png" /></p>
+<p>假定$N&gt;D$,则最多有$D$个奇异值；$U$右边的$N-D$行由于与$0$相乘，所以是无关项，于是我们得到的<em>Economy sized SVD</em>或者<em>Thin SVD</em>避免了对于这些无关元素的计算，可被表示为如下形式：若$N&gt;D$,我们有：</p>
+<p>\begin{equation}
+X = \hat{U} \hat{S} \hat{V}^T
+\end{equation}</p>
+<p>其中$\hat{S}$为$D \times D$矩阵，$\hat{V}$为$D \times D$矩阵。</p>
+<p>若$N&lt;D$,此时$\hat{U}$为$N \times N$矩阵，$\hat{S}$为$N \times N$矩阵，$\hat{V}$为$N \times D$矩阵。</p>
+<p>以下正式开始我们对PCA solution的推导：</p>
+<p>若$X = USV^T$,则有:</p>
+<p>\begin{equation}
+X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
+\end{equation}</p>
+<p>其中$D=S^2$是包含奇异值平方的对角阵。于是有：$(X^TX)V = VD$</p>
+<p>故$V$为$X^TX$的特征向量集合，$D$为$X^TX$的特征值集合(奇异值的平方)。对$XX^T$也能得到类似的结果。</p>
+<p>实际上,PCA的过程实际上是取$S$中最大的若干特征值(为了降维，我们并不是取所有的特征值）然后重新构造原矩阵的过程，即<strong>PCA只是对于原矩阵的低秩近似</strong>。</p>
+<h1>ICA</h1>
+<hr />
+<blockquote>
+<p><em>TODO Board:</em></p>
 <ul>
-<li>Ising Model</li>
-<li>Dual Decomposition</li>
-<li>Decision Making</li>
-<li>Bayesian Scores</li>
-<li>Learning With Incomplete Data</li>
-<li>Lassos</li>
-<li>凸QP</li>
+<li>Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。</li>
+<li>Kernel-PCA</li>
+<li>Probablistic PCA</li>
 </ul>
-</blockquote><script type= "text/javascript">
+</blockquote>
+<h1>参考文献</h1>
+<hr />
+<ol>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/05/11/2043317.html">因子分析（Factor Analysis)</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">Expectation–maximization algorithm</a></li>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html">主成分分析（Principal components analysis)-最大方差解释</a></li>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020216.html">主成分分析（Principal components analysis）-最小平方误差解释</a></li>
+</ol><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -236,7 +585,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="./xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html">
+	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-xi-lie-vilatent-linear-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
@@ -251,25 +600,25 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 
     <div class='row-fluid'>
       <div class='article-title span9'> 
-        <a href="./ji-qi-xue-xi-xi-lie-vilatent-linear-models.html"><h1>机器学习系列(VI):Latent Linear Models</h1></a>
+        <a href="./xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html"><h1>小小收藏夹[持续更新中]</h1></a>
       </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>六 26 四月 2014 </p>
+<p>日 27 四月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="./category/machine-learning.html">Machine Learning</a>
+Filed under <a href="./category/pearls.html">Pearls</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/latent-linear-models.html">Latent Linear Models</a> <a href="./tag/factor-analysis.html">Factor Analysis</a> <a href="./tag/em.html">EM</a> <a href="./tag/pca.html">PCA</a> <a href="./tag/ica.html">ICA</a> </p>
+    Tags <a href="./tag/suan-fa.html">算法</a> <a href="./tag/fun.html">Fun</a> <a href="./tag/staff.html">Staff</a> <a href="./tag/shou-cang-jia.html">收藏夹</a> <a href="./tag/bloom-filter.html">Bloom Filter</a> <a href="./tag/b-trees.html">B Trees</a> <a href="./tag/data-structure.html">Data Structure</a> <a href="./tag/algorithm.html">Algorithm</a> <a href="./tag/pgm.html">PGM</a> </p>
 <p>
 </p>
       </div>
       <div class="summary span8">
-	<p>本文主要介绍Latent Linear Models,主要介绍因子分析、主成分分析以及独立成分分析三个模型。</p> 
-	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-xi-lie-vilatent-linear-models.html">
+	<p>主要收集一些还不错的东东(持续更新)。</p> 
+	<a class="btn btn-mini xsmall" href="./xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>

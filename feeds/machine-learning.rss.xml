@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-26T00:00:00+08:00</updated><entry><title>机器学习系列(VI):Latent Linear Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vilatent-linear-models.html" rel="alternate"></link><updated>2014-04-26T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-26:ji-qi-xue-xi-xi-lie-vilatent-linear-models.html</id><summary type="html">&lt;h1&gt;因子分析&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-28T00:00:00+08:00</updated><entry><title>机器学习系列(VI):Latent Linear Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vilatent-linear-models.html" rel="alternate"></link><updated>2014-04-28T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-28:ji-qi-xue-xi-xi-lie-vilatent-linear-models.html</id><summary type="html">&lt;h1&gt;因子分析&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;h2&gt;问题&lt;/h2&gt;
 &lt;p&gt;当样本个数$m$远远大于其特征个数$n$时，这样不管是进行回归、聚类等都没有太大的问题。然而当训练样例个数$m$太小，甚至$m \ll n$的时候，使用梯度下降法进行回归时，如果初值不同，得到的参数结果会有很大偏差（因为方程数小于参数个数）。另外，如果使用多元高斯分布(Multivariate Gaussian distribution)对数据进行拟合时，也会有问题。让我们来演算一下，看看会有什么问题：&lt;/p&gt;
@@ -469,6 +469,7 @@ X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
 &lt;ul&gt;
 &lt;li&gt;Factor Analysis关于$\mathbf \Psi$的EM估计具体证明过程。&lt;/li&gt;
 &lt;li&gt;Kernel-PCA&lt;/li&gt;
+&lt;li&gt;Probablistic PCA&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
