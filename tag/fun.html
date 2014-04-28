@@ -79,6 +79,11 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <p>对于SVM这么高端大气上档次的东西,当然要单独列出来。今天其他东西实在看不下去了,所以把Pluskid之前写的一系列讲SVM的文章再挖出来看看。以下是目录以及对每篇的简单说明:</p>
 <ul>
 <li><a href="http://blog.pluskid.org/?p=632">支持向量机: Maximum Margin Classifier</a>;文中主要介绍了两个距离,<em>Functional Margin</em> $\hat{\gamma}$和<em>Geometrical Margin</em> $\tilde{\gamma}$.它们之间满足$\hat{\gamma} = ||w||\tilde{\gamma}$.我们固定$\hat{\gamma} = 1$,通过最大化$\frac{1}{||w||}$来得到<strong>Maximum Margin Classifier</strong>.</li>
+<li><a href="http://blog.pluskid.org/?p=682">支持向量机: Support Vector</a>;简要介绍了Support Vector是指什么,另外对线性可分的情况利用Duality进行了推导并得出了两个比较重要的结论:<ul>
+<li>对新点的预测只需要计算$<x_i,x>$内积即可;</li>
+<li>非支持向量不参与模型的计算过程之中。</li>
+</ul>
+</li>
 </ul>
 <h1>Deep Learning</h1>
 <hr />
@@ -210,6 +215,8 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 <li>Learning With Incomplete Data</li>
 <li>Lassos</li>
 <li>凸QP</li>
+<li>Duality</li>
+<li>KKT条件</li>
 </ul>
 </blockquote><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
