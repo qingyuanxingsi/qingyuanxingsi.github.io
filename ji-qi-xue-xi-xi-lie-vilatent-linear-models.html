@@ -554,7 +554,13 @@ x_t = Wz_t + \epsilon_t
 <p>\begin{equation}
 p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
 \end{equation}</p>
-<p>我们现在放松这一假定,允许源分布服从任一非高斯分布。不失一般性地，我们可以限定源分布的方差为1(其他方差可以通过对$W$的行适当缩放得到)。这时我们得到的模型称为独立成分分析(Independent Component Analysis,ICA）</p>
+<p>我们现在放松这一假定,允许源分布服从任一非高斯分布。不失一般性地，我们可以限定源分布的方差为1(其他方差可以通过对$W$的行适当缩放得到)。这时我们得到的模型称为独立成分分析(Independent Component Analysis,ICA）。</p>
+<h2>ICA的不确定性</h2>
+<p>由于$W$和$z_t$都不确定，那么在没有先验知识的情况下，无法同时确定这两个相关参数。比如上面的公式$x_t = Wz_t$。当$W$扩大两倍时，$z_t$只需要同时缩小一倍即可，等式仍然满足，因此无法得到唯一的$z_t$。同时如果将源的编号打乱，变成另外一个顺序，那么只需要调换$W$的列向量顺序即可，因此也无法单独确定$z_t$。这两种情况称为原信号不确定。</p>
+<p>还有一种ICA不适用的情况，那就是信号不能是高斯分布的。假设只有两个人发出的声音信号符合多值正态分布,$z^{t}  \sim\ N(0,I))$，$I$是2*2的单位矩阵，$z^{t}$的概率密度函数就不用说了吧，以均值0为中心，投影面是椭圆的山峰状（参见多值高斯分布）。因为$x^t = Wz^t$，因此，$x_t$也是高斯分布的，均值为0，协方差为$E[x_t x_t^T]=E[Wz_t z_t^TW^T]= WW^T$。</p>
+<p>令$R$是正交阵$(RR^T = R^TR = I)$，$W\prime  =WR $。如果将$W$替换成$W\prime$。那么$x^t \prime=W\prime z_t $。$z_t$分布没变，因此$x_t \prime$仍然是均值为0，协方差$E[x_t \prime x_t (\prime)^T] = E[W\prime z_t z_t^T (W\prime)^T]=WW^T$。</p>
+<p>因此，不管混合矩阵是$W$还是$W\prime$，$x_t$的分布情况是一样的，那么就无法确定混合矩阵，也就无法确定原信号。</p>
+<h2>MLE估计</h2>
 <blockquote>
 <p><em>TODO Board:</em></p>
 <ul>
@@ -572,6 +578,7 @@ p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
 <li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html">主成分分析（Principal components analysis)-最大方差解释</a></li>
 <li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020216.html">主成分分析（Principal components analysis）-最小平方误差解释</a></li>
 <li><em>Machine Learning:A Probablistic Perspective Chapter 12</em></li>
+<li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/19/2021071.html">独立成分分析（Independent Component Analysis)</a></li>
 </ol><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
