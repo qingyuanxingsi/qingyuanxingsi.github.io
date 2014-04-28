@@ -537,6 +537,24 @@ X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
 <p>实际上,PCA的过程实际上是取$S$中最大的若干特征值(为了降维，我们并不是取所有的特征值）然后重新构造原矩阵的过程，即<strong>PCA只是对于原矩阵的低秩近似</strong>。</p>
 <h1>ICA</h1>
 <hr />
+<h2>问题</h2>
+<p>假设你在一个非常嘈杂的屋子里，很多人都在交谈。你的耳朵实际上扮演了两个听筒的功能,它听到不同说话者混杂在一起的声音。我们的经验告诉我们，其实大多数情况下人耳都是能准确分辨出每个人各自的声音的。那么人是怎么做到这一点的呢？也许我们能通过<strong>ICA</strong>模型予以解答。</p>
+<blockquote>
+<p>这一问题被称为<strong>鸡尾酒会问题(Cocktail party problem)</strong>,又被称为<strong>盲源分离(Blind Source Separation)</strong>.</p>
+</blockquote>
+<h2>形式化</h2>
+<p>我们可以对这一问题做如下形式化表述:</p>
+<p>另$x_t \in R^D$为$t$时刻传感器接收到的信号，$z_t \in R^L$为源信号向量。我们假定:</p>
+<p>\begin{equation}
+x_t = Wz_t + \epsilon_t
+\end{equation}</p>
+<p>其中$W$为$D \times L$矩阵(<em>mixing matrix</em>)，且$\epsilon_t \sim\ N(0,\mathbf \Psi)$.在本节中，我们假定每一个时间点的观察均是独立的，即我们并不对时序间存在的联系进行建模）通常情况下，为了简化，我们会假定$\mathbf \Psi = 0$。我们的目标是推断$p(z_t|x_t,\theta)$.如下图所示:</p>
+<p><img alt="ICA_DEMO" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/ica_demo_zpsb459beec.png" /></p>
+<p>在PCA中，我们假定每个源均是独立的，且服从：</p>
+<p>\begin{equation}
+p(z_t) = \prod_{j=1}^L N(z_{tj}|0,1)
+\end{equation}</p>
+<p>我们现在放松这一假定,允许源分布服从任一非高斯分布。不失一般性地，我们可以限定源分布的方差为1(其他方差可以通过对$W$的行适当缩放得到)。这时我们得到的模型称为独立成分分析(Independent Component Analysis,ICA）</p>
 <blockquote>
 <p><em>TODO Board:</em></p>
 <ul>
@@ -553,6 +571,7 @@ X^TX = VS^TU^TUSV^T = V(S^TS)V^T = VDV^T
 <li><a href="http://en.wikipedia.org/wiki/Expectation%E2%80%93maximization_algorithm">Expectation–maximization algorithm</a></li>
 <li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020209.html">主成分分析（Principal components analysis)-最大方差解释</a></li>
 <li><a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020216.html">主成分分析（Principal components analysis）-最小平方误差解释</a></li>
+<li><em>Machine Learning:A Probablistic Perspective Chapter 12</em></li>
 </ol><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
