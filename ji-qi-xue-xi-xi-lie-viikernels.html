@@ -163,7 +163,75 @@ k(x,x\prime) = \phi(x)^T \phi(x\prime)
 \phi(x) = [1,\sqrt{2}x_1,\sqrt{2}x_2,x_1^2,x_2^2,\sqrt{2}x_1x_2]^T
 \end{equation}</p>
 <p>因此采用该kernel等同于在6维空间内进行计算。对于Gaussian核而言，映射后则是在无穷维空间内。在这种情形下，显式表示特征向量显然是不可行的。</p>
-<h2>Linear Kernels</h2><script type= "text/javascript">
+<h2>Linear Kernels</h2>
+<p>根据Kernel推导出特征向量是非常困难的一件事(仅当Kernel为Ｍercer时才可行),然而有特征向量推导出Kernel则容易的多。</p>
+<p>\begin{equation}
+k(x,x\prime) = \phi(x)^T \phi(x\prime) = &lt;\phi(x),\phi(x\prime)&gt;
+\end{equation}</p>
+<p>如果$\phi(x)=x$,我们得到线性核,定义为:</p>
+<p>\begin{equation}
+k(x,x\prime) = x^Tx\prime
+\end{equation}</p>
+<p>其实也就是在原空间内进行计算。</p>
+<h2>Matern kernels</h2>
+<p>Matern Kernels通常被用于高斯过程回归,并被定位为:</p>
+<p>\begin{equation}
+k(r) = \frac{2^{1-\nu}}{\Gamma(\nu)}(\frac{\sqrt{2\nu}r}{\ell})^{\nu}K_{\nu}(\frac{\sqrt{2\nu}r}{\ell})
+\end{equation}</p>
+<p>其中,$r=||x-x\prime||,\nu&gt;0,\ell&gt;0$且$K_{\nu}$为修改后的Bessel函数。当$\nu \to \infty$时,它趋近于高斯核。若$\nu ={1 \over 2}$,它简化为:</p>
+<p>\begin{equation}
+k(r) = exp(-r/\ell)
+\end{equation}</p>
+<p>若$D=1$,我们可以使用该核定义一高斯过程,我们得到<em>Ornstein-Uhlenbeck process</em>,它刻画了一个正在做布朗运动的例子的速度.</p>
+<h2>字符串核</h2>
+<p>当输入项为结构化数据时,核方法才能真正发挥其威力。以下我们举一个例子简要说明一下多项式核。考察两个字符串长度分别为$D$和$D\prime的定义在符号表${A,R,N,D,C,E,Q,G,H,I,L,K,M,F,P,S,T,W,Y,V}$上的字符串$$x$和$x\prime$.令$x$为一长度为110的字符串,如下图所示:</p>
+<p><img alt="String_Data_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/string_data_1_zps0cae832f.png" /></p>
+<p>$x\prime$为长度为153的字符串。</p>
+<p><img alt="String_Data_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/string_data_2_zps284c6529.png" /></p>
+<p>两个字符串均包含$LQE$,如上图琐事。我们可以将两个字符串的相似度定义为它们共同包含的字串的数量。正式地，若$x = usv$,则我们可以说$s$是$x$的字串.令$\phi_s(x)$表示字串$s$在字符串$x$中出现的次数。因此字符串核可定义为:</p>
+<p>\begin{equation}
+k(x,x\prime) = \sum_{s \in A*} w_s \phi_s(x) \phi_s(x\prime)
+\end{equation}</p>
+<p>其中,$w_s \geq 0$且$A*$表示由字符表$A$所能生成的所有字符串。它是Mercer Kernel且可在O(|x|+|x\prime|)时间内计算得到。</p>
+<blockquote>
+<p>NOTE:Why O(|x|+|x\prime|),求大神解答。</p>
+</blockquote>
+<p>有了上式之后,我们就能"为所欲为"了。若当$|s|&gt;1$时我们令$w_s = 0$,那么我们得到一bag-of-characters核,此时$\phi(x)$表示$A$中每个字符在$x$中出现的次数;如果我们采用空格分隔$s$,我们得到一bag-of-words核,其中$\phi(x)$表示每个词在$x$中出现的次数。</p>
+<h2>Kernels derived from probabilistic models</h2>
+<p>假定我们有一生成概率模型$p(x|\theta)$.那么我们有多种方法可以通过它构造核函数,以使模型更适用于判别类人物。以下我们简要介绍两种方法:</p>
+<h3>Probability product models</h3>
+<p>方法之一是定义如下Kernel:</p>
+<p>\begin{equation}
+k(x_i,x_j) = \int p(x|x_i)^{\rho}p(x|x_j)^{\rho} dx
+\end{equation}</p>
+<p>其中$\rho&gt;0$,且$p(x|x_i)$一般通过计算$p(x|\hat{\theta(x_i)}$来近似,其中$\hat{\theta(x_i)$是通过计算单一数据向量得到的对于参数的估计值。上式被称为<em>Probability product kernel</em>.</p>
+<p>尽管使用单一数据点估计参数显得很诡异，然后我们需要注意的是它仅被用于衡量两个Objects之间的相似度。特别地,如果我们采用$x_i$进行估计而得到的模型认为$x_j$是很有可能得到的,则证明$x_i$和$x_j$是相似的。如我们假定$p(x|\theta) = N(\mu,\sigma^2I)$,其中$\sigma^2$是定值。若$\rho = 1$,且我们令$\hat{\mu}<em x_j="x_j">{x_i} = x_i$和$\hat{\mu}</em> = x_j$,我们得到:</p>
+<p>\begin{equation}
+k(x_i,x_j) = \frac{1}{(4\pi\sigma^2)^{D/2}}exp(-\frac{1}{4\sigma^2}||x_i-x_j||^2)
+\end{equation}</p>
+<p>即RBF Kernel.</p>
+<h3>Fisher kernels</h3>
+<p>另一更为有效的通过生成模型定义Kernel的方法是采用Fisher kernel.定义如下:</p>
+<p>\begin{equation}
+k(x,x\prime) = g(x)^T F^{-1} g(x\prime)
+\end{equation}</p>
+<p>其中,$g$是对数似然函数梯度或score vector在极大似然估计处的取值。</p>
+<p>\begin{equation}
+g(x)  = \bigtriangledown_{\theta} log p(x|\theta)|{\hat{\theta}}
+\end{equation}</p>
+<p>$F$为Fisher information matrix,即Hessian.</p>
+<p>\begin{equation}
+F = \bigtriangledown \bigtriangledown log p(x|\theta)|{\hat{\theta}}
+\end{equation}</p>
+<p>注意$\hat{\theta}$为所有数据的函数,因此$x$和$x\prime$之间的相似度的计算也是将所有数据考虑在内的,所以我们只需要Fit一次Model.</p>
+<p>该模型背后的Intuition是如果它们的方向梯度是相似的话,则两个向量也是相似的。(<code>好吧,其实这个也不是弄得灰常清楚啦,TAT</code>)</p>
+<blockquote>
+<p><em>TODO Board:</em></p>
+<div class="highlight"><pre>   <span class="o">&gt;</span> <span class="o">*</span> <span class="err">后缀树</span><span class="n">Suffix</span> <span class="n">Tree</span>
+</pre></div>
+
+
+</blockquote><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
