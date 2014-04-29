@@ -240,6 +240,14 @@ F = \bigtriangledown \bigtriangledown log p(x|\theta)|{\hat{\theta}}
 &lt;li&gt;复习一下之前做智能提示时用到的&lt;strong&gt;Trie Tree&lt;/strong&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="https://www.cs.umd.edu/class/fall2005/cmsc132/lecs/lec29.ppt"&gt;Indexed Search Tree (Trie) - Computer Science Department&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;看了一下传说中的数据挖掘十大算法,好像就&lt;strong&gt;Apriori算法&lt;/strong&gt;不是特别熟吧,所以重新看了一遍;个人觉得如果我早出生若干年,这种程度的算法也是能想出来的吧(我指思想).好吧,我认为着重要理解的有如下两点:&lt;ul&gt;
+&lt;li&gt;Support;其实也就是某种组合在所有Transaction中出现的频度。&lt;/li&gt;
+&lt;li&gt;Confidence;当生成关联规则$A\to B$时,有$confidence = \frac{Count(A,B)}{Count(A)}$,背后的Intuition就是如果我买了$A$,大概会有多大的可能买$B$.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://www.cs.sjsu.edu/faculty/lee/cs157b/Gaurang%20Negandhi--Apriori%20Algorithm%20Presentation.ppt"&gt;Apriori Algorithm Review for Finals&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;Machine Learning&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
