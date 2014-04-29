@@ -119,9 +119,9 @@ k(r) = exp(-r/\ell)
 &lt;p&gt;\begin{equation}
 k(x,x\prime) = \sum_{s \in A*} w_s \phi_s(x) \phi_s(x\prime)
 \end{equation}&lt;/p&gt;
-&lt;p&gt;其中,$w_s \geq 0$且$A*$表示由字符表$A$所能生成的所有字符串。它是Mercer Kernel且可在O(|x|+|x\prime|)时间内计算得到。&lt;/p&gt;
+&lt;p&gt;其中,$w_s \geq 0$且$A*$表示由字符表$A$所能生成的所有字符串。它是Mercer Kernel且可在$O(|x|+|x\prime|)$时间内计算得到。&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;NOTE:Why O(|x|+|x\prime|),求大神解答。&lt;/p&gt;
+&lt;p&gt;NOTE:Why $O(|x|+|x\prime|)$,求大神解答。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;有了上式之后,我们就能"为所欲为"了。若当$|s|&amp;gt;1$时我们令$w_s = 0$,那么我们得到一bag-of-characters核,此时$\phi(x)$表示$A$中每个字符在$x$中出现的次数;如果我们采用空格分隔$s$,我们得到一bag-of-words核,其中$\phi(x)$表示每个词在$x$中出现的次数。&lt;/p&gt;
 &lt;h2&gt;Kernels derived from probabilistic models&lt;/h2&gt;
@@ -131,8 +131,8 @@ k(x,x\prime) = \sum_{s \in A*} w_s \phi_s(x) \phi_s(x\prime)
 &lt;p&gt;\begin{equation}
 k(x_i,x_j) = \int p(x|x_i)^{\rho}p(x|x_j)^{\rho} dx
 \end{equation}&lt;/p&gt;
-&lt;p&gt;其中$\rho&amp;gt;0$,且$p(x|x_i)$一般通过计算$p(x|\hat{\theta(x_i)}$来近似,其中$\hat{\theta(x_i)$是通过计算单一数据向量得到的对于参数的估计值。上式被称为&lt;em&gt;Probability product kernel&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;尽管使用单一数据点估计参数显得很诡异，然后我们需要注意的是它仅被用于衡量两个Objects之间的相似度。特别地,如果我们采用$x_i$进行估计而得到的模型认为$x_j$是很有可能得到的,则证明$x_i$和$x_j$是相似的。如我们假定$p(x|\theta) = N(\mu,\sigma^2I)$,其中$\sigma^2$是定值。若$\rho = 1$,且我们令$\hat{\mu}&lt;em x_j="x_j"&gt;{x_i} = x_i$和$\hat{\mu}&lt;/em&gt; = x_j$,我们得到:&lt;/p&gt;
+&lt;p&gt;其中$\rho&amp;gt;0$,且$p(x|x_i)$一般通过计算$p(x|\hat{\theta}(x_i))$来近似,其中$\hat{\theta}(x_i)$是通过计算单一数据向量得到的对于参数的估计值。上式被称为&lt;em&gt;Probability product kernel&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;尽管使用单一数据点估计参数显得很诡异，然后我们需要注意的是它仅被用于衡量两个Objects之间的相似度。特别地,如果我们采用$x_i$进行估计而得到的模型认为$x_j$是很有可能得到的,则证明$x_i$和$x_j$是相似的。如我们假定$p(x|\theta) = N(\mu,\sigma^2I)$,其中$\sigma^2$是定值。若$\rho = 1$,且我们令$\hat{\mu}(x_i) = x_i$和$\hat{\mu}(x_j) = x_j$,我们得到:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 k(x_i,x_j) = \frac{1}{(4\pi\sigma^2)^{D/2}}exp(-\frac{1}{4\sigma^2}||x_i-x_j||^2)
 \end{equation}&lt;/p&gt;
@@ -154,7 +154,7 @@ F = \bigtriangledown \bigtriangledown log p(x|\theta)|{\hat{\theta}}
 &lt;p&gt;该模型背后的Intuition是如果它们的方向梯度是相似的话,则两个向量也是相似的。(&lt;code&gt;好吧,其实这个也不是弄得灰常清楚啦,TAT&lt;/code&gt;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board:&lt;/em&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;   &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;后缀树&lt;/span&gt;&lt;span class="n"&gt;Suffix&lt;/span&gt; &lt;span class="n"&gt;Tree&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;   &lt;span class="o"&gt;&amp;gt;&lt;/span&gt;  &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;后缀树&lt;/span&gt;&lt;span class="n"&gt;Suffix&lt;/span&gt; &lt;span class="n"&gt;Tree&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

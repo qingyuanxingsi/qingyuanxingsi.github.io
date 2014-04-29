@@ -192,9 +192,9 @@ k(r) = exp(-r/\ell)
 <p>\begin{equation}
 k(x,x\prime) = \sum_{s \in A*} w_s \phi_s(x) \phi_s(x\prime)
 \end{equation}</p>
-<p>其中,$w_s \geq 0$且$A*$表示由字符表$A$所能生成的所有字符串。它是Mercer Kernel且可在O(|x|+|x\prime|)时间内计算得到。</p>
+<p>其中,$w_s \geq 0$且$A*$表示由字符表$A$所能生成的所有字符串。它是Mercer Kernel且可在$O(|x|+|x\prime|)$时间内计算得到。</p>
 <blockquote>
-<p>NOTE:Why O(|x|+|x\prime|),求大神解答。</p>
+<p>NOTE:Why $O(|x|+|x\prime|)$,求大神解答。</p>
 </blockquote>
 <p>有了上式之后,我们就能"为所欲为"了。若当$|s|&gt;1$时我们令$w_s = 0$,那么我们得到一bag-of-characters核,此时$\phi(x)$表示$A$中每个字符在$x$中出现的次数;如果我们采用空格分隔$s$,我们得到一bag-of-words核,其中$\phi(x)$表示每个词在$x$中出现的次数。</p>
 <h2>Kernels derived from probabilistic models</h2>
@@ -204,8 +204,8 @@ k(x,x\prime) = \sum_{s \in A*} w_s \phi_s(x) \phi_s(x\prime)
 <p>\begin{equation}
 k(x_i,x_j) = \int p(x|x_i)^{\rho}p(x|x_j)^{\rho} dx
 \end{equation}</p>
-<p>其中$\rho&gt;0$,且$p(x|x_i)$一般通过计算$p(x|\hat{\theta(x_i)}$来近似,其中$\hat{\theta(x_i)$是通过计算单一数据向量得到的对于参数的估计值。上式被称为<em>Probability product kernel</em>.</p>
-<p>尽管使用单一数据点估计参数显得很诡异，然后我们需要注意的是它仅被用于衡量两个Objects之间的相似度。特别地,如果我们采用$x_i$进行估计而得到的模型认为$x_j$是很有可能得到的,则证明$x_i$和$x_j$是相似的。如我们假定$p(x|\theta) = N(\mu,\sigma^2I)$,其中$\sigma^2$是定值。若$\rho = 1$,且我们令$\hat{\mu}<em x_j="x_j">{x_i} = x_i$和$\hat{\mu}</em> = x_j$,我们得到:</p>
+<p>其中$\rho&gt;0$,且$p(x|x_i)$一般通过计算$p(x|\hat{\theta}(x_i))$来近似,其中$\hat{\theta}(x_i)$是通过计算单一数据向量得到的对于参数的估计值。上式被称为<em>Probability product kernel</em>.</p>
+<p>尽管使用单一数据点估计参数显得很诡异，然后我们需要注意的是它仅被用于衡量两个Objects之间的相似度。特别地,如果我们采用$x_i$进行估计而得到的模型认为$x_j$是很有可能得到的,则证明$x_i$和$x_j$是相似的。如我们假定$p(x|\theta) = N(\mu,\sigma^2I)$,其中$\sigma^2$是定值。若$\rho = 1$,且我们令$\hat{\mu}(x_i) = x_i$和$\hat{\mu}(x_j) = x_j$,我们得到:</p>
 <p>\begin{equation}
 k(x_i,x_j) = \frac{1}{(4\pi\sigma^2)^{D/2}}exp(-\frac{1}{4\sigma^2}||x_i-x_j||^2)
 \end{equation}</p>
@@ -227,7 +227,7 @@ F = \bigtriangledown \bigtriangledown log p(x|\theta)|{\hat{\theta}}
 <p>该模型背后的Intuition是如果它们的方向梯度是相似的话,则两个向量也是相似的。(<code>好吧,其实这个也不是弄得灰常清楚啦,TAT</code>)</p>
 <blockquote>
 <p><em>TODO Board:</em></p>
-<div class="highlight"><pre>   <span class="o">&gt;</span> <span class="o">*</span> <span class="err">后缀树</span><span class="n">Suffix</span> <span class="n">Tree</span>
+<div class="highlight"><pre>   <span class="o">&gt;</span>  <span class="o">*</span> <span class="err">后缀树</span><span class="n">Suffix</span> <span class="n">Tree</span>
 </pre></div>
 
 
