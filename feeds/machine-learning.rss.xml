@@ -1,5 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-29T00:00:00+08:00</updated><entry><title>机器学习系列(VII):Kernels</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-viikernels.html" rel="alternate"></link><updated>2014-04-29T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-29:ji-qi-xue-xi-xi-lie-viikernels.html</id><summary type="html"></summary><category term="Machine Learning"></category><category term="SVM"></category><category term="Kernels"></category></entry><entry><title>机器学习系列(VI):Latent Linear Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vilatent-linear-models.html" rel="alternate"></link><updated>2014-04-27T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-27:ji-qi-xue-xi-xi-lie-vilatent-linear-models.html</id><summary type="html">&lt;h1&gt;因子分析&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-04-29T00:00:00+08:00</updated><entry><title>机器学习系列(VII):Kernels</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-viikernels.html" rel="alternate"></link><updated>2014-04-29T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-29:ji-qi-xue-xi-xi-lie-viikernels.html</id><summary type="html">&lt;p&gt;这一篇作为机器学习系列的第七篇,主要介绍核方法,关于&lt;strong&gt;SVM&lt;/strong&gt;的部分Pluskid已经写的很通俗易懂了,具体请参考&lt;a href="http://www.qingyuanxingsi.com/category/pearls.html"&gt;小小收藏夹[持续更新中]&lt;/a&gt;中SVM部分的链接,本文主要补充关于核方法的一些其他知识吧。&lt;/p&gt;
+&lt;p&gt;我们之前介绍的所有方法均假定Object可被恰当地表示为一定长的特征向量$x_i \in R^D$.然而,对于某些情况而言,我们也许并不知道如何将它们表示成定长的特征向量。如,我们如何表示可变长的文本文档或者蛋白质序列?如何表示具有复杂3D结构的分子结构?如何表示具有可变大小和形状的进化树?&lt;/p&gt;
+&lt;p&gt;解决以上问题的方法之一是为数据定义一生成模型，并使用推断得到的隐含表示作为特征输入到标准的方法中,如&lt;em&gt;Deep Learning&lt;/em&gt;.另一方法则是我们假定我们有某种方法能够衡量Objects之间的相似度,因此我们并不需要将数据预处理为特征向量的形式。如当我们比较字符串时,我们可以计算它们之间的编辑距离。令$k(x,x\prime) \geq 0$作为衡量$x$和$x\prime$之间差异性的某种标准($k$被成为核函数&lt;strong&gt;Kernel Function&lt;/strong&gt;).以下我们介绍几种常见的核函数。&lt;/p&gt;
+&lt;h1&gt;核函数&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;我们将核函数定义为:$k(x,x\prime) \in R$,即将两参数$x,x\prime \in X$($X$为某抽象空间)映射为一实数值。一般而言,它具有对称性,即$k(x,x\prime) = k(x\prime,x)$和非负性,即$k(x,x\prime) \geq 0$.以下我们给出几个例子:&lt;/p&gt;
+&lt;h2&gt;RBF Kernels&lt;/h2&gt;
+&lt;p&gt;Squared exponential kernel(SE kernel）或高斯核(Gaussian kernel)定义如下:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k(x,x\prime) = exp(-{1 \over 2}(x-x\prime)^T\Sigma^{-1}(x-x\prime))
+\end{equation}&lt;/p&gt;
+&lt;p&gt;若$\Sigma$是对角阵,则有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k(x,x\prime) = exp(-{1 \over 2}\sum_{j=1}^D \frac{1}{\sigma_j^2}(x_j-x_j\prime)^2)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;我们可将$\sigma_j$理解为对于维度$j$的&lt;em&gt;Characteristic length scale&lt;/em&gt;.若$\sigma_j = \infty$,则相应的维度可被忽略掉,此时则称其为&lt;em&gt;ARD kernel&lt;/em&gt;.若$\Sigma$呈球面分布,我们则得到:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k(x,x\prime) = exp(-\frac{||x-x\prime||^2}{2\sigma^2})
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$\sigma^2$被称为带宽(&lt;strong&gt;Bandwith&lt;/strong&gt;).上式为径向基核的一个例子(它只是$||x-x\prime||$的函数)。&lt;/p&gt;
+&lt;h2&gt;文档核&lt;/h2&gt;
+&lt;p&gt;当我们想要进行文档分类时,如果有一种方法能够比较文档$x_i$和$x_i\prime$想必是极好的。如果我们采用bag-of-words表示且令$x_{ij}$表示词$j$在文档$i$中出现的次数,我们可以采用余弦距离,定义为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k(x_i,x_i\prime) = \frac{x_i^T x_i \prime}{||x_i||_2 ||x_i \prime||_2}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;然而这种方法并不好,主要缺点有如下两点:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;文档中可能包含一些&lt;strong&gt;停用词&lt;/strong&gt;(无实际意义的词,如&lt;code&gt;the&lt;/code&gt;,&lt;code&gt;and&lt;/code&gt;等),它们本身不能用于判断两个文档的相似度,而在上述计算中被包含在内了;&lt;/li&gt;
+&lt;li&gt;如果一个词能被用于判断两个文档之间的相似度,那么如果它在一个文档中出现多次，则我们人为地提高了两个文档的相似度.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;幸运的是,我们通过简单的预处理就能大幅提升性能---我们将词频统计向量替换为&lt;strong&gt;词频-倒排文档频率TF-IDF&lt;/strong&gt;.我们首先作如下定义:&lt;/p&gt;
+&lt;p&gt;我们将词频定义为(减少由于一个词在文档中出现多次造成的影响):&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+tf(x_{ij}) \triangleq log(1+x_{ij})
+\end{equation}&lt;/p&gt;
+&lt;p&gt;我们将倒排文档频率定义为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+idf(j) \triangleq log \frac{N}{1+\sum_{i=1}^N 1_{x_{ij} &amp;gt; 0}}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$N$表示文档总数,分母则计算包含$j$的文档总数。&lt;/p&gt;
+&lt;p&gt;最后,我们定义:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+tf-idf(x_i) \triangleq [tf(x_{ij} \times idf(j)]_{j=1}^V
+\end{equation}&lt;/p&gt;
+&lt;p&gt;我们将上式带入余弦距离即可。于是我们得到Kernel:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k(x_i,x_i\prime) = \frac{\phi(x_i)^T\phi(x_i\prime)}{||\phi(x_i)||_2||\phi(x_i\prime)||_2}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$\phi(x) = tf-idf(x)$.&lt;/p&gt;
+&lt;h2&gt;Mercer(positive definite) kernels&lt;/h2&gt;
+&lt;p&gt;某些方法要求&lt;em&gt;Gram matrix&lt;/em&gt;对于任意输入集合${x_i}_{i=1}^N$均是正定的,这样的核称为Mercer kercel或正定核。我们1可以证明以上提到的高斯核以及文档核均是Mercel kernel.&lt;em&gt;Gram matrix&lt;/em&gt;定义为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+K = \left(
+\begin{array}{cc}
+k(x_1,x_1) &amp;amp; \ldots &amp;amp; k(x_1,x_N) \\
+           &amp;amp; \vdots &amp;amp;           \\
+k(x_N,x_1) &amp;amp; \ldots &amp;amp; k(x_N,x_N)
+\end{array}
+\right)
+\end{equation}&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Mercer's Theorem&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;若&lt;em&gt;Gram&lt;/em&gt;矩阵是正定的，则我们可作如下特征值分解:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+K = U^T\Lambda U
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$\Lambda$是特征值均大于0的对角阵。现我们考虑$K$中的一个元素,有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k_{ij} = (\Lambda^{1 \over 2}U_{:,i})^T(\Lambda^{1 \over 2}U_{:,j})
+\end{equation}&lt;/p&gt;
+&lt;p&gt;令$\phi(x_i) = \Lambda^{1 \over 2}U_{:,i}$,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k_{ij} = \phi(x_i)^T \phi(x_j)
+\end{equation}&lt;/p&gt;
+&lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Machine Learning"></category><category term="SVM"></category><category term="Kernels"></category></entry><entry><title>机器学习系列(VI):Latent Linear Models</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-vilatent-linear-models.html" rel="alternate"></link><updated>2014-04-27T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-27:ji-qi-xue-xi-xi-lie-vilatent-linear-models.html</id><summary type="html">&lt;h1&gt;因子分析&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;h2&gt;问题&lt;/h2&gt;
 &lt;p&gt;当样本个数$m$远远大于其特征个数$n$时，这样不管是进行回归、聚类等都没有太大的问题。然而当训练样例个数$m$太小，甚至$m \ll n$的时候，使用梯度下降法进行回归时，如果初值不同，得到的参数结果会有很大偏差（因为方程数小于参数个数）。另外，如果使用多元高斯分布(Multivariate Gaussian distribution)对数据进行拟合时，也会有问题。让我们来演算一下，看看会有什么问题：&lt;/p&gt;
