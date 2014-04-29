@@ -154,10 +154,9 @@ F = \bigtriangledown \bigtriangledown log p(x|\theta)|{\hat{\theta}}
 &lt;p&gt;该模型背后的Intuition是如果它们的方向梯度是相似的话,则两个向量也是相似的。(&lt;code&gt;好吧,其实这个也不是弄得灰常清楚啦,TAT&lt;/code&gt;)&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board:&lt;/em&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;   &lt;span class="o"&gt;&amp;gt;&lt;/span&gt;  &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="err"&gt;后缀树&lt;/span&gt;&lt;span class="n"&gt;Suffix&lt;/span&gt; &lt;span class="n"&gt;Tree&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;ul&gt;
+&lt;li&gt;后缀树Suffix Tree&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
