@@ -159,6 +159,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;li&gt;KKT条件&lt;/li&gt;
 &lt;li&gt;支持向量机番外篇I:&lt;a href="http://blog.pluskid.org/?p=702"&gt;支持向量机：Duality&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;支持向量机番外篇II:&lt;a href="http://blog.pluskid.org/?p=723"&gt;支持向量机：Kernel II&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Apriori算法细节&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
