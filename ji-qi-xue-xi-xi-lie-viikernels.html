@@ -146,7 +146,24 @@ k_{ij} = (\Lambda^{1 \over 2}U_{:,i})^T(\Lambda^{1 \over 2}U_{:,j})
 <p>\begin{equation}
 k_{ij} = \phi(x_i)^T \phi(x_j)
 \end{equation}</p>
-</blockquote><script type= "text/javascript">
+</blockquote>
+<p>我们可以看到核矩阵的每一项可通过对特征向量作内积得到,而特征向量可由矩阵分解得到的特征向量$U$定义。一般地,如果kernel是Mercer Kernel,那么就存在一个从$x \in X$到$R^D$的映射$\phi$,使得:</p>
+<p>\begin{equation}
+k(x,x\prime) = \phi(x)^T \phi(x\prime)
+\end{equation}</p>
+<p>比如,我们考察多项式核$k(x,x\prime) = (\gamma X^Tx\prime+r)^M$,其中$r&gt;0$.我们可以证明$\phi(x)$将包含到$M$的所有项。例如,若我们取$M=2,\gamma = r = 1$且$x,x\prime \in R^2$,我们则有:</p>
+<p>\begin{equation}
+\begin{split}
+(1+x^Tx\prime)^2 &amp;= (1+x_1x_1\prime+x_2x_2\prime)^2 \\
+&amp;= 1+2x_1x_1\prime+2x_2x_2\prime+(x_1x_1\prime)^2+(x_2x_2\prime)^2+2x_1x_1\prime x_2x_2\prime
+\end{split}
+\end{equation}</p>
+<p>此时我们有：</p>
+<p>\begin{equation}
+\phi(x) = [1,\sqrt{2}x_1,\sqrt{2}x_2,x_1^2,x_2^2,\sqrt{2}x_1x_2]^T
+\end{equation}</p>
+<p>因此采用该kernel等同于在6维空间内进行计算。对于Gaussian核而言，映射后则是在无穷维空间内。在这种情形下，显式表示特征向量显然是不可行的。</p>
+<h2>Linear Kernels</h2><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
