@@ -248,6 +248,11 @@ F = \bigtriangledown \bigtriangledown log p(x|\theta)|{\hat{\theta}}
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://www.cs.sjsu.edu/faculty/lee/cs157b/Gaurang%20Negandhi--Apriori%20Algorithm%20Presentation.ppt"&gt;Apriori Algorithm Review for Finals&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最近需要对1G的文本数据进行处理,所以想了解一下现行的分布式计算框架的应用场景,从而选择合适的框架用于这个任务,期间看到以下两篇文章写的很不错,特此摘录。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://langyu.iteye.com/blog/1407194"&gt;对实时分析与离线分析的思考&lt;/a&gt;
+&lt;a href="http://langyu.iteye.com/blog/1407194"&gt;对实时分析与离线分析的思考(二)&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;Machine Learning&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
