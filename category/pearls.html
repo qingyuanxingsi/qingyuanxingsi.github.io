@@ -124,7 +124,7 @@ p(s)=(1-\frac{arccos(s)}{\pi})^b
 <li><strong>查询阶段</strong>:计算查询元素$q$的hash值$H(q)$，取集合$T$中所有hash值为$H(q)$的分组，以该分组内的所有元素作为候选集合，在候选该集合内使用简单的最近邻搜索方法寻找最相似的$k$个元素。</li>
 </ul>
 <p>该方法的执行效率取决于$H(*)$的hash值个数$2^b$，也就是分组的个数。理想情况下，如果集合$T$中的向量元素在空间中分布的足够均匀，那么每一个hash值对应的元素集合大小大致为$\frac{m} {2^b}$。当$m$远大于向量元素的维度时，每次查询的速度可以提高到$2^b$倍。</p>
-<p>根据以上分析$H(<em>)$中$b$的取值越大算法的执行速度的提升越多，并且是指数级别的提升。但是，在这种情况下$H(</em>)$函数下的概率公式$p(s)$，<strong>实际上表示与查询元素$q$的相似度为$s$的元素的召回率</strong>。当$b$的取值越大时，top k元素的召回率必然会下降。因此算法执行速度的提升需要召回率的下降作为代价。例如：当$b$等于10时，如果要保证某个元素的召回率不小于0.9，那么该元素与查询元素$q$的相似度必须不小于0.9999998。</p>
+<p>根据以上分析$H()$中$b$的取值越大算法的执行速度的提升越多，并且是指数级别的提升。但是，在这种情况下$H()$函数下的概率公式$p(s)$，<strong>实际上表示与查询元素$q$的相似度为$s$的元素的召回率</strong>。当$b$的取值越大时，top k元素的召回率必然会下降。因此算法执行速度的提升需要召回率的下降作为代价。例如：当$b$等于10时，如果要保证某个元素的召回率不小于0.9，那么该元素与查询元素$q$的相似度必须不小于0.9999998。</p>
 <h2>提高召回率改进</h2>
 <p>为了在保证召回率的前提下尽可能提高算法的执行效率，一般可以进行如下改进：</p>
 <ul>
@@ -153,7 +153,8 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 <blockquote>
 <p>切割平面与第一象限空间不相交等价于其法向量的每一个维度值都有相同的符号（都为正或者负），否则总能在第一象限空间中找到两个向量与法向量的乘积符号不同，也就是在切割平面的两侧。那么，随机生成的n维向量所有维度值都同号的概率为$\frac{1}{2^{n−1}}$，当$n$的取值很大时，该概率可以忽略不计。</p>
 </blockquote>
-<h2>参考文献</h2>
+<h1>参考文献</h1>
+<hr />
 <p>[1] P. Indyk and R. Motwani. Approximate Nearest Neighbor:Towards Removing the Curse of Dimensionality. In Proc. of the 30th Annual ACM Symposium on Theory of Computing, 1998, pp. 604–613.</p>
 <p>[2] Google News Personalization: Scalable Online Collaborative Filtering.</p><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
