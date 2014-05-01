@@ -57,191 +57,107 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html"><h1>小小收藏夹[持续更新中]</h1></a>
+            <a href="../dang-zui-jin-lin-yu-dao-lsh.html"><h1>当最近邻遇到LSH</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>二 29 四月 2014 </p>
+<p>四 01 五月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/pearls.html">Pearls</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/suan-fa.html">算法</a> <a href="../tag/fun.html">Fun</a> <a href="../tag/staff.html">Staff</a> <a href="../tag/shou-cang-jia.html">收藏夹</a> <a href="../tag/bloom-filter.html">Bloom Filter</a> <a href="../tag/b-trees.html">B Trees</a> <a href="../tag/data-structure.html">Data Structure</a> <a href="../tag/algorithm.html">Algorithm</a> <a href="../tag/pgm.html">PGM</a> </p>
+    Tags <a href="../tag/suan-fa.html">算法</a> <a href="../tag/algorithm.html">Algorithm</a> <a href="../tag/lsh.html">LSH</a> <a href="../tag/ju-bu-min-gan-ha-xi-suan-fa.html">局部敏感哈希算法</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<h1>SVM</h1>
+	<p>貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,找到了这篇写的挺好的文章<a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html">Locality Sensitive Hashing(LSH)之随机投影法</a>,摘录如下:</p>
+<h1>概述</h1>
 <hr />
-<p>对于SVM这么高端大气上档次的东西,当然要单独列出来。今天其他东西实在看不下去了,所以把Pluskid之前写的一系列讲SVM的文章再挖出来看看。以下是目录以及对每篇的简单说明:</p>
-<ul>
-<li><a href="http://blog.pluskid.org/?p=632">支持向量机: Maximum Margin Classifier</a>;文中主要介绍了两个距离,<em>Functional Margin</em> $\hat{\gamma}$和<em>Geometrical Margin</em> $\tilde{\gamma}$.它们之间满足$\hat{\gamma} = ||w||\tilde{\gamma}$.我们固定$\hat{\gamma} = 1$,通过最大化$\frac{1}{||w||}$来得到<strong>Maximum Margin Classifier</strong>.</li>
-<li><a href="http://blog.pluskid.org/?p=682">支持向量机: Support Vector</a>;简要介绍了Support Vector是指什么,另外对线性可分的情况利用Duality进行了推导并得出了两个比较重要的结论:<ul>
-<li>对新点的预测只需要计算与训练点之间的内积即可;</li>
-<li>非支持向量不参与模型的计算过程之中。</li>
-</ul>
-</li>
-<li><a href="http://blog.pluskid.org/?p=685">支持向量机: Kernel</a>;<strong>Kernel</strong>的基本思想。</li>
-<li><a href="http://blog.pluskid.org/?p=692">支持向量机：Outliers</a>;通过引入松弛变量处理Outliers,而实际上最后的优化形式只是加上$\alpha_i \leq C$的限制。</li>
-<li><a href="http://blog.pluskid.org/?p=696">支持向量机：Numerical Optimization</a>;以非常通俗易懂的方式介绍了一下<strong>SMO(Sequential Minimal Optimization)</strong>,赞一个。</li>
-</ul>
-<h1>Deep Learning</h1>
-<hr />
-<ul>
-<li>稀疏编码(<em>Sparse Coding</em>)</li>
-</ul>
-<p><a href="http://blog.csdn.net/zouxy09/article/details/8777094">Deep Learning（深度学习）学习笔记整理系列之（五)</a></p>
-<ul>
-<li>Deep Learning总结</li>
-</ul>
-<p><a href="http://blog.csdn.net/zouxy09/article/details/8782018">Deep Learning（深度学习）学习笔记整理系列之（八)</a></p>
-<h1>Pocket</h1>
-<hr />
-<ul>
-<li><a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html">罗辑思维 2014：右派为什么这么横 10</a>;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!</li>
-<li><a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html">罗辑思维 2014：迷茫时代的明白人 11</a>;活在当下。</li>
-</ul>
-<h1>算法</h1>
-<hr />
-<ul>
-<li>今天看了一下网上流传的传说中的高大上的所谓的<code>十大海量数据处理算法</code>,看了一下,实际上没有什么东西,唯独<strong>Bloom Filter</strong>看着还挺好玩的,所以以下给出一个通俗易懂的链接。</li>
-</ul>
-<p><a href="http://www.cnblogs.com/heaad/archive/2011/01/02/1924195.html">那些优雅的数据结构(1) : BloomFilter——大规模数据处理利器</a></p>
-<ul>
-<li>
-<p>在过去的若干年里,有一个心结一直萦绕在我的心头挥之不去,它存在于我的脑海里，我的梦里，我的歌声里,TA就是<strong>B树</strong>(好吧,其实是因为没有机会好好地研究一下它啦)。以下给出两个链接,它们主要介绍了B树的基本概念,性质以及针对B树的插入、删除操作,两个PPT还是相当直观的,应该能够比较直观地了解B树这个数据结构!</p>
-<ul>
-<li><a href="http://cecs.wright.edu/~tkprasad/courses/cs707/L04-X-B-Trees.ppt">B-Trees</a>;</li>
-<li><a href="http://zh.scribd.com/doc/18210/B-TREE-TUTORIAL-PPT">B TREE TUTORIAL PPT</a>.</li>
-</ul>
-</li>
-<li>
-<p>今天又重新看了一下这个写的很不错的<strong>A*算法</strong>,恩,这篇文章想来是极好的。</p>
-</li>
-</ul>
-<p><a href="http://www.raywenderlich.com/zh-hans/21503/a%E6%98%9F%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95%E4%BB%8B%E7%BB%8D">A星寻路算法介绍</a></p>
-<ul>
-<li>复习一下之前做智能提示时用到的<strong>Trie Tree</strong>.</li>
-</ul>
-<p><a href="https://www.cs.umd.edu/class/fall2005/cmsc132/lecs/lec29.ppt">Indexed Search Tree (Trie) - Computer Science Department</a></p>
-<ul>
-<li>看了一下传说中的数据挖掘十大算法,好像就<strong>Apriori算法</strong>不是特别熟吧,所以重新看了一遍;个人觉得如果我早出生若干年,这种程度的算法也是能想出来的吧(我指思想).好吧,我认为着重要理解的有如下两点:<ul>
-<li>Support;其实也就是某种组合在所有Transaction中出现的频度。</li>
-<li>Confidence;当生成关联规则$A\to B$时,有$confidence = \frac{Count(A,B)}{Count(A)}$,背后的Intuition就是如果我买了$A$,大概会有多大的可能买$B$.</li>
-</ul>
-</li>
-</ul>
-<p><a href="http://www.cs.sjsu.edu/faculty/lee/cs157b/Gaurang%20Negandhi--Apriori%20Algorithm%20Presentation.ppt">Apriori Algorithm Review for Finals</a></p>
-<ul>
-<li>最近需要对1G的文本数据进行处理,所以想了解一下现行的分布式计算框架的应用场景,从而选择合适的框架用于这个任务,期间看到以下两篇文章写的很不错,特此摘录。</li>
-</ul>
-<p><a href="http://langyu.iteye.com/blog/1407194">对实时分析与离线分析的思考</a>
-<a href="http://langyu.iteye.com/blog/1407194">对实时分析与离线分析的思考(二)</a></p>
-<h1>Machine Learning</h1>
-<hr />
-<ul>
-<li>看的有点累了,不想看<em>EM</em>算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍<em>Mixture Models</em>和<em>EM</em>算法吧!</li>
-</ul>
-<p><a href="http://blog.pluskid.org/?p=39">漫谈 Clustering (3): Gaussian Mixture Model</a></p>
-<ul>
-<li>近期为了理解卷积,于是到处找资料,无意中发现了这一篇神一般的理解。(<strong>墙裂推荐</strong>)</li>
-</ul>
-<p><a href="http://www.guokr.com/post/342476/">关于卷积的一个血腥的讲解，看完给跪了</a></p>
-<ul>
-<li>PCA数据预处理<em>Whitening</em></li>
-</ul>
+<p><strong>LSH</strong>是由文献[1]提出的一种用于高效求解最近邻搜索问题的Hash算法。LSH算法的基本思想是利用一个hash函数把集合中的元素映射成hash值，使得相似度越高的元素hash值相等的概率也越高。LSH算法使用的关键是针对某一种相似度计算方法，找到一个具有以上描述特性的hash函数。LSH所要求的hash函数的准确数学定义比较复杂，以下给出一种通俗的定义方式：</p>
 <blockquote>
-<p>在使用PCA前需要对数据进行预处理，首先是均值化，即对每个特征维，都减掉该维的平均值，然后就是将不同维的数据范围归一化到同一范围，方法一般都是<strong>除以最大值</strong>。但是比较奇怪的是，在对自然图像进行均值处理时并不是不是减去该维的平均值，而是减去这张图片本身的平均值。因为PCA的预处理是按照不同应用场合来定的。</p>
-<p>自然图像指的是人眼经常看见的图像，其符合某些统计特征。一般实际过程中，只要是拿正常相机拍的，没有加入很多人工创作进去的图片都可以叫做是自然图片，因为很多算法对这些图片的输入类型还是比较鲁棒的。在对自然图像进行学习时，其实不需要太关注对图像做方差归一化，因为自然图像每一部分的统计特征都相似，只需做均值为0化就ok了。不过对其它的图片进行训练时，比如首先字识别等，就需要进行方差归一化了。</p>
-<p>有一个观点需要注意，那就是<strong>PCA并不能阻止过拟合现象</strong>。表明上看PCA是降维了，因为在同样多的训练样本数据下，其特征数变少了，应该是更不容易产生过拟合现象。但是在实际操作过程中，这个方法阻止过拟合现象效果很小，主要还是通过<strong>规则项</strong>来进行阻止过拟合的。</p>
-<p><strong>Whitening</strong>：</p>
-<p><strong>Whitening</strong>的目的是去掉数据之间的相关联度，是很多算法进行预处理的步骤。比如说当训练图片数据时，由于图片中相邻像素值有一定的关联，所以很多信息是冗余的。这时候去相关的操作就可以采用白化操作。数据的Whitening必须满足两个条件：</p>
-<ul>
-<li>不同特征间相关性最小，接近0；</li>
-<li>所有特征的方差相等（不一定为1）。</li>
-</ul>
-<p>常见的白化操作有PCA whitening和ZCA whitening。</p>
-<p><em>PCA whitening</em>是指将数据x经过PCA降维为z后，可以看出z中每一维是独立的，满足whitening白化的第一个条件，这是只需要将z中的每一维都除以标准差就得到了每一维的方差为1，也就是说方差相等。公式为：</p>
-<p>\begin{equation}
-x_{PCAwhite,i} = \frac{x_{rot,i}}{\sqrt{\lambda_i}}
-\end{equation}</p>
-<p><em>ZCA whitening</em>是指数据x先经过PCA变换为z，但是并不降维，因为这里是把所有的成分都选进去了。这是也同样满足whtienning的第一个条件，特征间相互独立。然后同样进行方差为1的操作，最后将得到的矩阵左乘一个特征向量矩阵U即可。ZCA whitening公式为：</p>
-<p>\begin{equation}
-x_{ZCAwhite} = Ux_{PCAwhite}
-\end{equation}</p>
-<p>参考<a href="http://www.cnblogs.com/tornadomeet/archive/2013/03/21/2973231.html">Deep learning：十(PCA和whitening)</a></p>
+<p>对于集合$S$，集合内元素间相似度的计算公式为$sim(<em>,</em>)$。如果存在一个hash函数$h(<em>)$满足以下条件：存在一个相似度$s$到概率$p$的单调递增映射关系，使得$S$中的任意两个满足$sim(a,b)\geq s$的元素$a$和$b$，$h(a)=h(b)$的概率大于等于$p$。那么$h(</em>)$就是该集合的一个LSH算法hash函数。</p>
 </blockquote>
-<ul>
-<li>最近一直在看<strong>高斯过程</strong>,挺难理解的,好吧,咱们慢慢来,先给个链接。</li>
-</ul>
-<p><a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf">Introduction to Gaussian Process</a></p>
-<h1>PGM</h1>
+<p>一般来说在最近邻搜索中，元素间的关系可以用相似度或者距离来衡量。如果用距离来衡量，那么距离一般与相似度之间存在单调递减的关系。以上描述如果使用距离来替代相似度需要在单调关系上做适当修改。</p>
+<p>根据元素相似度计算方式的不同，LSH有许多不同的hash算法。两种比较常见的hash算法是<strong>随机投影法</strong>和min-hash算法。本文即将介绍的随机投影法适用于集合元素可以表示成向量的形式，并且相似度计算是基于向量之间夹角的应用场景，如余弦相似度。min-hash法在参考文献[2]中有相关介绍。</p>
+<h1>随机投影法(Random projection)</h1>
 <hr />
-<p>以下给出讲解PGM比较深入浅出的一系列Lecture Slides。</p>
-<h2>PART I:Introduction to PGM</h2>
+<p>假设集合$S$中的每个元素都是一个$n$维的向量：</p>
+<p>\begin{equation}
+\vec{x} ={v_1,v_2,\cdots,v_n}
+\end{equation}</p>
+<p>集合中两个元素$\vec{v}$和$\vec{u}$之间的相似度定义为:</p>
+<p>\begin{equation}
+sim(\vec{v},\vec{u})=\frac{\vec{v}*\vec{u}}{|\vec{v}||\vec{u}|}
+\end{equation}</p>
+<p>对于以上元素集合$S$的随机投影法hash函数$h(*)$可以定义为如下：</p>
+<p>在$n$维空间中随机选取一个非零向量$\vec{x}={x_1, x_2, \ldots, x_n}$。考虑以该向量为法向量且经过坐标系原点的超平面，该超平面把整个$n$维空间分成了两部分，将法向量所在的空间称为正空间，另一空间为负空间。那么集合$S$中位于正空间的向量元素hash值为1，位于负空间的向量元素hash值为0。判断向量属于哪部分空间的一种简单办法是判断向量与法向量之间的夹角为锐角还是钝角，因此具体的定义公式可以写为</p>
+<p>\begin{equation}
+h(\vec{v})=\begin{cases}1, &amp;\vec{v}<em>\vec{x}&gt;0 \cr 0, &amp;\vec{v}</em>\vec{x}&lt;=0 \end{cases}
+\end{equation}</p>
+<p>根据以上定义，假设向量$\vec{v}$和$\vec{u}$之间的夹角为$\theta$，由于法向量$\vec{x}$是随机选取的，那么这两个向量未被该超平面分割到两侧（即hash值相等）的概率应该为：$p(\theta)=1-\frac{\theta}{\pi}$。假设两个向量的相似度值为$s$，那么根据$\theta=arccos(s)$,有</p>
+<p>\begin{equation}
+p(s)=1-\frac{arccos(s)}{\pi}
+\end{equation}</p>
+<p>因此，存在相似度$s$到概率$p$的单调递增映射关系，使得对于任意相似度大于等于$s$的两个元素，它们hash值相等的概率大于等于$p(s)$。所以，以上定义的hash值计算方法符合LSH算法的要求。</p>
+<p>以上所描述的$h(<em>)$函数虽然符合LSH算法的要求，但是实用性不高。因为该hash函数只产生了两个hash值，没有达到hash函数将元素分散到多个分组的目的。为了增加不同hash值的个数，可以多次生成独立的函数$h(</em>)$，只有当两个元素的多个$h(<em>)$值都相等时才算拥有相同的hash值。根据该思路可以定义如下的hash函数$H(</em>)$：</p>
+<p>\begin{equation}
+H(\vec{v})=(h_b(\vec{v})h_{b-1}(\vec{v})\ldots h_1(\vec{v}))_2
+\end{equation}</p>
+<p>其中每个$h_i(\vec{v})$表示一个独立的$h(<em>)$函数，$H(</em>)$函数值的二进制表现形式中每一位都是一个$h(<em>)$函数的结果。
+以$H(</em>)$为hash函数的话，两个相似度为$s$的元素具有相同hash值的概率公式为</p>
+<p>\begin{equation}
+p(s)=(1-\frac{arccos(s)}{\pi})^b
+\end{equation}</p>
+<p>hash值的个数为$2^b$。很容易看出$H(<em>)$函数同样也是符合LSH算法要求的。一般随机按投影算法选用的hash函数就是$H(</em>)$。其中参数$b$的取值会在后面小节中讨论。</p>
+<h1>随机投影法在最近邻搜索中的应用</h1>
+<hr />
+<h2>最近邻搜索</h2>
+<p>最近邻搜索可以简单的定义为：对于$m$个元素的集合$T$，为一个待查询元素$q$找到集合中相似度最高的$k$个元素。</p>
+<p>最近邻搜索最简单的实现方法为：计算$q$与集合$T$中每一个元素的相似度，使用一个具有$k$个元素的大顶堆（优先队列）保存相似度计算结果（相似度值为key）。这种实现方法每一次查询都要遍历整个集合$T$来计算相似度，当$m$很大并且查询的频率很高的时候这种暴力搜索的方法无法满足性能要求。</p>
+<p>当最近邻搜索的近邻要求并不是那么严格的时候，即允许top k近邻的召回率不一定为1（但是越高越好），那么可以考虑借助于LSH算法。</p>
+<h2>随机投影法提高执行速度</h2>
+<p>这里我们介绍当集合$T$的元素和查询元素$q$为同维度向量(维度为$n$)，并且元素相似度计算方法为余弦相似度时，使用随机投影法来提高最近邻搜索的执行速度。具体的实现方法为：</p>
 <ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-1-Introduction-Combined.pdf">Introduction and Overview</a>;主要介绍了PGM的背景以及Factor的基础知识。</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Bayes-Nets.pdf">Bayesian Network Fundamentals</a>;简要介绍了什么是Bayesian Network、Reasoning Patterns以及Influence Flow.最后简要介绍了一下Naive Bayes Classifier.</li>
+<li><strong>预处理阶段</strong>:使用hash函数$H(*)$计算集合$T$中所有元素的hash值，将集合$T$分成一个个分组，每个分组内的元素hash值均相等。用合适的数据结构保存这些hash值到分组的映射关系（如HashMap）。</li>
+<li><strong>查询阶段</strong>:计算查询元素$q$的hash值$H(q)$，取集合$T$中所有hash值为$H(q)$的分组，以该分组内的所有元素作为候选集合，在候选该集合内使用简单的最近邻搜索方法寻找最相似的$k$个元素。</li>
 </ul>
-<p><img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png" /></p>
+<p>该方法的执行效率取决于$H(*)$的hash值个数$2^b$，也就是分组的个数。理想情况下，如果集合$T$中的向量元素在空间中分布的足够均匀，那么每一个hash值对应的元素集合大小大致为$\frac{m} {2^b}$。当$m$远大于向量元素的维度时，每次查询的速度可以提高到$2^b$倍。</p>
+<p>根据以上分析$H(<em>)$中$b$的取值越大算法的执行速度的提升越多，并且是指数级别的提升。但是，在这种情况下$H(</em>)$函数下的概率公式$p(s)$，<strong>实际上表示与查询元素$q$的相似度为$s$的元素的召回率</strong>。当$b$的取值越大时，top k元素的召回率必然会下降。因此算法执行速度的提升需要召回率的下降作为代价。例如：当$b$等于10时，如果要保证某个元素的召回率不小于0.9，那么该元素与查询元素$q$的相似度必须不小于0.9999998。</p>
+<h2>提高召回率改进</h2>
+<p>为了在保证召回率的前提下尽可能提高算法的执行效率，一般可以进行如下改进：</p>
 <ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Template-Models.pdf">Template Models</a>;主要介绍了Template Models,包括Bayesian Network(HMM)以及Plate Models;</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-CPDs.pdf">Structured CPDs</a>;介绍了几种CPD表示的其他常见形式,包括:<ul>
-<li>Deterministic CPDs</li>
-<li>Tree-structured CPDs</li>
-<li>Logistic CPDs &amp; generalizations</li>
-<li>Noisy OR/AND</li>
-<li>Linear Gaussian &amp; generalizations</li>
+<li><strong>预处理阶段</strong>:生成$t$个独立的hash函数$H_i(∗)$，根据这$t$个不同的hash函数，对集合$T$进行$t$种不同的分组，每一种分组方式下，同一个分组的元素在对应hash函数下具有相同的hash值。用合适的数据结构保存这些映射关系（如使用$t$个HashMap来保存）。</li>
+<li><strong>查询阶段</strong>:对于每一个hash函数$H_i(∗)$，计算查询元素$q$的hash值$H_i(q)$，将集合$T$中$H_i(∗)$所对应的分组方式下hash值为$H_i(q)$的分组添加到该次查询的候选集合中。然后，在该候选集合内使用简单的最近邻搜索方法寻找最相似的$k$个元素。</li>
 </ul>
-</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Markov-Nets.pdf">Markov Network Fundamentals</a>;本部分涵盖的内容有Markov Network,General Gibbs Distribution,CRF,Log-Linear Models.(<strong>Logistic Models is a simple CRF;CRF does not need to concern about the correlation between features!</strong>)</li>
-</ul>
-<h2>PART II:PGM Inference</h2>
+<p>以上改进使得集合中元素与查询元素$q$的$t$个hash值中，只要任意一个相等，那么该集合元素就会被加入到候选集中。那么，相似度为$s$的元素的召回率为</p>
+<p>\begin{equation}
+p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
+\end{equation}</p>
+<p>在执行效率上，预处理阶段由于需要计算$t$个hash函数的值，所以执行时间上升为$t$倍。查询阶段，如果单纯考虑候选集合大小对执行效率的影响，在最坏的情况下，$t$个hash值获得的列表均不相同，候选集集合大小的期望值为$\frac{t∗m}{2^b}$，查询速度下降至$1 \over t$，与简单近邻搜索相比查询速度提升为$\frac{2^b}{t}$倍。</p>
+<p>下图是召回率公式$p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t$在不同的$b$和$t$取值下的$s-p$曲线。我们通过这些曲线来分析这里引入参数$t$的意义。4条蓝色的线以及最右边红色的线表示当$t$取值为1（相当于没有引入$t$），而$b$的取值从1变化到5的过程，从图中可以看出随着$b$的增大，不同相似度下的召回率都下降的非常厉害，特别的，当相似度接近1时曲线的斜率很大，也就说在高相似度的区域，召回率对相似度的变化非常敏感。10条红色的线从右到左表示$b$的取值为5不变，$t$的取值从1到10的过程，从图中可以看出，随着$t$的增大，曲线的形状发生了变化，高相似度区域的召回率变得下降的非常平缓，而最陡峭的地方渐渐的被移动到相对较低的相似度区域。因此，从以上曲线的变化特点可以看出，引入适当的参数$t$使得高相似度区域在一段较大的范围内仍然能够保持很高的召回率从而满足实际应用的需求。</p>
+<p><img alt="SP Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sp_curve_zpse1b5dbe6.png" /></p>
+<h2>参数选取</h2>
+<p>根据以上分析，$H(*)$函数的参数$b$越大查询效率越高，但是召回率越低；参数$t$越大查询效率越低但是召回率越高。因此选择适当参数$b$和$t$来折中查询效率与召回率之间的矛盾是应用好随机投影法的关键。下面提供一种在实际应用中选取$b$和$t$的参考方法。</p>
+<p>根据实际应用的需要确定一对$(s,p)$，表示相似度大于等于$s$的元素，召回率的最低要求为$p$。然后将召回率公式表示成$b-t$之间的函数关系$t=\log_{1-(1-\frac{acos(s)}{pi})^b}{(1-p)}$。根据$(s,p)$的取值，画出$b-t$的关系曲线。如$s=0.8,p=0.95$时的$b-t$曲线如下图所示。考虑具体应用中的实际情况，在该曲线上选取一组使得执行效率可以达到最优的$(b,t)$组合。</p>
+<p><img alt="BT_Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bt_curve_zps5aba4948.png" /></p>
+<h2>关于最近邻文本搜索</h2>
+<p>在最近邻文本搜索中，一般待检索的文本或查询文本，都已被解析成一系列带有权重的关键词，然后通过余弦相似度公式计算两个文本之间的相似度。这种应用场景下的最近邻搜索与以上所提到的最近邻搜索问题相比存在以下两个特点：</p>
 <ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Variable-Elimination.pdf">Variable Elimination</a>;简要介绍了如何在Bayesian Network以及Ｍarkov Network中执行VE算法;接着对其复杂度进行了分析;最后从图的视角重新审视了一下VE算法.</li>
+<li>如果把每个文本的带权重关键词表都看作是一个向量元素的话，每个关键词都是向量的一个维度，关键词权重为该维度的值。理论上可能关键词的个数并不确定（所有单词的组合都可能是一个关键词），因此该向量元素的维数实际上是不确定的。</li>
+<li>由于关键词权重肯定是大于零的，所以向量元素的每一个维度的值都是非负的。</li>
 </ul>
-<p><img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png" /></p>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf">Belief Propagation(I)</a> &amp; <a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf">Belief Propagation(II)</a>;其基本内容如下:<ul>
-<li>Belief Propagation算法基本流程;</li>
-<li>Cluster Graph的基本性质(<code>BP does poorly when we have strong correlations!</code>);</li>
-<li>BP算法的基本性质;</li>
-<li>Clique Tree Algorithm.</li>
-</ul>
-</li>
-</ul>
-<p><img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png" /></p>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-MAP.pdf">MAP Estimation</a>;关于MAP Inference的基础知识。</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf">Sampling Methods</a>;Basic Sampling Methods.</li>
-</ul>
-<h2>PART III:PGM Learning</h2>
-<ul>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-1.pdf">Learning: Parameter Estimation, Part 1</a> &amp; <a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-2.pdf">Learning: Parameter Estimation, Part 2</a>;Parameter Estimation for BN and MN;</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-BN-Structures.pdf">Structure Learning</a>;</li>
-<li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Incomplete-Data.pdf">Learning With Incomplete Data</a></li>
-</ul>
+<p>对于第一个特点，我们需要选取一个包含$n$个关键词的关键词集合，在进行文本相似度计算时只考虑属于该集合的关键词。也就是说，每一个文本都视为是一个$n$维度的向量，关键词权重体现为对应维度的值。该关键词集合可以有很多种生成办法，比如可以是网站上具有一定搜索频率的关键词集合，总的来说该关键词集合应当能够涵盖所有有意义并且具有一定使用频率的关键词。通常$n$的取值会比较大，如几十万到几百万，由于在使用随机投影算法时，每一个生成的随机向量维度都为$n$，这种情况下需要特别考虑利用这些高维随机向量对执行效率造成的影响，在确定$b、t$参数时需要考虑到这方面的影响。</p>
+<p>对于第二个特点，由于向量元素各维度值都非负，那么这些元素在高维空间中只会出现在特定的区域中。比如当$n$为3时，只会出现在第一象限中。一个直观的感觉是在生成随机向量的时候，会不会生成大量的无用切割平面（与第一个象限空间不相交，使得所有元素都位于切割平面的同侧）。这些切割平面对应的$H(*)$函数hash值中的二进制位恒定为1或者0，对于提高算法执行速度没有帮助。以下说明这种担心是没有必要的：</p>
 <blockquote>
-<p>NOTE:该课程网址见<a href="https://class.coursera.org/pgm-003">PGM</a>.</p>
-<p><em>TODO Board</em>:</p>
-<ul>
-<li>Ising Model</li>
-<li>Dual Decomposition</li>
-<li>Decision Making</li>
-<li>Bayesian Scores</li>
-<li>Learning With Incomplete Data</li>
-<li>Lassos</li>
-<li>凸QP</li>
-<li>Duality</li>
-<li>KKT条件</li>
-<li>支持向量机番外篇I:<a href="http://blog.pluskid.org/?p=702">支持向量机：Duality</a></li>
-<li>支持向量机番外篇II:<a href="http://blog.pluskid.org/?p=723">支持向量机：Kernel II</a></li>
-<li>Apriori算法细节</li>
-</ul>
-</blockquote><script type= "text/javascript">
+<p>切割平面与第一象限空间不相交等价于其法向量的每一个维度值都有相同的符号（都为正或者负），否则总能在第一象限空间中找到两个向量与法向量的乘积符号不同，也就是在切割平面的两侧。那么，随机生成的n维向量所有维度值都同号的概率为$\frac{1}{2^{n−1}}$，当$n$的取值很大时，该概率可以忽略不计。</p>
+</blockquote>
+<p>参考文献
+[1] P. Indyk and R. Motwani. Approximate Nearest Neighbor:Towards Removing the Curse of Dimensionality. In Proc. of the 30th Annual ACM Symposium on Theory of Computing, 1998, pp. 604–613.
+[2] Google News Personalization: Scalable Online Collaborative Filtering.</p><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -272,13 +188,46 @@ x_{ZCAwhite} = Ux_{PCAwhite}
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="../xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html">
+	<a class="btn btn-mini xsmall" href="../dang-zui-jin-lin-yu-dao-lsh.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="../xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html"><h1>小小收藏夹[持续更新中]</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>二 29 四月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/pearls.html">Pearls</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/suan-fa.html">算法</a> <a href="../tag/fun.html">Fun</a> <a href="../tag/staff.html">Staff</a> <a href="../tag/shou-cang-jia.html">收藏夹</a> <a href="../tag/bloom-filter.html">Bloom Filter</a> <a href="../tag/b-trees.html">B Trees</a> <a href="../tag/data-structure.html">Data Structure</a> <a href="../tag/algorithm.html">Algorithm</a> <a href="../tag/pgm.html">PGM</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>主要收集一些还不错的东东(持续更新)。</p> 
+	<a class="btn btn-mini xsmall" href="../xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
 
  
         
