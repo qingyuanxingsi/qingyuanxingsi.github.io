@@ -72,7 +72,7 @@ Filed under <a href="./category/pearls.html">Pearls</a>
       </div>
       
       <div class="span8">
-	<p>貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,找到了这篇写的挺好的文章<a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html">Locality Sensitive Hashing(LSH)之随机投影法</a>,摘录如下:</p>
+	<p>貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,发现这篇<a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html">Locality Sensitive Hashing(LSH)之随机投影法</a>关于局部敏感哈希算法的介绍还不错,于是摘录如下:</p>
 <h1>概述</h1>
 <hr />
 <p><strong>LSH</strong>是由文献[1]提出的一种用于高效求解最近邻搜索问题的Hash算法。LSH算法的基本思想是利用一个hash函数把集合中的元素映射成hash值，使得相似度越高的元素hash值相等的概率也越高。LSH算法使用的关键是针对某一种相似度计算方法，找到一个具有以上描述特性的hash函数。LSH所要求的hash函数的准确数学定义比较复杂，以下给出一种通俗的定义方式：</p>
@@ -94,7 +94,12 @@ sim(\vec{v},\vec{u})=\frac{\vec{v}*\vec{u}}{|\vec{v}||\vec{u}|}
 <p>对于以上元素集合$S$的随机投影法hash函数$h(*)$可以定义为如下：</p>
 <p>在$n$维空间中随机选取一个非零向量$\vec{x}={x_1, x_2, \ldots, x_n}$。考虑以该向量为法向量且经过坐标系原点的超平面，该超平面把整个$n$维空间分成了两部分，将法向量所在的空间称为正空间，另一空间为负空间。那么集合$S$中位于正空间的向量元素hash值为1，位于负空间的向量元素hash值为0。判断向量属于哪部分空间的一种简单办法是判断向量与法向量之间的夹角为锐角还是钝角，因此具体的定义公式可以写为</p>
 <p>\begin{equation}
-h(\vec{v})=\begin{cases}1, &amp;\vec{v}<em>\vec{x}&gt;0 \cr 0, &amp;\vec{v}</em>\vec{x}&lt;=0 \end{cases}
+h(\vec{v})=\left \lbrace
+\begin{array}{cc}
+1, &amp;\vec{v}<em>\vec{x}&gt;0 \\
+0, &amp;\vec{v}</em>\vec{x}&lt;=0 
+\end{array}
+\right.
 \end{equation}</p>
 <p>根据以上定义，假设向量$\vec{v}$和$\vec{u}$之间的夹角为$\theta$，由于法向量$\vec{x}$是随机选取的，那么这两个向量未被该超平面分割到两侧（即hash值相等）的概率应该为：$p(\theta)=1-\frac{\theta}{\pi}$。假设两个向量的相似度值为$s$，那么根据$\theta=arccos(s)$,有</p>
 <p>\begin{equation}
@@ -153,9 +158,9 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 <blockquote>
 <p>切割平面与第一象限空间不相交等价于其法向量的每一个维度值都有相同的符号（都为正或者负），否则总能在第一象限空间中找到两个向量与法向量的乘积符号不同，也就是在切割平面的两侧。那么，随机生成的n维向量所有维度值都同号的概率为$\frac{1}{2^{n−1}}$，当$n$的取值很大时，该概率可以忽略不计。</p>
 </blockquote>
-<p>参考文献
-[1] P. Indyk and R. Motwani. Approximate Nearest Neighbor:Towards Removing the Curse of Dimensionality. In Proc. of the 30th Annual ACM Symposium on Theory of Computing, 1998, pp. 604–613.
-[2] Google News Personalization: Scalable Online Collaborative Filtering.</p><script type= "text/javascript">
+<h2>参考文献</h2>
+<p>[1] P. Indyk and R. Motwani. Approximate Nearest Neighbor:Towards Removing the Curse of Dimensionality. In Proc. of the 30th Annual ACM Symposium on Theory of Computing, 1998, pp. 604–613.</p>
+<p>[2] Google News Personalization: Scalable Online Collaborative Filtering.</p><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
