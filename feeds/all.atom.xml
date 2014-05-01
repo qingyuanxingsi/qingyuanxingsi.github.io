@@ -111,7 +111,50 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-</summary><category term="算法"></category><category term="Algorithm"></category><category term="LSH"></category><category term="局部敏感哈希算法"></category></entry><entry><title>机器学习系列(VII):Kernels</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-viikernels.html" rel="alternate"></link><updated>2014-04-29T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-29:ji-qi-xue-xi-xi-lie-viikernels.html</id><summary type="html">&lt;p&gt;这一篇作为机器学习系列的第七篇,主要介绍核方法,关于&lt;strong&gt;SVM&lt;/strong&gt;的部分Pluskid已经写的很通俗易懂了,具体请参考&lt;a href="http://www.qingyuanxingsi.com/category/pearls.html"&gt;小小收藏夹[持续更新中]&lt;/a&gt;中SVM部分的链接,本文主要补充关于核方法的一些其他知识吧。&lt;/p&gt;
+</summary><category term="算法"></category><category term="Algorithm"></category><category term="LSH"></category><category term="局部敏感哈希算法"></category></entry><entry><title>机器学习拾遗(I):概率图模型</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing.html</id><summary type="html">&lt;p&gt;今天突然发现&lt;em&gt;Machine Learning:A Probablistic Perspective&lt;/em&gt;一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。&lt;/p&gt;
+&lt;h1&gt;Undirected Graphical Models(&lt;em&gt;Chapter 10&lt;/em&gt;)&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Family&lt;/strong&gt;;For a directed graph,the family of a node is the node and its parents,$fam(s) = {s} \cup pa(s)$.&lt;/li&gt;
+&lt;li&gt;Influence(Decision Diagrams);人的行为是理智的,人们在决策时总希望自己所能得到的期望效用最大化(&lt;em&gt;Expected Utility&lt;/em&gt;),当我们对不同行动下的期望效用进行比较后就很容易做出对我们而言最好的&lt;em&gt;Action&lt;/em&gt;.然而,现实生活中信息对于决策具有非常重要的意义，当我们获得一些其他的有用的信息时，可能做出更为明智的决定。得知一定的决策信息后，一般而言，我们的最大期望效用会提高,而此时的最大期望效用值相对之前的提升量则称为&lt;strong&gt;Value of Perfect Information,VPI(完美信息价值)&lt;/strong&gt;。而实际上在现实生活中我们获取这些信息并不是不无代价的,因此 理智人能做出的理智选择是,当信息的VPI要大于获取信息的代价时,我们选择获取额外的信息，否则则不用获取该信息。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Decision Diagrams" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_diagram_zps163a6ef8.png" /&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MDP(&lt;em&gt;Markov Decision Process&lt;/em&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Machine Learning"></category><category term="Graphical Models"></category><category term="Notes"></category></entry><entry><title>机器学习系列(VII):Kernels</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-viikernels.html" rel="alternate"></link><updated>2014-04-29T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-04-29:ji-qi-xue-xi-xi-lie-viikernels.html</id><summary type="html">&lt;p&gt;这一篇作为机器学习系列的第七篇,主要介绍核方法,关于&lt;strong&gt;SVM&lt;/strong&gt;的部分Pluskid已经写的很通俗易懂了,具体请参考&lt;a href="http://www.qingyuanxingsi.com/category/pearls.html"&gt;小小收藏夹[持续更新中]&lt;/a&gt;中SVM部分的链接,本文主要补充关于核方法的一些其他知识吧。&lt;/p&gt;
 &lt;p&gt;我们之前介绍的所有方法均假定Object可被恰当地表示为一定长的特征向量$x_i \in R^D$.然而,对于某些情况而言,我们也许并不知道如何将它们表示成定长的特征向量。如,我们如何表示可变长的文本文档或者蛋白质序列?如何表示具有复杂3D结构的分子结构?如何表示具有可变大小和形状的进化树?&lt;/p&gt;
 &lt;p&gt;解决以上问题的方法之一是为数据定义一生成模型，并使用推断得到的隐含表示作为特征输入到标准的方法中,如&lt;em&gt;Deep Learning&lt;/em&gt;.另一方法则是我们假定我们有某种方法能够衡量Objects之间的相似度,因此我们并不需要将数据预处理为特征向量的形式。如当我们比较字符串时,我们可以计算它们之间的编辑距离。令$k(x,x\prime) \geq 0$作为衡量$x$和$x\prime$之间差异性的某种标准($k$被称为核函数&lt;strong&gt;Kernel Function&lt;/strong&gt;).以下我们介绍几种常见的核函数。&lt;/p&gt;
 &lt;h1&gt;核函数&lt;/h1&gt;
