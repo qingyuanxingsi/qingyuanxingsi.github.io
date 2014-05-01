@@ -20,9 +20,7 @@ sim(\vec{v},\vec{u})=\frac{\vec{v}*\vec{u}}{|\vec{v}||\vec{u}|}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;对于以上元素集合$S$的随机投影法hash函数$h()$可以定义为如下：&lt;/p&gt;
 &lt;p&gt;在$n$维空间中随机选取一个非零向量$\vec{x}={x_1, x_2, \ldots, x_n}$。考虑以该向量为法向量且经过坐标系原点的超平面，该超平面把整个$n$维空间分成了两部分，将法向量所在的空间称为正空间，另一空间为负空间。那么集合$S$中位于正空间的向量元素hash值为1，位于负空间的向量元素hash值为0。判断向量属于哪部分空间的一种简单办法是判断向量与法向量之间的夹角为锐角还是钝角，因此具体的定义公式可以写为&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-h(\vec{v})=\begin{cases}1, &amp;amp;\vec{v}&lt;em&gt;\vec{x}&amp;gt;0 \cr 0, &amp;amp;\vec{v}&lt;/em&gt;\vec{x}&amp;lt;=0 \end{cases}
-\end{equation}&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Formula 1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/formula_2_zpsd4647f5a.png" /&gt;&lt;/p&gt;
 &lt;p&gt;根据以上定义，假设向量$\vec{v}$和$\vec{u}$之间的夹角为$\theta$，由于法向量$\vec{x}$是随机选取的，那么这两个向量未被该超平面分割到两侧（即hash值相等）的概率应该为：$p(\theta)=1-\frac{\theta}{\pi}$。假设两个向量的相似度值为$s$，那么根据$\theta=arccos(s)$,有&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 p(s)=1-\frac{arccos(s)}{\pi}
