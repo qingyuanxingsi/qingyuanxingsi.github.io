@@ -4,7 +4,7 @@
 &lt;hr /&gt;
 &lt;p&gt;&lt;strong&gt;LSH&lt;/strong&gt;是由文献[1]提出的一种用于高效求解最近邻搜索问题的Hash算法。LSH算法的基本思想是利用一个hash函数把集合中的元素映射成hash值，使得相似度越高的元素hash值相等的概率也越高。LSH算法使用的关键是针对某一种相似度计算方法，找到一个具有以上描述特性的hash函数。LSH所要求的hash函数的准确数学定义比较复杂，以下给出一种通俗的定义方式：&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;对于集合$S$，集合内元素间相似度的计算公式为$sim(&lt;em&gt;,&lt;/em&gt;)$。如果存在一个hash函数$h(&lt;em&gt;)$满足以下条件：存在一个相似度$s$到概率$p$的单调递增映射关系，使得$S$中的任意两个满足$sim(a,b)\geq s$的元素$a$和$b$，$h(a)=h(b)$的概率大于等于$p$。那么$h(&lt;/em&gt;)$就是该集合的一个LSH算法hash函数。&lt;/p&gt;
+&lt;p&gt;对于集合$S$，集合内元素间相似度的计算公式为$sim(a,b)$。如果存在一个hash函数$h(&lt;em&gt;)$满足以下条件：存在一个相似度$s$到概率$p$的单调递增映射关系，使得$S$中的任意两个满足$sim(a,b)\geq s$的元素$a$和$b$，$h(a)=h(b)$的概率大于等于$p$。那么$h(&lt;/em&gt;)$就是该集合的一个LSH算法hash函数。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;一般来说在最近邻搜索中，元素间的关系可以用相似度或者距离来衡量。如果用距离来衡量，那么距离一般与相似度之间存在单调递减的关系。以上描述如果使用距离来替代相似度需要在单调关系上做适当修改。&lt;/p&gt;
 &lt;p&gt;根据元素相似度计算方式的不同，LSH有许多不同的hash算法。两种比较常见的hash算法是&lt;strong&gt;随机投影法&lt;/strong&gt;和min-hash算法。本文即将介绍的随机投影法适用于集合元素可以表示成向量的形式，并且相似度计算是基于向量之间夹角的应用场景，如余弦相似度。min-hash法在参考文献[2]中有相关介绍。&lt;/p&gt;
@@ -33,7 +33,7 @@ h(\vec{v})=\left \lbrace
 p(s)=1-\frac{arccos(s)}{\pi}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;因此，存在相似度$s$到概率$p$的单调递增映射关系，使得对于任意相似度大于等于$s$的两个元素，它们hash值相等的概率大于等于$p(s)$。所以，以上定义的hash值计算方法符合LSH算法的要求。&lt;/p&gt;
-&lt;p&gt;以上所描述的$h(&lt;em&gt;)$函数虽然符合LSH算法的要求，但是实用性不高。因为该hash函数只产生了两个hash值，没有达到hash函数将元素分散到多个分组的目的。为了增加不同hash值的个数，可以多次生成独立的函数$h(&lt;/em&gt;)$，只有当两个元素的多个$h(&lt;em&gt;)$值都相等时才算拥有相同的hash值。根据该思路可以定义如下的hash函数$H(&lt;/em&gt;)$：&lt;/p&gt;
+&lt;p&gt;以上所描述的$h()$函数虽然符合LSH算法的要求，但是实用性不高。因为该hash函数只产生了两个hash值，没有达到hash函数将元素分散到多个分组的目的。为了增加不同hash值的个数，可以多次生成独立的函数$h()$，只有当两个元素的多个$h()$值都相等时才算拥有相同的hash值。根据该思路可以定义如下的hash函数$H()$：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 H(\vec{v})=(h_b(\vec{v})h_{b-1}(\vec{v})\ldots h_1(\vec{v}))_2
 \end{equation}&lt;/p&gt;
