@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-    <script src="../theme/html5.js"></script>
+    <script src="./theme/html5.js"></script>
     <![endif]-->
 
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="../theme/local.css" rel="stylesheet">
-    <link href="../theme/pygments.css" rel="stylesheet">
-    <link href="../theme/font-awesome.css" rel="stylesheet">
+    <link href="./theme/local.css" rel="stylesheet">
+    <link href="./theme/pygments.css" rel="stylesheet">
+    <link href="./theme/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
 
@@ -24,24 +24,24 @@
   <div class="container">
     <div class="row-fluid">
       <div class="span9">
-	<a href=".." class="brand">苹果的味道</a>
+	<a href="." class="brand">苹果的味道</a>
       </div>
 
       <div class="span3" id="blog-nav">
 	<ul class="nav nav-pills pull-right">
-            <li><a href="../pages/about.html">About</a></li>
+            <li><a href="./pages/about.html">About</a></li>
 	    <li >
-	      <a href="../category/distributed-system.html ">Distributed System</a>
+	      <a href="./category/distributed-system.html ">Distributed System</a>
 	    <li >
-	      <a href="../category/life.html ">Life</a>
+	      <a href="./category/life.html ">Life</a>
 	    <li >
-	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
+	    <li  class="active" >
+	      <a href="./category/notes.html ">Notes</a>
 	    <li >
-	      <a href="../category/notes.html ">Notes</a>
+	      <a href="./category/pearls.html ">Pearls</a>
 	    <li >
-	      <a href="../category/pearls.html ">Pearls</a>
-	    <li >
-	      <a href="../category/viewpoint.html ">Viewpoint</a>
+	      <a href="./category/viewpoint.html ">Viewpoint</a>
 	</ul>
       </div>
     </div> <!-- End of fluid row-->
@@ -53,55 +53,53 @@
     <div class="row-fluid">
 
         <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html"><h1>机器学习拾遗(II):大杂烩</h1></a>
-        </div>
-    </div>
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>机器学习拾遗(II):大杂烩</h1b>
+           </div>
+      </div>
     <div class="row-fluid">
       <div class="span2">
 <p>五 02 五月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="../category/notes.html">Notes</a>
+Filed under <a href="./category/notes.html">Notes</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/linear-models.html">Linear Models</a> <a href="../tag/notes.html">Notes</a> </p>
+    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/gaussian-models.html">Gaussian Models</a> <a href="./tag/linear-models.html">Linear Models</a> <a href="./tag/notes.html">Notes</a> </p>
 <p>
 </p>
       </div>
-      <div class="article-content span8">
+      
+      <div class="span8">
 	<p>本文主要对之前看过的<em>Machine Learning:A Probabilistic Perspective</em>一书中有关离散数据生成模型、高斯模型以及线性模型等相关部分进行梳理。</p>
 <blockquote>
 <p><em>TODO Board</em></p>
 <ul>
 <li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1" title="Machine Learning:A Probabilistic Perspective Chapter 3">1</a></sup></li>
 </ul>
-</blockquote><ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html">
-          <i class="icon-comment"></i> Comment </a>
+</blockquote><ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li></ol>
 	<hr />
       </div>
-      
     </div>
+    <div class="span10">
+      <h3>Comments</h3>
     
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
 
-    <li class="active"><a href="../tag/linear-models.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
-</div>
- 
-  
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
+    </div>
         </div>
         
         
@@ -141,14 +139,14 @@ Filed under <a href="../category/notes.html">Notes</a>
             <li class="nav-header"> 
               Site
             </li>
-            <li><a href=".."><i class="icon-home" style="color: #1f334b">
+            <li><a href="."><i class="icon-home" style="color: #1f334b">
                 </i>Home</a></li>
-            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
+            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
                 </i>Archives</a></li>
-	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
+	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
                 </i>Tags</a></li>
 	    
-            <li><a href="../" rel="alternate">
+            <li><a href="./" rel="alternate">
                 <i class="icon-rss-sign" style="color: #1f334b"></i>
                 Atom Feed</a></li>
 	  </ul>
@@ -158,7 +156,7 @@ Filed under <a href="../category/notes.html">Notes</a>
       </div> <!--end of fluid row-->
     </div> <!--end of blog-footer-->
     <hr />
-    <p align="center"><a href="..">苹果的味道</a>
+    <p align="center"><a href=".">苹果的味道</a>
       &copy; qingyuanxingsi
     Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
         <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
