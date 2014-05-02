@@ -44,7 +44,7 @@ P(y|X,w) &amp;amp;= \prod_{i=1}^n P(y_i|x_i^Tw) \\
 &amp;amp;= N_y(X^Tw,\sigma^2I_n)
 \end{split}
 \end{equation}&lt;/p&gt;
-&lt;p&gt;令我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$&lt;/p&gt;
+&lt;p&gt;另我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$&lt;/p&gt;
 &lt;p&gt;则我们可得Posterior:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \begin{split}
