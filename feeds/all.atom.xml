@@ -13,13 +13,13 @@
 &lt;p&gt;\begin{equation}
 \delta_c(x) = log\ p(x,y=c|\theta) = -\sum_{j=1}^D \frac{(x_j-\mu_{cj})^2}{2\sigma_j^2}+log\ \pi_c
 \end{equation}&lt;/p&gt;
-&lt;p&gt;一般我们令$\hat{\mu}&lt;em cj="cj"&gt;{cj} = \bar{x}&lt;/em&gt;$且$\hat{\sigma}_j^2=s_j^2$,$s_j^2$称为&lt;em&gt;Pooled empirical variance&lt;/em&gt;,定义如下:&lt;/p&gt;
+&lt;p&gt;一般我们令$\hat\mu_{cj} = \bar{x}_{cj}$且$\hat\sigma_j^2=s_j^2$,$s_j^2$称为&lt;em&gt;Pooled empirical variance&lt;/em&gt;,定义如下:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;在高维情形下,该模型比LDA和RDA效果都要好。&lt;/p&gt;
 &lt;h2&gt;方差MAP估计&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;ML&lt;/em&gt;(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$Sigma$的估计写的很复杂,于是基本上没看那部分,关于$Sigma$的MAP估计可参考以下链接:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;ML&lt;/em&gt;(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$\Sigma$的估计写的很复杂,于是基本上没看那部分,关于$\Sigma$的MAP估计可参考以下链接:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/"&gt;Regularized Gaussian Covariance Estimation&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
