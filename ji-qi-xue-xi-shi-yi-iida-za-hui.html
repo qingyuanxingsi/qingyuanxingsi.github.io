@@ -146,7 +146,7 @@ P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
 <p>对数似然函数为:
 \begin{equation}
 \begin{split}
-\ell(w) &amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\pi(x_i))] \\
+\ell(w) &amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\mu(x_i))] \\
 &amp;= \sum_{i=1}^N [y_i log \frac{\mu(x_i)}{1-\mu(x_i)}+log(1-\mu(x_i))] \\
 &amp;= \sum_{i=1}^N [y_i(w^Tx_i)-log(1+exp(w^Tx_i)]
 \end{split}
