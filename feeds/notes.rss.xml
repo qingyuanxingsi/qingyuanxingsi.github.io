@@ -21,12 +21,56 @@ s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
 &lt;h2&gt;方差MAP估计&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;ML&lt;/em&gt;(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$\Sigma$的估计写的很复杂,于是基本上没看那部分,关于$\Sigma$的MAP估计可参考以下链接:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/"&gt;Regularized Gaussian Covariance Estimation&lt;/a&gt;&lt;/p&gt;
+&lt;h1&gt;Linear Regression&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 7"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2&gt;Bayesian Linear Regression&lt;/h2&gt;
+&lt;p&gt;给定训练集$D={(x_i,y_i)|i=1,\cdots,n}$,我们有:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Design_Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/design_matrix_zpse58dd2c8.png"&gt;&lt;/p&gt;
+&lt;p&gt;对于Linear Regression,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+f(x) &amp;amp; = x^Tw \in R,x,w \in R^D   \\
+y &amp;amp;= f(x) + \epsilon = x^Tw+\epsilon \in R \\
+\epsilon &amp;amp;\sim\ N(0,\sigma^2) \in R
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;我们首先计算Likelihood:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+P(y|X,w) &amp;amp;= \prod_{i=1}^n P(y_i|x_i^Tw) \\
+&amp;amp;= \prod_{i=1}^n N_{yi}(x_i^Tw,\sigma^2) \\
+&amp;amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp[\frac{-(y_i-x_i^Tw)^2}{2\sigma^2}] \\
+&amp;amp;= \frac{1}{(2\pi\sigma^2)^{n/2}}exp[\frac{-1}{2\sigma^2}||y-X^Tw||^2] \\
+&amp;amp;= N_y(X^Tw,\sigma^2I_n)
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;令我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$&lt;/p&gt;
+&lt;p&gt;则我们可得Posterior:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+P(w|X,y) &amp;amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
+&amp;amp;= \frac{P(y|X,w)P(w)}{\int P(y|X,w)dw}  \\
+&amp;amp;= \frac{N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)}{\int N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)dw} \\
+&amp;amp;\sim\ N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;更进一步地,我们有:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="MAP_Estimation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/map_weight_zps49ddf4b7.png"&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE:Posterior协方差矩阵并不依赖观察值$y$.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Regularized LDA&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Nearest shrunken centroids classifier&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Numerically stable computation[7.5.2]&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Connection with PCA[7.5.3]&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Estimating $\sigma^2$[7.6.3]&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Evidence Procedure[7.6.4]&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -58,7 +102,7 @@ s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 4&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(I):概率图模型[待续]</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html</id><summary type="html">&lt;p&gt;今天突然发现&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 4&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 7&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(I):概率图模型[待续]</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html</id><summary type="html">&lt;p&gt;今天突然发现&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。&lt;/p&gt;
 &lt;h1&gt;Undirected Graphical Models&lt;sup id="sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1" title="Machine Learning:A Probabilistic Perspective Chapter 10"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;

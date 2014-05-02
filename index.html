@@ -98,12 +98,56 @@ s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
 <h2>方差MAP估计</h2>
 <p><em>ML</em>(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$\Sigma$的估计写的很复杂,于是基本上没看那部分,关于$\Sigma$的MAP估计可参考以下链接:</p>
 <p><a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a></p>
+<h1>Linear Regression<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 7">3</a></sup></h1>
+<hr>
+<h2>Bayesian Linear Regression</h2>
+<p>给定训练集$D={(x_i,y_i)|i=1,\cdots,n}$,我们有:</p>
+<p><img alt="Design_Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/design_matrix_zpse58dd2c8.png"></p>
+<p>对于Linear Regression,我们有:</p>
+<p>\begin{equation}
+\begin{split}
+f(x) &amp; = x^Tw \in R,x,w \in R^D   \\
+y &amp;= f(x) + \epsilon = x^Tw+\epsilon \in R \\
+\epsilon &amp;\sim\ N(0,\sigma^2) \in R
+\end{split}
+\end{equation}</p>
+<p>我们首先计算Likelihood:</p>
+<p>\begin{equation}
+\begin{split}
+P(y|X,w) &amp;= \prod_{i=1}^n P(y_i|x_i^Tw) \\
+&amp;= \prod_{i=1}^n N_{yi}(x_i^Tw,\sigma^2) \\
+&amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp[\frac{-(y_i-x_i^Tw)^2}{2\sigma^2}] \\
+&amp;= \frac{1}{(2\pi\sigma^2)^{n/2}}exp[\frac{-1}{2\sigma^2}||y-X^Tw||^2] \\
+&amp;= N_y(X^Tw,\sigma^2I_n)
+\end{split}
+\end{equation}</p>
+<p>令我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$</p>
+<p>则我们可得Posterior:</p>
+<p>\begin{equation}
+\begin{split}
+P(w|X,y) &amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
+&amp;= \frac{P(y|X,w)P(w)}{\int P(y|X,w)dw}  \\
+&amp;= \frac{N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)}{\int N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)dw} \\
+&amp;\sim\ N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)
+\end{split}
+\end{equation}</p>
+<p>更进一步地,我们有:</p>
+<p><img alt="MAP_Estimation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/map_weight_zps49ddf4b7.png"></p>
+<blockquote>
+<p>NOTE:Posterior协方差矩阵并不依赖观察值$y$.</p>
+</blockquote>
+<p>我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:</p>
+<p><img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"></p>
 <blockquote>
 <p><em>TODO Board</em></p>
 <ul>
-<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 3">3</a></sup></li>
+<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 3">4</a></sup></li>
 <li><em>Regularized LDA</em></li>
 <li><em>Nearest shrunken centroids classifier</em></li>
+<li><em>Numerically stable computation[7.5.2]</em></li>
+<li><em>Connection with PCA[7.5.3]</em></li>
+<li><em>Estimating $\sigma^2$[7.6.3]</em></li>
+<li><em>Evidence Procedure[7.6.4]</em></li>
 </ul>
 </blockquote><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -135,7 +179,7 @@ s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"><em>Machine Learning:A Probabilistic Perspective Chapter 7</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-shi-yi-iida-za-hui.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
