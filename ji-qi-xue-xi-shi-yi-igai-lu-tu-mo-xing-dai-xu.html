@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-    <script src="../theme/html5.js"></script>
+    <script src="./theme/html5.js"></script>
     <![endif]-->
 
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="../theme/local.css" rel="stylesheet">
-    <link href="../theme/pygments.css" rel="stylesheet">
-    <link href="../theme/font-awesome.css" rel="stylesheet">
+    <link href="./theme/local.css" rel="stylesheet">
+    <link href="./theme/pygments.css" rel="stylesheet">
+    <link href="./theme/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
 
@@ -24,24 +24,24 @@
   <div class="container">
     <div class="row-fluid">
       <div class="span9">
-	<a href=".." class="brand">苹果的味道</a>
+	<a href="." class="brand">苹果的味道</a>
       </div>
 
       <div class="span3" id="blog-nav">
 	<ul class="nav nav-pills pull-right">
-            <li><a href="../pages/about.html">About</a></li>
+            <li><a href="./pages/about.html">About</a></li>
 	    <li >
-	      <a href="../category/distributed-system.html ">Distributed System</a>
+	      <a href="./category/distributed-system.html ">Distributed System</a>
 	    <li >
-	      <a href="../category/life.html ">Life</a>
+	      <a href="./category/life.html ">Life</a>
 	    <li >
-	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
+	    <li  class="active" >
+	      <a href="./category/notes.html ">Notes</a>
 	    <li >
-	      <a href="../category/notes.html ">Notes</a>
+	      <a href="./category/pearls.html ">Pearls</a>
 	    <li >
-	      <a href="../category/pearls.html ">Pearls</a>
-	    <li >
-	      <a href="../category/viewpoint.html ">Viewpoint</a>
+	      <a href="./category/viewpoint.html ">Viewpoint</a>
 	</ul>
       </div>
     </div> <!-- End of fluid row-->
@@ -53,29 +53,27 @@
     <div class="row-fluid">
 
         <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html"><h1>机器学习拾遗(I):概率图模型[待续]</h1></a>
-        </div>
-    </div>
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>机器学习拾遗(I):概率图模型[待续]</h1b>
+           </div>
+      </div>
     <div class="row-fluid">
       <div class="span2">
 <p>四 01 五月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="../category/notes.html">Notes</a>
+Filed under <a href="./category/notes.html">Notes</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/graphical-models.html">Graphical Models</a> <a href="../tag/notes.html">Notes</a> </p>
+    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/graphical-models.html">Graphical Models</a> <a href="./tag/notes.html">Notes</a> </p>
 <p>
 </p>
       </div>
-      <div class="article-content span8">
+      
+      <div class="span8">
 	<p>今天突然发现<em>Machine Learning:A Probablistic Perspective</em>一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。</p>
 <h1>Undirected Graphical Models(<em>Chapter 10</em>)</h1>
 <hr />
@@ -119,159 +117,26 @@ Filed under <a href="../category/notes.html">Notes</a>
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
- 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html">
-          <i class="icon-comment"></i> Comment </a>
+
 	<hr />
       </div>
-      
     </div>
+    <div class="span10">
+      <h3>Comments</h3>
     
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
 
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-xi-lie-viikernels.html"><h1>机器学习系列(VII):Kernels</h1></a>
-      </div>
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
     </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 29 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/svm.html">SVM</a> <a href="../tag/kernels.html">Kernels</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要介绍核方法,鉴于Pluskid已经非常深入浅出地介绍过SVM,本文作为补充吧,介绍一些关于Kernels的其他知识。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-viikernels.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-xi-lie-vilatent-linear-models.html"><h1>机器学习系列(VI):Latent Linear Models</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 27 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/latent-linear-models.html">Latent Linear Models</a> <a href="../tag/factor-analysis.html">Factor Analysis</a> <a href="../tag/em.html">EM</a> <a href="../tag/pca.html">PCA</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要介绍Latent Linear Models,主要介绍因子分析、主成分分析,由于ICA目前未完全看懂,ICA部分暂时搁置,待弄明白后有时间会另外写一篇介绍。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-vilatent-linear-models.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html"><h1>机器学习系列(V): Generalized linear models and the exponential family</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>三 23 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/exponential-family.html">Exponential Family</a> <a href="../tag/generalized-linear-models.html">Generalized Linear Models</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要介绍广义线性模型以及指数分布族。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html"><h1>机器学习外传之Deep Learning(I):Sparse Autoencoder</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 13 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/deep-learning.html">Deep Learning</a> <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/back-propagation.html">Back Propagation</a> <a href="../tag/bp-neural-network.html">BP Neural Network</a> <a href="../tag/sparse-autoencoder.html">Sparse Autoencoder</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文简要介绍一下Deep Learning是什么以及其基本使用场景;在此基础上,我们会简要介绍一下BP神经网络以及Back Propagation反向传播算法。接下来在充分理解Back Propagation的基础之上,我们介绍一下Sparse Autoencoder稀疏自编码器。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="../tag/machine-learning.html">1</a></li>
-    <li class=""><a href="../tag/machine-learning2.html">2</a></li>
-
-    <li class="next"><a href="../tag/machine-learning2.html">Next &rarr;</a></li>
-
-</ul>
-</div>
- 
-  
         </div>
         
         
@@ -311,14 +176,14 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
             <li class="nav-header"> 
               Site
             </li>
-            <li><a href=".."><i class="icon-home" style="color: #1f334b">
+            <li><a href="."><i class="icon-home" style="color: #1f334b">
                 </i>Home</a></li>
-            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
+            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
                 </i>Archives</a></li>
-	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
+	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
                 </i>Tags</a></li>
 	    
-            <li><a href="../" rel="alternate">
+            <li><a href="./" rel="alternate">
                 <i class="icon-rss-sign" style="color: #1f334b"></i>
                 Atom Feed</a></li>
 	  </ul>
@@ -328,7 +193,7 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
       </div> <!--end of fluid row-->
     </div> <!--end of blog-footer-->
     <hr />
-    <p align="center"><a href="..">苹果的味道</a>
+    <p align="center"><a href=".">苹果的味道</a>
       &copy; qingyuanxingsi
     Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
         <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
