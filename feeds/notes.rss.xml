@@ -6,10 +6,27 @@
 &lt;p&gt;如果一个表达式可以表示成&lt;strong&gt;有限的&lt;/strong&gt;某些特定的&lt;strong&gt;Ｗell-known&lt;/strong&gt;函数的形式，那么我们说这个表达式是一个&lt;strong&gt;Closed Form&lt;/strong&gt;表达式。一般而言,这些&lt;strong&gt;Well-known&lt;/strong&gt;函数包括基本的函数，如常数、单个变量$x$、基本的算术操作、开方、指数对数函数、三角反三角函数等。如果一个问题可以得到一&lt;strong&gt;Closed Form&lt;/strong&gt;的解,我们通常就说这个问题是可解的。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Closed–form&lt;/strong&gt;表达式是解析表达式的一个非常重要的子类,解析表达式可包含有限或无限个&lt;strong&gt;Well-known&lt;/strong&gt;函数。和更为广泛的解析表达式不同,&lt;strong&gt;Closed–form&lt;/strong&gt;表达式并不包含无限级数和递归分数(&lt;em&gt;Continued Fractions&lt;/em&gt;)形式，也不能包含积分和极限。&lt;/p&gt;
 &lt;p&gt;一个方程或方程组当且仅当它的一个解可写成&lt;strong&gt;Closed-Form&lt;/strong&gt;形式时,我们才说该方程或方程组具有一&lt;strong&gt;Closed-form solution&lt;/strong&gt;.类似地,一个方程或方程组当且仅当它的一个解可写成解析形式时,我们才说该方程或方程组具有一解析解。&lt;/p&gt;
+&lt;h1&gt;Gaussian Models&lt;sup id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2" title="Machine Learning:A Probabilistic Perspective Chapter 4"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;hr&gt;
+&lt;h2&gt;Diagonal LDA&lt;/h2&gt;
+&lt;p&gt;在GLA中,如果我们限定不同类间共享$\Sigma$,并对每类使用一对角协方差矩阵，我们得到的模型则称为&lt;strong&gt;Diagonal LDA Model&lt;/strong&gt;.对应的判别函数如下所示:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\delta_c(x) = log\ p(x,y=c|\theta) = -\sum_{j=1}^D \frac{(x_j-\mu_{cj})^2}{2\sigma_j^2}+log\ \pi_c
+\end{equation}&lt;/p&gt;
+&lt;p&gt;一般我们令$\hat{\mu}&lt;em cj="cj"&gt;{cj} = \bar{x}&lt;/em&gt;$且$\hat{\sigma}_j^2=s_j^2$,$s_j^2$称为&lt;em&gt;Pooled empirical variance&lt;/em&gt;,定义如下:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;在高维情形下,该模型比LDA和RDA效果都要好。&lt;/p&gt;
+&lt;h2&gt;方差MAP估计&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;ML&lt;/em&gt;(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$Sigma$的估计写的很复杂,于是基本上没看那部分,关于$Sigma$的MAP估计可参考以下链接:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/"&gt;Regularized Gaussian Covariance Estimation&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Regularized LDA&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Nearest shrunken centroids classifier&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -41,7 +58,7 @@
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(I):概率图模型[待续]</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html</id><summary type="html">&lt;p&gt;今天突然发现&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 4&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(I):概率图模型[待续]</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html</id><summary type="html">&lt;p&gt;今天突然发现&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。&lt;/p&gt;
 &lt;h1&gt;Undirected Graphical Models&lt;sup id="sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1" title="Machine Learning:A Probabilistic Perspective Chapter 10"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;

@@ -83,10 +83,27 @@ Filed under <a href="./category/notes.html">Notes</a>
 <p>如果一个表达式可以表示成<strong>有限的</strong>某些特定的<strong>Ｗell-known</strong>函数的形式，那么我们说这个表达式是一个<strong>Closed Form</strong>表达式。一般而言,这些<strong>Well-known</strong>函数包括基本的函数，如常数、单个变量$x$、基本的算术操作、开方、指数对数函数、三角反三角函数等。如果一个问题可以得到一<strong>Closed Form</strong>的解,我们通常就说这个问题是可解的。</p>
 <p><strong>Closed–form</strong>表达式是解析表达式的一个非常重要的子类,解析表达式可包含有限或无限个<strong>Well-known</strong>函数。和更为广泛的解析表达式不同,<strong>Closed–form</strong>表达式并不包含无限级数和递归分数(<em>Continued Fractions</em>)形式，也不能包含积分和极限。</p>
 <p>一个方程或方程组当且仅当它的一个解可写成<strong>Closed-Form</strong>形式时,我们才说该方程或方程组具有一<strong>Closed-form solution</strong>.类似地,一个方程或方程组当且仅当它的一个解可写成解析形式时,我们才说该方程或方程组具有一解析解。</p>
+<h1>Gaussian Models<sup id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2" title="Machine Learning:A Probabilistic Perspective Chapter 4">2</a></sup></h1>
+<hr>
+<h2>Diagonal LDA</h2>
+<p>在GLA中,如果我们限定不同类间共享$\Sigma$,并对每类使用一对角协方差矩阵，我们得到的模型则称为<strong>Diagonal LDA Model</strong>.对应的判别函数如下所示:</p>
+<p>\begin{equation}
+\delta_c(x) = log\ p(x,y=c|\theta) = -\sum_{j=1}^D \frac{(x_j-\mu_{cj})^2}{2\sigma_j^2}+log\ \pi_c
+\end{equation}</p>
+<p>一般我们令$\hat{\mu}<em cj="cj">{cj} = \bar{x}</em>$且$\hat{\sigma}_j^2=s_j^2$,$s_j^2$称为<em>Pooled empirical variance</em>,定义如下:</p>
+<p>\begin{equation}
+s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
+\end{equation}</p>
+<p>在高维情形下,该模型比LDA和RDA效果都要好。</p>
+<h2>方差MAP估计</h2>
+<p><em>ML</em>(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$Sigma$的估计写的很复杂,于是基本上没看那部分,关于$Sigma$的MAP估计可参考以下链接:</p>
+<p><a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a></p>
 <blockquote>
 <p><em>TODO Board</em></p>
 <ul>
-<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2" title="Machine Learning:A Probabilistic Perspective Chapter 3">2</a></sup></li>
+<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3" title="Machine Learning:A Probabilistic Perspective Chapter 3">3</a></sup></li>
+<li><em>Regularized LDA</em></li>
+<li><em>Nearest shrunken centroids classifier</em></li>
 </ul>
 </blockquote><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -118,7 +135,7 @@ Filed under <a href="./category/notes.html">Notes</a>
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models-3-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-shi-yi-igenerative-models-for-discrete-datagaussian-models-and-linear-models.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
