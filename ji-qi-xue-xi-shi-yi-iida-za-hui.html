@@ -152,6 +152,16 @@ P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
 \end{split}
 \end{equation}</p>
 <p>为了使用最小值,在<em>ML</em>一书中用到的是Negetive Log Likelihood(NLL),特此说明。</p>
+<p>由此我们得到:</p>
+<p>\begin{equation}
+\begin{split}
+g &amp;= \frac{df(w)}{dw} = \sum_i (\mu_i-y_i)x_i = X^T(\mu-y) \\
+H &amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
+&amp;= \sum_i \mu_i(1-\mu_i)x_ix_i^T \\
+&amp;= X^TSX
+\end{split}
+\end{equation}</p>
+<p>其中,$S \triangleq diag(\mu_i(1-\mu_i))$.得到梯度和Hessian矩阵之后,以下我们就能使用最速下降、牛顿法、BFGS等方法对Logistic Regression进行求解了。</p>
 <blockquote>
 <p><em>TODO Board</em></p>
 <ul>
@@ -166,6 +176,7 @@ P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
 <li><em>BFGS(LBFGS)</em></li>
 <li><em>Multi-class Logistic Regression and Maximum Entropy Classfier</em></li>
 <li><em>Bayesian Logistic Regression[8.4]</em></li>
+<li><em>Online Learning[8.5]</em></li>
 <li><em>Generative vs Discriminative Classfiers[8.6]</em></li>
 </ul>
 </blockquote><script type="text/javascript">

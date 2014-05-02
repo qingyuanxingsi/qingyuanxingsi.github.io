@@ -77,6 +77,16 @@ P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
 \end{split}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;为了使用最小值,在&lt;em&gt;ML&lt;/em&gt;一书中用到的是Negetive Log Likelihood(NLL),特此说明。&lt;/p&gt;
+&lt;p&gt;由此我们得到:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+g &amp;amp;= \frac{df(w)}{dw} = \sum_i (\mu_i-y_i)x_i = X^T(\mu-y) \\
+H &amp;amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
+&amp;amp;= \sum_i \mu_i(1-\mu_i)x_ix_i^T \\
+&amp;amp;= X^TSX
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$S \triangleq diag(\mu_i(1-\mu_i))$.得到梯度和Hessian矩阵之后,以下我们就能使用最速下降、牛顿法、BFGS等方法对Logistic Regression进行求解了。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -91,6 +101,7 @@ P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
 &lt;li&gt;&lt;em&gt;BFGS(LBFGS)&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Multi-class Logistic Regression and Maximum Entropy Classfier&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Bayesian Logistic Regression[8.4]&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Online Learning[8.5]&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Generative vs Discriminative Classfiers[8.6]&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
