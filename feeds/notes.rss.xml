@@ -89,7 +89,7 @@ H &amp;amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
 &lt;p&gt;其中,$S \triangleq diag(\mu_i(1-\mu_i))$.得到梯度和Hessian矩阵之后,以下我们就能使用最速下降、牛顿法、BFGS等方法对Logistic Regression进行求解了。&lt;/p&gt;
 &lt;h1&gt;EM&lt;/h1&gt;
 &lt;hr&gt;
-&lt;p&gt;本部分与&lt;em&gt;ML&lt;/em&gt;一书Chapter 11无关,只是为了更清楚地了解&lt;strong&gt;EM算法&lt;/strong&gt;。以下给出一个挺不错的PPT:&lt;/p&gt;
+&lt;p&gt;本部分与&lt;em&gt;ML&lt;/em&gt;一书第十一章无关,只是为了更清楚地了解&lt;strong&gt;EM算法&lt;/strong&gt;。以下给出一个挺不错的PPT:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://people.csail.mit.edu/fergus/research/tutorial_em.ppt"&gt;Tutorial EM&lt;/a&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
