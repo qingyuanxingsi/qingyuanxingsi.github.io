@@ -87,6 +87,11 @@ P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
 &lt;li&gt;&lt;em&gt;Connection with PCA[7.5.3]&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Estimating $\sigma^2$[7.6.3]&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Evidence Procedure[7.6.4]&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Conjugate Gradient(CG)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;BFGS(LBFGS)&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Multi-class Logistic Regression and Maximum Entropy Classfier&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Bayesian Logistic Regression[8.4]&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Generative vs Discriminative Classfiers[8.6]&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
