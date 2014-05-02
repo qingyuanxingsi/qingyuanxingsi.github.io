@@ -61,10 +61,26 @@ P(w|X,y) &amp;amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
 &lt;/blockquote&gt;
 &lt;p&gt;我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"&gt;&lt;/p&gt;
+&lt;h1&gt;Logistic Regression&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 8"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;hr&gt;
+&lt;p&gt;&lt;em&gt;ML&lt;/em&gt;一书中给出的形式并不便于计算Gradient以及Hessian,以下根据李航&lt;strong&gt;统计学习方法&lt;/strong&gt;中的相关内容给出以下较易计算的形式。&lt;/p&gt;
+&lt;p&gt;对于给定的训练集$T={(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)}$,其中,$x_i \in R^n,y_i \in {0,1}$,我们令:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;对数似然函数为:
+\begin{equation}
+\begin{split}
+\ell(w) &amp;amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\pi(x_i))] \\
+&amp;amp;= \sum_{i=1}^N [y_i log \frac{\mu(x_i)}{1-\mu(x_i)}+log(1-\mu(x_i))] \\
+&amp;amp;= \sum_{i=1}^N [y_i(w^Tx_i)-log(1+exp(w^Tx_i)]
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;为了使用最小值,在&lt;em&gt;ML&lt;/em&gt;一书中用到的是Negetive Log Likelihood(NLL),特此说明。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Regularized LDA&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Nearest shrunken centroids classifier&lt;/em&gt;&lt;/li&gt;
 &lt;li&gt;&lt;em&gt;Numerically stable computation[7.5.2]&lt;/em&gt;&lt;/li&gt;
@@ -102,7 +118,7 @@ P(w|X,y) &amp;amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 4&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 7&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>当最近邻遇到LSH</title><link href="http://www.qingyuanxingsi.com/dang-zui-jin-lin-yu-dao-lsh.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:dang-zui-jin-lin-yu-dao-lsh.html</id><summary type="html">&lt;p&gt;貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,发现这篇&lt;a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html"&gt;Locality Sensitive Hashing(LSH)之随机投影法&lt;/a&gt;关于局部敏感哈希算法的介绍还不错,于是摘录如下:&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 4&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 7&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 8&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>当最近邻遇到LSH</title><link href="http://www.qingyuanxingsi.com/dang-zui-jin-lin-yu-dao-lsh.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:dang-zui-jin-lin-yu-dao-lsh.html</id><summary type="html">&lt;p&gt;貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,发现这篇&lt;a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html"&gt;Locality Sensitive Hashing(LSH)之随机投影法&lt;/a&gt;关于局部敏感哈希算法的介绍还不错,于是摘录如下:&lt;/p&gt;
 &lt;h1&gt;概述&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;strong&gt;LSH&lt;/strong&gt;是由文献[1]提出的一种用于高效求解最近邻搜索问题的Hash算法。LSH算法的基本思想是利用一个hash函数把集合中的元素映射成hash值，使得相似度越高的元素hash值相等的概率也越高。LSH算法使用的关键是针对某一种相似度计算方法，找到一个具有以上描述特性的hash函数。LSH所要求的hash函数的准确数学定义比较复杂，以下给出一种通俗的定义方式：&lt;/p&gt;

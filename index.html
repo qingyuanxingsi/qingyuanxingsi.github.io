@@ -138,10 +138,26 @@ P(w|X,y) &amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
 </blockquote>
 <p>我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:</p>
 <p><img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"></p>
+<h1>Logistic Regression<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 8">4</a></sup></h1>
+<hr>
+<p><em>ML</em>一书中给出的形式并不便于计算Gradient以及Hessian,以下根据李航<strong>统计学习方法</strong>中的相关内容给出以下较易计算的形式。</p>
+<p>对于给定的训练集$T={(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)}$,其中,$x_i \in R^n,y_i \in {0,1}$,我们令:</p>
+<p>\begin{equation}
+P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
+\end{equation}</p>
+<p>对数似然函数为:
+\begin{equation}
+\begin{split}
+\ell(w) &amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\pi(x_i))] \\
+&amp;= \sum_{i=1}^N [y_i log \frac{\mu(x_i)}{1-\mu(x_i)}+log(1-\mu(x_i))] \\
+&amp;= \sum_{i=1}^N [y_i(w^Tx_i)-log(1+exp(w^Tx_i)]
+\end{split}
+\end{equation}</p>
+<p>为了使用最小值,在<em>ML</em>一书中用到的是Negetive Log Likelihood(NLL),特此说明。</p>
 <blockquote>
 <p><em>TODO Board</em></p>
 <ul>
-<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 3">4</a></sup></li>
+<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5" title="Machine Learning:A Probabilistic Perspective Chapter 3">5</a></sup></li>
 <li><em>Regularized LDA</em></li>
 <li><em>Nearest shrunken centroids classifier</em></li>
 <li><em>Numerically stable computation[7.5.2]</em></li>
@@ -179,7 +195,7 @@ P(w|X,y) &amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"><em>Machine Learning:A Probabilistic Perspective Chapter 7</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back">↩</a></li></ol> 
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"><em>Machine Learning:A Probabilistic Perspective Chapter 7</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"><em>Machine Learning:A Probabilistic Perspective Chapter 8</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-shi-yi-iida-za-hui.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
