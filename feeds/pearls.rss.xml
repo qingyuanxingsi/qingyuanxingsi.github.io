@@ -102,8 +102,10 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;ul&gt;
 &lt;li&gt;最近一直在看&lt;strong&gt;高斯过程&lt;/strong&gt;,挺难理解的,好吧,咱们慢慢来,先给个链接。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf"&gt;Introduction to Gaussian Process&lt;/a&gt;
-* 今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf"&gt;Introduction to Gaussian Process&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://pan.baidu.com/s/1gdze7h5"&gt;Maximum Entropy Model&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr /&gt;
