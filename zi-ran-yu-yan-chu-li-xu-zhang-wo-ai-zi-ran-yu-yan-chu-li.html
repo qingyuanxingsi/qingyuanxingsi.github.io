@@ -156,24 +156,24 @@ f \times r =k
       <span class="kt">string</span> <span class="n">temp</span> <span class="o">=</span> <span class="nx">to_split.substr</span><span class="p">(</span><span class="nx">tail</span><span class="na">-i</span><span class="p">,</span><span class="nx">i</span><span class="p">);</span>
       <span class="c1">//If single word</span>
       <span class="k">if</span><span class="p">(</span><span class="nx">temp.length</span><span class="p">()</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
-    <span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="nx">split_sequence</span><span class="o">&lt;&lt;</span><span class="nx">temp</span><span class="o">&lt;&lt;</span><span class="nx">endl</span><span class="p">;</span>
-    <span class="nx">tail</span> <span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">tail</span><span class="o">&lt;</span><span class="nx">max_len</span><span class="p">){</span>
-      <span class="n">i</span> <span class="o">=</span> <span class="nx">tail</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span><span class="p">{</span>
-      <span class="n">i</span> <span class="o">=</span> <span class="nx">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+        <span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="nx">split_sequence</span><span class="o">&lt;&lt;</span><span class="nx">temp</span><span class="o">&lt;&lt;</span><span class="nx">endl</span><span class="p">;</span>
+        <span class="nx">tail</span> <span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">tail</span><span class="o">&lt;</span><span class="nx">max_len</span><span class="p">){</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nx">tail</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nx">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
       <span class="p">}</span>
       <span class="k">if</span><span class="p">(</span><span class="nx">dict.find</span><span class="p">(</span><span class="nx">temp</span><span class="p">)</span><span class="o">!=</span><span class="nx">dict.end</span><span class="p">()){</span>
-    <span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="nx">split_sequence</span><span class="o">&lt;&lt;</span><span class="nx">temp</span><span class="o">&lt;&lt;</span><span class="nx">endl</span><span class="p">;</span>
-    <span class="nx">tail</span> <span class="o">-=</span><span class="nx">i</span><span class="p">;</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">tail</span><span class="o">&lt;</span><span class="nx">max_len</span><span class="p">){</span>
-      <span class="n">i</span> <span class="o">=</span> <span class="nx">tail</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span><span class="p">{</span>
-      <span class="n">i</span> <span class="o">=</span> <span class="nx">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+        <span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="nx">split_sequence</span><span class="o">&lt;&lt;</span><span class="nx">temp</span><span class="o">&lt;&lt;</span><span class="nx">endl</span><span class="p">;</span>
+        <span class="nx">tail</span> <span class="o">-=</span><span class="nx">i</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">tail</span><span class="o">&lt;</span><span class="nx">max_len</span><span class="p">){</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nx">tail</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="nx">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
       <span class="p">}</span>
     <span class="p">}</span>  
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
