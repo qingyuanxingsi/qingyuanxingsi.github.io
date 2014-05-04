@@ -78,7 +78,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
       <div class="article-content span8">
 	<p>昨天浏览了一下<a href="http://www.52nlp.cn">我爱自然语言处理</a>站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,这一阵子就先把这90篇文章认认真真看完吧,总结看的过程中自己感兴趣而且重要的点,遂成此文。<strong>本文中所有资料属我爱自然语言处理及博客原文引用作者所有,特此声明</strong>。</p>
 <h1>齐夫定律(Zipf’s Law)</h1>
-<hr />
+<hr>
 <blockquote>
 <p><strong>Zipf's Law</strong>:</p>
 <p>在任何一个自然语言里第$n$个最常用的单词的频率与$n$近似成反比(The frequency of use of the nth-most-frequently-used word in any natural language is approximately inversely proportional to n).更正式地,我们可以说:存在一个常量$k$,使得:</p>
@@ -87,7 +87,7 @@ f \times r =k
 \end{equation}</p>
 <p>其中$f$表示单词出现的频度,$r$表示单词出现次数的排名(RANK).</p>
 </blockquote>
-<p><img alt="Zipf" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/zipf_zpsae557119.png" /></p>
+<p><img alt="Zipf" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/zipf_zpsae557119.png"></p>
 <p>北京大学姜望琪老师的《Zipf与省力原则》讲得很好，部分摘录如下:</p>
 <ol>
 <li>省力原则(the Principle of Least Effort)，又称经济原则(the Economy Principle)，可以概括为：以最小的代价换取最大的收益。这是指导人类行为的一条根本性原则。在现代学术界，第一个明确提出这条原则的是美国学者 George Kingsley Zipf。　　</li>
@@ -101,11 +101,11 @@ f \times r =k
 </li>
 </ol>
 <h1>中文分词</h1>
-<hr />
+<hr>
 <p>对于英文而言,由于词自然一般有非常自然的分隔符(空格或标点符号等),因此对于英文而言基本不涉及分词这个任务,而对于中文而言,因为中文没有非常明显的自然分隔符,而且很多自然语言处理任务很大程度上依赖于分词质量,因此中文分词是中文自然语言处理中非常基础且重要的一个任务,以下对中文分词中涉及的基本算法做一个简要的介绍:</p>
 <h2>最长正向匹配算法</h2>
 <p>最长正向匹配算法的基本流程如下图所示:</p>
-<p><img alt="MAX_SEGMENTATION" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_segmentation_zpsadc70b2d.png" /></p>
+<p><img alt="MAX_SEGMENTATION" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_segmentation_zpsadc70b2d.png"></p>
 <p>逆向匹配法思想与正向一样，只是从右向左切分，这里举一个例子：</p>
 <p>输入例句:S1=”计算语言学课程有意思”;</p>
 <p>定义:最大词长MaxLen = 5；S2="";分隔符="/"；</p>
@@ -146,12 +146,12 @@ f \times r =k
 <span class="nx">int</span> <span class="nx">main</span><span class="p">(</span><span class="nx">int</span> <span class="nx">argc</span><span class="p">,</span> <span class="nx">char</span> <span class="o">**</span><span class="nx">argv</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">//Max word length</span>
     <span class="nx">const</span> <span class="nx">int</span> <span class="n">max_len</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-    <span class="nx">const</span> <span class="kt">string</span> <span class="n">split_sequence</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">;</span>
-    <span class="nx">const</span> <span class="kt">string</span> <span class="n">to_split</span> <span class="o">=</span> <span class="s2">&quot;计算语言学真有意思啊&quot;</span><span class="p">;</span>
+    <span class="nx">const</span> <span class="kt">string</span> <span class="n">split_sequence</span> <span class="o">=</span> <span class="s2">"/"</span><span class="p">;</span>
+    <span class="nx">const</span> <span class="kt">string</span> <span class="n">to_split</span> <span class="o">=</span> <span class="s2">"计算语言学真有意思啊"</span><span class="p">;</span>
     <span class="nb">set</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span> <span class="nx">dict</span><span class="p">;</span>
     <span class="c1">//Initialize the dict</span>
-    <span class="nx">dict.insert</span><span class="p">(</span><span class="s2">&quot;计算语言学&quot;</span><span class="p">);</span>
-    <span class="nx">dict.insert</span><span class="p">(</span><span class="s2">&quot;意思&quot;</span><span class="p">);</span>
+    <span class="nx">dict.insert</span><span class="p">(</span><span class="s2">"计算语言学"</span><span class="p">);</span>
+    <span class="nx">dict.insert</span><span class="p">(</span><span class="s2">"意思"</span><span class="p">);</span>
     <span class="c1">//Split the Chinese Sequence</span>
     <span class="nx">int</span> <span class="n">tail</span> <span class="o">=</span> <span class="nx">to_split.length</span><span class="p">();</span>
     <span class="nb">for</span><span class="p">(</span><span class="nx">int</span> <span class="n">i</span><span class="o">=</span><span class="nx">max_len</span><span class="p">;</span><span class="nx">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="nx">tail</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">--</span><span class="p">){</span>
@@ -192,7 +192,7 @@ f \times r =k
 <li><a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E6%B3%95%E6%89%A9%E5%B1%952">中文分词入门之最大匹配法扩展2</a></li>
 <li><a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E7%AF%87%E5%A4%96">中文分词入门之篇外</a></li>
 </ul>
-<h2>基于字标注的中文分词</h2>
+<h2>基于字标注的中文分词<sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1-back"><a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1" title="本部分更多细节请参考我爱自然语言处理博客!">1</a></sup></h2>
 <p>以往的分词方法，无论是基于规则的还是基于统计的，一般都依赖于一个事先编制的词表(词典)。自动分词过程就是通过词表和相关信息来做出词语切分的决策。与此相反，基于字标注的分词方法实际上是构词方法。即把分词过程视为字在字串中的标注问题。由于每个字在构造一个特定的词语时都占据着一个确定的构词位置(即词位)，假如规定每个字最多只有四个构词位置：即B(词首)，M (词中)，E(词尾)和S(单独成词)，那么下面句子(甲)的分词结果就可以直接表示成如(乙)所示的逐字标注形式：</p>
 <blockquote>
 <p>(甲)分词结果：／上海／计划／N／本／世纪／末／实现／人均／国内／生产／总值／五千美元／。</p>
@@ -219,16 +219,17 @@ f \times r =k
 <li>利用训练后模型对未分词语料进行字标注,最后还原成分词结果即可。</li>
 </ul>
 <blockquote>
+<p>NOTE:利用现有开源工具时,如果能够构建适用于中文字标注的特征集合,然后再进行训练,可能会取得更好的结果。</p>
 <p><strong>TODO Board:</strong></p>
 <ul>
 <li><em>TBL</em></li>
 </ul>
 </blockquote>
 <h1>参考文献</h1>
-<hr />
+<hr>
 <ol>
 <li><a href="http://www.cppblog.com/shongbee2/archive/2009/04/05/79011.html">STL中set的简单学习</a></li>
-</ol><script type= "text/javascript">
+</ol><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -258,7 +259,7 @@ f \times r =k
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
- 
+<ol class="simple-footnotes"><li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1">本部分更多细节请参考我爱自然语言处理博客! <a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1-back">↩</a></li></ol> 
 	<a class="btn btn-mini xsmall" href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />

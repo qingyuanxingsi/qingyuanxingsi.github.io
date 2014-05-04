@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-05T00:00:00+08:00</updated><entry><title>自然语言处理(序章):我爱自然语言处理</title><link href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li.html" rel="alternate"></link><updated>2014-05-05T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-05:zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li.html</id><summary type="html">&lt;p&gt;昨天浏览了一下&lt;a href="http://www.52nlp.cn"&gt;我爱自然语言处理&lt;/a&gt;站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,这一阵子就先把这90篇文章认认真真看完吧,总结看的过程中自己感兴趣而且重要的点,遂成此文。&lt;strong&gt;本文中所有资料属我爱自然语言处理及博客原文引用作者所有,特此声明&lt;/strong&gt;。&lt;/p&gt;
 &lt;h1&gt;齐夫定律(Zipf’s Law)&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Zipf's Law&lt;/strong&gt;:&lt;/p&gt;
 &lt;p&gt;在任何一个自然语言里第$n$个最常用的单词的频率与$n$近似成反比(The frequency of use of the nth-most-frequently-used word in any natural language is approximately inversely proportional to n).更正式地,我们可以说:存在一个常量$k$,使得:&lt;/p&gt;
@@ -10,7 +10,7 @@ f \times r =k
 \end{equation}&lt;/p&gt;
 &lt;p&gt;其中$f$表示单词出现的频度,$r$表示单词出现次数的排名(RANK).&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;img alt="Zipf" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/zipf_zpsae557119.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Zipf" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/zipf_zpsae557119.png"&gt;&lt;/p&gt;
 &lt;p&gt;北京大学姜望琪老师的《Zipf与省力原则》讲得很好，部分摘录如下:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;省力原则(the Principle of Least Effort)，又称经济原则(the Economy Principle)，可以概括为：以最小的代价换取最大的收益。这是指导人类行为的一条根本性原则。在现代学术界，第一个明确提出这条原则的是美国学者 George Kingsley Zipf。　　&lt;/li&gt;
@@ -24,11 +24,11 @@ f \times r =k
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h1&gt;中文分词&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;p&gt;对于英文而言,由于词自然一般有非常自然的分隔符(空格或标点符号等),因此对于英文而言基本不涉及分词这个任务,而对于中文而言,因为中文没有非常明显的自然分隔符,而且很多自然语言处理任务很大程度上依赖于分词质量,因此中文分词是中文自然语言处理中非常基础且重要的一个任务,以下对中文分词中涉及的基本算法做一个简要的介绍:&lt;/p&gt;
 &lt;h2&gt;最长正向匹配算法&lt;/h2&gt;
 &lt;p&gt;最长正向匹配算法的基本流程如下图所示:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="MAX_SEGMENTATION" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_segmentation_zpsadc70b2d.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="MAX_SEGMENTATION" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_segmentation_zpsadc70b2d.png"&gt;&lt;/p&gt;
 &lt;p&gt;逆向匹配法思想与正向一样，只是从右向左切分，这里举一个例子：&lt;/p&gt;
 &lt;p&gt;输入例句:S1=”计算语言学课程有意思”;&lt;/p&gt;
 &lt;p&gt;定义:最大词长MaxLen = 5；S2="";分隔符="/"；&lt;/p&gt;
@@ -69,12 +69,12 @@ f \times r =k
 &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;char&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="nx"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
     &lt;span class="c1"&gt;//Max word length&lt;/span&gt;
     &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;max_len&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;split_sequence&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;to_split&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;计算语言学真有意思啊&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;split_sequence&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"/"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;to_split&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"计算语言学真有意思啊"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
     &lt;span class="c1"&gt;//Initialize the dict&lt;/span&gt;
-    &lt;span class="nx"&gt;dict.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;计算语言学&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="nx"&gt;dict.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;意思&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;dict.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"计算语言学"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;dict.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"意思"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
     &lt;span class="c1"&gt;//Split the Chinese Sequence&lt;/span&gt;
     &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;tail&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;to_split.length&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
     &lt;span class="nb"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;max_len&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
@@ -115,7 +115,7 @@ f \times r =k
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E6%B3%95%E6%89%A9%E5%B1%952"&gt;中文分词入门之最大匹配法扩展2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E7%AF%87%E5%A4%96"&gt;中文分词入门之篇外&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;基于字标注的中文分词&lt;/h2&gt;
+&lt;h2&gt;基于字标注的中文分词&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1" title="本部分更多细节请参考我爱自然语言处理博客!"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
 &lt;p&gt;以往的分词方法，无论是基于规则的还是基于统计的，一般都依赖于一个事先编制的词表(词典)。自动分词过程就是通过词表和相关信息来做出词语切分的决策。与此相反，基于字标注的分词方法实际上是构词方法。即把分词过程视为字在字串中的标注问题。由于每个字在构造一个特定的词语时都占据着一个确定的构词位置(即词位)，假如规定每个字最多只有四个构词位置：即B(词首)，M (词中)，E(词尾)和S(单独成词)，那么下面句子(甲)的分词结果就可以直接表示成如(乙)所示的逐字标注形式：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;(甲)分词结果：／上海／计划／N／本／世纪／末／实现／人均／国内／生产／总值／五千美元／。&lt;/p&gt;
@@ -142,16 +142,17 @@ f \times r =k
 &lt;li&gt;利用训练后模型对未分词语料进行字标注,最后还原成分词结果即可。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;blockquote&gt;
+&lt;p&gt;NOTE:利用现有开源工具时,如果能够构建适用于中文字标注的特征集合,然后再进行训练,可能会取得更好的结果。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;TODO Board:&lt;/strong&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;TBL&lt;/em&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;
 &lt;h1&gt;参考文献&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="http://www.cppblog.com/shongbee2/archive/2009/04/05/79011.html"&gt;STL中set的简单学习&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;&lt;script type= "text/javascript"&gt;
+&lt;/ol&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -181,7 +182,7 @@ f \times r =k
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-</summary><category term="NLP"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1"&gt;本部分更多细节请参考我爱自然语言处理博客! &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="NLP"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;Relation Extration&lt;ul&gt;
