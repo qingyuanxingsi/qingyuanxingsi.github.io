@@ -210,29 +210,12 @@ f \times r =k
 </pre></div>
 
 
-<p>除了2-tag，还有4-tag、6-tag等，都是依据字在词中的位置设计的，本文主要目的是从实践的角度介绍基于字标注的中文分词方法设计，以达到抛砖引玉的作用，因此我们仅选用2-tag（B，I）标注集进行实验说明。有了标注对象和标注集，那么又如何进行中文分词呢？仍以前面的句子为例，只不过这里还没有进行中文分词：</p>
-<div class="highlight"><pre><span class="err">瓦西里斯的船只中有</span><span class="mi">40</span><span class="o">%</span><span class="err">驶向远东，每个月几乎都有两三条船停靠中国港口。</span>
-</pre></div>
-
-
-<p>首先，你需要将标注对象独立出来，事实上就是给每个字符加上空格：</p>
-<div class="highlight"><pre><span class="err">瓦</span> <span class="err">西</span> <span class="err">里</span> <span class="err">斯</span> <span class="err">的</span> <span class="err">船</span> <span class="err">只</span> <span class="err">中</span> <span class="err">有</span> <span class="err">４</span> <span class="err">０</span> <span class="err">％</span> <span class="err">驶</span> <span class="err">向</span> <span class="err">远</span> <span class="err">东</span> <span class="err">，</span> <span class="err">每</span> <span class="err">个</span> <span class="err">月</span> <span class="err">几</span> <span class="err">乎</span> <span class="err">都</span> <span class="err">有</span> <span class="err">两</span> <span class="err">三</span> <span class="err">条</span> <span class="err">船</span> <span class="err">停</span> <span class="err">靠</span> <span class="err">中</span> <span class="err">国</span> <span class="err">港</span> <span class="err">口</span> <span class="err">。</span>
-</pre></div>
-
-
-<p>其次，假设你已经训练好了一个字标注器，那么就直接给这些字进行标注吧：</p>
-<div class="highlight"><pre><span class="err">瓦</span><span class="o">/</span><span class="n">B</span> <span class="err">西</span><span class="o">/</span><span class="n">I</span> <span class="err">里</span><span class="o">/</span><span class="n">B</span> <span class="err">斯</span><span class="o">/</span><span class="n">I</span> <span class="err">的</span><span class="o">/</span><span class="n">B</span> <span class="err">船</span><span class="o">/</span><span class="n">I</span> <span class="err">只</span><span class="o">/</span><span class="n">B</span> <span class="err">中</span><span class="o">/</span><span class="n">B</span> <span class="err">有</span><span class="o">/</span><span class="n">B</span> <span class="err">４</span><span class="o">/</span><span class="n">I</span> <span class="err">０</span><span class="o">/</span><span class="n">I</span> <span class="err">％</span><span class="o">/</span><span class="n">I</span> <span class="err">驶</span><span class="o">/</span><span class="n">I</span> <span class="err">向</span><span class="o">/</span><span class="n">B</span> <span class="err">远</span><span class="o">/</span><span class="n">I</span> <span class="err">东</span><span class="o">/</span><span class="n">B</span> <span class="err">，</span><span class="o">/</span><span class="n">B</span> <span class="err">每</span><span class="o">/</span><span class="n">B</span> <span class="err">个</span><span class="o">/</span><span class="n">I</span> <span class="err">月</span><span class="o">/</span><span class="n">I</span> <span class="err">几</span><span class="o">/</span><span class="n">B</span>        <span class="err">乎</span><span class="o">/</span><span class="n">I</span> <span class="err">都</span><span class="o">/</span><span class="n">B</span> <span class="err">有</span><span class="o">/</span><span class="n">I</span> <span class="err">两</span><span class="o">/</span><span class="n">B</span> <span class="err">三</span><span class="o">/</span><span class="n">B</span> <span class="err">条</span><span class="o">/</span><span class="n">B</span> <span class="err">船</span><span class="o">/</span><span class="n">I</span> <span class="err">停</span><span class="o">/</span><span class="n">B</span> <span class="err">靠</span><span class="o">/</span><span class="n">I</span> <span class="err">中</span><span class="o">/</span><span class="n">B</span> <span class="err">国</span><span class="o">/</span><span class="n">I</span> <span class="err">港</span><span class="o">/</span><span class="n">I</span> <span class="err">口</span><span class="o">/</span><span class="n">I</span> <span class="err">。</span><span class="o">/</span><span class="n">B</span>
-</pre></div>
-
-
-<p>最后，需要你做得就是按照这两个标记的意思还原中文词，并且除去这些标记：</p>
-<div class="highlight"><pre><span class="err">瓦西</span> <span class="err">里斯</span> <span class="err">的船</span> <span class="err">只</span> <span class="err">中</span> <span class="err">有</span> <span class="mi">40</span><span class="o">%</span> <span class="err">驶</span> <span class="err">向远</span> <span class="err">东</span> <span class="err">，</span> <span class="err">每个月</span> <span class="err">几乎</span> <span class="err">都有</span> <span class="err">两</span> <span class="err">三</span> <span class="err">条船</span> <span class="err">停靠</span> <span class="err">中国港口</span> <span class="err">。</span>
-</pre></div>
-
-
-<p>好了，这就是字标注方法的流程和分词结果，很遗憾，这个标注器的效果不太好，不过没关系，你可以设计更好的字标注器，英文词性标注的被老外研究的太充分了，什么HMM、<em>TBL</em>、最大熵、条件随机场、决策树等等等等，不仅仅是方法，连开源工具都给你提供，完全可以拿来主义。</p>
-<p>那么又怎样拿来主义设计自己的字标注中文分词器呢？我们可以使用<strong>Citar</strong>,Citar是一个“Hidden Markov Model trigram POS tagger”，需要有标注好的语料来训练相应语言的词性标注器，其核心的HMM标注框架是不依赖于语言的，但是在处理未登录词时Citar是主要利用英文词缀信息进行标注的，因此其对于英文词性标注来说效果相对较好，对于其他语言，特别是中文这种没有词形变化的孤立语来说，其词性标注效果要打一点折扣。不过没关系，这里主要谈的是思想，而不是工程上的应用，因此暂时可以忽略这点影响，对于本文利用其所设计的字标注器来说，同样适用。</p>
-<p>可是哪里有这样的训练语料呢？俗话说得好：自己动手，丰衣足食。虽然没有哪个组织提供这样的字标注语料库，但是我们有SIGHAN Bakeoff提供的icwb2-data，你完全可以利用自己熟悉的编程语言写一个前处理程序，将其转换为我们所需要的字标注训练语料库形式。下一节我们将以微软亚洲研究院提供的中文分词语料为例,利用<strong>Citar</strong>完成一个基于HMM trigram的字标注中文分词程序。</p>
+<p>除了2-tag，还有4-tag、6-tag等，都是依据字在词中的位置设计的，本文主要目的是从实践的角度介绍基于字标注的中文分词方法设计，以达到抛砖引玉的作用，因此我们仅选用2-tag（B，I）标注集进行实验说明。有了标注对象和标注集，那么又如何进行中文分词呢？因为字标注本质上是采用POS Tagging的思想,只不过要TAG的基本单元现在变成字了而已,因此我们可以这样做:</p>
+<ul>
+<li>获取已分词语料,将其转化为字的形式并采用某种标注集根据分词信息对其进行标注;</li>
+<li>将得到的语料作为训练集输入到最大熵模型或者HMM模型中进行训练(<strong>可以使用Citar</strong>);</li>
+<li>利用训练后模型对未分词语料进行字标注,最后还原成分词结果即可。</li>
+</ul>
 <blockquote>
 <p><strong>TODO Board:</strong></p>
 <ul>
