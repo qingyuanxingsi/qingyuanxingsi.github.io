@@ -61,7 +61,7 @@
       </div>
     <div class="row-fluid">
       <div class="span2">
-<p>六 03 五月 2014 </p>
+<p>日 04 五月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="./category/pearls.html">Pearls</a>
@@ -74,8 +74,18 @@ Filed under <a href="./category/pearls.html">Pearls</a>
       </div>
       
       <div class="span8">
-	<h1>SVM</h1>
-<hr />
+	<h1>NLP<sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"><a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing">1</a></sup></h1>
+<hr>
+<ul>
+<li>Relation Extration<ul>
+<li>Hand-written approach more suitable for structured data,such as a telephone book,Facebook or eBay;</li>
+<li>Supervised Method;得到所有的命名实体组,使用一个分类器(<em>features</em>)判断它们是否是关联的,如果是,则使用第二个分类器判断它们之间的关联关系具体是什么; </li>
+<li>Semi-Supervised(Relation Bootstrapping/Distant Supervised Learning) and unsupervised methods(Open Information Extraction);Strapping方法感觉很巧妙,个人很喜欢;</li>
+</ul>
+</li>
+</ul>
+<h1>SVM</h1>
+<hr>
 <p>对于SVM这么高端大气上档次的东西,当然要单独列出来。今天其他东西实在看不下去了,所以把Pluskid之前写的一系列讲SVM的文章再挖出来看看。以下是目录以及对每篇的简单说明:</p>
 <ul>
 <li><a href="http://blog.pluskid.org/?p=632">支持向量机: Maximum Margin Classifier</a>;文中主要介绍了两个距离,<em>Functional Margin</em> $\hat{\gamma}$和<em>Geometrical Margin</em> $\tilde{\gamma}$.它们之间满足$\hat{\gamma} = ||w||\tilde{\gamma}$.我们固定$\hat{\gamma} = 1$,通过最大化$\frac{1}{||w||}$来得到<strong>Maximum Margin Classifier</strong>.</li>
@@ -89,7 +99,7 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <li><a href="http://blog.pluskid.org/?p=696">支持向量机：Numerical Optimization</a>;以非常通俗易懂的方式介绍了一下<strong>SMO(Sequential Minimal Optimization)</strong>,赞一个。</li>
 </ul>
 <h1>Deep Learning</h1>
-<hr />
+<hr>
 <ul>
 <li>稀疏编码(<em>Sparse Coding</em>)</li>
 </ul>
@@ -99,13 +109,13 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 </ul>
 <p><a href="http://blog.csdn.net/zouxy09/article/details/8782018">Deep Learning（深度学习）学习笔记整理系列之（八)</a></p>
 <h1>Pocket</h1>
-<hr />
+<hr>
 <ul>
 <li><a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html">罗辑思维 2014：右派为什么这么横 10</a>;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!</li>
 <li><a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html">罗辑思维 2014：迷茫时代的明白人 11</a>;活在当下。</li>
 </ul>
 <h1>算法</h1>
-<hr />
+<hr>
 <ul>
 <li>今天看了一下网上流传的传说中的高大上的所谓的<code>十大海量数据处理算法</code>,看了一下,实际上没有什么东西,唯独<strong>Bloom Filter</strong>看着还挺好玩的,所以以下给出一个通俗易懂的链接。</li>
 </ul>
@@ -141,7 +151,7 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <p><a href="http://langyu.iteye.com/blog/1407194">对实时分析与离线分析的思考</a>
 <a href="http://langyu.iteye.com/blog/1407194">对实时分析与离线分析的思考(二)</a></p>
 <h1>Machine Learning</h1>
-<hr />
+<hr>
 <ul>
 <li>看的有点累了,不想看<em>EM</em>算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍<em>Mixture Models</em>和<em>EM</em>算法吧!</li>
 </ul>
@@ -177,20 +187,18 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 <ul>
 <li>最近一直在看<strong>高斯过程</strong>,挺难理解的,好吧,咱们慢慢来,先给个链接。</li>
 </ul>
-<p><a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf">Introduction to Gaussian Process</a></p>
-<ul>
-<li>今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)</li>
-</ul>
+<p><a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf">Introduction to Gaussian Process</a>
+* 今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)</p>
 <p><a href="http://pan.baidu.com/s/1gdze7h5">Maximum Entropy Model</a></p>
 <h1>PGM</h1>
-<hr />
+<hr>
 <p>以下给出讲解PGM比较深入浅出的一系列Lecture Slides。</p>
 <h2>PART I:Introduction to PGM</h2>
 <ul>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-1-Introduction-Combined.pdf">Introduction and Overview</a>;主要介绍了PGM的背景以及Factor的基础知识。</li>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Bayes-Nets.pdf">Bayesian Network Fundamentals</a>;简要介绍了什么是Bayesian Network、Reasoning Patterns以及Influence Flow.最后简要介绍了一下Naive Bayes Classifier.</li>
 </ul>
-<p><img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png" /></p>
+<p><img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png"></p>
 <ul>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Template-Models.pdf">Template Models</a>;主要介绍了Template Models,包括Bayesian Network(HMM)以及Plate Models;</li>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-CPDs.pdf">Structured CPDs</a>;介绍了几种CPD表示的其他常见形式,包括:<ul>
@@ -207,7 +215,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 <ul>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Variable-Elimination.pdf">Variable Elimination</a>;简要介绍了如何在Bayesian Network以及Ｍarkov Network中执行VE算法;接着对其复杂度进行了分析;最后从图的视角重新审视了一下VE算法.</li>
 </ul>
-<p><img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png" /></p>
+<p><img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png"></p>
 <ul>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf">Belief Propagation(I)</a> &amp; <a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf">Belief Propagation(II)</a>;其基本内容如下:<ul>
 <li>Belief Propagation算法基本流程;</li>
@@ -217,7 +225,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 </ul>
 </li>
 </ul>
-<p><img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png" /></p>
+<p><img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png"></p>
 <ul>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-MAP.pdf">MAP Estimation</a>;关于MAP Inference的基础知识。</li>
 <li><a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf">Sampling Methods</a>;Basic Sampling Methods.</li>
@@ -245,7 +253,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 <li>支持向量机番外篇II:<a href="http://blog.pluskid.org/?p=723">支持向量机：Kernel II</a></li>
 <li>Apriori算法细节</li>
 </ul>
-</blockquote><script type= "text/javascript">
+</blockquote><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -275,7 +283,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-
+<ol class="simple-footnotes"><li id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1"><a href="https://class.coursera.org/nlp/lecture">Natural Language Processing</a> <a class="simple-footnote-back" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back">↩</a></li></ol>
 	<hr />
       </div>
     </div>

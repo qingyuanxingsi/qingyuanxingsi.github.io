@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-03T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-03T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-03:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;SVM&lt;/h1&gt;
-&lt;hr /&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-04T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;Relation Extration&lt;ul&gt;
+&lt;li&gt;Hand-written approach more suitable for structured data,such as a telephone book,Facebook or eBay;&lt;/li&gt;
+&lt;li&gt;Supervised Method;得到所有的命名实体组,使用一个分类器(&lt;em&gt;features&lt;/em&gt;)判断它们是否是关联的,如果是,则使用第二个分类器判断它们之间的关联关系具体是什么; &lt;/li&gt;
+&lt;li&gt;Semi-Supervised(Relation Bootstrapping/Distant Supervised Learning) and unsupervised methods(Open Information Extraction);Strapping方法感觉很巧妙,个人很喜欢;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;SVM&lt;/h1&gt;
+&lt;hr&gt;
 &lt;p&gt;对于SVM这么高端大气上档次的东西,当然要单独列出来。今天其他东西实在看不下去了,所以把Pluskid之前写的一系列讲SVM的文章再挖出来看看。以下是目录以及对每篇的简单说明:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=632"&gt;支持向量机: Maximum Margin Classifier&lt;/a&gt;;文中主要介绍了两个距离,&lt;em&gt;Functional Margin&lt;/em&gt; $\hat{\gamma}$和&lt;em&gt;Geometrical Margin&lt;/em&gt; $\tilde{\gamma}$.它们之间满足$\hat{\gamma} = ||w||\tilde{\gamma}$.我们固定$\hat{\gamma} = 1$,通过最大化$\frac{1}{||w||}$来得到&lt;strong&gt;Maximum Margin Classifier&lt;/strong&gt;.&lt;/li&gt;
@@ -14,7 +24,7 @@
 &lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=696"&gt;支持向量机：Numerical Optimization&lt;/a&gt;;以非常通俗易懂的方式介绍了一下&lt;strong&gt;SMO(Sequential Minimal Optimization)&lt;/strong&gt;,赞一个。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1&gt;Deep Learning&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;稀疏编码(&lt;em&gt;Sparse Coding&lt;/em&gt;)&lt;/li&gt;
 &lt;/ul&gt;
@@ -24,13 +34,13 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://blog.csdn.net/zouxy09/article/details/8782018"&gt;Deep Learning（深度学习）学习笔记整理系列之（八)&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;Pocket&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html"&gt;罗辑思维 2014：迷茫时代的明白人 11&lt;/a&gt;;活在当下。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1&gt;算法&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
 &lt;/ul&gt;
@@ -66,7 +76,7 @@
 &lt;p&gt;&lt;a href="http://langyu.iteye.com/blog/1407194"&gt;对实时分析与离线分析的思考&lt;/a&gt;
 &lt;a href="http://langyu.iteye.com/blog/1407194"&gt;对实时分析与离线分析的思考(二)&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;Machine Learning&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;看的有点累了,不想看&lt;em&gt;EM&lt;/em&gt;算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍&lt;em&gt;Mixture Models&lt;/em&gt;和&lt;em&gt;EM&lt;/em&gt;算法吧!&lt;/li&gt;
 &lt;/ul&gt;
@@ -102,20 +112,18 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;ul&gt;
 &lt;li&gt;最近一直在看&lt;strong&gt;高斯过程&lt;/strong&gt;,挺难理解的,好吧,咱们慢慢来,先给个链接。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf"&gt;Introduction to Gaussian Process&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf"&gt;Introduction to Gaussian Process&lt;/a&gt;
+* 今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://pan.baidu.com/s/1gdze7h5"&gt;Maximum Entropy Model&lt;/a&gt;&lt;/p&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
-&lt;hr /&gt;
+&lt;hr&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
 &lt;h2&gt;PART I:Introduction to PGM&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-1-Introduction-Combined.pdf"&gt;Introduction and Overview&lt;/a&gt;;主要介绍了PGM的背景以及Factor的基础知识。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Bayes-Nets.pdf"&gt;Bayesian Network Fundamentals&lt;/a&gt;;简要介绍了什么是Bayesian Network、Reasoning Patterns以及Influence Flow.最后简要介绍了一下Naive Bayes Classifier.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Naive Bayes Classifier" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/naive_bayes_model_zps09771da2.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Template-Models.pdf"&gt;Template Models&lt;/a&gt;;主要介绍了Template Models,包括Bayesian Network(HMM)以及Plate Models;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-CPDs.pdf"&gt;Structured CPDs&lt;/a&gt;;介绍了几种CPD表示的其他常见形式,包括:&lt;ul&gt;
@@ -132,7 +140,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Variable-Elimination.pdf"&gt;Variable Elimination&lt;/a&gt;;简要介绍了如何在Bayesian Network以及Ｍarkov Network中执行VE算法;接着对其复杂度进行了分析;最后从图的视角重新审视了一下VE算法.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Variable Elimination" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/variable_elimination_zps6fdc76a6.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf"&gt;Belief Propagation(I)&lt;/a&gt; &amp;amp; &lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Belief-Propagation.pdf"&gt;Belief Propagation(II)&lt;/a&gt;;其基本内容如下:&lt;ul&gt;
 &lt;li&gt;Belief Propagation算法基本流程;&lt;/li&gt;
@@ -142,7 +150,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Belief Propagation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/belief_propogation_zps866416cc.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-MAP.pdf"&gt;MAP Estimation&lt;/a&gt;;关于MAP Inference的基础知识。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf"&gt;Sampling Methods&lt;/a&gt;;Basic Sampling Methods.&lt;/li&gt;
@@ -170,7 +178,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;li&gt;支持向量机番外篇II:&lt;a href="http://blog.pluskid.org/?p=723"&gt;支持向量机：Kernel II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Apriori算法细节&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;&lt;script type= "text/javascript"&gt;
+&lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -200,7 +208,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>当最近邻遇到LSH</title><link href="http://www.qingyuanxingsi.com/dang-zui-jin-lin-yu-dao-lsh.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:dang-zui-jin-lin-yu-dao-lsh.html</id><summary type="html">&lt;p&gt;貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,发现这篇&lt;a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html"&gt;Locality Sensitive Hashing(LSH)之随机投影法&lt;/a&gt;关于局部敏感哈希算法的介绍还不错,于是摘录如下:&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1"&gt;&lt;a href="https://class.coursera.org/nlp/lecture"&gt;Natural Language Processing&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>当最近邻遇到LSH</title><link href="http://www.qingyuanxingsi.com/dang-zui-jin-lin-yu-dao-lsh.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:dang-zui-jin-lin-yu-dao-lsh.html</id><summary type="html">&lt;p&gt;貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,发现这篇&lt;a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html"&gt;Locality Sensitive Hashing(LSH)之随机投影法&lt;/a&gt;关于局部敏感哈希算法的介绍还不错,于是摘录如下:&lt;/p&gt;
 &lt;h1&gt;概述&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;strong&gt;LSH&lt;/strong&gt;是由文献[1]提出的一种用于高效求解最近邻搜索问题的Hash算法。LSH算法的基本思想是利用一个hash函数把集合中的元素映射成hash值，使得相似度越高的元素hash值相等的概率也越高。LSH算法使用的关键是针对某一种相似度计算方法，找到一个具有以上描述特性的hash函数。LSH所要求的hash函数的准确数学定义比较复杂，以下给出一种通俗的定义方式：&lt;/p&gt;
