@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-05T00:00:00+08:00</updated><entry><title>自然语言处理(序章):我爱自然语言处理</title><link href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li.html" rel="alternate"></link><updated>2014-05-05T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-05:zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li.html</id><summary type="html">&lt;p&gt;昨天浏览了一下&lt;a href="http://www.52nlp.cn"&gt;我爱自然语言处理&lt;/a&gt;站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,这一阵子就先把这90篇文章认认真真看完吧,总结看的过程中自己感兴趣而且重要的点,遂成此文。&lt;strong&gt;本文中所有资料属我爱自然语言处理及博客原文引用作者所有,特此声明&lt;/strong&gt;。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-05T00:00:00+08:00</updated><entry><title>自然语言处理(序章):我爱自然语言处理(I)</title><link href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html" rel="alternate"></link><updated>2014-05-05T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-05:zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html</id><summary type="html">&lt;p&gt;昨天浏览了一下&lt;a href="http://www.52nlp.cn"&gt;我爱自然语言处理&lt;/a&gt;站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,这一阵子就先把这90篇文章认认真真看完吧,总结看的过程中自己感兴趣而且重要的点,遂成此文。&lt;strong&gt;本文中所有资料属我爱自然语言处理及博客原文引用作者所有,特此声明&lt;/strong&gt;。&lt;/p&gt;
 &lt;h1&gt;齐夫定律(Zipf’s Law)&lt;/h1&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
@@ -53,7 +53,7 @@ f \times r =k
 &lt;li&gt;查词表，“计算语言学”在词表中，将W加入到S2中，S2=“计算语言学/ 课程/ 有/ 意思/”，并将W从S1中去掉，此时S1=””；&lt;/li&gt;
 &lt;li&gt;S1为空，输出S2作为分词结果，分词过程结束。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;至于怎么实现,&lt;a href="http://yangshangchuan.iteye.com/blog/2031813"&gt;中文分词算法之基于词典的正向最大匹配算法&lt;/a&gt;一文中对针对JAVA的实现有非常详尽的性能分析,其实吧,个人觉得算法无非是在时间和空间间的权衡,对Hash式存储结构而言,一般来讲,空间开销是很大的,而时间上可以做的很好;对于类似于Trie树的数据结构,在某种程度上能节省一定的空间,但肯定比Hash类数据结构慢点。这里我们就不纠结数据结构和性能的差异了,我们使用STL set&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1" title="STL中set的简单学习"&gt;1&lt;/a&gt;&lt;/sup&gt;实现上述功能。&lt;/p&gt;
+&lt;p&gt;至于怎么实现,&lt;a href="http://yangshangchuan.iteye.com/blog/2031813"&gt;中文分词算法之基于词典的正向最大匹配算法&lt;/a&gt;一文中对针对JAVA的实现有非常详尽的性能分析,其实吧,个人觉得算法无非是在时间和空间间的权衡,对Hash式存储结构而言,一般来讲,空间开销是很大的,而时间上可以做的很好;对于类似于Trie树的数据结构,在某种程度上能节省一定的空间,但肯定比Hash类数据结构慢点。这里我们就不纠结数据结构和性能的差异了,我们使用STL set&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1" title="STL中set的简单学习"&gt;1&lt;/a&gt;&lt;/sup&gt;实现上述功能。&lt;/p&gt;
 &lt;p&gt;以下给出逆向最长匹配算法C++源码(&lt;strong&gt;代码中词典的初始化只用了几个词,实际中可从词表文件中读取并构造一个词典,此处代码只是为了演示算法框架&lt;/strong&gt;):&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;iostream&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
 &lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
@@ -115,7 +115,7 @@ f \times r =k
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E6%B3%95%E6%89%A9%E5%B1%952"&gt;中文分词入门之最大匹配法扩展2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E7%AF%87%E5%A4%96"&gt;中文分词入门之篇外&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;基于字标注的中文分词&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-2-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-2" title="本部分更多细节请参考我爱自然语言处理博客!"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;h2&gt;基于字标注的中文分词&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2" title="本部分更多细节请参考我爱自然语言处理博客!"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
 &lt;p&gt;以往的分词方法，无论是基于规则的还是基于统计的，一般都依赖于一个事先编制的词表(词典)。自动分词过程就是通过词表和相关信息来做出词语切分的决策。与此相反，基于字标注的分词方法实际上是构词方法。即把分词过程视为字在字串中的标注问题。由于每个字在构造一个特定的词语时都占据着一个确定的构词位置(即词位)，假如规定每个字最多只有四个构词位置：即B(词首)，M (词中)，E(词尾)和S(单独成词)，那么下面句子(甲)的分词结果就可以直接表示成如(乙)所示的逐字标注形式：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;(甲)分词结果：／上海／计划／N／本／世纪／末／实现／人均／国内／生产／总值／五千美元／。&lt;/p&gt;
@@ -190,9 +190,6 @@ f(x_k + a_k p_k) \leq f(x_k) + c_1 \times a_k \bigtriangledown f(x_k)^Tp_k
 &lt;p&gt;\begin{equation}
 \bigtriangledown f(k)^T p(k) &amp;lt; 0
 \end{equation}&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;NOTE:WHY?求大神指教!&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
 &lt;p&gt;因此根据最初的不等式，即要求：　&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 f(x_{k+1}) ＜ f(x_k)
@@ -218,6 +215,16 @@ f(x_{k+1}) ＜ f(x_k)
 &lt;p&gt;\begin{equation}
 \bigtriangledown f(x_k)p_k &amp;lt;0 
 \end{equation}&lt;/p&gt;
+&lt;p&gt;因此根据最初的不等式要求,即有:　　　　　 &lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown f(x_{k+1}) \geq c_2 \bigtriangledown f(x_k)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;图形角度如下图所示:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OPT_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/opt2_5_zps60c9db2e.png"&gt;&lt;/p&gt;
+&lt;p&gt;即要求函数在第$x_{k+1}$点的变化速度要低于$x_k$点的变化速度，这一点可以从这两点处的梯度处看出，如上图所示。　　&lt;/p&gt;
+&lt;h4&gt;Wolfe conditions&lt;/h4&gt;
+&lt;p&gt;所谓Wolfe conditions即sufficient decrease condition和curvature condition的综合，即$a_k$需要同时满足两个条件,图形化表示如下图所示：　&lt;/p&gt;
+&lt;p&gt;实际应用中，常常会用到由Wolfe conditions引申出的strong Wolfe conditions，即a_k需要同时满足如下两个条件：与Wolfe condtions唯一的区别是strong Wolfe condtions避免了▽f(x_k + a_k * p_k)取较大的正值情况。&lt;/p&gt;
 &lt;p&gt;Method中的LBFGS算法到这里总算初步介绍完了，不过这里笔者要承认的是这篇文档省略了许多内容，包括算法收敛性的证明以及收敛速度证明等许多内容。因此读者若希望对这一块有一个更深入的认识可以参考以下两本书：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Numerical Methods for Unconstrained Optimization and Nonlinear Equations（J.E. Dennis Jr. Robert B. Schnabel）&lt;/li&gt;
@@ -270,7 +277,7 @@ f(x_{k+1}) ＜ f(x_k)
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1"&gt;&lt;a href="http://www.cppblog.com/shongbee2/archive/2009/04/05/79011.html"&gt;STL中set的简单学习&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-2"&gt;本部分更多细节请参考我爱自然语言处理博客! &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="NLP"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1"&gt;&lt;a href="http://www.cppblog.com/shongbee2/archive/2009/04/05/79011.html"&gt;STL中set的简单学习&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2"&gt;本部分更多细节请参考我爱自然语言处理博客! &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="NLP"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;Relation Extration&lt;ul&gt;
