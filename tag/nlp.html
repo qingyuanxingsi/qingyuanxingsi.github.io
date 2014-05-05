@@ -59,12 +59,12 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html"><h1>自然语言处理(序章):我爱自然语言处理(I)</h1></a>
+            <a href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html"><h1>自然语言处理(序章):我爱自然语言处理(II)</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>一 05 五月 2014 </p>
+<p>二 06 五月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/pearls.html">Pearls</a>
@@ -76,191 +76,199 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 </p>
       </div>
       <div class="article-content span8">
-	<p>昨天浏览了一下<a href="http://www.52nlp.cn">我爱自然语言处理</a>站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,这一阵子就先把这90篇文章认认真真看完吧,总结看的过程中自己感兴趣而且重要的点,遂成此文。<strong>本文中所有资料属我爱自然语言处理及博客原文引用作者所有,特此声明</strong>。</p>
-<h1>齐夫定律(Zipf’s Law)</h1>
-<hr>
+	<p>本文紧接上一篇<a href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">自然语言处理(序章):我爱自然语言处理(I)</a>,由于文章篇幅过长导致编辑器响应速度变慢,所以将其拆分为两篇,本文即为第二部分。(<strong>本博文引用内容版权属我爱自然语言博客作者及其引用文章作者,特此再次声明</strong>)。</p>
+<h1>正态分布的前世今生</h1>
+<hr />
 <blockquote>
-<p><strong>Zipf's Law</strong>:</p>
-<p>在任何一个自然语言里第$n$个最常用的单词的频率与$n$近似成反比(The frequency of use of the nth-most-frequently-used word in any natural language is approximately inversely proportional to n).更正式地,我们可以说:存在一个常量$k$,使得:</p>
+<p>神说，要有正态分布，就有了正态分布。</p>
+<p>神看正态分布是好的，就让随机误差就服从了正态分布。</p>
+</blockquote>
+<h2>正态分布</h2>
+<p>学过基础统计学的同学大都对正态分布非常熟悉。这个钟型的分布曲线不但形状优雅，其密度函数写成数学表达式:</p>
 <p>\begin{equation}
-f \times r =k
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
 \end{equation}</p>
-<p>其中$f$表示单词出现的频度,$r$表示单词出现次数的排名(RANK).</p>
+<p>也非常具有数学的美感。其标准化后的概率密度函数:</p>
+<p>\begin{equation}
+f(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}
+\end{equation}</p>
+<p>更加的简洁漂亮,两个最重要的数学常量 $\pi$,$e$都出现在了公式之中。在我个人的审美之中，它也属于 top-N 的最美丽的数学公式之一，如果有人问我数理统计领域哪个公式最能让人感觉到上帝的存在，那我一定投正态分布的票。因为这个分布戴着神秘的面纱，在自然界中无处不在，让你在纷繁芜杂的数据背后看到隐隐的秩序。</p>
+<p><img alt="Normal_Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/normal_curve_zpse8660e23.png" /></p>
+<p>正态分布又通常被称为高斯分布，在科学领域，冠名权那是一个很高的荣誉。去过德国的兄弟们还会发现，德国的钢镚和10马克的纸币上都留有高斯的头像和正态密度曲线。正态分布被冠名高斯分布，我们也容易认为是高斯发现了正态分布，其实不然，不过高斯对于正态分布的历史地位的确立是起到了决定性的作用。</p>
+<p><img alt="10dm" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/10dm_with_gauss_curve_zps561d08ca.jpg" /></p>
+<p><img alt="10dm_detail" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/10dm_with_gauss_curve_detail-300x217_zpsd38f3d9e.jpg" /></p>
+<p><img alt="20_mark" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/20-mark-gauss_zpsd6e55205.jpg" /></p>
+<p>正态曲线虽然看上去很美，却不是一拍脑袋就能想到的。我在本科学习数理统计的时候，课本一上来介绍正态分布就给出密度分布函数，却从来不说明这个分布函数是通过什么原理推导出来的。所以我一直搞不明白数学家当年是怎么找到这个概率分布曲线的，又是怎么发现误差服从这个奇妙的分布的。直到我读研究生的时候我的导师给我介绍了陈希儒院士的《数理统计简史》这本书，看了之后才了解了正态分布曲线从发现到被人们重视进而广泛应用，也是经过了几百年的历史。</p>
+<p>正态分布的这段历史是很精彩的，我们通过讲几个故事来揭开她的神秘面纱。</p>
+<h2>邂逅</h2>
+<hr />
+<p>正态曲线的首次发现第一个故事和概率论的发展密切相关，主角是棣莫弗(De Moivre) 和拉普拉斯(Laplace)。拉普拉斯是个大科学家，被称为法国的牛顿；棣莫弗名气可能不算很大，不过大家应该应该都熟悉这个名字，因为我们在高中数学学复数的时候都学过棣莫弗定理:</p>
+<p>\begin{equation}
+(cosθ+isinθ)^n=cos(nθ)+isin(nθ)
+\end{equation}</p>
+<p>古典概率论发源于赌博，惠更斯、帕斯卡、费马、贝努力都是古典概率的奠基人，他们那会研究的概率问题大都来自赌桌上，最早的概率论问题是赌徒梅累在1654年向帕斯卡提出的如何分赌金的问题。统计学中的总体均值之所以被称为期望(Expectation), 就是源自惠更斯、帕斯卡这些人研究平均情况下一个赌徒在赌桌上可以期望自己赢得多少钱。</p>
+<p>有一天一个哥们，也许是个赌徒，向棣莫弗提了一个和赌博相关的一个问题：A,B两人在赌场里赌博，A，B各自的获胜概率是$p,q=1−p$,赌$n$局，若 A 赢的局数$X&gt;np$, 则A付给赌场$X−np$元，否则B付给赌场$np−X$元。 问赌场挣钱的期望值是多少。</p>
+<p>问题并不复杂， 本质上是一个二项分布，最后求出的理论结果是:</p>
+<p>\begin{equation}
+2npq \ b(n, p, np)
+\end{equation}</p>
+<p>其中$b(n,p,i)=C_n^ip^iq^{n−i}$是常见的二项概率。 但是对具体的 n, 要把这个理论结果实际计算出数值结果可不容易， 因为其中的二项公式中有组合数.这就驱动De Moivre寻找近似计算的方法计算。</p>
+<p>与此相关联的另一个问题，是遵从二项分布的随机变量$X \sim\ B(n,p)$, 求$X$落在二项分布中心点一定范围的概率$P_d=P(|X–np|≤d)$</p>
+<p>对于$p=1/2$的情形， 棣莫弗做了一些计算并得到了一些近似结果，但是还不够漂亮，幸运的是棣莫弗和Stirling 处在同一个时代， 而且二人之间有联系，Stirling公式是在数学分析中必学的一个重要公式(事实上Stirling 公式的形式其实是棣莫弗最先发现的，但是 Stirling 改进了公式:</p>
+<p>\begin{equation}
+n! \sim \sqrt{2\pi n} (\frac{n}{e})^{n}
+\end{equation}</p>
+<p>1733 年，棣莫弗很快利用 Stirling 公式进行计算并取得了重要的进展。考虑$n$是偶数的情形，令二项概率</p>
+<p>\begin{equation}
+b(i) = b(n, \frac{1}{2}, i) = \binom{n}{i}(\frac{1}{2})^n
+\end{equation}</p>
+<p>通过 Stirling 公式做一些简单的计算容易得到:</p>
+<p>\begin{equation}
+\displaystyle b(\frac{n}{2}) \sim \sqrt{\frac{2}{\pi n}}
+\end{equation}</p>
+<p>\begin{equation}
+\displaystyle \frac{b(\frac{n}{2}+d)}{b(\frac{n}{2})} \sim e^{-\frac{2d^2}{n}}
+\end{equation}</p>
+<p>于是有:</p>
+<p>\begin{equation}
+\displaystyle b(\frac{n}{2}+d) \sim \frac{2}{\sqrt{2 \pi n}}e^{-\frac{2d^2}{n}}
+\end{equation}</p>
+<p>使用上式的结果，并在二项概率累加求和的过程中近似的使用定积分代替求和，很容易就能得到:</p>
+<p>\begin{equation}
+\displaystyle P(|\frac{X}{n} – \frac{1}{2}| \le \frac{c}{\sqrt{n}} ) \sim\int_{-2c}^{2c} \frac{1}{\sqrt{2\pi}} e^{-x^2/2} dx
+\end{equation}</p>
+<blockquote>
+<p><strong>NOTE:以上两个公式没看懂,求大神指教。</strong></p>
 </blockquote>
-<p><img alt="Zipf" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/zipf_zpsae557119.png"></p>
-<p>北京大学姜望琪老师的《Zipf与省力原则》讲得很好，部分摘录如下:</p>
+<p>看，正态分布的密度函数的形式在积分公式中出现了！这也就是我们在数理统计课本上学到的二项分布的极限分布是正态分布。以上只是讨论了$p=1/2$的情形， 棣莫弗也对 p≠1/2做了一些计算，后来拉普拉斯对 $p \neq 1/2$的情况做了更多的分析，并把二项分布的正态近似推广到了任意$p$的情况。 这是第一次正态密度函数被数学家勾画出来，而且是以二项分布的极限分布的形式被推导出来的。 熟悉基础概率统计的同学们都知道这个结果其实叫棣莫弗-拉普拉斯中心极限定理。</p>
+<p><strong>[De Moivre-Laplace 中心极限定理]</strong></p>
+<p>设随机变量$X_n(n=1,2,⋯)$服从参数为$p$的二项分布，则对任意的$x$, 恒有:</p>
+<p>\begin{equation}
+\displaystyle\lim_{n\rightarrow\infty}P{ \frac{X_n – np}{\sqrt{np(1-p)}} \le x }=\int_{-\infty}^x \frac{1}{\sqrt{2\pi}} e^{\frac{-t^2}{2}}dt
+\end{equation}</p>
+<p>我们在大学学习数理统计的时候，学习的过程都是先学习了正态分布，然后才学习中心极限定理。而学习到正态分布的时候，直接就描述了其概率密度的数学形式，虽然数学上很漂亮，但是当时很容易困惑数学家们是如何凭空就找到这个分布的。读了陈希孺的《数理统计学简史》之后，我才明白正态分布的密度形式首次发现是在棣莫弗-拉普拉斯的中心极限定理中。数学家研究数学问题的进程很少是按照我们数学课本的安排顺序推进的，现代的数学课本都是按照数学内在的逻辑进行组织编排的，虽然逻辑结构上严谨优美，却把数学问题研究的历史痕迹抹得一干二净。DNA 双螺旋结构的发现者之一 Waston 在他的名著《DNA 双螺旋》序言中说：“科学的发现很少会像门外汉所想象的一样，按照直接了当合乎逻辑的方式进行的。”</p>
+<p>棣莫弗出他的发现后40年（大约是 1770),拉普拉斯建立了中心极限定理较一般的形式，中心极限定理后续又被其它数学家们推广到了其它任意分布的情形，而不限于二项分布。后续的统计学家发现，一系列的重要统计量，在样本量$N$趋于无穷的时候， 其极限分布都有正态的形式， 这构成了数理统计学中大样本理论的基础。</p>
+<p>棣莫弗在二项分布的计算中瞥见了正态曲线的模样，不过他并没有能展现这个曲线的美妙之处。棣莫弗的这个工作当时并没有引起人们足够的重视，原因在于棣莫弗不是个统计学家，从未从统计学的角度去考虑其工作的意义。 正态分布(当时也没有被命名为正态分布) 在当时也只是以极限分布的形式出现，并没有在统计学，尤其是误差分析中发挥作用。这也就是正态分布最终没有被冠名棣莫弗分布的重要原因。 那高斯做了啥工作导致统计学家把正态分布的这顶桂冠戴在了他的头上呢？这先得从最小二乘法的发展说起。
+<strong>[本部分待续]</strong></p>
+<h1>MCMC 和 Gibbs Sampling</h1>
+<hr />
+<h2>随机模拟</h2>
+<p>随机模拟(或者统计模拟)方法有一个很酷的别名是蒙特卡罗方法(Monte Carlo Simulation)。这个方法的发展始于20世纪40年代，和原子弹制造的曼哈顿计划密切相关，当时的几个大牛，包括乌拉姆、冯.诺依曼、费米、费曼、Nicholas Metropolis，在美国洛斯阿拉莫斯国家实验室研究裂变物质的中子连锁反应的时候，开始使用统计模拟的方法,并在最早的计算机上进行编程实现。</p>
+<p><img alt="Simulation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/simulation_zpsfd333536.jpg" /></p>
+<p>现代的统计模拟方法最早由数学家乌拉姆提出，被Metropolis命名为蒙特卡罗方法，蒙特卡罗是著名的赌场，赌博总是和统计密切关联的，所以这个命名风趣而贴切，很快被大家广泛接受。被不过据说费米之前就已经在实验中使用了，但是没有发表。说起蒙特卡罗方法的源头，可以追溯到18世纪，布丰当年用于计算π的著名的投针实验就是蒙特卡罗模拟实验。统计采样的方法其实数学家们很早就知道，但是在计算机出现以前，随机数生成的成本很高，所以该方法也没有实用价值。随着计算机技术在二十世纪后半叶的迅猛发展，随机模拟技术很快进入实用阶段。对那些用确定算法不可行或不可能解决的问题，蒙特卡罗方法常常为人们带来希望。</p>
+<p><img alt="monte-carlo-simulation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/monte-carlo-simulation_zpsd57f8e88.jpg" /></p>
+<p>统计模拟中有一个重要的问题就是给定一个概率分布$p(x)$，我们如何在计算机中生成它的样本。一般而言均匀分布 $Uniform(0,1)$的样本是相对容易生成的。通过线性同余发生器可以生成伪随机数，我们用确定性算法生成$[0,1]$之间的伪随机数序列后，这些序列的各种统计指标和均匀分布$Uniform(0,1)$的理论计算结果非常接近。这样的伪随机序列就有比较好的统计性质，可以被当成真实的随机数使用。</p>
+<p><img alt="sampling" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sampling_zpsb8ae4169.png" /></p>
+<p>而我们常见的概率分布，无论是连续的还是离散的分布，都可以基于$Uniform(0,1)$的样本生成。例如正态分布可以通过著名的<strong>Box-Muller</strong>变换得到</p>
+<blockquote>
+<p><strong>[Box-Muller变换]</strong></p>
+<p>如果随机变量$U_1$,$U_2$独立且$U_1,U_2 \sim\ Uniform[0,1]$,</p>
+<p>\begin{equation}
+\begin{split} 
+Z_0 &amp; = \sqrt{-2\ln U_1} cos(2\pi U_2) \\ 
+Z_1 &amp; = \sqrt{-2\ln U_1} sin(2\pi U_2) 
+\end{split}
+\end{equation}</p>
+</blockquote>
+<p>则$Z_0,Z_1$独立且服从标准正态分布。</p>
+<p>其它几个著名的连续分布，包括指数分布、Gamma分布、t分布、F分布、Beta分布、Dirichlet分布等等,也都可以通过类似的数学变换得到；离散的分布通过均匀分布更加容易生成。更多的统计分布如何通过均匀分布的变换生成出来，大家可以参考统计计算的书，其中 Sheldon M. Ross 的<strong>《统计模拟》</strong>是写得非常通俗易懂的一本。</p>
+<p>不过我们并不是总是这么幸运的，当$p(x)$的形式很复杂，或者$p(x)$是个高维的分布的时候，样本的生成就可能很困难了。 譬如有如下的情况:</p>
+<ul>
+<li>$p(x) = \frac{\tilde{p}(x)}{\int \tilde{p}(x) dx}$,而$\tilde{p}(x)$我们是可以计算的，但是底下的积分式无法显式计算。</li>
+<li>$p(x,y)$是一个二维的分布函数，这个函数本身计算很困难，但是条件分布$p(x|y),p(y|x)$的计算相对简单;如果$p(x)$是高维的，这种情形就更加明显。</li>
+</ul>
+<p>此时就需要使用一些更加复杂的随机模拟的方法来生成样本。而本节中将要重点介绍的 MCMC(Markov Chain Monte Carlo) 和 Gibbs Sampling算法就是最常用的一种，这两个方法在现代贝叶斯分析中被广泛使用。要了解这两个算法，我们首先要对马氏链的平稳分布的性质有基本的认识。</p>
+<h2>马氏链及其平稳分布</h2>
+<p>马氏链的数学定义很简单:</p>
+<p>\begin{equation}
+P(X_{t+1}=x|X_t, X_{t-1}, \cdots) =P(X_{t+1}=x|X_t)
+\end{equation}</p>
+<p>也就是状态转移的概率只依赖于前一个状态。</p>
+<p>我们先来看马氏链的一个具体的例子。社会学家经常把人按其经济状况分成3类：下层(lower-class)、中层(middle-class)、上层(upper-class)，我们用1,2,3分别代表这三个阶层。社会学家们发现决定一个人的收入阶层的最重要的因素就是其父母的收入阶层。如果一个人的收入属于下层类别，那么他的孩子属于下层收入的概率是 0.65, 属于中层收入的概率是 0.28, 属于上层收入的概率是 0.07。事实上，从父代到子代，收入阶层的变化的转移概率如下:</p>
+<p><img alt="table-1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/table-1_zps3d0d323d.jpg" /></p>
+<p><img alt="markov-transition" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/markov-transition_zps8213ffd9.png" /></p>
+<p>使用矩阵的表示方式，转移概率矩阵记为:</p>
+<p>\begin{equation}
+P=\left[
+\begin{array}{cc}
+0.65 &amp; 0.28 &amp; 0.07 \\ 
+0.15 &amp; 0.67 &amp; 0.18 \\ 
+0.12 &amp; 0.36 &amp; 0.52 \\ 
+\end{array}
+\right]
+\end{equation}</p>
+<p>假设当前这一代人处在下层、中层、上层的人的比例是概率分布向量 $\pi_0=[\pi_0(1),\pi_0(2),\pi_0(3)]$，那么他们的子女的分布比例将是$\pi_1=\pi_0P$, 他们的孙子代的分布比例将是 $\pi_2=\pi_1P=\pi_0P^2$, ……, 第n代子孙的收入分布比例将是$\pi_n=\pi_{n−1}P=\pi_0P^n$。</p>
+<p>假设初始概率分布为$\pi_0=[0.21,0.68,0.11]$，则我们可以计算前$n$代人的分布状况如下</p>
+<p><img alt="table-2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/table-2_zps47ffb526.jpg" /></p>
+<p>我们发现从第7代人开始，这个分布就稳定不变了，这个是偶然的吗？我们换一个初始概率分布$\pi_0=[0.75,0.15,0.1]$.试试看，继续计算前$n$代人的分布状况如下</p>
+<p><img alt="table-3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/table-3_zps3b41fb58.jpg" /></p>
+<p>我们发现，到第9代人的时候, 分布又收敛了。最为奇特的是，两次给定不同的初始概率分布，最终都收敛到概率分布 $\pi=[0.286,0.489,0.225]$，也就是说收敛的行为和初始概率分布$\pi_0$无关。这说明这个收敛行为主要是由概率转移矩阵$P$决定的。我们计算一下$P^n$.</p>
+<p>\begin{equation}
+P^{20} = P^{21} = \cdots = P^{100} = \cdots = 
+\begin{bmatrix} 
+0.286 &amp; 0.489 &amp; 0.225 \\
+0.286 &amp; 0.489 &amp; 0.225 \\ 
+0.286 &amp; 0.489 &amp; 0.225 \\ 
+\end{bmatrix}
+\end{equation}</p>
+<p>我们发现，当$n$足够大的时候，这个$P^n$矩阵的每一行都是稳定地收敛到$\pi=[0.286,0.489,0.225]$这个概率分布。自然的，这个收敛现象并非是我们这个马氏链独有的，而是绝大多数马氏链的共同行为，关于马氏链的收敛我们有如下漂亮的定理：</p>
+<blockquote>
+<p><strong>马氏链定理</strong></p>
+<p>如果一个非周期马氏链具有转移概率矩阵$P$,且它的任何两个状态是连通的，那么$\lim_{n\rightarrow\infty}P_{ij}^n$存在且与$i$无关，记$\lim_{n\rightarrow\infty}P_{ij}^n = \pi(j)$, 我们有:</p>
+<p>\begin{equation}
+\begin{split}
+\lim_{n \rightarrow \infty} P^n =\begin{bmatrix} 
+\pi(1) &amp; \pi(2) &amp; \cdots &amp; \pi(j) &amp; \cdots \\ 
+\pi(1) &amp; \pi(2) &amp; \cdots &amp; \pi(j) &amp; \cdots \\ 
+\cdots &amp; \cdots &amp; \cdots &amp; \cdots &amp; \cdots \\ 
+\pi(1) &amp; \pi(2) &amp; \cdots &amp; \pi(j) &amp; \cdots \\ 
+\cdots &amp; \cdots &amp; \cdots &amp; \cdots &amp; \cdots \\ 
+\end{bmatrix}    \\
+\pi(j) = \sum_{i=0}^{\infty}\pi(i)P_{ij} \\
+\end{split}
+\end{equation}</p>
+</blockquote>
+<p>$\pi$是方程$\pi P=\pi$的唯一非负解。其中,</p>
+<p>\begin{equation}
+\pi = [\pi(1), \pi(2), \cdots, \pi(j),\cdots ], \quad \sum_{i=0}^{\infty} \pi_i = 1
+\end{equation}</p>
+<p>$\pi$称为马氏链的平稳分布。</p>
+<p>这个马氏链的收敛定理非常重要，<strong>所有的 MCMC(Markov Chain Monte Carlo) 方法都是以这个定理作为理论基础的</strong>。 定理的证明相对复杂，一般的随机过程课本中也不给证明，所以我们就不用纠结它的证明了，直接用这个定理的结论就好了。我们对这个定理的内容做一些解释说明：</p>
 <ol>
-<li>省力原则(the Principle of Least Effort)，又称经济原则(the Economy Principle)，可以概括为：以最小的代价换取最大的收益。这是指导人类行为的一条根本性原则。在现代学术界，第一个明确提出这条原则的是美国学者 George Kingsley Zipf。　　</li>
-<li>George Kingsley Zipf1902年1月出生于一个德裔家庭（其祖父十九世纪中叶移居美国)。1924年，他以优异成绩毕业于哈佛学院。1925年在德国波恩、柏林学习。1929年完成Relative Frequency as a Determinant of Phonetic Change，获得哈佛比较语文学博士学位。然后，他开始在哈佛教授德语。1931年与Joyce Waters Brown结婚。1932年出版Selected Studies of the Principle of Relative Frequency in Language。1935年出版The Psycho- Biology of Language：An Introduction to Dynamic Philology。1939年被聘为讲师。1949年出版Human Behavior and the Principle of Least Effort：An Introduction to Human Ecology。1950年9月因患癌症病逝。　　</li>
-<li>
-<p>Zipf在1949年的书里提出了一条指导人类行为的基本原则——省力原则。Zipf在序言里指出，如果我们把人类行为纯粹看作一种自然现象，如果我们像研究蜜蜂的社会行为、鸟类的筑巢习惯一样研究人类行为，那么，我们就有可能揭示其背后的基本原则。这是他提出“省力原则”的大背景。当Zipf在众多互不相干的现象里都发现类似Zipf定律的规律性以后，他就开始思考造成这种规律性的原因。这是导致他提出“省力原则”的直接因素。在开始正式论证以前，Zipf首先澄清了“省力原则”的字面意义。</p>
-<ul>
-<li>第一，这是一种平均量。一个人一生要经历很多事情，他在一件事情上的省力可能导致在另一件事情上的费力。反过来，在一件事情上的费力，又可能导致在另一件事情上的省力。</li>
-<li>第二，这是一种概率。一个人很难在事先百分之百地肯定某种方法一定能让他省力，他只能有一个大概的估计。因为用词研究是理解整个言语过程的关键，而后者又是理解整个人类生态学的关键，他的具体论证从用词经济开始。Zipf认为，用词经济可以从两个角度来讨论：说话人的角度和听话人的角度。从说话人的角度看，用一个词表达所有的意义是最经济的。这样，说话人不需要花费气力去掌握更多的词汇，也不需要考虑如何从一堆词汇中选择一个合适的词。这种“单一词词汇量”就像木工的一种多用工具，集锯刨钻锤于一身，可以满足多种用途。但是，从听话人角度看，这种“单一词词汇量”是最费力的。他要决定这个词在某个特定场合到底是什么意思，而这几乎是不可能的。相反，对听话人来说，最省力的是每个词都只有一个意义，词汇的形式和意义之间完全一一对应。这两种经济原则是互相冲突、互相矛盾的。Zipf把它们叫做一条言语流中的两股对立的力量：“单一化力量”（the Force of Unification）和“多样化力量”（the Force of Diversification）。他认为，这两股力量只有达成妥协，达成一种平衡，才能实现真正的省力。事实正像预计的那样。请看Zipf的论证：假如只有单一化力量，那么任何语篇的单词数量（number）都会是1，而它的出现次数（frequency）会是100%。另一方面，假如只有多样化力量，那么每个单词的出现次数都会接近1，而单词总数量则由语篇的长度决定。这就是说， <em>number</em>和<em>frequency</em>是衡量词汇平衡程度的两个参数。</li>
-</ul>
-</li>
+<li>该定理中马氏链的状态不要求有限，可以是有无穷多个的；</li>
+<li>定理中的“非周期“这个概念我们不打算解释了，因为我们遇到的绝大多数马氏链都是非周期的；</li>
+<li>两个状态$i,j$是连通并非指$i$可以直接一步转移到$j$($P_{ij}&gt;0)$,而是指$i$可以通过有限的$n$步转移到达$j$($P^n_{ij}&gt;0$)。马氏链的任何两个状态是连通的含义是指存在一个$n$,使得矩阵$P^n$中的任何一个元素的数值都大于零。</li>
+<li>我们用$X_i$表示在马氏链上跳转第$i$步后所处的状态，如果$\lim_{n\rightarrow\infty}P_{ij}^n=\pi(j)$存在，很容易证明以上定理的第二个结论。由于</li>
 </ol>
-<h1>中文分词</h1>
-<hr>
-<p>对于英文而言,由于词自然一般有非常自然的分隔符(空格或标点符号等),因此对于英文而言基本不涉及分词这个任务,而对于中文而言,因为中文没有非常明显的自然分隔符,而且很多自然语言处理任务很大程度上依赖于分词质量,因此中文分词是中文自然语言处理中非常基础且重要的一个任务,以下对中文分词中涉及的基本算法做一个简要的介绍:</p>
-<h2>最长正向匹配算法</h2>
-<p>最长正向匹配算法的基本流程如下图所示:</p>
-<p><img alt="MAX_SEGMENTATION" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_segmentation_zpsadc70b2d.png"></p>
-<p>逆向匹配法思想与正向一样，只是从右向左切分，这里举一个例子：</p>
-<p>输入例句:S1=”计算语言学课程有意思”;</p>
-<p>定义:最大词长MaxLen = 5；S2="";分隔符="/"；</p>
-<p>假设存在词表:计算语言学,课程,意思,...；最大逆向匹配分词算法过程如下：</p>
-<ol>
-<li>S2=””；S1不为空，从S1右边取出候选子串W=”课程有意思”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”程有意思”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”有意思”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”意思”</li>
-<li>查词表，“意思”在词表中，将W加入到S2中，S2=” 意思/”，并将W从S1中去掉，此时S1=”计算语言学课程有”；</li>
-<li>S1不为空，于是从S1左边取出候选子串W=”言学课程有”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”学课程有”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”课程有”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”程有”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”有”，这W是单字，将W加入到S2中，S2=“/有/意思”，并将W从S1中去掉，此时S1=”计算语言学课程”；</li>
-<li>S1不为空，于是从S1左边取出候选子串W=”语言学课程”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”言学课程”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”学课程”；</li>
-<li>查词表，W不在词表中，将W最左边一个字去掉，得到W=”课程”；</li>
-<li>查词表，“意思”在词表中，将W加入到S2中，S2=“ 课程/ 有/ 意思/”，并将W从S1中去掉，此时S1=”计算语言学”；</li>
-<li>S1不为空，于是从S1左边取出候选子串W=”计算语言学”；</li>
-<li>查词表，“计算语言学”在词表中，将W加入到S2中，S2=“计算语言学/ 课程/ 有/ 意思/”，并将W从S1中去掉，此时S1=””；</li>
-<li>S1为空，输出S2作为分词结果，分词过程结束。</li>
-</ol>
-<p>至于怎么实现,<a href="http://yangshangchuan.iteye.com/blog/2031813">中文分词算法之基于词典的正向最大匹配算法</a>一文中对针对JAVA的实现有非常详尽的性能分析,其实吧,个人觉得算法无非是在时间和空间间的权衡,对Hash式存储结构而言,一般来讲,空间开销是很大的,而时间上可以做的很好;对于类似于Trie树的数据结构,在某种程度上能节省一定的空间,但肯定比Hash类数据结构慢点。这里我们就不纠结数据结构和性能的差异了,我们使用STL set<sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1-back"><a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1" title="STL中set的简单学习">1</a></sup>实现上述功能。</p>
-<p>以下给出逆向最长匹配算法C++源码(<strong>代码中词典的初始化只用了几个词,实际中可从词表文件中读取并构造一个词典,此处代码只是为了演示算法框架</strong>):</p>
-<div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="o">&lt;</span><span class="nb">set</span><span class="o">&gt;</span>
-
-<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
-
-<span class="cm">/**</span>
-<span class="cm"> *A simple inverse match algorithm</span>
-<span class="cm"> *@author:qingyuanxingsi</span>
-<span class="cm"> *@date:2014-05-04</span>
-<span class="cm"> *@version:1.0</span>
-<span class="cm"> */</span>
-<span class="nx">int</span> <span class="nx">main</span><span class="p">(</span><span class="nx">int</span> <span class="nx">argc</span><span class="p">,</span> <span class="nx">char</span> <span class="o">**</span><span class="nx">argv</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">//Max word length</span>
-    <span class="nx">const</span> <span class="nx">int</span> <span class="n">max_len</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-    <span class="nx">const</span> <span class="kt">string</span> <span class="n">split_sequence</span> <span class="o">=</span> <span class="s2">"/"</span><span class="p">;</span>
-    <span class="nx">const</span> <span class="kt">string</span> <span class="n">to_split</span> <span class="o">=</span> <span class="s2">"计算语言学真有意思啊"</span><span class="p">;</span>
-    <span class="nb">set</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span> <span class="nx">dict</span><span class="p">;</span>
-    <span class="c1">//Initialize the dict</span>
-    <span class="nx">dict.insert</span><span class="p">(</span><span class="s2">"计算语言学"</span><span class="p">);</span>
-    <span class="nx">dict.insert</span><span class="p">(</span><span class="s2">"意思"</span><span class="p">);</span>
-    <span class="c1">//Split the Chinese Sequence</span>
-    <span class="nx">int</span> <span class="n">tail</span> <span class="o">=</span> <span class="nx">to_split.length</span><span class="p">();</span>
-    <span class="nb">for</span><span class="p">(</span><span class="nx">int</span> <span class="n">i</span><span class="o">=</span><span class="nx">max_len</span><span class="p">;</span><span class="nx">i</span><span class="o">&gt;</span><span class="mi">0</span><span class="o">&amp;&amp;</span><span class="nx">tail</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">--</span><span class="p">){</span>
-      <span class="kt">string</span> <span class="n">temp</span> <span class="o">=</span> <span class="nx">to_split.substr</span><span class="p">(</span><span class="nx">tail</span><span class="na">-i</span><span class="p">,</span><span class="nx">i</span><span class="p">);</span>
-      <span class="c1">//If single word</span>
-      <span class="k">if</span><span class="p">(</span><span class="nx">temp.length</span><span class="p">()</span><span class="o">==</span><span class="mi">1</span><span class="p">){</span>
-        <span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="nx">split_sequence</span><span class="o">&lt;&lt;</span><span class="nx">temp</span><span class="o">&lt;&lt;</span><span class="nx">endl</span><span class="p">;</span>
-        <span class="nx">tail</span> <span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="nx">tail</span><span class="o">&lt;</span><span class="nx">max_len</span><span class="p">){</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="nx">tail</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">else</span><span class="p">{</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="nx">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-      <span class="k">if</span><span class="p">(</span><span class="nx">dict.find</span><span class="p">(</span><span class="nx">temp</span><span class="p">)</span><span class="o">!=</span><span class="nx">dict.end</span><span class="p">()){</span>
-        <span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="nx">split_sequence</span><span class="o">&lt;&lt;</span><span class="nx">temp</span><span class="o">&lt;&lt;</span><span class="nx">endl</span><span class="p">;</span>
-        <span class="nx">tail</span> <span class="o">-=</span><span class="nx">i</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="nx">tail</span><span class="o">&lt;</span><span class="nx">max_len</span><span class="p">){</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="nx">tail</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">else</span><span class="p">{</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="nx">max_len</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
-      <span class="p">}</span>
-    <span class="p">}</span>  
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<blockquote>
-<p>NOTE:这种机械的分词方法实际上是远远满足不了我们的需要的,对于某些特定的句子不管采用正向最长匹配还是逆向最长匹配都会产生错误切分。比如说<strong>"结婚的和尚未结婚的"</strong>,采用正向最长匹配就得不到正确的分词结果,逆向最长匹配也类同。类似的分词方法还有<strong>最小词数法</strong>等。</p>
-</blockquote>
-<p>基于以上简单的中文分词算法，很多学者进行了改进,我爱自然语言网站上介绍了一个叫MMSEG的系统,个人不是很感兴趣,有兴趣的同学可参考如下链接:</p>
-<ul>
-<li><a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E6%B3%95%E6%89%A9%E5%B1%951">中文分词入门之最大匹配法扩展1</a></li>
-<li><a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E6%B3%95%E6%89%A9%E5%B1%952">中文分词入门之最大匹配法扩展2</a></li>
-<li><a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E7%AF%87%E5%A4%96">中文分词入门之篇外</a></li>
-</ul>
-<h2>基于字标注的中文分词<sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back"><a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2" title="本部分更多细节请参考我爱自然语言处理博客!">2</a></sup></h2>
-<p>以往的分词方法，无论是基于规则的还是基于统计的，一般都依赖于一个事先编制的词表(词典)。自动分词过程就是通过词表和相关信息来做出词语切分的决策。与此相反，基于字标注的分词方法实际上是构词方法。即把分词过程视为字在字串中的标注问题。由于每个字在构造一个特定的词语时都占据着一个确定的构词位置(即词位)，假如规定每个字最多只有四个构词位置：即B(词首)，M (词中)，E(词尾)和S(单独成词)，那么下面句子(甲)的分词结果就可以直接表示成如(乙)所示的逐字标注形式：</p>
-<blockquote>
-<p>(甲)分词结果：／上海／计划／N／本／世纪／末／实现／人均／国内／生产／总值／五千美元／。</p>
-<p>(乙)字标注形式：上/B 海／E 计／B 划／E N／S 本／s 世／B 纪／E 末／S 实／B 现／E 人／B 均／E 国／B 内／E生／B产／E总／B值／E 五／B千／M 美／M 元／E 。／S</p>
-</blockquote>
-<p>首先需要说明，这里说到的“字”不只限于汉字。考虑到中文真实文本中不可避免地会包含一定数量的非汉字字符，本文所说的“字”，也包括外文字母、阿拉伯数字和标点符号等字符。所有这些字符都是构词的基本单元。当然，汉字依然是这个单元集合中数量最多的一类字符。</p>
-<p>把分词过程视为字的标注问题的一个重要优势在于，<strong>它能够平衡地看待词表词和未登录词的识别问题</strong>。在这种分词技术中，文本中的词表词和未登录词都是用统一的字标注过程来实现的。在学习架构上，既可以不必专门强调词表词信息，也不用专门设计特定的未登录词(如人名、地名、机构名)识别模块。这使得分词系统的设计大大简化。在字标注过程中，所有的字根据预定义的特征进行词位特性的学习，获得一个概率模型。然后，在待分字串上，根据字与字之间的结合紧密程度，得到一个词位的标注结果。最后，根据词位定义直接获得最终的分词结果。总而言之，在这样一个分词过程中，分词成为字重组的简单过程。然而这一简单处理带来的分词结果却是令人满意的。</p>
-<p>在<a href="http://www.52nlp.cn/two-innovative-ideas-in-natural-language-processing-area">《自然语言处理领域的两种创新观念》</a>中，张俊林博士谈了两种创新模式：<strong>一种创新是研究模式的颠覆，另外一种创新是应用创新</strong>，前者需要NLP领域出现爱因斯坦式的革新人物，后者则是强调用同样的核心技术做不一样的应用。</p>
-<p>在自然语言处理领域，多数创新都属于后者，譬如统计机器翻译，Brown就是学习和借鉴了贾里尼克将语音识别看成通信问题的思想，将信源信道模型应用到了机器翻译之中，从而开辟了SMT这一全新领域。而Nianwen Xue将词性标注的思想应用到中文分词领域，成就了字标注的中文分词方法（Chinese Word Segmentation as Character Tagging），同样取得了巨大的成功。</p>
-<p>既然基于字标注的中文分词方法是将中文分词当作词性标注的问题来对待，那么就必须有标注对象和标注集了。形象一点，从这个方法的命名上我们就可以推断出它的标注是基本的汉字（还包括一定数量的非汉字字符），而标注集则比较灵活，这些标注集都是依据汉字在汉语词中的位置设计的，最简单的是2-tag，譬如将词首标记设计为B，而将词的其他位置标记设计为I，那么“中国”就可以标记为“中/B 国/I”，“海南岛”则可以标记为“海/B 南/I 岛/I”，相应地，对于如下分好词的句子：</p>
-<div class="highlight"><pre><span class="err">瓦西里斯</span> <span class="err">的</span> <span class="err">船只</span> <span class="err">中</span> <span class="err">有</span> <span class="mi">40</span><span class="o">%</span> <span class="err">驶</span> <span class="err">向</span> <span class="err">远东</span> <span class="err">，</span> <span class="err">每个</span> <span class="err">月</span> <span class="err">几乎</span> <span class="err">都</span> <span class="err">有</span> <span class="err">两三条</span> <span class="err">船</span> <span class="err">停靠</span> <span class="err">中国</span> <span class="err">港口</span> <span class="err">。</span>
-</pre></div>
-
-
-<p>基于2-tag(B,I)的标注就是：</p>
-<div class="highlight"><pre><span class="err">瓦</span><span class="o">/</span><span class="n">B</span> <span class="err">西</span><span class="o">/</span><span class="n">I</span> <span class="err">里</span><span class="o">/</span><span class="n">I</span> <span class="err">斯</span><span class="o">/</span><span class="n">I</span> <span class="err">的</span><span class="o">/</span><span class="n">B</span> <span class="err">船</span><span class="o">/</span><span class="n">B</span> <span class="err">只</span><span class="o">/</span><span class="n">I</span> <span class="err">中</span><span class="o">/</span><span class="n">B</span> <span class="err">有</span><span class="o">/</span><span class="n">B</span> <span class="err">４</span><span class="o">/</span><span class="n">B</span> <span class="err">０</span><span class="o">/</span><span class="n">I</span> <span class="err">％</span><span class="o">/</span><span class="n">I</span> <span class="err">驶</span><span class="o">/</span><span class="n">B</span> <span class="err">向</span><span class="o">/</span><span class="n">B</span> <span class="err">远</span><span class="o">/</span><span class="n">B</span> <span class="err">东</span><span class="o">/</span><span class="n">I</span> <span class="err">，</span><span class="o">/</span><span class="n">B</span> <span class="err">每</span><span class="o">/</span><span class="n">B</span> <span class="err">个</span><span class="o">/</span><span class="n">I</span> <span class="err">月</span><span class="o">/</span><span class="n">B</span> <span class="err">几</span><span class="o">/</span><span class="n">B</span> <span class="err">乎</span><span class="o">/</span><span class="n">I</span> <span class="err">都</span><span class="o">/</span><span class="n">B</span> <span class="err">有</span><span class="o">/</span><span class="n">B</span> <span class="err">两</span><span class="o">/</span><span class="n">B</span> <span class="err">三</span><span class="o">/</span><span class="n">I</span> <span class="err">条</span><span class="o">/</span><span class="n">I</span> <span class="err">船</span><span class="o">/</span><span class="n">B</span> <span class="err">停</span><span class="o">/</span><span class="n">B</span> <span class="err">靠</span><span class="o">/</span><span class="n">I</span> <span class="err">中</span><span class="o">/</span><span class="n">B</span> <span class="err">国</span><span class="o">/</span><span class="n">I</span> <span class="err">港</span><span class="o">/</span><span class="n">B</span> <span class="err">口</span><span class="o">/</span><span class="n">I</span> <span class="err">。</span><span class="o">/</span><span class="n">B</span>
-</pre></div>
-
-
-<p>除了2-tag，还有4-tag、6-tag等，都是依据字在词中的位置设计的，本文主要目的是从实践的角度介绍基于字标注的中文分词方法设计，以达到抛砖引玉的作用，因此我们仅选用2-tag（B，I）标注集进行实验说明。有了标注对象和标注集，那么又如何进行中文分词呢？因为字标注本质上是采用POS Tagging的思想,只不过要TAG的基本单元现在变成字了而已,因此我们可以这样做:</p>
-<ul>
-<li>获取已分词语料,将其转化为字的形式并采用某种标注集根据分词信息对其进行标注;</li>
-<li>将得到的语料作为训练集输入到最大熵模型或者HMM模型中进行训练(<strong>可以使用Citar</strong>);</li>
-<li>利用训练后模型对未分词语料进行字标注,最后还原成分词结果即可。</li>
-</ul>
-<blockquote>
-<p>NOTE:利用现有开源工具时,如果能够构建适用于中文字标注的特征集合,然后再进行训练,可能会取得更好的结果。</p>
-</blockquote>
-<h1>鲁棒性NLP系统(观点)</h1>
-<hr>
-<p>一个 real life 自然语言处理系统，其质量和可用度除了传统的 data quality 的衡量指标查准度（precision）和查全度（recall）外，还有更为重要的三大指标：<strong>海量处理能力（scalability）, 深度（depth）和鲁棒性（robustness）</strong>。本部分就简单谈一下鲁棒性。</p>
-<p>为了取得语言处理的鲁棒性（robustness），一个行之有效的方法是实现四个形容词的所指：<strong>词汇主义（lexicalist）; 自底而上（bottom-up）; 调适性（adaptive）；和数据制导（data-driven）</strong>。这四条是相互关联的，但各自重点和视角不同。系统设计和开发上贯彻这四项基本原则， 是取得坚固性的良好保证。有了坚固性，系统对于不同领域的语言，甚至对极不规范的社会媒体中的语言现象，都可以应对。这是很多实用系统的必要条件。</p>
-<p>先说<strong>词汇主义策略</strong>。词汇主义的语言处理策略是学界和业界公认的一个有效的方法。具体说来就是在系统中增加词汇制导的个性规则的总量。自然语言的现象是如此复杂，几乎所有的规则都有例外，词汇制导是必由之路。从坚固性而言，更是如此。基本的事实是，语言现象中的所谓子语言（sublanguage），譬如专业用语，网络用语，青少年用语，他们之间的最大区别是在词汇以及词汇的用法上。一般来说，颗粒度大的普遍语法规则在各子语言中依然有效。因此，采用词汇主义策略，可以有效地解决子语言的分析问题，从而提高系统的鲁棒性。</p>
-<p><strong>自底而上的分析方法</strong>。这种方法对于自浅而深的管式系统最自然。系统从单词出发，一步一步形成越来越大的句法单位，同时解析句法成分之间的关系。其结果是自动识别（构建）出来的句法结构树。很多人都知道社会媒体的混乱性，这些语言充满了错别字和行话，语法错误也随处可见。错别字和行话由词汇主义策略去对付，语法错误则可以借助自底而上的分析方法。其中的道理就是，即便是充满了语法错误的社会媒体语言，其实并不是说这些不规范的语言完全不受语法规则的束缚，无章可循。事实绝不是如此，否则人也不可理解，达不到语言交流的目的。完全没有语法的“语言”可以想象成一个随机发生器，随机抽取字典或词典的条目发射出来，这样的字串与我们见到的最糟糕的社会媒体用语也是截然不同的。事实上，社会媒体类的不规范语言（degraded text）就好比一个躁动不安的逆反期青年嬉皮士，他们在多数时候是守法的，不过情绪不够稳定，不时会”突破”一下规章法律。具体到语句，其对应的情形就是，每句话里面的多数短语或从句是合法的，可是短语（或从句）之间常常会断了链子。这种情形对于自底而上的系统，并不构成大的威胁。因为系统会尽其所能，一步一步组合可以预测（解构）的短语和从句，直到断链的所在。这样一来，一个句子可能形成几个小的句法子树（sub-tree），子树之内的关系是明确的。朋友会问：既然有断链，既然子树没有形成一个完整的句法树来涵盖所分析的语句，就不能说系统真正鲁棒了，自然语言理解就有缺陷。抽象地说，这话不错。但是在实际使用中，问题远远不是想象的那样严重。其道理就是，语言分析并非目标，语言分析只是实现目标的一个手段和基础。对于多数应用型自然语言系统来说，目标是信息抽取（Information Extraction），是这些预先定义的抽取目标在支持应用（app）。抽取模块的屁股通常坐在分析的结构之上，典型的抽取规则 by nature 是基于子树匹配的，这是因为语句可以是繁复的，但是抽取的目标相对单纯，对于与目标不相关的结构，匹配规则无需cover。这样的子树匹配分两种情形，其一是抽取子树（subtree1）的规则完全匹配在语句分析的子树（subtree2）之内（i.e. subtree2 &gt; subtree1），这种匹配不受断链的任何影响，因此最终抽取目标的质量不受损失。只有第二种情形，即抽取子树恰好坐落在分析语句的断链上，抽取不能完成，因而印象了抽取质量。值得强调的是，一般来说，情形2的出现概率远低于情形1，因此自底而上的分析基本保证了语言结构分析的鲁棒性，从而保障了最终目标信息抽取的达成。其实，对于 worst case scenario 的情形2，我们也不是没有办法补救。补救的办法就是在分析的后期把断链 patch 起来，虽然系统无法确知断链的句法关系的性质，但是patched过的断链形成了一个完整的句法树，为抽取模块的补救创造了条件。此话怎讲？具体说来就是，只要系统的设计和开发者坚持<strong>调适性开发</strong>抽取模块（adaptive extraction）的原则，部分抽取子树的规则完全可以建立在被patched的断链之上，从而在不规范的语句中达成抽取。其中的奥妙就是某样榜戏中所说的墙内损失墙外补，用到这里就是结构不足词汇补。展开来说就是，任何子树匹配不外乎check两种条件约束，一是节点之间的关系句法关系的条件（主谓，动宾，等等），另外就是节点本身的词汇条件（产品，组织，人，动物，等等）。这些抽取条件可以相互补充，句法关系的条件限制紧了，节点词汇的条件就可以放宽；反之亦然。即便对于完全合法规范的语句，由于语言分析器不可避免的缺陷而可能导致的断链（世界上除了上帝以外不存在完美的系统），以及词汇语义的模糊性，开发者为了兼顾查准率和查全率，也会在抽取子树的规则上有意平衡节点词汇的条件和句法关系的条件。如果预知系统要用于不规范的语言现象上，那么我们完全可以特制一些规则，利用强化词汇节点的条件来放宽对于节点句法关系的条件约束。其结果就是适调了patched的断链，依然达成抽取。说了一箩筐，总而言之，言而总之，对于语法不规范的语言现象，自底而上的分析策略是非常有效的，加上调适性开发，可以保证最终的抽取目标基本不受影响。</p>
-<p>调适性上面已经提到，作为一个管式系统的开发原则，这一条很重要，它是克服错误放大（error propagation）的反制。理想化的系统，模块之间的接口是单纯明确的，铁路警察，各管一段，步步推进，天衣无缝。但是实际的系统，特别是自然语言系统，情况很不一样，良莠不齐，正误夹杂，后面的模块必须设计到有足够的容错能力，针对可能的偏差做调适才不至于一错再错，步步惊心。如果错误是consistent/predictable 的，后面的模块可以矫枉过正，以毒攻毒，错错为正。还有一点就是歧义的保存（keeping ambiguity untouched）策略。很多时候，前面的模块往往条件不成熟，这时候尽可能保持歧义，运用系统内部的调适性开发在后面的模块处理歧义，往往是有效的。</p>
-<p>最后，<strong>数据制导</strong>的开发原则，怎样强调都不过分。语言海洋无边无涯，多数语言学家好像一个爱玩水的孩子，跳进海洋往往坐井观天，乐不思蜀。见树木不见森林，一条路走到黑，是很多语言学家的天生缺陷。如果由着他们的性子来，系统的overhead越来越大，效果可能越来越小。数据制导是迫使语言学家回到现实，开发真正有现实和统计意义的系统的一个保证。这样的保证应该制度化，这牵涉到开发语料库（dev corpus）的选取，baseline 的建立和维护，unit testing 和regression testing 等开发操作规范的制定以及 data quality QA 的配合。理想的数据制导还应该包括引入机器学习的方法，来筛选制约具有统计意义的语言现象反馈给语言学家。从稍微长远一点看，自动分类用户的数据反馈，实现某种程度的粗颗粒度的自学习，建立半自动人际交互式开发环境，这是手工开发和机器学习以长补短的很有意义的思路。以上所述，每一条都是经验的总结，背后有成百上千的实例可以详加解说。不过，网文也不是科普投稿，没时间去细细具体解说了。做过的自然有同感和呼应，没做过的也许不明白，等做几年就自然明白了，又不是高精尖的火箭技术。</p>
-<h1>无约束最优化</h1>
-<hr>
-<p>看了一下我爱自然语言处理博客上关于无约束优化的几篇文章,可能是自己水平很烂的原因,感觉怪怪的,好像有点不对劲,还是自己查相关资料吧。以下给出那几篇的链接.</p>
-<ul>
-<li><a href="http://www.52nlp.cn/unconstrained-optimization-one">无约束最优化一</a></li>
-<li><a href="http://www.52nlp.cn/unconstrained-optimization-two">无约束最优化二</a></li>
-<li><a href="http://www.52nlp.cn/unconstrained-optimization-three">无约束最优化三</a></li>
-<li><a href="http://www.52nlp.cn/unconstrained-optimization-four">无约束最优化四</a></li>
-<li><a href="http://www.52nlp.cn/unconstrained-optimization-five">无约束最优化五</a></li>
-</ul>
-<h1>资源集锦</h1>
-<hr>
-<ul>
-<li><a href="http://clair.eecs.umich.edu/aan/index.php">ACL Anthology Network</a></li>
-<li><a href="https://www.ldc.upenn.edu/">LDC (Linguistic Data Consortium)</a></li>
-<li><a href="http://web-ngram.research.microsoft.com/info/quickstart.htm">Microsoft N-gram Service</a></li>
-<li><a href="http://start.csail.mit.edu/index.php">Start Question-Answering System</a>;</li>
-</ul>
-<p><img alt="Start_China" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/start_china_zps584efc72.png"></p>
-<ul>
-<li><a href="http://wing.comp.nus.edu.sg:8080/SMSCorpus/">Collecting SMS Messages for a Public Research Corpus</a></li>
-<li><a href="http://www.statmt.org/moses/">Moses|统计机器翻译</a></li>
-</ul>
-<blockquote>
-<p><strong>TODO Board:</strong></p>
-<ul>
-<li><em>TBL</em>(<strong>参考《自然语言处理综论》第8章</strong>)</li>
-<li><strong>最大熵求解算法IIS等</strong></li>
-<li><a href="http://www.52nlp.cn/%E5%88%9D%E5%AD%A6%E8%80%85%E6%8A%A5%E9%81%93%EF%BC%882%EF%BC%89%EF%BC%9A%E5%AE%9E%E7%8E%B0-1-gram%E5%88%86%E8%AF%8D%E7%AE%97%E6%B3%95">1-Gram Python分词实现</a>;之后自己实现一个3-gram Language Model吧!</li>
-<li><a href="http://tedunderwood.com/2012/04/07/topic-modeling-made-just-simple-enough/">Topic modeling made just simple enough</a></li>
-</ul>
-</blockquote><script type="text/javascript">
+<p>\begin{equation}
+\begin{split} 
+P(X_{n+1}=j) &amp; = \sum_{i=0}^\infty P(X_n=i) P(X_{n+1}=j|X_n=i) \\
+&amp; = \sum_{i=0}^\infty P(X_n=i) P_{ij} 
+\end{split}
+\end{equation}</p>
+<p>上式两边取极限就得到$\pi(j) = \sum_{i=0}^{\infty}\pi(i)P_{ij}$.</p>
+<p>从初始概率分布$\pi_0$出发，我们在马氏链上做状态转移，记$X_i$的概率分布为$\pi_i$, 则有:</p>
+<p>\begin{equation}
+\begin{split} 
+X_0 &amp; \sim \pi_0(x) \ 
+X_i &amp; \sim \pi_i(x), \quad\quad \pi_i(x) = \pi_{i-1}(x)P = \pi_0(x)P^n 
+\end{split}
+\end{equation}</p>
+<p>由马氏链收敛的定理, 概率分布$\pi_i(x)$将收敛到平稳分布$\pi_(x)$。假设到第$n$步的时候马氏链收敛，则有</p>
+<p>\begin{equation}
+\begin{split} 
+X_0 &amp; \sim \pi_0(x) \\ 
+X_1 &amp; \sim \pi_1(x) \\ 
+&amp; \cdots \\ 
+X_n &amp; \sim \pi_n(x)=\pi(x) \\ 
+X_{n+1} &amp; \sim \pi(x) \\ 
+X_{n+2}&amp; \sim \pi(x) \\ 
+&amp; \cdots 
+\end{split}
+\end{equation}</p>
+<p>所以$X_n,X_{n+1},X_{n+2},\cdots \sim \pi(x)$都是同分布的随机变量，当然他们并不独立。如果我们从一个具体的初始状态$x_0$开始,沿着马氏链按照概率转移矩阵做跳转，那么我们得到一个转移序列$x_0,x_1,x_2,\cdots,x_n,x_{n+1},\cdots$, 由于马氏链的收敛行为，$x_n,x_{n+1},...$ 都将是平稳分布$\pi(x)$的样本。</p>
+<h1>参考文献</h1>
+<hr /><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -290,8 +298,8 @@ f \times r =k
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1"><a href="http://www.cppblog.com/shongbee2/archive/2009/04/05/79011.html">STL中set的简单学习</a> <a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1-back">↩</a></li><li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2">本部分更多细节请参考我爱自然语言处理博客! <a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">
+ 
+	<a class="btn btn-mini xsmall" href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
@@ -306,7 +314,7 @@ f \times r =k
 
     <div class='row-fluid'>
       <div class='article-title span9'> 
-        <a href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html"><h1>自然语言处理(序章):我爱自然语言处理(II)</h1></a>
+        <a href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html"><h1>自然语言处理(序章):我爱自然语言处理(I)</h1></a>
       </div>
     </div>
     <div class="row-fluid">
@@ -323,8 +331,8 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 </p>
       </div>
       <div class="summary span8">
-	<p>本文紧接上篇,继续阅读我爱自然语言处理博客相关文章并作知识总结。</p> 
-	<a class="btn btn-mini xsmall" href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html">
+	<p>昨天浏览了一下<a href="http://www.52nlp.cn">我爱自然语言处理</a>站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,逐篇浏览后以下为个人的一个基本总结。</p> 
+	<a class="btn btn-mini xsmall" href="../zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>
