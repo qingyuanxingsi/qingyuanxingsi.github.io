@@ -171,6 +171,63 @@ x_{k+1} = x_k + a_k \times p_k
 &lt;li&gt;什么样的$a_k$是合理的;&lt;/li&gt;
 &lt;li&gt;如何选择$a_k$的长度。下面将沿这两个面展开讨论，首先讨论“什么样的$a_k$是合理的”，确定了该问题之后，我们就可以在此基础上选择$a_k$了。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3&gt;合理性讨论&lt;/h3&gt;
+&lt;p&gt;如下将要讨论关于$a_k$需要满足的两个条件，当$a_k$满足这两个条件后，就可以认为从$x_k$点移动到$x_{k+1}$点的步长已经确定下来了。第一个条件为&lt;strong&gt;sufficient decrease condition&lt;/strong&gt;，从直观角度来看，该条件主要要用保证$x_{k+1}$点的函数值要小于$x_k$点的函数值，满足该条件后，才有全局收敛 的可能性。第二个条件为&lt;strong&gt;curvature condition&lt;/strong&gt;，从直观角度来看，该条件主要用于保证$x_k$点经过步长$a_k$的移动到达$x_{k+1}$后，$\bigtriangledown f_{k+1}$小于$\bigtriangledown f_k$。&lt;/p&gt;
+&lt;h4&gt;Sufficient decrease condition&lt;/h4&gt;
+&lt;p&gt;$a_k$的选择一定要使得函数值满足&lt;strong&gt;sufficient decrease condition&lt;/strong&gt;，该条件可以用如下不等式描述：　　 　　&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+f(x_{k+1}) \leq f(x_k) + c_1 \times a_k \bigtriangledown f(x_k)^Tp_k
+\end{equation}&lt;/p&gt;
+&lt;p&gt;更进一步地,我们有：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+f(x_k + a_k p_k) \leq f(x_k) + c_1 \times a_k \bigtriangledown f(x_k)^Tp_k
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$c_1$为常量，需满足$0&amp;lt; c_1 &amp;lt; 1$，一般取$c_1$为$10^{-4}$.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NOTE:Quasi-Newton Method中要求$0&amp;lt; c_1&amp;lt; 0.5$).&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;当$p_k$为函数下降方向时，有：　　　　　 &lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown f(k)^T p(k) &amp;lt; 0
+\end{equation}&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;NOTE:WHY?求大神指教!&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因此根据最初的不等式，即要求：　&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+f(x_{k+1}) ＜ f(x_k)
+\end{equation} 　　　　　&lt;/p&gt;
+&lt;p&gt;从图形角度看，函数位于第$k$点时，以上各参数中只有$a_k$为变量，其他均为常量，因此最初条件不等式可以重写为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\phi(a_k) \leq l(a_k)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中,$l(a_k)$为最初不等式右边部分,图形化描述如下：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="OPT_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/opt2_4_zps2271e1ed.png"&gt;&lt;/p&gt;
+&lt;p&gt;因此只要步长$a_k$的选择使得函数$\phi(a_k)$位于acceptable区间，就满足&lt;strong&gt;Sufficient decrease condition&lt;/strong&gt;。&lt;/p&gt;
+&lt;h4&gt;Curvature condition&lt;/h4&gt;
+&lt;p&gt;$a_k$的选择一定要使得函数梯度值满足&lt;strong&gt;Curvature condition&lt;/strong&gt;，该条件可以用如下不等式描述：　　&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown f(x_k+a_kp_k)^Tp(k) \geq c_2 \bigtriangledown f(x_k)^T p(k)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;即为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown f(x_{k+1})^Tp(k) \geq c_2 \bigtriangledown f(x_k)^T p(k)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$c_2$为常量，需满足$0&amp;lt;c_1&amp;lt;c_2&amp;lt;1$，一般取$c_2$为$0.9$.&lt;/p&gt;
+&lt;p&gt;当$p_k$为函数下降方向时，有：　　　　　&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown f(x_k)p_k &amp;lt;0 
+\end{equation}&lt;/p&gt;
+&lt;p&gt;Method中的LBFGS算法到这里总算初步介绍完了，不过这里笔者要承认的是这篇文档省略了许多内容，包括算法收敛性的证明以及收敛速度证明等许多内容。因此读者若希望对这一块有一个更深入的认识可以参考以下两本书：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Numerical Methods for Unconstrained Optimization and Nonlinear Equations（J.E. Dennis Jr. Robert B. Schnabel）&lt;/li&gt;
+&lt;li&gt;Numerical Optimization（Jorge Nocedal Stephen J. Wright）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;同时我想引用一下侯捷老师的话：　　&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;大哉问。学习需要明师。但明师可遇不可求，所以退而求其次你需要好书，并尽早建立自修的基础。迷时师渡，悟了自渡，寻好书看好书，就是你的自渡法门。切记，徒学不足以自行，计算机是实作性很强的一门科技，你一定要动手做，最忌讳眼高手低。学而不思则罔，思而不学则殆，一定要思考、沉淀、整理。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;因此这里附上一个我阅读后感觉代码还比较美观的LBFGS实现（C++):http://www.chokkan.org/software/liblbfgs/(Naoaki Okazaki).&lt;/p&gt;
 &lt;h1&gt;资源集锦&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
