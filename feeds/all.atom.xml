@@ -146,95 +146,14 @@ f \times r =k
 &lt;/blockquote&gt;
 &lt;h1&gt;无约束最优化&lt;/h1&gt;
 &lt;hr&gt;
-&lt;p&gt;当看到这个部分的时候,一切都开始变得有意思起来了,好吧,言归正传。&lt;/p&gt;
-&lt;p&gt;本部分主要介绍无约束最优化问题，同时初步介绍解该类问题目前常用的一种算法即&lt;strong&gt;Quasi-Newton Method&lt;/strong&gt;(拟牛顿法)。在介绍无约束最优化问题之前，我们首先会从直观上引入无约束最优化的概念，并在此基础上引入解这类问题的两个重要概念：步长和方向。由步长的选择引入重要概念line search，由方向的选择引入重要概念Quasi-Newton Method。因此本部分主要分为以下几个部分：无约束最优化问题引入，Line Search ，Quasi-Newton Method和算法总结。&lt;/p&gt;
-&lt;h2&gt;无约束最优化&lt;/h2&gt;
-&lt;p&gt;对无约束最优化不熟悉的读者也许要问，什么是无约束最优化。这里以一个例子来说明该问题。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="quasi_method_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/quasi_method_1_zps368407e4.png"&gt;&lt;/p&gt;
-&lt;p&gt;上图所示为一元函数$f(x)$的图像，无约束最优化问题，即不对定义域或值域做任何限制的情况下，求解函数$f(x)$的最小值，上面显示两个最小值点：一个为全局最小值点，另一个为局部最小值点。受限于算法复杂度等问题，目前大部分无约束最优化算法只能保证求取局部最小值点。这时读者不免要问，既然只能求取局部最小值点，那为什么这类算法还能应用呢。这是因为实际应用中，许多情形被抽象为函数形式后均为凸函数，对于凸函数来说局部最小值点即为全局最小值点，因此只要能求得这类函数的一个最小值点，该点一定为全局最小值点。&lt;/p&gt;
-&lt;p&gt;理解了上面的无约束最优化问题之后，我们就可以开始介绍无约束最优化的求解过程了，对于无约束最优化的求解首先我们需要选择一个初始点$x_0$，如下所示：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="quasi_method_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/quasi_method_2_zps6e717209.png"&gt;&lt;/p&gt;
-&lt;p&gt;初始点选择好之后，就可以按照各种不同的无约束最优化求解算法，求解最小值点了。求解过程中主要涉及两个概念，即从初始点开始沿“哪个方向”以及“走多远”到达下一个点处。所谓“走多远”即之前提的“步长”的概念，“哪个方向”即方向概念。&lt;/p&gt;
-&lt;h2&gt;Line Search&lt;/h2&gt;
-&lt;p&gt;Line search主要用于解决之前提到的步长的概念，即方向确定好之后，需要确定从当前点$x_k$沿着该方向走多远，以便走到下一个合适的点$x_{k+1}$。若用$p_k$代表从第$k$个点走向第$k+1$点的方向，$x_k$代表当前点，$x_k+1$代表下一个点，$a_k$代表步长，则存在如下的等式：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-x_{k+1} = x_k + a_k \times p_k
-\end{equation}&lt;/p&gt;
-&lt;p&gt;这里简要介绍一下$p_k$，大部分line search方法要求$p_k$为下降方向，即从当前点沿着$p_k$方向移动后导致函数值减少。由于目标是求取一个函数的最小值，因此最优的情况是求取沿$p_k$方向满足$f(x_{k+1})$为全局最小的$a_k$值，可用下式表示为：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\phi(a_k) = f(x_{k+1}) = f(x_k + a_k \times p_k) 
-\end{equation}&lt;/p&gt;
-&lt;p&gt;&lt;img alt="quasi_method_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/quasi_method_3_zps68d36744.png"&gt;&lt;/p&gt;
-&lt;p&gt;由于直接求取满足$\phi(a_k)$为全局最小值的$a_k$涉及到大量$f(x_k + a_k \times p_k)$的计算，若从求导角度计算最小值，还会涉及到$\bigtriangledown f_{k+1}$的计算，计算量较大。因此从计算量角度考虑，可以采用如下较为折中的策略。&lt;/p&gt;
-&lt;p&gt;方向确定好之后，每一步的line Search主要涉及两个问题：&lt;/p&gt;
+&lt;p&gt;看了一下我爱自然语言处理博客上关于无约束优化的几篇文章,可能是自己水平很烂的原因,感觉怪怪的,好像有点不对劲,还是自己查相关资料吧。以下给出那几篇的链接.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;什么样的$a_k$是合理的;&lt;/li&gt;
-&lt;li&gt;如何选择$a_k$的长度。下面将沿这两个面展开讨论，首先讨论“什么样的$a_k$是合理的”，确定了该问题之后，我们就可以在此基础上选择$a_k$了。&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-one"&gt;无约束最优化一&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-two"&gt;无约束最优化二&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-three"&gt;无约束最优化三&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-four"&gt;无约束最优化四&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-five"&gt;无约束最优化五&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;合理性讨论&lt;/h3&gt;
-&lt;p&gt;如下将要讨论关于$a_k$需要满足的两个条件，当$a_k$满足这两个条件后，就可以认为从$x_k$点移动到$x_{k+1}$点的步长已经确定下来了。第一个条件为&lt;strong&gt;sufficient decrease condition&lt;/strong&gt;，从直观角度来看，该条件主要要用保证$x_{k+1}$点的函数值要小于$x_k$点的函数值，满足该条件后，才有全局收敛 的可能性。第二个条件为&lt;strong&gt;curvature condition&lt;/strong&gt;，从直观角度来看，该条件主要用于保证$x_k$点经过步长$a_k$的移动到达$x_{k+1}$后，$\bigtriangledown f_{k+1}$小于$\bigtriangledown f_k$。&lt;/p&gt;
-&lt;h4&gt;Sufficient decrease condition&lt;/h4&gt;
-&lt;p&gt;$a_k$的选择一定要使得函数值满足&lt;strong&gt;sufficient decrease condition&lt;/strong&gt;，该条件可以用如下不等式描述：　　 　　&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-f(x_{k+1}) \leq f(x_k) + c_1 \times a_k \bigtriangledown f(x_k)^Tp_k
-\end{equation}&lt;/p&gt;
-&lt;p&gt;更进一步地,我们有：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-f(x_k + a_k p_k) \leq f(x_k) + c_1 \times a_k \bigtriangledown f(x_k)^Tp_k
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中$c_1$为常量，需满足$0&amp;lt; c_1 &amp;lt; 1$，一般取$c_1$为$10^{-4}$.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;NOTE:Quasi-Newton Method中要求$0&amp;lt; c_1&amp;lt; 0.5$).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;当$p_k$为函数下降方向时，有：　　　　　 &lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\bigtriangledown f(k)^T p(k) &amp;lt; 0
-\end{equation}&lt;/p&gt;
-&lt;p&gt;因此根据最初的不等式，即要求：　&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-f(x_{k+1}) ＜ f(x_k)
-\end{equation} 　　　　　&lt;/p&gt;
-&lt;p&gt;从图形角度看，函数位于第$k$点时，以上各参数中只有$a_k$为变量，其他均为常量，因此最初条件不等式可以重写为：&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\phi(a_k) \leq l(a_k)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中,$l(a_k)$为最初不等式右边部分,图形化描述如下：&lt;/p&gt;
-&lt;p&gt;&lt;img alt="OPT_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/opt2_4_zps2271e1ed.png"&gt;&lt;/p&gt;
-&lt;p&gt;因此只要步长$a_k$的选择使得函数$\phi(a_k)$位于acceptable区间，就满足&lt;strong&gt;Sufficient decrease condition&lt;/strong&gt;。&lt;/p&gt;
-&lt;h4&gt;Curvature condition&lt;/h4&gt;
-&lt;p&gt;$a_k$的选择一定要使得函数梯度值满足&lt;strong&gt;Curvature condition&lt;/strong&gt;，该条件可以用如下不等式描述：　　&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\bigtriangledown f(x_k+a_kp_k)^Tp(k) \geq c_2 \bigtriangledown f(x_k)^T p(k)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;即为:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\bigtriangledown f(x_{k+1})^Tp(k) \geq c_2 \bigtriangledown f(x_k)^T p(k)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中$c_2$为常量，需满足$0&amp;lt;c_1&amp;lt;c_2&amp;lt;1$，一般取$c_2$为$0.9$.&lt;/p&gt;
-&lt;p&gt;当$p_k$为函数下降方向时，有：　　　　　&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\bigtriangledown f(x_k)p_k &amp;lt;0 
-\end{equation}&lt;/p&gt;
-&lt;p&gt;因此根据最初的不等式要求,即有:　　　　　 &lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\bigtriangledown f(x_{k+1}) \geq c_2 \bigtriangledown f(x_k)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;图形角度如下图所示:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="OPT_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/opt2_5_zps60c9db2e.png"&gt;&lt;/p&gt;
-&lt;p&gt;即要求函数在第$x_{k+1}$点的变化速度要低于$x_k$点的变化速度，这一点可以从这两点处的梯度处看出，如上图所示。　　&lt;/p&gt;
-&lt;h4&gt;Wolfe conditions&lt;/h4&gt;
-&lt;p&gt;所谓Wolfe conditions即sufficient decrease condition和curvature condition的综合，即$a_k$需要同时满足两个条件,图形化表示如下图所示：　&lt;/p&gt;
-&lt;p&gt;实际应用中，常常会用到由Wolfe conditions引申出的strong Wolfe conditions，即a_k需要同时满足如下两个条件：与Wolfe condtions唯一的区别是strong Wolfe condtions避免了▽f(x_k + a_k * p_k)取较大的正值情况。&lt;/p&gt;
-&lt;p&gt;Method中的LBFGS算法到这里总算初步介绍完了，不过这里笔者要承认的是这篇文档省略了许多内容，包括算法收敛性的证明以及收敛速度证明等许多内容。因此读者若希望对这一块有一个更深入的认识可以参考以下两本书：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Numerical Methods for Unconstrained Optimization and Nonlinear Equations（J.E. Dennis Jr. Robert B. Schnabel）&lt;/li&gt;
-&lt;li&gt;Numerical Optimization（Jorge Nocedal Stephen J. Wright）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;同时我想引用一下侯捷老师的话：　　&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;大哉问。学习需要明师。但明师可遇不可求，所以退而求其次你需要好书，并尽早建立自修的基础。迷时师渡，悟了自渡，寻好书看好书，就是你的自渡法门。切记，徒学不足以自行，计算机是实作性很强的一门科技，你一定要动手做，最忌讳眼高手低。学而不思则罔，思而不学则殆，一定要思考、沉淀、整理。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;因此这里附上一个我阅读后感觉代码还比较美观的LBFGS实现（C++):http://www.chokkan.org/software/liblbfgs/(Naoaki Okazaki).&lt;/p&gt;
 &lt;h1&gt;资源集锦&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
