@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>苹果的味道</title>
+    <meta name="description" content="">
+    <meta name="author" content="qingyuanxingsi">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="./theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="./theme/local.css" rel="stylesheet">
+    <link href="./theme/pygments.css" rel="stylesheet">
+    <link href="./theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href="." class="brand">苹果的味道</a>
+      </div>
+
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="./pages/about.html">About</a></li>
+	    <li >
+	      <a href="./category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="./category/life.html ">Life</a>
+	    <li >
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="./category/notes.html ">Notes</a>
+	    <li  class="active" >
+	      <a href="./category/pearls.html ">Pearls</a>
+	    <li >
+	      <a href="./category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>自然语言处理(序章):我爱自然语言处理(II)</h1b>
+           </div>
+      </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>一 05 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="./category/pearls.html">Pearls</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="./tag/nlp.html">NLP</a> </p>
+<p>
+</p>
+      </div>
+      
+      <div class="span8">
+	<p>本文紧接上一篇<a href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">自然语言处理(序章):我爱自然语言处理(I)</a>,由于文章篇幅过长导致编辑器响应速度变慢,所以将其拆分为两篇,本文即为第二部分。(<strong>本博文引用内容版权属我爱自然语言博客作者及其引用文章作者,特此再次声明</strong>)。</p>
+<h1>正态分布的前世今生</h1>
+<hr />
+<blockquote>
+<p>神说，要有正态分布，就有了正态分布。</p>
+<p>神看正态分布是好的，就让随机误差就服从了正态分布。</p>
+</blockquote>
+<h2>正态分布</h2>
+<p>学过基础统计学的同学大都对正态分布非常熟悉。这个钟型的分布曲线不但形状优雅，其密度函数写成数学表达式:</p>
+<p>\begin{equation}
+f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\end{equation}</p>
+<p>也非常具有数学的美感。其标准化后的概率密度函数:</p>
+<p>\begin{equation}
+f(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}
+\end{equation}</p>
+<p>更加的简洁漂亮,两个最重要的数学常量 $\pi$,$e$都出现在了公式之中。在我个人的审美之中，它也属于 top-N 的最美丽的数学公式之一，如果有人问我数理统计领域哪个公式最能让人感觉到上帝的存在，那我一定投正态分布的票。因为这个分布戴着神秘的面纱，在自然界中无处不在，让你在纷繁芜杂的数据背后看到隐隐的秩序。</p>
+<p><img alt="Normal_Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/normal_curve_zpse8660e23.png" /></p>
+<p>正态分布又通常被称为高斯分布，在科学领域，冠名权那是一个很高的荣誉。去过德国的兄弟们还会发现，德国的钢镚和10马克的纸币上都留有高斯的头像和正态密度曲线。正态分布被冠名高斯分布，我们也容易认为是高斯发现了正态分布，其实不然，不过高斯对于正态分布的历史地位的确立是起到了决定性的作用。</p>
+<p><img alt="10dm" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/10dm_with_gauss_curve_zps561d08ca.jpg" /></p>
+<p><img alt="10dm_detail" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/10dm_with_gauss_curve_detail-300x217_zpsd38f3d9e.jpg" /></p>
+<p><img alt="20_mark" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/20-mark-gauss_zpsd6e55205.jpg" /></p>
+<p>正态曲线虽然看上去很美，却不是一拍脑袋就能想到的。我在本科学习数理统计的时候，课本一上来介绍正态分布就给出密度分布函数，却从来不说明这个分布函数是通过什么原理推导出来的。所以我一直搞不明白数学家当年是怎么找到这个概率分布曲线的，又是怎么发现误差服从这个奇妙的分布的。直到我读研究生的时候我的导师给我介绍了陈希儒院士的《数理统计简史》这本书，看了之后才了解了正态分布曲线从发现到被人们重视进而广泛应用，也是经过了几百年的历史。</p>
+<p>正态分布的这段历史是很精彩的，我们通过讲几个故事来揭开她的神秘面纱。</p>
+<h2>邂逅</h2>
+<hr />
+<p>正态曲线的首次发现第一个故事和概率论的发展密切相关，主角是棣莫弗(De Moivre) 和拉普拉斯(Laplace)。拉普拉斯是个大科学家，被称为法国的牛顿；棣莫弗名气可能不算很大，不过大家应该应该都熟悉这个名字，因为我们在高中数学学复数的时候都学过棣莫弗定理:</p>
+<p>\begin{equation}
+(cosθ+isinθ)^n=cos(nθ)+isin(nθ)
+\end{equation}</p>
+<p>古典概率论发源于赌博，惠更斯、帕斯卡、费马、贝努力都是古典概率的奠基人，他们那会研究的概率问题大都来自赌桌上，最早的概率论问题是赌徒梅累在1654年向帕斯卡提出的如何分赌金的问题。统计学中的总体均值之所以被称为期望(Expectation), 就是源自惠更斯、帕斯卡这些人研究平均情况下一个赌徒在赌桌上可以期望自己赢得多少钱。</p>
+<p>有一天一个哥们，也许是个赌徒，向棣莫弗提了一个和赌博相关的一个问题：A,B两人在赌场里赌博，A，B各自的获胜概率是$p,q=1−p$,赌$n$局，若 A 赢的局数$X&gt;np$, 则A付给赌场$X−np$元，否则B付给赌场$np−X$元。 问赌场挣钱的期望值是多少。</p>
+<p>问题并不复杂， 本质上是一个二项分布，最后求出的理论结果是:</p>
+<p>\begin{equation}
+2npq \ b(n, p, np)
+\end{equation}</p>
+<p>其中$b(n,p,i)=C_n^ip^iq^{n−i}$是常见的二项概率。 但是对具体的 n, 要把这个理论结果实际计算出数值结果可不容易， 因为其中的二项公式中有组合数.这就驱动De Moivre寻找近似计算的方法计算。</p>
+<p>与此相关联的另一个问题，是遵从二项分布的随机变量$X \sim\ B(n,p)$, 求$X$落在二项分布中心点一定范围的概率$P_d=P(|X–np|≤d)$</p>
+<p>对于$p=1/2$的情形， 棣莫弗做了一些计算并得到了一些近似结果，但是还不够漂亮，幸运的是棣莫弗和Stirling 处在同一个时代， 而且二人之间有联系，Stirling公式是在数学分析中必学的一个重要公式(事实上Stirling 公式的形式其实是棣莫弗最先发现的，但是 Stirling 改进了公式:</p>
+<p>\begin{equation}
+n! \sim \sqrt{2\pi n} (\frac{n}{e})^{n}
+\end{equation}</p>
+<p>1733 年，棣莫弗很快利用 Stirling 公式进行计算并取得了重要的进展。考虑$n$是偶数的情形，令二项概率</p>
+<p>\begin{equation}
+b(i) = b(n, \frac{1}{2}, i) = \binom{n}{i}(\frac{1}{2})^n
+\end{equation}</p>
+<p>通过 Stirling 公式做一些简单的计算容易得到:</p>
+<p>\begin{equation}
+\displaystyle b(\frac{n}{2}) \sim \sqrt{\frac{2}{\pi n}}
+\end{equation}</p>
+<p>\begin{equation}
+\displaystyle \frac{b(\frac{n}{2}+d)}{b(\frac{n}{2})} \sim e^{-\frac{2d^2}{n}}
+\end{equation}</p>
+<p>于是有:</p>
+<p>\begin{equation}
+\displaystyle b(\frac{n}{2}+d) \sim \frac{2}{\sqrt{2 \pi n}}e^{-\frac{2d^2}{n}}
+\end{equation}</p>
+<p>使用上式的结果，并在二项概率累加求和的过程中近似的使用定积分代替求和，很容易就能得到:</p>
+<p>\begin{equation}
+\displaystyle P(|\frac{X}{n} – \frac{1}{2}| \le \frac{c}{\sqrt{n}} ) \sim\int_{-2c}^{2c} \frac{1}{\sqrt{2\pi}} e^{-x^2/2} dx
+\end{equation}</p>
+<blockquote>
+<p><strong>NOTE:以上两个公式没看懂,求大神指教。</strong></p>
+</blockquote>
+<p>看，正态分布的密度函数的形式在积分公式中出现了！这也就是我们在数理统计课本上学到的二项分布的极限分布是正态分布。以上只是讨论了$p=1/2$的情形， 棣莫弗也对 p≠1/2做了一些计算，后来拉普拉斯对 $p \neq 1/2$的情况做了更多的分析，并把二项分布的正态近似推广到了任意$p$的情况。 这是第一次正态密度函数被数学家勾画出来，而且是以二项分布的极限分布的形式被推导出来的。 熟悉基础概率统计的同学们都知道这个结果其实叫棣莫弗-拉普拉斯中心极限定理。</p>
+<p><strong>[De Moivre-Laplace 中心极限定理]</strong></p>
+<p>设随机变量$X_n(n=1,2,⋯)$服从参数为$p$的二项分布，则对任意的$x$, 恒有:</p>
+<p>\begin{equation}
+\displaystyle\lim_{n\rightarrow\infty}P{ \frac{X_n – np}{\sqrt{np(1-p)}} \le x }=\int_{-\infty}^x \frac{1}{\sqrt{2\pi}} e^{\frac{-t^2}{2}}dt
+\end{equation}</p>
+<p>我们在大学学习数理统计的时候，学习的过程都是先学习了正态分布，然后才学习中心极限定理。而学习到正态分布的时候，直接就描述了其概率密度的数学形式，虽然数学上很漂亮，但是当时很容易困惑数学家们是如何凭空就找到这个分布的。读了陈希孺的《数理统计学简史》之后，我才明白正态分布的密度形式首次发现是在棣莫弗-拉普拉斯的中心极限定理中。数学家研究数学问题的进程很少是按照我们数学课本的安排顺序推进的，现代的数学课本都是按照数学内在的逻辑进行组织编排的，虽然逻辑结构上严谨优美，却把数学问题研究的历史痕迹抹得一干二净。DNA 双螺旋结构的发现者之一 Waston 在他的名著《DNA 双螺旋》序言中说：“科学的发现很少会像门外汉所想象的一样，按照直接了当合乎逻辑的方式进行的。”</p>
+<p>棣莫弗出他的发现后40年（大约是 1770),拉普拉斯建立了中心极限定理较一般的形式，中心极限定理后续又被其它数学家们推广到了其它任意分布的情形，而不限于二项分布。后续的统计学家发现，一系列的重要统计量，在样本量$N$趋于无穷的时候， 其极限分布都有正态的形式， 这构成了数理统计学中大样本理论的基础。</p>
+<p>棣莫弗在二项分布的计算中瞥见了正态曲线的模样，不过他并没有能展现这个曲线的美妙之处。棣莫弗的这个工作当时并没有引起人们足够的重视，原因在于棣莫弗不是个统计学家，从未从统计学的角度去考虑其工作的意义。 正态分布(当时也没有被命名为正态分布) 在当时也只是以极限分布的形式出现，并没有在统计学，尤其是误差分析中发挥作用。这也就是正态分布最终没有被冠名棣莫弗分布的重要原因。 那高斯做了啥工作导致统计学家把正态分布的这顶桂冠戴在了他的头上呢？这先得从最小二乘法的发展说起。</p>
+<h2>最小二乘法，数据分析的瑞士军刀</h2>
+<p>第二个故事的主角是欧拉(Euler), 拉普拉斯(Lapalace),勒让德Legendre) 和高斯(Gauss),故事发生的时间是十八世纪中到十九世纪初。十七、十八世纪是科学发展的黄金年代，微积分的发展和牛顿万有引力定律的建立，直接的推动了天文学和测地学的迅猛发展。当时的大科学家们都在考虑许多天文学上的问题。几个典型的问题如下：</p>
+<ul>
+<li>土星和木星是太阳系中的大行星，由于相互吸引对各自的运动轨道产生了影响，许多大数学家，包括欧拉和拉普拉斯都在基于长期积累的天文观测数据计算土星和木星的运行轨道。</li>
+<li>勒让德承担了一个政府给的重要任务，测量通过巴黎的子午线的长度;</li>
+</ul>
+<p>这些天文学和测地学的问题，无不涉及到数据的多次测量，数据的计算与分析；十七、十八世纪的天文观测，也积累了大量的数据需要进行分析和计算。很多年以前，学者们就已经经验性的认为，对于有误差的测量数据，多次测量取平均是比较好的处理方法，虽然缺乏理论上的论证，也不断的受到一些人的质疑。取平均作为一种异常直观的方式，已经被使用了千百年,在多年积累的数据的处理经验中也得到一定的验证，被认为是一种良好的数据处理方法。</p>
+<p>以上涉及的问题，我们直接关心的目标量往往无法直接观测，但是一些相关的量是可以观测到的，而通过建立数学模型，最终可以解出我们关心的量。这些天文学的问题大体都可以转换为描述如下的问题：有我们想估计的量$\beta_0,\cdots,\beta_p$, 另有若干个可以测量的量$x_1,\cdots,x_p, y$, 这些量之间有线性关系:</p>
+<p>\begin{equation}
+y = \beta_0 + \beta_1x_1 + \cdots + \beta_px_p
+\end{equation}</p>
+<p>如何通过多组观测数据求解出参数$\beta_0,\cdots,\beta_p$呢？ 欧拉和拉普拉斯采用的都是求解线性方程组的方法。</p>
+<p>\begin{eqnarray} 
+\left{ 
+\begin{array}{lll} 
+y_1 = \beta_0 + \beta_1x_{11} + \cdots + \beta_px_{p1} \ 
+y_2 = \beta_0 + \beta_1x_{12} + \cdots + \beta_px_{p2} \ 
+\vdots \ 
+y_n = \beta_0 + \beta_1x_{1n} + \cdots + \beta_px_{pn} 
+\end{array} 
+\right. 
+\end{eqnarray}</p>
+<p>但是面临的一个问题是，有$n$组观测数据，$p+1$个变量， 如果$n&gt;p+1$, 则得到的线性矛盾方程组，无法直接求解。 所以欧拉和拉普拉斯采用的方法都是通过一定的对数据的观察，把$n$个线性方程分为$p+1$组，然后把每个组内的方程线性求和后归并为一个方程，从而就把n个方程的方程组划归为p+1个方程的方程组，进一步解方程求解参数。这些方法初看有一些道理，但是都过于 adhoc, 无法形成统一处理这一类问题的一个通用解决框架。以上求解线性矛盾方程的问题在现在的本科生看来都不困难，就是统计学中的线性回归问题，直接用最小二乘法就解决了，可是即便如欧拉、拉普拉斯这些数学大牛，当时也未能对这些问题提出有效的解决方案。可见在科学研究中，要想在观念上有所突破并不容易。有效的最小二乘法是勒让德在 1805 年发表的，基本思想就是认为测量中有误差，所以所有方程的累积误差为累积误差 = ∑( 观测值 – 理论值 )2我们求解出导致累积误差最小的参数即可。βˆ==argminβ∑i=1ne2iargminβ∑i=1n[yi−(β0+β1x1i+⋯+βpxpi)]2勒让德在论文中对最小二乘法的优良性做了几点说明： 最小二乘使得误差平方和最小，并在各个方程的误差之间建立了一种平衡，从而防止某一个极端误差取得支配地位 计算中只要求偏导后求解线性方程组，计算过程明确便捷最小二乘可以导出算术平均值作为估计值对于最后一点，从统计学的角度来看是很重要的一个性质。推理如下：假设真值为 θ, x1,⋯,xn为n次测量值, 每次测量的误差为ei=xi–θ，按最小二乘法，误差累积为L(θ)=∑i=1ne2i=∑i=1n(xi–θ)2求解θ 使得 L(θ)达到最小，正好是算术平均 xˉ=∑ni=1xin。由于算术平均是一个历经考验的方法，而以上的推理说明，算术平均是最小二乘的一个特例，所以从另一个角度说明了最小二乘方法的优良性，使我们对最小二乘法更加有信心。最小二乘法发表之后很快得到了大家的认可接受，并迅速的在数据分析实践中被广泛使用。不过历史上又有人把最小二乘法的发明归功于高斯，这又是怎么一回事呢。高斯在1809年也发表了最小二乘法，并且声称自己已经使用这个方法多年。高斯发明了小行星定位的数学方法，并在数据分析中使用最小二乘方法进行计算，准确的预测了谷神星的位置。扯了半天最小二乘法，没看出和正态分布有任何关系啊，离题了吧？单就最小二乘法本身，虽然很实用，不过看上去更多的算是一个代数方法，虽然可以推导出最优解，对于解的误差有多大，无法给出有效的分析，而这个就是正态分布粉墨登场发挥作用的地方。勒让德提出的最小二乘法，确实是一把在数据分析领域披荆斩棘的好刀，但是刀刃还是不够锋利；而这把刀的打造后来至少一半功劳被归到高斯，是因为高斯不单独自的给出了造刀的方法，而且把最小二乘这把利刀的刀刃造得无比锋利，把最小二乘打造为了一把瑞士军刀。高斯拓展了最小二乘法，把正态分布和最小二乘法联系在一起，并使得正态分布在统计误差分析中确立了自己的定位，否则正态分布就不会被称为高斯分布了。 那高斯这位神人是如何把正态分布引入到误差分析之中，打造最小二乘这把瑞士军刀的呢？看下一个故事。</p><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+
+	<hr />
+      </div>
+    </div>
+    <div class="span10">
+      <h3>Comments</h3>
+    
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
+    </div>
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
+            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+            <li><a href="http://diaorui.net/">数学之美</a></li>
+            <li><a href="http://licstar.net/">让博客飞(A BLOG WITH FUN)</a></li>
+            <li><a href="http://www.xperseverance.net/blogs/">持之以恒</a></li>
+            <li><a href="http://ibillxia.github.io/">Bill's Blog</a></li>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href="."><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="./" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href=".">苹果的味道</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
+</body>
+</html>
