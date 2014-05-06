@@ -516,10 +516,10 @@ p(\overrightarrow{w}|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) =
 <p><img alt="LDA概率图模型表示" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-graph-model_zps41d58402.jpg" /></p>
 <p>这个概率图可以分解为两个主要的物理过程： </p>
 <ul>
-<li>$\overrightarrow{\alpha}\rightarrow \overrightarrow{\theta}<em m_n="m,n">m \rightarrow z</em>$,这个过程表示在生成第$m$篇文档的时候，先从第一个坛子中抽了一个doc-topic 骰子$\overrightarrow{\theta}<em m_n="m,n">m$, 然后投掷这个骰子生成了文档中第$n$个词的topic编号$z</em>$； </li>
-<li>$\overrightarrow{\beta} \rightarrow \overrightarrow{\varphi}<em m_n="m,n">k \rightarrow w</em> | k=z_{m,n}$, 这个过程表示用如下动作生成语料中第$m$篇文档的第$n$个词：在上帝手头的$K$个topic-word骰子$\overrightarrow{\varphi}<em m_n="m,n">k$中，挑选编号为$k=z</em>$的那个骰子进行投掷，然后生成word$w_{m,n}$；</li>
+<li>$\overrightarrow{\alpha} \to \overrightarrow{\theta}<em m_n="m,n">m \to z</em>$,这个过程表示在生成第$m$篇文档的时候，先从第一个坛子中抽了一个doc-topic 骰子$\overrightarrow{\theta}<em m_n="m,n">m$, 然后投掷这个骰子生成了文档中第$n$个词的topic编号$z</em>$； </li>
+<li>$\overrightarrow{\beta} \to \overrightarrow{\varphi}<em m_n="m,n">k \to w</em> | k=z_{m,n}$, 这个过程表示用如下动作生成语料中第$m$篇文档的第$n$个词：在上帝手头的$K$个topic-word骰子$\overrightarrow{\varphi}<em m_n="m,n">k$中，挑选编号为$k=z</em>$的那个骰子进行投掷，然后生成word $w_{m,n}$；</li>
 </ul>
-<p>理解 LDA最重要的就是理解这两个物理过程。LDA 模型在基于$K$个topic生成语料中的$M$篇文档的过程中， 由于是bag-of-words模型，有一些物理过程是相互独立可交换的。<strong>由此， LDA 生成模型中， $M$篇文档会对应于$M$个独立的Dirichlet-Multinomial共轭结构；$K$个topic会对应于$K$个独立的Dirichlet-Multinomial 共轭结构</strong>。所以理解 LDA 所需要的所有数学就是理解Dirichlet-Multiomail共轭，其它就是理解物理过程。现在我们进入细节， 来看看 LDA 模型是如何被分解为$M+K$个Dirichlet-Multinomial 共轭结构的。</p>
+<p>理解LDA最重要的就是理解这两个物理过程。LDA 模型在基于$K$个topic生成语料中的$M$篇文档的过程中， 由于是bag-of-words模型，有一些物理过程是相互独立可交换的。<strong>由此， LDA 生成模型中， $M$篇文档会对应于$M$个独立的Dirichlet-Multinomial共轭结构；$K$个topic会对应于$K$个独立的Dirichlet-Multinomial 共轭结构</strong>。所以理解 LDA 所需要的所有数学就是理解Dirichlet-Multiomail共轭，其它就是理解物理过程。现在我们进入细节， 来看看 LDA 模型是如何被分解为$M+K$个Dirichlet-Multinomial 共轭结构的。</p>
 <p>由第一个物理过程，我们知道$\overrightarrow{\alpha}\rightarrow \overrightarrow{\theta}<em m="m">m \rightarrow \overrightarrow{z}</em>$表示生成第$m$篇文档中的所有词对应的topics，显然$\overrightarrow{\alpha}\rightarrow \overrightarrow{\theta}<em m="m">m$对应于Dirichlet分布，$\overrightarrow{\theta}_m \rightarrow \overrightarrow{z}</em>$对应于Multinomial分布， 所以整体是一个Dirichlet-Multinomial共轭结构；</p>
 <p><img alt="lda-dir-mult-conjugate-1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-dir-mult-conjugate-1_zpsce0d98eb.jpg" /></p>
 <p>前文介绍Bayesian Unigram Model的小节中我们对Dirichlet-Multinomial共轭结构做了一些计算。借助于该小节中的结论，我们可以得到:</p>
