@@ -77,79 +77,6 @@ Filed under <a href="./category/pearls.html">Pearls</a>
       </div>
       <div class="article-content span8">
 	<p>本文紧接上一篇<a href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">自然语言处理(序章):我爱自然语言处理(I)</a>,由于文章篇幅过长导致编辑器响应速度变慢,所以将其拆分为两篇,本文即为第二部分。(<strong>本博文引用内容版权属我爱自然语言博客作者及其引用文章作者,特此再次声明</strong>)。</p>
-<h1>正态分布的前世今生</h1>
-<hr />
-<blockquote>
-<p>神说，要有正态分布，就有了正态分布。</p>
-<p>神看正态分布是好的，就让随机误差就服从了正态分布。</p>
-</blockquote>
-<h2>正态分布</h2>
-<p>学过基础统计学的同学大都对正态分布非常熟悉。这个钟型的分布曲线不但形状优雅，其密度函数写成数学表达式:</p>
-<p>\begin{equation}
-f(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^2}{2\sigma^2}}
-\end{equation}</p>
-<p>也非常具有数学的美感。其标准化后的概率密度函数:</p>
-<p>\begin{equation}
-f(x)=\frac{1}{\sqrt{2\pi}}e^{-\frac{x^2}{2}}
-\end{equation}</p>
-<p>更加的简洁漂亮,两个最重要的数学常量 $\pi$,$e$都出现在了公式之中。在我个人的审美之中，它也属于 top-N 的最美丽的数学公式之一，如果有人问我数理统计领域哪个公式最能让人感觉到上帝的存在，那我一定投正态分布的票。因为这个分布戴着神秘的面纱，在自然界中无处不在，让你在纷繁芜杂的数据背后看到隐隐的秩序。</p>
-<p><img alt="Normal_Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/normal_curve_zpse8660e23.png" /></p>
-<p>正态分布又通常被称为高斯分布，在科学领域，冠名权那是一个很高的荣誉。去过德国的兄弟们还会发现，德国的钢镚和10马克的纸币上都留有高斯的头像和正态密度曲线。正态分布被冠名高斯分布，我们也容易认为是高斯发现了正态分布，其实不然，不过高斯对于正态分布的历史地位的确立是起到了决定性的作用。</p>
-<p><img alt="10dm" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/10dm_with_gauss_curve_zps561d08ca.jpg" /></p>
-<p><img alt="10dm_detail" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/10dm_with_gauss_curve_detail-300x217_zpsd38f3d9e.jpg" /></p>
-<p><img alt="20_mark" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/20-mark-gauss_zpsd6e55205.jpg" /></p>
-<p>正态曲线虽然看上去很美，却不是一拍脑袋就能想到的。我在本科学习数理统计的时候，课本一上来介绍正态分布就给出密度分布函数，却从来不说明这个分布函数是通过什么原理推导出来的。所以我一直搞不明白数学家当年是怎么找到这个概率分布曲线的，又是怎么发现误差服从这个奇妙的分布的。直到我读研究生的时候我的导师给我介绍了陈希儒院士的《数理统计简史》这本书，看了之后才了解了正态分布曲线从发现到被人们重视进而广泛应用，也是经过了几百年的历史。</p>
-<p>正态分布的这段历史是很精彩的，我们通过讲几个故事来揭开她的神秘面纱。</p>
-<h2>邂逅</h2>
-<hr />
-<p>正态曲线的首次发现第一个故事和概率论的发展密切相关，主角是棣莫弗(De Moivre) 和拉普拉斯(Laplace)。拉普拉斯是个大科学家，被称为法国的牛顿；棣莫弗名气可能不算很大，不过大家应该应该都熟悉这个名字，因为我们在高中数学学复数的时候都学过棣莫弗定理:</p>
-<p>\begin{equation}
-(cosθ+isinθ)^n=cos(nθ)+isin(nθ)
-\end{equation}</p>
-<p>古典概率论发源于赌博，惠更斯、帕斯卡、费马、贝努力都是古典概率的奠基人，他们那会研究的概率问题大都来自赌桌上，最早的概率论问题是赌徒梅累在1654年向帕斯卡提出的如何分赌金的问题。统计学中的总体均值之所以被称为期望(Expectation), 就是源自惠更斯、帕斯卡这些人研究平均情况下一个赌徒在赌桌上可以期望自己赢得多少钱。</p>
-<p>有一天一个哥们，也许是个赌徒，向棣莫弗提了一个和赌博相关的一个问题：A,B两人在赌场里赌博，A，B各自的获胜概率是$p,q=1−p$,赌$n$局，若 A 赢的局数$X&gt;np$, 则A付给赌场$X−np$元，否则B付给赌场$np−X$元。 问赌场挣钱的期望值是多少。</p>
-<p>问题并不复杂， 本质上是一个二项分布，最后求出的理论结果是:</p>
-<p>\begin{equation}
-2npq \ b(n, p, np)
-\end{equation}</p>
-<p>其中$b(n,p,i)=C_n^ip^iq^{n−i}$是常见的二项概率。 但是对具体的 n, 要把这个理论结果实际计算出数值结果可不容易， 因为其中的二项公式中有组合数.这就驱动De Moivre寻找近似计算的方法计算。</p>
-<p>与此相关联的另一个问题，是遵从二项分布的随机变量$X \sim\ B(n,p)$, 求$X$落在二项分布中心点一定范围的概率$P_d=P(|X–np|≤d)$</p>
-<p>对于$p=1/2$的情形， 棣莫弗做了一些计算并得到了一些近似结果，但是还不够漂亮，幸运的是棣莫弗和Stirling 处在同一个时代， 而且二人之间有联系，Stirling公式是在数学分析中必学的一个重要公式(事实上Stirling 公式的形式其实是棣莫弗最先发现的，但是 Stirling 改进了公式:</p>
-<p>\begin{equation}
-n! \sim \sqrt{2\pi n} (\frac{n}{e})^{n}
-\end{equation}</p>
-<p>1733 年，棣莫弗很快利用 Stirling 公式进行计算并取得了重要的进展。考虑$n$是偶数的情形，令二项概率</p>
-<p>\begin{equation}
-b(i) = b(n, \frac{1}{2}, i) = \binom{n}{i}(\frac{1}{2})^n
-\end{equation}</p>
-<p>通过 Stirling 公式做一些简单的计算容易得到:</p>
-<p>\begin{equation}
-\displaystyle b(\frac{n}{2}) \sim \sqrt{\frac{2}{\pi n}}
-\end{equation}</p>
-<p>\begin{equation}
-\displaystyle \frac{b(\frac{n}{2}+d)}{b(\frac{n}{2})} \sim e^{-\frac{2d^2}{n}}
-\end{equation}</p>
-<p>于是有:</p>
-<p>\begin{equation}
-\displaystyle b(\frac{n}{2}+d) \sim \frac{2}{\sqrt{2 \pi n}}e^{-\frac{2d^2}{n}}
-\end{equation}</p>
-<p>使用上式的结果，并在二项概率累加求和的过程中近似的使用定积分代替求和，很容易就能得到:</p>
-<p>\begin{equation}
-\displaystyle P(|\frac{X}{n} – \frac{1}{2}| \le \frac{c}{\sqrt{n}} ) \sim\int_{-2c}^{2c} \frac{1}{\sqrt{2\pi}} e^{-x^2/2} dx
-\end{equation}</p>
-<blockquote>
-<p><strong>NOTE:以上两个公式没看懂,求大神指教。</strong></p>
-</blockquote>
-<p>看，正态分布的密度函数的形式在积分公式中出现了！这也就是我们在数理统计课本上学到的二项分布的极限分布是正态分布。以上只是讨论了$p=1/2$的情形， 棣莫弗也对 p≠1/2做了一些计算，后来拉普拉斯对 $p \neq 1/2$的情况做了更多的分析，并把二项分布的正态近似推广到了任意$p$的情况。 这是第一次正态密度函数被数学家勾画出来，而且是以二项分布的极限分布的形式被推导出来的。 熟悉基础概率统计的同学们都知道这个结果其实叫棣莫弗-拉普拉斯中心极限定理。</p>
-<p><strong>[De Moivre-Laplace 中心极限定理]</strong></p>
-<p>设随机变量$X_n(n=1,2,⋯)$服从参数为$p$的二项分布，则对任意的$x$, 恒有:</p>
-<p>\begin{equation}
-\displaystyle\lim_{n\rightarrow\infty}P{ \frac{X_n – np}{\sqrt{np(1-p)}} \le x }=\int_{-\infty}^x \frac{1}{\sqrt{2\pi}} e^{\frac{-t^2}{2}}dt
-\end{equation}</p>
-<p>我们在大学学习数理统计的时候，学习的过程都是先学习了正态分布，然后才学习中心极限定理。而学习到正态分布的时候，直接就描述了其概率密度的数学形式，虽然数学上很漂亮，但是当时很容易困惑数学家们是如何凭空就找到这个分布的。读了陈希孺的《数理统计学简史》之后，我才明白正态分布的密度形式首次发现是在棣莫弗-拉普拉斯的中心极限定理中。数学家研究数学问题的进程很少是按照我们数学课本的安排顺序推进的，现代的数学课本都是按照数学内在的逻辑进行组织编排的，虽然逻辑结构上严谨优美，却把数学问题研究的历史痕迹抹得一干二净。DNA 双螺旋结构的发现者之一 Waston 在他的名著《DNA 双螺旋》序言中说：“科学的发现很少会像门外汉所想象的一样，按照直接了当合乎逻辑的方式进行的。”</p>
-<p>棣莫弗出他的发现后40年（大约是 1770),拉普拉斯建立了中心极限定理较一般的形式，中心极限定理后续又被其它数学家们推广到了其它任意分布的情形，而不限于二项分布。后续的统计学家发现，一系列的重要统计量，在样本量$N$趋于无穷的时候， 其极限分布都有正态的形式， 这构成了数理统计学中大样本理论的基础。</p>
-<p>棣莫弗在二项分布的计算中瞥见了正态曲线的模样，不过他并没有能展现这个曲线的美妙之处。棣莫弗的这个工作当时并没有引起人们足够的重视，原因在于棣莫弗不是个统计学家，从未从统计学的角度去考虑其工作的意义。 正态分布(当时也没有被命名为正态分布) 在当时也只是以极限分布的形式出现，并没有在统计学，尤其是误差分析中发挥作用。这也就是正态分布最终没有被冠名棣莫弗分布的重要原因。 那高斯做了啥工作导致统计学家把正态分布的这顶桂冠戴在了他的头上呢？这先得从最小二乘法的发展说起。</p>
-<p><strong>[本部分待续]</strong></p>
 <h1>MCMC 和 Gibbs Sampling</h1>
 <hr />
 <h2>随机模拟</h2>
@@ -388,68 +315,68 @@ p(\mathbf{x_1},y_1)p(y_2|\mathbf{x_1}) = p(\mathbf{x_1},y_2)p(y_1|\mathbf{x_1})
 <h3>Unigram Model</h3>
 <p>假设我们的词典中一共有$V$个词$v_1,v_2,⋯v_V$，那么最简单的Unigram Model就是认为上帝是按照如下的游戏规则产生文本的。</p>
 <p><img alt="game_unigram_model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/game-unigram-model_zpseddfb645.jpg" /></p>
-<p>上帝的这个唯一的骰子各个面的概率记为$\overrightarrow{p} = (p_1, p_2, \cdots, p_V)$, 所以每次投掷骰子类似于一个抛钢镚时候的贝努利实验， 记为$w\sim Mult(w|\overrightarrow{p})$.</p>
+<p>上帝的这个唯一的骰子各个面的概率记为$\vec{p} = (p_1, p_2, \cdots, p_V)$, 所以每次投掷骰子类似于一个抛钢镚时候的贝努利实验， 记为$w\sim Mult(w|\vec{p})$.</p>
 <p><img alt="unigram_model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/unigram-model_zps19f87fe3.jpg" /></p>
-<p>上帝投掷$V$个面的骰子对于一篇文档$d=\overrightarrow{w}=(w_1, w_2, \cdots, w_n)$, 该文档被生成的概率就是:</p>
+<p>上帝投掷$V$个面的骰子对于一篇文档$d=\vec w=(w_1, w_2, \cdots, w_n)$, 该文档被生成的概率就是:</p>
 <p>\begin{equation}
-p(\overrightarrow{w}) = p(w_1, w_2, \cdots, w_n) = p(w_1)p(w_2) \cdots p(w_n)
+p(\vec w) = p(w_1, w_2, \cdots, w_n) = p(w_1)p(w_2) \cdots p(w_n)
 \end{equation}</p>
-<p>而文档和文档之间我们认为是独立的， 所以如果语料中有多篇文档$\mathcal{W}=(\overrightarrow{w_1}, \overrightarrow{w_2},…,\overrightarrow{w_m})$,则该语料的概率是:</p>
+<p>而文档和文档之间我们认为是独立的， 所以如果语料中有多篇文档$\mathcal{W}=(\vec{w_1}, \vec{w_2},…,\vec{w_m})$,则该语料的概率是:</p>
 <p>\begin{equation}
-p(\mathcal{W})= p(\overrightarrow{w_1})p(\overrightarrow{w_2}) 
-\cdots p(\overrightarrow{w_m})
+p(\mathcal{W})= p(\vec{w_1})p(\vec{w_2}) 
+\cdots p(\vec{w_m})
 \end{equation}</p>
 <p>在Unigram Model中， 我们假设了文档之间是独立可交换的，而文档中的词也是独立可交换的，所以一篇文档相当于一个袋子，里面装了一些词，而词的顺序信息就无关紧要了，这样的模型也称为词袋模型(<strong>Bag-of-words</strong>)。</p>
-<p>假设语料中总的词数是$N$, 在所有的$N$个词中,如果我们关注每个词$v_i$的发生次数$n_i$，那么$\overrightarrow{n}=(n_1, n_2,\cdots, n_V)$正好是一个多项分布:</p>
+<p>假设语料中总的词数是$N$, 在所有的$N$个词中,如果我们关注每个词$v_i$的发生次数$n_i$，那么$ n=(n_1, n_2,\cdots, n_V)$正好是一个多项分布:</p>
 <p>\begin{equation}
-p(\overrightarrow{n}) = Mult(\overrightarrow{n}|\overrightarrow{p}, N) 
-= \binom{N}{\overrightarrow{n}} \prod_{k=1}^V p_k^{n_k}
+p( n) = Mult( n|\vec{p}, N) 
+= \binom{N}{ n} \prod_{k=1}^V p_k^{n_k}
 \end{equation}</p>
 <p>此时， 语料的概率是:</p>
 <p>\begin{equation}
-p(\mathcal{W})= p(\overrightarrow{w_1})p(\overrightarrow{w_2}) \cdots p(\overrightarrow{w_m}) 
+p(\mathcal{W})= p(\vec{w_1})p(\vec{w_2}) \cdots p(\vec{w_m}) 
 = \prod_{k=1}^V p_k^{n_k} 
 \end{equation}</p>
-<p>当然，我们很重要的一个任务就是估计模型中的参数$\overrightarrow{p}$，也就是问上帝拥有的这个骰子的各个面的概率是多大，按照统计学家中频率派的观点，使用最大似然估计最大化$P(\mathcal{W})$，于是参数$p_i$的估计值就是$\hat{p_i}=\frac{n_i}{N}$.</p>
-<p>对于以上模型，贝叶斯统计学派的统计学家会有不同意见，他们会很挑剔的批评只假设上帝拥有唯一一个固定的骰子是不合理的。在贝叶斯学派看来，一切参数都是随机变量，以上模型中的骰子$\overrightarrow{p}$不是唯一固定的，它也是一个随机变量。所以按照贝叶斯学派的观点，上帝是按照以下的过程在玩游戏的:</p>
+<p>当然，我们很重要的一个任务就是估计模型中的参数$\vec{p}$，也就是问上帝拥有的这个骰子的各个面的概率是多大，按照统计学家中频率派的观点，使用最大似然估计最大化$P(\mathcal{W})$，于是参数$p_i$的估计值就是$\hat{p_i}=\frac{n_i}{N}$.</p>
+<p>对于以上模型，贝叶斯统计学派的统计学家会有不同意见，他们会很挑剔的批评只假设上帝拥有唯一一个固定的骰子是不合理的。在贝叶斯学派看来，一切参数都是随机变量，以上模型中的骰子$\vec{p}$不是唯一固定的，它也是一个随机变量。所以按照贝叶斯学派的观点，上帝是按照以下的过程在玩游戏的:</p>
 <p><img alt="bayesian-unigram-model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bayesian-unigram-model_zpsa4eeab8f.jpg" /></p>
-<p>上帝的这个坛子里面，骰子可以是无穷多个，有些类型的骰子数量多，有些类型的骰子少，所以从概率分布的角度看，坛子里面的骰子$\overrightarrow{p}$服从一个概率分布$p(\overrightarrow{p})$，这个分布称为参数$\overrightarrow{p}$的先验分布。</p>
+<p>上帝的这个坛子里面，骰子可以是无穷多个，有些类型的骰子数量多，有些类型的骰子少，所以从概率分布的角度看，坛子里面的骰子$\vec{p}$服从一个概率分布$p(\vec{p})$，这个分布称为参数$\vec{p}$的先验分布。</p>
 <p><img alt="dirichlet-multinomial-unigram" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/dirichlet-multinomial-unigram_zps6e82a36d.jpg" /></p>
-<p>以上贝叶斯学派的游戏规则的假设之下，语料$\mathcal{W}$产生的概率如何计算呢？由于我们并不知道上帝到底用了哪个骰子$\overrightarrow{p}$,所以每个骰子都是可能被使用的，只是使用的概率由先验分布$p(\overrightarrow{p})$来决定。对每一个具体的骰子$\overrightarrow{p}$,由该骰子产生数据的概率是$p(\mathcal{W}|\overrightarrow{p})$, 所以最终数据产生的概率就是对每一个骰子$\overrightarrow{p}$上产生的数据概率进行积分累加求和:</p>
+<p>以上贝叶斯学派的游戏规则的假设之下，语料$\mathcal{W}$产生的概率如何计算呢？由于我们并不知道上帝到底用了哪个骰子$\vec{p}$,所以每个骰子都是可能被使用的，只是使用的概率由先验分布$p(\vec{p})$来决定。对每一个具体的骰子$\vec{p}$,由该骰子产生数据的概率是$p(\mathcal{W}|\vec{p})$, 所以最终数据产生的概率就是对每一个骰子$\vec{p}$上产生的数据概率进行积分累加求和:</p>
 <p>\begin{equation}
-p(\mathcal{W}) = \int p(\mathcal{W}|\overrightarrow{p}) p(\overrightarrow{p})d\overrightarrow{p}
+p(\mathcal{W}) = \int p(\mathcal{W}|\vec{p}) p(\vec{p})d\vec{p}
 \end{equation}</p>
-<p>在贝叶斯分析的框架下，此处先验分布$p(\overrightarrow{p})$就可以有很多种选择了，注意到:</p>
+<p>在贝叶斯分析的框架下，此处先验分布$p(\vec{p})$就可以有很多种选择了，注意到:</p>
 <p>\begin{equation}
-p(\overrightarrow{n}) = Mult(\overrightarrow{n}|\overrightarrow{p}, N)
+p( n) = Mult( n|\vec{p}, N)
 \end{equation}</p>
 <p>实际上是在计算一个多项分布的概率，所以对先验分布的一个比较好的选择就是多项分布对应的共轭分布,即 Dirichlet 分布:</p>
 <p>\begin{equation}
-Dir(\overrightarrow{p}|\overrightarrow{\alpha})= 
-\frac{1}{\Delta(\overrightarrow{\alpha})} \prod_{k=1}^V p_k^{\alpha_k -1}， 
-\quad \overrightarrow{\alpha}=(\alpha_1, \cdots, \alpha_V)
+Dir(\vec{p}|\vec\alpha)= 
+\frac{1}{\Delta(\vec\alpha)} \prod_{k=1}^V p_k^{\alpha_k -1}， 
+\quad \vec\alpha=(\alpha_1, \cdots, \alpha_V)
 \end{equation}</p>
-<p>此处，$\Delta(\overrightarrow{\alpha})$就是归一化因子$Dir(\overrightarrow{\alpha})$，即:</p>
+<p>此处，$\Delta(\vec\alpha)$就是归一化因子$Dir(\vec\alpha)$，即:</p>
 <p>\begin{equation}
-\Delta(\overrightarrow{\alpha}) = 
-\int \prod_{k=1}^V p_k^{\alpha_k -1} d\overrightarrow{p} 
+\Delta(\vec\alpha) = 
+\int \prod_{k=1}^V p_k^{\alpha_k -1} d\vec{p} 
 \end{equation}</p>
 <p><img alt="dirichlet-multinomial-unigram" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/dirichlet-multinomial-unigram_zps6e82a36d.jpg" /></p>
 <p><img alt="graph-model-unigram" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/graph-model-unigram_zps3d4b6a8b.jpg" /></p>
 <p>回顾前一个小节介绍的Drichlet分布的一些知识，其中很重要的一点就是:<strong>Dirichlet 先验 + 多项分布的数据 → 后验分布为 Dirichlet 分布</strong>.</p>
 <p>\begin{equation}
-Dir(\overrightarrow{p}|\overrightarrow{\alpha}) + MultCount(\overrightarrow{n})= Dir(\overrightarrow{p}|\overrightarrow{\alpha}+\overrightarrow{n})
+Dir(\vec{p}|\vec\alpha) + MultCount( n)= Dir(\vec{p}|\vec\alpha+ n)
 \end{equation}</p>
-<p>于是，在给定了参数$\overrightarrow{p}$的先验分布$Dir(\overrightarrow{p}|\overrightarrow{\alpha})$的时候，各个词出现频次的数据$\overrightarrow{n} \sim Mult(\overrightarrow{n}|\overrightarrow{p},N)$为多项分布, 所以无需计算，我们就可以推出后验分布是:</p>
+<p>于是，在给定了参数$\vec{p}$的先验分布$Dir(\vec{p}|\vec\alpha)$的时候，各个词出现频次的数据$ n \sim Mult( n|\vec{p},N)$为多项分布, 所以无需计算，我们就可以推出后验分布是:</p>
 <p>\begin{equation} 
-p(\overrightarrow{p}|\mathcal{W},\overrightarrow{\alpha}) 
-= Dir(\overrightarrow{p}|\overrightarrow{n}+ \overrightarrow{\alpha}) 
-= \frac{1}{\Delta(\overrightarrow{n}+\overrightarrow{\alpha})} 
-\prod_{k=1}^V p_k^{n_k + \alpha_k -1} d\overrightarrow{p} 
+p(\vec{p}|\mathcal{W},\vec\alpha) 
+= Dir(\vec{p}| n+ \vec\alpha) 
+= \frac{1}{\Delta( n+\vec\alpha)} 
+\prod_{k=1}^V p_k^{n_k + \alpha_k -1} d\vec{p} 
 \end{equation}</p>
-<p>在贝叶斯的框架下，参数$\overrightarrow{p}$如何估计呢？由于我们已经有了参数的后验分布，所以合理的方式是使用后验分布的极大值点，或者是参数在后验分布下的平均值。在该文档中，我们取平均值作为参数的估计值。使用上个小节中的结论，由于$\overrightarrow{p}$的后验分布为$Dir(\overrightarrow{p}|\overrightarrow{n} + \overrightarrow{\alpha})$，于是:</p>
+<p>在贝叶斯的框架下，参数$\vec{p}$如何估计呢？由于我们已经有了参数的后验分布，所以合理的方式是使用后验分布的极大值点，或者是参数在后验分布下的平均值。在该文档中，我们取平均值作为参数的估计值。使用上个小节中的结论，由于$\vec{p}$的后验分布为$Dir(\vec{p}| n + \vec\alpha)$，于是:</p>
 <p>\begin{equation}
-E(\overrightarrow{p}) = \Bigl(\frac{n_1 + \alpha_1}{\sum_{i=1}^V(n_i + \alpha_i)}, 
+E(\vec{p}) = \Bigl(\frac{n_1 + \alpha_1}{\sum_{i=1}^V(n_i + \alpha_i)}, 
 \frac{n_2 + \alpha_2}{\sum_{i=1}^V(n_i + \alpha_i)}, \cdots, 
 \frac{n_V + \alpha_V}{\sum_{i=1}^V(n_i + \alpha_i)} \Bigr)
 \end{equation}</p>
@@ -461,13 +388,13 @@ E(\overrightarrow{p}) = \Bigl(\frac{n_1 + \alpha_1}{\sum_{i=1}^V(n_i + \alpha_i)
 <p>进一步，我们可以计算出文本语料的产生概率为:</p>
 <p>\begin{equation}
 \begin{split} 
-p(\mathcal{W}|\overrightarrow{\alpha}) &amp; = \int p(\mathcal{W}|\overrightarrow{p}) p(\overrightarrow{p}|\overrightarrow{\alpha})d\overrightarrow{p} \notag \\ 
-&amp; = \int \prod_{k=1}^V p_k^{n_k} Dir(\overrightarrow{p}|\overrightarrow{\alpha}) d\overrightarrow{p} \notag \\ 
-&amp; = \int \prod_{k=1}^V p_k^{n_k} \frac{1}{\Delta(\overrightarrow{\alpha})} 
-\prod_{k=1}^V p_k^{\alpha_k -1} d\overrightarrow{p} \notag \\ 
-&amp; = \frac{1}{\Delta(\overrightarrow{\alpha})} 
-\int \prod_{k=1}^V p_k^{n_k + \alpha_k -1} d\overrightarrow{p} \notag \\ 
-&amp; = \frac{\Delta(\overrightarrow{n}+\overrightarrow{\alpha})}{\Delta(\overrightarrow{\alpha})} 
+p(\mathcal{W}|\vec\alpha) &amp; = \int p(\mathcal{W}|\vec{p}) p(\vec{p}|\vec\alpha)d\vec{p} \notag \\ 
+&amp; = \int \prod_{k=1}^V p_k^{n_k} Dir(\vec{p}|\vec\alpha) d\vec{p} \notag \\ 
+&amp; = \int \prod_{k=1}^V p_k^{n_k} \frac{1}{\Delta(\vec\alpha)} 
+\prod_{k=1}^V p_k^{\alpha_k -1} d\vec{p} \notag \\ 
+&amp; = \frac{1}{\Delta(\vec\alpha)} 
+\int \prod_{k=1}^V p_k^{n_k + \alpha_k -1} d\vec{p} \notag \\ 
+&amp; = \frac{\Delta( n+\vec\alpha)}{\Delta(\vec\alpha)} 
 \end{split}
 \end{equation}</p>
 <h3>Topic Model 和 PLSA</h3>
@@ -485,53 +412,50 @@ p(\mathcal{W}|\overrightarrow{\alpha}) &amp; = \int p(\mathcal{W}|\overrightarro
 <p><img alt="game-plsa" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/game-plsa_zpsea8eb70a.jpg" /></p>
 <p>以上PLSA 模型的文档生成的过程可以图形化的表示为:</p>
 <p><img alt="plsa-doc-topic-word" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/plsa-doc-topic-word_zps2dc5aea1.jpg" /></p>
-<p>PLSA模型的文档生成过程我们可以发现在以上的游戏规则下，文档和文档之间是独立可交换的，同一个文档内的词也是独立可交换的，还是一个bag-of-words模型。游戏中的$K$个topic-word骰子，我们可以记为$\overrightarrow{\varphi}_1, \cdots, \overrightarrow{\varphi}_K$, 对于包含$M$篇文档的语料$C=(d_1, d_2, \cdots, d_M)$中的每篇文档$d_m$，都会有一个特定的doc-topic骰子$\overrightarrow{\theta}_m$，所有对应的骰子记为$\overrightarrow{\theta}_1, \cdots, \overrightarrow{\theta}_M$。为了方便，我们假设每个词$w$ 都是一个编号，对应到topic-word骰子的面。于是在 PLSA 这个模型中，第$m$篇文档$d_m$中的每个词的生成概率为:</p>
+<p>PLSA模型的文档生成过程我们可以发现在以上的游戏规则下，文档和文档之间是独立可交换的，同一个文档内的词也是独立可交换的，还是一个bag-of-words模型。游戏中的$K$个topic-word骰子，我们可以记为$\vec\varphi_1, \cdots, \vec\varphi_K$, 对于包含$M$篇文档的语料$C=(d_1, d_2, \cdots, d_M)$中的每篇文档$d_m$，都会有一个特定的doc-topic骰子$\vec{\theta}_m$，所有对应的骰子记为$\vec{\theta}_1, \cdots, \vec{\theta}_M$。为了方便，我们假设每个词$w$ 都是一个编号，对应到topic-word骰子的面。于是在 PLSA 这个模型中，第$m$篇文档$d_m$中的每个词的生成概率为:</p>
 <p>\begin{equation}
 p(w|d_m) = \sum_{z=1}^K p(w|z)p(z|d_m) = \sum_{z=1}^K \varphi_{zw} \theta_{mz}
 \end{equation}</p>
 <p>所以整篇文档的生成概率为:</p>
 <p>\begin{equation}
-p(\overrightarrow{w}|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) = 
+p(\vec w|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) = 
 \prod_{i=1}^n \sum_{z=1}^K \varphi_{zw_i} \theta_{mz}
 \end{equation}</p>
 <p>由于文档之间相互独立，我们也容易写出整个语料的生成概率。求解PLSA这个Topic Model的过程汇总，模型参数并容易求解，可以使用著名的EM算法进行求得局部最优解，由于该模型的求解并不是本文的介绍要点，有兴趣的同学参考Hoffman的原始论文，此处略去不讲。</p>
 <h1>LDA文本建模</h1>
 <hr />
 <h2>游戏规则</h2>
-<p>对于上述的 PLSA 模型，贝叶斯学派显然是有意见的，doc-topic 骰子$\overrightarrow{\theta}_m$和topic-word骰子$\overrightarrow{\varphi}_k$都是模型中的参数，参数都是随机变量，怎么能没有先验分布呢？于是，类似于对Unigram Model的贝叶斯改造， 我们也可以如下在两个骰子参数前加上先验分布从而把PLSA对应的游戏过程改造为一个贝叶斯的游戏过程。由于$\overrightarrow{\varphi}_k$和$\overrightarrow{\theta}_m$都对应到多项分布，所以先验分布的一个好的选择就是Drichlet分布，于是我们就得到了<strong>LDA(Latent Dirichlet Allocation)</strong>模型。</p>
+<p>对于上述的 PLSA 模型，贝叶斯学派显然是有意见的，doc-topic 骰子$\vec{\theta}_m$和topic-word骰子$\vec\varphi_k$都是模型中的参数，参数都是随机变量，怎么能没有先验分布呢？于是，类似于对Unigram Model的贝叶斯改造， 我们也可以如下在两个骰子参数前加上先验分布从而把PLSA对应的游戏过程改造为一个贝叶斯的游戏过程。由于$\vec\varphi_k$和$\vec{\theta}_m$都对应到多项分布，所以先验分布的一个好的选择就是Drichlet分布，于是我们就得到了<strong>LDA(Latent Dirichlet Allocation)</strong>模型。</p>
 <p><img alt="lda_dice" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-dice_zps843a7bb2.jpg" /></p>
 <p>在 LDA 模型中, 上帝是按照如下的规则玩文档生成的游戏的.</p>
 <p><img alt="game-lda-1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/game-lda-1_zpsb9cf4135.jpg" /></p>
 <p>假设语料库中有$M$ 篇文档，所有的的word和对应的 topic 如下表示:</p>
 <p>\begin{equation}
 \begin{split} 
-\overrightarrow{\mathbf{w}} &amp; = (\overrightarrow{w}_1, \cdots, \overrightarrow{w}_M) \\ 
-\overrightarrow{\mathbf{z}} &amp; = (\overrightarrow{z}_1, \cdots, \overrightarrow{z}_M) 
+\vec{\mathbf{w}} &amp; = (\vec w_1, \cdots, \vec w_M) \\ 
+\vec{\mathbf{z}} &amp; = (\vec z_1, \cdots, \vec z_M) 
 \end{split}
 \end{equation}</p>
-<p>其中，$\overrightarrow{w}_m$表示第$m$篇文档中的词，$\overrightarrow{z}_m$表示这些词对应的topic编号。</p>
+<p>其中，$\vec w_m$表示第$m$篇文档中的词，$\vec z_m$表示这些词对应的topic编号。</p>
 <p><img alt="word_topic_example" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/word-topic-vector_zpsa89d3e3d.jpg" /></p>
 <h2>物理过程分解</h2>
 <p>使用概率图模型表示， LDA模型的游戏过程如图所示。</p>
 <p><img alt="LDA概率图模型表示" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-graph-model_zps41d58402.jpg" /></p>
 <p>这个概率图可以分解为两个主要的物理过程： </p>
-<ol>
-<li>$\overrightarrow{\alpha} \to \overrightarrow{\theta}<em m_n="m,n">m \to z</em>$,这个过程表示在生成第$m$篇文档的时候，先从第一个坛子中抽了一个doc-topic 骰子$\overrightarrow{\theta}<em m_n="m,n">m$, 然后投掷这个骰子生成了文档中第$n$个词的topic编号$z</em>$； </li>
-<li>$\overrightarrow{\beta} \to \overrightarrow{\varphi}<em m_n="m,n">k \to w</em> | k=z_{m,n}$, 这个过程表示用如下动作生成语料中第$m$篇文档的第$n$个词：在上帝手头的$K$个topic-word骰子$\overrightarrow{\varphi}<em m_n="m,n">k$中，挑选编号为$k=z</em>$的那个骰子进行投掷，然后生成word $w_{m,n}$；</li>
-</ol>
-<p>理解LDA最重要的就是理解这两个物理过程。LDA 模型在基于$K$个topic生成语料中的$M$篇文档的过程中， 由于是bag-of-words模型，有一些物理过程是相互独立可交换的。<strong>由此， LDA 生成模型中， $M$篇文档会对应于$M$个独立的Dirichlet-Multinomial共轭结构；$K$个topic会对应于$K$个独立的Dirichlet-Multinomial 共轭结构</strong>。所以理解 LDA 所需要的所有数学就是理解Dirichlet-Multiomail共轭，其它就是理解物理过程。现在我们进入细节， 来看看 LDA 模型是如何被分解为$M+K$个Dirichlet-Multinomial 共轭结构的。</p>
-<p>由第一个物理过程，我们知道$\overrightarrow{\alpha}\rightarrow \overrightarrow{\theta}<em m="m">m \rightarrow \overrightarrow{z}</em>$表示生成第$m$篇文档中的所有词对应的topics，显然$\overrightarrow{\alpha}\rightarrow \overrightarrow{\theta}<em m="m">m$对应于Dirichlet分布，$\overrightarrow{\theta}_m \rightarrow \overrightarrow{z}</em>$对应于Multinomial分布， 所以整体是一个Dirichlet-Multinomial共轭结构；</p>
+<p><img alt="Two_Process" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/two_process_zps04f4e66e.png" /></p>
+<p>理解LDA最重要的就是理解这两个物理过程。LDA模型在基于$K$个topic生成语料中的$M$篇文档的过程中,由于是bag-of-words模型，有一些物理过程是相互独立可交换的。<strong>由此,LDA生成模型中,$M$篇文档会对应于$M$个独立的Dirichlet-Multinomial共轭结构；$K$个topic会对应于$K$个独立的Dirichlet-Multinomial 共轭结构</strong>.所以理解LDA所需要的所有数学就是理解Dirichlet-Multiomail共轭，其它就是理解物理过程。现在我们进入细节，来看看LDA模型是如何被分解为$M+K$个Dirichlet-Multinomial共轭结构的。</p>
+<p>由第一个物理过程，我们知道$\vec\alpha \to \vec\theta_m  \to \vec z_m$表示生成第$m$篇文档中的所有词对应的topics，显然$\vec\alpha \to \vec\theta_m$对应于Dirichlet分布，$\vec\theta_m \to \vec z_{m}$对应于Multinomial分布,所以整体是一个Dirichlet-Multinomial共轭结构；</p>
 <p><img alt="lda-dir-mult-conjugate-1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-dir-mult-conjugate-1_zpsce0d98eb.jpg" /></p>
 <p>前文介绍Bayesian Unigram Model的小节中我们对Dirichlet-Multinomial共轭结构做了一些计算。借助于该小节中的结论，我们可以得到:</p>
 <p>\begin{equation}
-p(\overrightarrow{z}_m |\overrightarrow{\alpha}) = \frac{\Delta(\overrightarrow{n}_m+\overrightarrow{\alpha})}{\Delta(\overrightarrow{\alpha})}
+p(\vec z_m |\vec\alpha) = \frac{\Delta(\vec n_m+\vec\alpha)}{\Delta(\vec\alpha)}
 \end{equation}</p>
-<p>其中$\overrightarrow{n}<em m="m">m = (n</em>^{(1)}, \cdots, n_{m}^{(K)})$表示第$m$篇文档中第$k$个topic产生的词的个数。进一步，利用Dirichlet-Multiomial共轭结构，我们得到参数$\overrightarrow{\theta}_m$的后验分布恰好是$Dir(\overrightarrow{\theta}_m| \overrightarrow{n}_m + \overrightarrow{\alpha})$.</p>
+<p>其中$\vec n_m = (n_{m}^{(1)}, \cdots, n_{m}^{(K)})$表示第$m$篇文档中第$k$个topic产生的词的个数。进一步，利用Dirichlet-Multiomial共轭结构，我们得到参数$\vec{\theta}_m$的后验分布恰好是$Dir(\vec{\theta}_m|  n_m + \vec\alpha)$.</p>
 <p>由于语料中$M$篇文档的 topics生成过程相互独立，所以我们得到$M$个相互独立的Dirichlet-Multinomial共轭结构，从而我们可以得到整个语料中topics生成概率:</p>
 <p>\begin{equation}
 \begin{split} 
-p(\overrightarrow{\mathbf{z}} |\overrightarrow{\alpha}) &amp; = \prod_{m=1}^M p(\overrightarrow{z}<em m="1">m |\overrightarrow{\alpha}) \notag \\ 
-&amp;= \prod</em>^M \frac{\Delta(\overrightarrow{n}_m+\overrightarrow{\alpha})}{\Delta(\overrightarrow{\alpha})} \quad\quad  (*) 
+p(\vec{\mathbf{z}} |\vec\alpha) &amp; = \prod_{m=1}^M p(\vec z_m |\vec\alpha) \notag \\ 
+&amp;= \prod_{m=1}^M \frac{\Delta( n_m+\vec\alpha)}{\Delta(\vec\alpha)} \quad\quad  (*) 
 \end{split}
 \end{equation}</p>
 <p>目前为止，我们由$M$篇文档得到了$M$个Dirichlet-Multinomial共轭结构，还有额外$K$个Dirichlet-Multinomial共轭结构在哪儿呢？在上帝按照之前的规则玩LDA游戏的时候，上帝是先完全处理完成一篇文档，再处理下一篇文档。文档中每个词的生成都要抛两次骰子，第一次抛一个doc-topic骰子得到topic, 第二次抛一个topic-word骰子得到word，每次生成每篇文档中的一个词的时候这两次抛骰子的动作是紧邻轮换进行的。如果语料中一共有$N$个词，则上帝一共要抛$2N$次骰子，轮换的抛doc-topic骰子和topic-word骰子。但实际上有一些抛骰子的顺序是可以交换的，我们可以等价的调整$2N$次抛骰子的次序：前$N$次只抛doc-topic骰子得到语料中所有词的topics,然后基于得到的每个词的topic编号，后$N$次只抛topic-word骰子生成$N$个word。于是上帝在玩 LDA 游戏的时候，可以等价的按照如下过程进行：</p>
@@ -539,109 +463,81 @@ p(\overrightarrow{\mathbf{z}} |\overrightarrow{\alpha}) &amp; = \prod_{m=1}^M p(
 <p>以上游戏是先生成了语料中所有词的topic, 然后对每个词在给定topic的条件下生成 word.在语料中所有词的 topic已经生成的条件下，任何两个word的生成动作都是可交换的。于是我们把语料中的词进行交换，把具有相同topic的词放在一起:</p>
 <p>\begin{equation}
 \begin{split} 
-\overrightarrow{\mathbf{w}}’ &amp;= (\overrightarrow{w}<em _K_="(K)">{(1)}, \cdots, \overrightarrow{w}</em>) \\ 
-\overrightarrow{\mathbf{z}}’ &amp;= (\overrightarrow{z}<em _K_="(K)">{(1)}, \cdots, \overrightarrow{z}</em>) 
+\vec{\mathbf{w}}’ &amp;= (\vec w_{(1)}, \cdots, \vec w_{(K)}) \\ 
+\vec{\mathbf{z}}’ &amp;= (\vec z_{(1)}, \cdots, \vec z_{(K)}) 
 \end{split}
 \end{equation}</p>
-<p>其中，$\overrightarrow{w}<em _k_="(k)">{(k)}$表示这些词都是由第$k$个topic生成的，$\overrightarrow{z}</em>$对应于这些词的topic编号，所以$\overrightarrow{z}_{(k)}$中的分量都是$k$。</p>
-<p>对应于概率图中的第二个物理过程$\overrightarrow{\beta} \rightarrow \overrightarrow{\varphi}<em m_n="m,n">k \rightarrow w</em> | k=z_{m,n}$，在$k=z_{m,n}$的限制下，语料中任何两个由 topic $k$生成的词都是可交换的，即便他们不再同一个文档中，所以我们此处不再考虑文档的概念，转而考虑由同一个topic生成的词。考虑如下过程 $\overrightarrow{\beta} \rightarrow \overrightarrow{\varphi}<em _k_="(k)">k \rightarrow \overrightarrow{w}</em>$，容易看出， 此时$\overrightarrow{\beta} \rightarrow \overrightarrow{\varphi}<em _k_="(k)">k$对应于 Dirichlet分布， $\overrightarrow{\varphi}_k \rightarrow \overrightarrow{w}</em>$对应于 Multinomial 分布， 所以整体也还是一个Dirichlet-Multinomial共轭结构；</p>
+<p>其中，$\vec w_{(k)}$表示这些词都是由第$k$个topic生成的，$\vec z_{(k)}$对应于这些词的topic编号，所以$\vec z_{(k)}$中的分量都是$k$。</p>
+<p>对应于概率图中的第二个物理过程$\vec\beta \rightarrow \vec\varphi_k \rightarrow w_{m,n} | k=z_{m,n}$，在$k=z_{m,n}$的限制下，语料中任何两个由 topic $k$生成的词都是可交换的，即便他们不再同一个文档中，所以我们此处不再考虑文档的概念，转而考虑由同一个topic生成的词。考虑如下过程 $\vec\beta \rightarrow \vec\varphi_k \rightarrow \vec w_{(k)}$，容易看出， 此时$\vec\beta \rightarrow \vec\varphi_k$对应于 Dirichlet分布， $\vec\varphi_k \rightarrow \vec w_{(k)}$对应于 Multinomial 分布， 所以整体也还是一个Dirichlet-Multinomial共轭结构；</p>
 <p><img alt="lda-dir-mult-conjugate-2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-dir-mult-conjugate-2_zps564a3b53.jpg" /></p>
 <p>同样的，我们可以得到:</p>
 <p>\begin{equation}
-p(\overrightarrow{w}_{(k)} |\overrightarrow{\beta}) = \frac{\Delta(\overrightarrow{n}_k+\overrightarrow{\beta})}{\Delta(\overrightarrow{\beta})}
+p(\vec w_{(k)} |\vec\beta) = \frac{\Delta( n_k+\vec\beta)}{\Delta(\vec\beta)}
 \end{equation}</p>
-<p>其中$\overrightarrow{n}<em k="k">k = (n</em>^{(1)}, \cdots, n_{k}^{(V)})$， $n_{k}^{(t)}$表示第$k$个topic产生的词中 word $t$的个数。进一步，利用Dirichlet-Multiomial共轭结构，我们得到参数$\overrightarrow{\varphi}_k$的后验分布恰好是$Dir( \overrightarrow{\varphi}_k| \overrightarrow{n}_k + \overrightarrow{\beta})$.</p>
+<p>其中$ n_k = (n_{k}^{(1)}, \cdots, n_{k}^{(V)})$， $n_{k}^{(t)}$表示第$k$个topic产生的词中 word $t$的个数。进一步，利用Dirichlet-Multiomial共轭结构，我们得到参数$\vec\varphi_k$的后验分布恰好是$Dir( \vec\varphi_k|  n_k + \vec\beta)$.</p>
 <p>而语料中$K$个topics生成words的过程相互独立，所以我们得到$K$个相互独立的Dirichlet-Multinomial共轭结构，从而我们可以得到整个语料中词生成概率:</p>
 <p>\begin{equation}
 \begin{split} 
-p(\overrightarrow{\mathbf{w}} |\overrightarrow{\mathbf{z}},\overrightarrow{\beta}) &amp;= p(\overrightarrow{\mathbf{w}}’ |\overrightarrow{\mathbf{z}}’,\overrightarrow{\beta}) \notag \\ 
-&amp;= \prod_{k=1}^K p(\overrightarrow{w}<em _k_="(k)">{(k)} | \overrightarrow{z}</em>, \overrightarrow{\beta}) \notag \\ 
-&amp;= \prod_{k=1}^K \frac{\Delta(\overrightarrow{n}_k+\overrightarrow{\beta})}{\Delta(\overrightarrow{\beta})}  \quad\quad (**) 
+p(\vec{\mathbf{w}} |\vec{\mathbf{z}},\vec\beta) &amp;= p(\vec{\mathbf{w}}’ |\vec{\mathbf{z}}’,\vec\beta) \notag \\ 
+&amp;= \prod_{k=1}^K p(\vec w_{(k)} | \vec z_{(k)}, \vec\beta) \notag \\ 
+&amp;= \prod_{k=1}^K \frac{\Delta( n_k+\vec\beta)}{\Delta(\vec\beta)}  \quad\quad (**) 
 \end{split}
 \end{equation}</p>
 <p>结合(*)和(**)于是我们得到:</p>
 <p>\begin{equation}
 \begin{split} 
-p(\overrightarrow{\mathbf{w}},\overrightarrow{\mathbf{z}} |\overrightarrow{\alpha}, \overrightarrow{\beta}) &amp;= 
-p(\overrightarrow{\mathbf{w}} |\overrightarrow{\mathbf{z}}, \overrightarrow{\beta}) p(\overrightarrow{\mathbf{z}} |\overrightarrow{\alpha}) \notag \\ 
-&amp;= \prod_{k=1}^K \frac{\Delta(\overrightarrow{n}<em m="1">k+\overrightarrow{\beta})}{\Delta(\overrightarrow{\beta})} 
-\prod</em>^M \frac{\Delta(\overrightarrow{n}_m+\overrightarrow{\alpha})}{\Delta(\overrightarrow{\alpha})}  \quad\quad (***) 
+p(\vec{\mathbf{w}},\vec{\mathbf{z}} |\vec\alpha, \vec\beta) &amp;= 
+p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha) \notag \\ 
+&amp;= \prod_{k=1}^K \frac{\Delta( n_k+\vec\beta)}{\Delta(\vec\beta)} 
+\prod_{m=1}^M \frac{\Delta( n_m+\vec\alpha)}{\Delta(\vec\alpha)}  \quad\quad (***) 
 \end{split}
 \end{equation}</p>
-<p>此处的符号表示稍微不够严谨, 向量$\overrightarrow{n}_k$, $\overrightarrow{n}_m$都用$n$表示， 主要通过下标进行区分， $k$下标为topic编号, $m$下标为文档编号。</p>
+<p>此处的符号表示稍微不够严谨, 向量$ n_k$, $ n_m$都用$n$表示， 主要通过下标进行区分， $k$下标为topic编号, $m$下标为文档编号。</p>
 <h2>Gibbs Sampling</h2>
-<p>有了联合分布$p(\overrightarrow{\mathbf{w}},\overrightarrow{\mathbf{z}})$, 万能的MCMC算法就可以发挥作用了！于是我们可以考虑使用Gibbs Sampling算法对这个分布进行采样。当然由于$\overrightarrow{\mathbf{w}}$是观测到的已知数据，只有$\overrightarrow{\mathbf{z}}$是隐含的变量，所以我们真正需要采样的是分布$p(\overrightarrow{\mathbf{z}}|\overrightarrow{\mathbf{w}})$。在Gregor Heinrich 那篇很有名的LDA 模型科普文章Parameter estimation for text analysis中，是基于(***) 式推导Gibbs Sampling 公式的。此小节中我们使用不同的方式，主要是基于Dirichlet-Multinomial共轭来推导 Gibbs Sampling 公式，这样对于理解采样中的概率物理过程有帮助。</p>
-<p>语料库$\overrightarrow{\mathbf{z}}$中的第$i$个词我们记为$z_i$, 其中$i=(m,n)$是一个二维下标，对应于第$m$篇文档的第$n$个词，我们用$\neg i$表示去除下标为$i$的词。那么按照 Gibbs Sampling 算法的要求，我们要求得任一个坐标轴$i$对应的条件分布$p(z_i = k|\overrightarrow{\mathbf{z}}_{\neg i}, \overrightarrow{\mathbf{w}})$。假设已经观测到的词$w_i=t$, 则由贝叶斯法则，我们容易得到:</p>
-<p>\begin{equation}
-\begin{split} 
-p(z_i = k|\overrightarrow{\mathbf{z}}<em _neg="\neg" i="i">{\neg i}, \overrightarrow{\mathbf{w}}) \propto 
-p(z_i = k, w_i = t |\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}_{\neg i}) \\ 
-\end{split}
-\end{equation}</p>
+<p>有了联合分布$p(\vec{\mathbf{w}},\vec{\mathbf{z}})$, 万能的MCMC算法就可以发挥作用了！于是我们可以考虑使用Gibbs Sampling算法对这个分布进行采样。当然由于$\vec{\mathbf{w}}$是观测到的已知数据，只有$\vec{\mathbf{z}}$是隐含的变量，所以我们真正需要采样的是分布$p(\vec{\mathbf{z}}|\vec{\mathbf{w}})$。在Gregor Heinrich 那篇很有名的LDA 模型科普文章Parameter estimation for text analysis中，是基于(***) 式推导Gibbs Sampling 公式的。此小节中我们使用不同的方式，主要是基于Dirichlet-Multinomial共轭来推导 Gibbs Sampling 公式，这样对于理解采样中的概率物理过程有帮助。</p>
+<p>语料库$\vec{\mathbf{z}}$中的第$i$个词我们记为$z_i$, 其中$i=(m,n)$是一个二维下标，对应于第$m$篇文档的第$n$个词，我们用$\neg i$表示去除下标为$i$的词。那么按照 Gibbs Sampling 算法的要求，我们要求得任一个坐标轴$i$对应的条件分布$p(z_i = k|\vec{\mathbf{z}}_{\neg i}, \vec{\mathbf{w}})$。假设已经观测到的词$w_i=t$, 则由贝叶斯法则，我们容易得到:</p>
+<p><img alt="Gibbs_sampling_bayes" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_bayes_rule_zps2af0b023.png" /></p>
 <p>由于$z_i=k,w_i=t$只涉及到第$m$篇文档和第$k$个topic，所以上式的条件概率计算中, 实际上也只会涉及到如下两个Dirichlet-Multinomial 共轭结构:</p>
 <ol>
-<li>$\overrightarrow{\alpha} \rightarrow \overrightarrow{\theta}<em m="m">m \rightarrow \overrightarrow{z}</em>$;</li>
-<li>$\overrightarrow{\beta} \rightarrow \overrightarrow{\varphi}<em _k_="(k)">k \rightarrow \overrightarrow{w}</em>$;</li>
+<li>$\vec\alpha \rightarrow \vec\theta_m \rightarrow \vec z_{m}$;</li>
+<li>$\vec\beta \rightarrow \vec\varphi_k \rightarrow \vec w_{(k)}$;</li>
 </ol>
-<p>其它的$M+K−2$个Dirichlet-Multinomial共轭结构和$z_i=k,w_i=t$是独立的。由于在语料去掉第$i$个词对应的 $(z_i,w_i)$，并不改变我们之前讨论的$M+K$个Dirichlet-Multinomial共轭结构，只是某些地方的计数会减少。所以$\overrightarrow{\theta}_m, \overrightarrow{\varphi}_k$的后验分布都是Dirichlet:</p>
+<p>其它的$M+K−2$个Dirichlet-Multinomial共轭结构和$z_i=k,w_i=t$是独立的。由于在语料去掉第$i$个词对应的 $(z_i,w_i)$，并不改变我们之前讨论的$M+K$个Dirichlet-Multinomial共轭结构，只是某些地方的计数会减少。所以$\vec{\theta}_m, \vec\varphi_k$的后验分布都是Dirichlet:</p>
 <p>\begin{equation}
 \begin{split} 
-p(\overrightarrow{\theta}<em _neg="\neg" i="i">m|\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em i="i" m_neg="m,\neg">{\neg i}) 
-&amp;= Dir(\overrightarrow{\theta}_m| \overrightarrow{n}</em> + \overrightarrow{\alpha}) \\ 
-p(\overrightarrow{\varphi}<em _neg="\neg" i="i">k|\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em i="i" k，_neg="k，\neg">{\neg i}) 
-&amp;= Dir( \overrightarrow{\varphi}_k| \overrightarrow{n}</em> + \overrightarrow{\beta}) 
+p(\vec\theta_m|\vec\mathbf{z}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</em>) 
+&amp;= Dir(\vec{\theta}<em i="i" m_neg="m,\neg">m|  n</em> + \vec\alpha) \\ 
+p(\vec\varphi_k|\vec\mathbf{z}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</em>) 
+&amp;= Dir( \vec\varphi_k|  n_{k，\neg i} + \vec\beta) 
 \end{split}
 \end{equation}</p>
 <p>使用上面两个式子，把以上想法综合一下，我们就得到了如下的Gibbs Sampling公式的推导:</p>
-<p>\begin{equation}
-\begin{split} 
-p(z_i = k|\overrightarrow{\mathbf{z}}<em _neg="\neg" i="i">{\neg i}, \overrightarrow{\mathbf{w}}) &amp; \propto 
-p(z_i = k, w_i = t |\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em _neg="\neg" i="i">{\neg i}) \\ 
-&amp;= \int p(z_i = k, w_i = t, \overrightarrow{\theta}_m,\overrightarrow{\varphi}_k | 
-\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em _neg="\neg" i="i">{\neg i}) d \overrightarrow{\theta}_m d \overrightarrow{\varphi}_k \\ 
-&amp;= \int p(z_i = k, \overrightarrow{\theta}_m|\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em _neg="\neg" i="i">{\neg i}) 
-\cdot p(w_i = t, \overrightarrow{\varphi}_k | \overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em _neg="\neg" i="i">{\neg i}) 
-d \overrightarrow{\theta}_m d \overrightarrow{\varphi}_k \\ 
-&amp;= \int p(z_i = k |\overrightarrow{\theta}_m) p(\overrightarrow{\theta}_m|\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em _neg="\neg" i="i">{\neg i}) 
-\cdot p(w_i = t |\overrightarrow{\varphi}_k) p(\overrightarrow{\varphi}_k|\overrightarrow{\mathbf{z}}</em>, \overrightarrow{\mathbf{w}}<em i="i" m_neg="m,\neg">{\neg i}) 
-d \overrightarrow{\theta}_m d \overrightarrow{\varphi}_k \\ 
-&amp;= \int p(z_i = k |\overrightarrow{\theta}_m) Dir(\overrightarrow{\theta}_m| \overrightarrow{n}</em> + \overrightarrow{\alpha}) d \overrightarrow{\theta}<em i="i" k_neg="k,\neg">m \\ 
-&amp; \hspace{0.2cm} \cdot \int p(w_i = t |\overrightarrow{\varphi}_k) Dir( \overrightarrow{\varphi}_k| \overrightarrow{n}</em> + \overrightarrow{\beta}) d \overrightarrow{\varphi}<em mk="mk">k \\ 
-&amp;= \int \theta</em> Dir(\overrightarrow{\theta}<em i="i" m_neg="m,\neg">m| \overrightarrow{n}</em> + \overrightarrow{\alpha}) d \overrightarrow{\theta}<em kt="kt">m 
-\cdot \int \varphi</em> Dir( \overrightarrow{\varphi}<em i="i" k_neg="k,\neg">k| \overrightarrow{n}</em> + \overrightarrow{\beta}) d \overrightarrow{\varphi}<em mk="mk">k \\ 
-&amp;= E(\theta</em>) \cdot E(\varphi_{kt}) \\ 
-&amp;= \hat{\theta}<em kt="kt">{mk} \cdot \hat{\varphi}</em> \\ 
-\end{split}
-\end{equation}</p>
+<p><img alt="Gibbs_sampling_formula_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_1_zps3d14e122.png" /></p>
 <p>以上推导估计是整篇文章中最复杂的数学了，表面上看上去复杂，但是推导过程中的概率物理意义是简单明了的：$z_i=k,w_i=t$的概率只和两个Dirichlet-Multinomial共轭结构关联。而最终得到的$\hat{\theta}<em kt="kt">{mk}, \hat{\varphi}</em>$就是对应的两个Dirichlet后验分布在贝叶斯框架下的参数估计。借助于前面介绍的Dirichlet 参数估计的公式 ，我们有:</p>
 <p>\begin{equation}
 \begin{split} 
-\hat{\theta}<em i="i" m_neg="m,\neg">{mk} &amp;= \frac{n</em>^{(k)} + \alpha_k}{\sum_{k=1}^K (n_{m,\neg i}^{(k)} + \alpha_k)} \\ 
-\hat{\varphi}<em i="i" k_neg="k,\neg">{kt} &amp;= \frac{n</em>^{(t)} + \beta_t}{\sum_{t=1}^V (n_{k,\neg i}^{(t)} + \beta_t)} 
+\hat\theta_{mk} &amp;= \frac{n_{m,\neg i}^{(k)} + \alpha_k}{\sum_{k=1}^K (n_{m,\neg i}^{(k)} + \alpha_k)} \\ 
+\hat\varphi_{kt} &amp;= \frac{n_{k,\neg i}^{(t)} + \beta_t}{\sum_{t=1}^V (n_{k,\neg i}^{(t)} + \beta_t)} 
 \end{split}
 \end{equation}</p>
 <p>于是，我们最终得到了LDA模型的Gibbs Sampling公式:</p>
-<p>\begin{equation}<br />
-p(z_i = k|\overrightarrow{\mathbf{z}}<em i="i" m_neg="m,\neg">{\neg i}, \overrightarrow{\mathbf{w}}) \propto 
-\frac{n</em>^{(k)} + \alpha_k}{\sum_{k=1}^K (n_{m,\neg i}^{(k)} + \alpha_k)} 
-\cdot \frac{n_{k,\neg i}^{(t)} + \beta_t}{\sum_{t=1}^V (n_{k,\neg i}^{(t)} + \beta_t)} 
-\end{equation}</p>
+<p><img alt="Gibbs_sampling_formula_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_2_zps3cc27196.png" /></p>
 <p>这个公式是很漂亮的， 右边其实就是$p(topic|doc)⋅p(word|topic)$,这个概率其实是doc→topic→word的路径概率，由于topic 有$K$个，所以Gibbs Sampling 公式的物理意义其实就是在这$K$条路径中进行采样。</p>
 <p><img alt="doc-topic-word" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs-path-search_zpsb83099d8.jpg" /></p>
 <h2>Training and Inference</h2>
 <p>有了LDA模型，当然我们的目标有两个:</p>
 <ul>
-<li>估计模型中的参数$\overrightarrow{\varphi}_1, \cdots, \overrightarrow{\varphi}_K$和$\overrightarrow{\theta}_1, \cdots, \overrightarrow{\theta}_M$；</li>
-<li>对于新来的一篇文档$doc_{new}$，我们能够计算这篇文档的topic分布$\overrightarrow{\theta}_{new}$。</li>
+<li>估计模型中的参数$\vec\varphi_1, \cdots, \vec\varphi_K$和$\vec{\theta}_1, \cdots, \vec{\theta}_M$；</li>
+<li>对于新来的一篇文档$doc_{new}$，我们能够计算这篇文档的topic分布$\vec{\theta}_{new}$。</li>
 </ul>
 <p>有了Gibbs Sampling公式， 我们就可以基于语料训练LDA模型，并应用训练得到的模型对新的文档进行topic 语义分析。训练的过程就是获取语料中的$(z,w)$的样本，而模型中的所有的参数都可以基于最终采样得到的样本进行估计。训练的流程很简单:</p>
 <p><img alt="LDA Training" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-training_zpsa31be49e.jpg" /></p>
 <p>对于Gibbs Sampling算法实现的细节，请参考Gregor Heinrich的 Parameter estimation for text analysis 中对算法的描述，以及PLDA(http://code.google.com/p/plda)的代码实现，此处不再赘述。</p>
-<p>由这个topic-word频率矩阵我们可以计算每一个$p(word|topic)$概率，从而算出模型参数$\overrightarrow{\varphi}_1, \cdots, \overrightarrow{\varphi}_K$, 这就是上帝用的$K$个topic-word骰子。当然，语料中的文档对应的骰子参数$\overrightarrow{\theta}_1, \cdots, \overrightarrow{\theta}_M$在以上训练过程中也是可以计算出来的，只要在Gibbs Sampling收敛之后，统计每篇文档中的topic的频率分布，我们就可以计算每一个$p(topic|doc)$概率，于是就可以计算出每一个$\overrightarrow{\theta}_m$。由于参数$\overrightarrow{\theta}_m$是和训练语料中的每篇文档相关的，对于我们理解新的文档并无用处，所以工程上最终存储LDA模型时候一般没有必要保留。通常，在LDA模型训练的过程中，我们是取Gibbs Sampling收敛之后的$n$个迭代的结果进行平均来做参数估计，这样模型质量更高。</p>
-<p>有了LDA的模型，对于新来的文档 $doc_{new}$, 我们如何做该文档的topic语义分布的计算呢？基本上inference的过程和training的过程完全类似。对于新的文档， 我们只要认为Gibbs Sampling公式中的$\hat{\varphi}<em new="new">{kt}$部分是稳定不变的，是由训练语料得到的模型提供的，所以采样过程中我们只要估计该文档的topic分布$\overrightarrow{\theta}</em>$就好了。</p>
+<p>由这个topic-word频率矩阵我们可以计算每一个$p(word|topic)$概率，从而算出模型参数$\vec\varphi_1, \cdots, \vec\varphi_K$, 这就是上帝用的$K$个topic-word骰子。当然，语料中的文档对应的骰子参数$\vec{\theta}_1, \cdots, \vec{\theta}_M$在以上训练过程中也是可以计算出来的，只要在Gibbs Sampling收敛之后，统计每篇文档中的topic的频率分布，我们就可以计算每一个$p(topic|doc)$概率，于是就可以计算出每一个$\vec{\theta}_m$。由于参数$\vec{\theta}_m$是和训练语料中的每篇文档相关的，对于我们理解新的文档并无用处，所以工程上最终存储LDA模型时候一般没有必要保留。通常，在LDA模型训练的过程中，我们是取Gibbs Sampling收敛之后的$n$个迭代的结果进行平均来做参数估计，这样模型质量更高。</p>
+<p>有了LDA的模型，对于新来的文档 $doc_{new}$, 我们如何做该文档的topic语义分布的计算呢？基本上inference的过程和training的过程完全类似。对于新的文档， 我们只要认为Gibbs Sampling公式中的$\hat\varphi_{kt}$部分是稳定不变的，是由训练语料得到的模型提供的，所以采样过程中我们只要估计该文档的topic分布$\vec{\theta}_{new}$就好了。</p>
 <p><img alt="LDA Inference" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-inference_zpsaa5c9320.jpg" /></p>
 <h2>后记LDA</h2>
-<p>对于专业做机器学习的兄弟而言，只能算是一个简单的Topic Model。但是对于互联网中做数据挖掘、语义分析的工程师，LDA 的门槛并不低。 LDA 典型的属于这样一种机器学习模型：要想理解它，需要比较多的数学背景，要在工程上进行实现，却相对简单。 Gregor Heinrich 的LDA 模型科普文章 Parameter estimation for text analysis 写得非常的出色，这是学习 LDA 的必看文章。不过即便是这篇文章，对于工程师也是有门槛的。我写的这个科普最好对照 Gregor Heinrich 的这篇文章来看， 我用的数学符号也是尽可能和这篇文章保持一致。这份LDA 科普是基于给组内兄弟做报告的 ppt 整理而成的，说是科普其实也不简单，涉及到的数学还是太多。在工业界也混了几年，经常感觉到工程师对于学术界的玩的模型有很强的学习和尝试的欲望，只是学习成本往往太高。所以我写 LDA 的初衷就是写给工业界的工程师们看的，希望把学术界玩的一些模型用相对通俗的方式介绍给工程师；如果这个科普对于读研究生的一些兄弟姐妹也有所启发，只能说那是一个 side effect :-)。我个人很喜欢LDA ，它是在文本建模中一个非常优雅的模型，相比于很多其它的贝叶斯模型， LDA 在数学推导上简洁优美。学术界自 2003 年以来也输出了很多基于LDA 的 Topic Model 的变体，要想理解这些更加高级的 Topic Model, 首先需要很好的理解标准的 LDA 模型。在工业界， Topic Model 在 Google、Baidu 等大公司的产品的语义分析中都有着重要的应用；所以Topic Model 对于工程师而言，这是一个很有应用价值、值得学习的模型。我接触 Topic Model 的时间不长，主要是由于2年前和 PLDA 的作者 Wangyi 一起合作的过程中，从他身上学到了很多 Topic Model 方面的知识。关于 LDA 的相关知识，其实可以写的还有很多：如何提高 LDA Gibbs Sampling 的速度、如何优化超参数、如何做大规模并行化、LDA 的应用、LDA 的各种变体…… 不过我的主要目标还是科普如何理解标准的LDA 模型。学习一个模型的时候我喜欢追根溯源，常常希望把模型中的每一个数学推导的细节搞明白，把公式的物理意义想清楚，不过数学推导本身并不是我想要的，把数学推导还原为物理过程才是我乐意做的事。最后引用一下物理学家费曼的名言结束 LDA 的数学科普：</p>
+<p>对于专业做机器学习的兄弟而言，只能算是一个简单的Topic Model。但是对于互联网中做数据挖掘、语义分析的工程师，LDA 的门槛并不低。 LDA 典型的属于这样一种机器学习模型：要想理解它，需要比较多的数学背景，要在工程上进行实现，却相对简单。 Gregor Heinrich 的LDA 模型科普文章 Parameter estimation for text analysis 写得非常的出色，这是学习 LDA 的必看文章。不过即便是这篇文章，对于工程师也是有门槛的。我写的这个科普最好对照 Gregor Heinrich 的这篇文章来看， 我用的数学符号也是尽可能和这篇文章保持一致。这份LDA 科普是基于给组内兄弟做报告的 ppt 整理而成的，说是科普其实也不简单，涉及到的数学还是太多。在工业界也混了几年，经常感觉到工程师对于学术界的玩的模型有很强的学习和尝试的欲望，只是学习成本往往太高。所以我写 LDA 的初衷就是写给工业界的工程师们看的，希望把学术界玩的一些模型用相对通俗的方式介绍给工程师；如果这个科普对于读研究生的一些兄弟姐妹也有所启发，只能说那是一个 side effect :-)。我个人很喜欢LDA ，它是在文本建模中一个非常优雅的模型，相比于很多其它的贝叶斯模型， LDA 在数学推导上简洁优美。学术界自 2003 年以来也输出了很多基于LDA 的 Topic Model 的变体，要想理解这些更加高级的 Topic Model, 首先需要很好的理解标准的 LDA 模型。在工业界， Topic Model 在 Google、Baidu 等大公司的产品的语义分析中都有着重要的应用；所以Topic Model 对于工程师而言，这是一个很有应用价值、值得学习的模型。我接触 Topic Model 的时间不长，主要是由于2年前和 PLDA 的作者 Wangyi 一起合作的过程中，从他身上学到了很多 Topic Model 方面的知识。关于 LDA 的相关知识，其实可以写的还有很多：如何提高 LDA Gibbs Sampling 的速度、如何优化超参数、如何做大规模并行化、LDA 的应用、LDA 的各种变体…… 不过我的主要目标还是科普如何理解标准的LDA模型。学习一个模型的时候我喜欢追根溯源，常常希望把模型中的每一个数学推导的细节搞明白，把公式的物理意义想清楚，不过数学推导本身并不是我想要的，把数学推导还原为物理过程才是我乐意做的事。最后引用一下物理学家费曼的名言结束 LDA 的数学科普：</p>
 <blockquote>
 <p>What I cannot create, I do not understand. — Richard Feynman</p>
 </blockquote><script type= "text/javascript">
