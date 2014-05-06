@@ -146,8 +146,8 @@ b(i) = b(n, \frac{1}{2}, i) = \binom{n}{i}(\frac{1}{2})^n
 \end{equation}</p>
 <p>我们在大学学习数理统计的时候，学习的过程都是先学习了正态分布，然后才学习中心极限定理。而学习到正态分布的时候，直接就描述了其概率密度的数学形式，虽然数学上很漂亮，但是当时很容易困惑数学家们是如何凭空就找到这个分布的。读了陈希孺的《数理统计学简史》之后，我才明白正态分布的密度形式首次发现是在棣莫弗-拉普拉斯的中心极限定理中。数学家研究数学问题的进程很少是按照我们数学课本的安排顺序推进的，现代的数学课本都是按照数学内在的逻辑进行组织编排的，虽然逻辑结构上严谨优美，却把数学问题研究的历史痕迹抹得一干二净。DNA 双螺旋结构的发现者之一 Waston 在他的名著《DNA 双螺旋》序言中说：“科学的发现很少会像门外汉所想象的一样，按照直接了当合乎逻辑的方式进行的。”</p>
 <p>棣莫弗出他的发现后40年（大约是 1770),拉普拉斯建立了中心极限定理较一般的形式，中心极限定理后续又被其它数学家们推广到了其它任意分布的情形，而不限于二项分布。后续的统计学家发现，一系列的重要统计量，在样本量$N$趋于无穷的时候， 其极限分布都有正态的形式， 这构成了数理统计学中大样本理论的基础。</p>
-<p>棣莫弗在二项分布的计算中瞥见了正态曲线的模样，不过他并没有能展现这个曲线的美妙之处。棣莫弗的这个工作当时并没有引起人们足够的重视，原因在于棣莫弗不是个统计学家，从未从统计学的角度去考虑其工作的意义。 正态分布(当时也没有被命名为正态分布) 在当时也只是以极限分布的形式出现，并没有在统计学，尤其是误差分析中发挥作用。这也就是正态分布最终没有被冠名棣莫弗分布的重要原因。 那高斯做了啥工作导致统计学家把正态分布的这顶桂冠戴在了他的头上呢？这先得从最小二乘法的发展说起。
-<strong>[本部分待续]</strong></p>
+<p>棣莫弗在二项分布的计算中瞥见了正态曲线的模样，不过他并没有能展现这个曲线的美妙之处。棣莫弗的这个工作当时并没有引起人们足够的重视，原因在于棣莫弗不是个统计学家，从未从统计学的角度去考虑其工作的意义。 正态分布(当时也没有被命名为正态分布) 在当时也只是以极限分布的形式出现，并没有在统计学，尤其是误差分析中发挥作用。这也就是正态分布最终没有被冠名棣莫弗分布的重要原因。 那高斯做了啥工作导致统计学家把正态分布的这顶桂冠戴在了他的头上呢？这先得从最小二乘法的发展说起。</p>
+<p><strong>[本部分待续]</strong></p>
 <h1>MCMC 和 Gibbs Sampling</h1>
 <hr />
 <h2>随机模拟</h2>
@@ -294,9 +294,7 @@ p(i)q(i,j)\alpha(i,j)=p(j)q(j,i)\alpha(j,i) \quad (∗)
 \alpha(i,j)=p(j)q(j,i)，\alpha(j,i)=p(i)q(i,j)
 \end{equation}</p>
 <p>于是(*)式就成立了。所以有:</p>
-<p>\begin{equation} 
-p(i) \underbrace{q(i,j)\alpha(i,j)}<em Q_prime_j_i_="Q\prime(j,i)">{Q\prime(i,j)}= p(j) \underbrace{q(j,i)\alpha(j,i)}</em>  \quad (**) 
-\end{equation}</p>
+<p><img alt="Construct_Proposal" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/construct_proposal_zpsa66cecb9.png" /></p>
 <p>于是我们把原来具有转移矩阵$Q$的一个很普通的马氏链，改造为了具有转移矩阵$Q\prime$的马氏链，而 $Q\prime$恰好满足细致平稳条件，由此马氏链$Q\prime$的平稳分布就是$p(x)$了!</p>
 <p>在改造$Q$的过程中引入的$\alpha(i,j)$称为接受率，物理意义可以理解为在原来的马氏链上，从状态$i$以$q(i,j)$的概率转跳转到状态$j$的时候，我们以$\alpha(i,j)$的概率接受这个转移，于是得到新的马氏链$Q\prime$的转移概率为$q(i,j)\alpha(i,j)$。</p>
 <p><img alt="mcmc-transition1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/mcmc-transition1_zpsf3e7c727.jpg" /></p>
@@ -313,9 +311,7 @@ p(i)q(i,j)×0.1=p(j)q(j,i)×0.2
 p(i)q(i,j)×0.5=p(j)q(j,i)×1
 \end{equation}</p>
 <p>看，我们提高了接受率，而细致平稳条件并没有打破！这启发我们可以把细致平稳条件(**) 式中的$\alpha(i,j),\alpha(j,i)$同比例放大，使得两数中最大的一个放大到1，这样我们就提高了采样中的跳转接受率。所以我们可以取:</p>
-<p>\begin{equation}
-\alpha(i,j) = \min\left{\frac{p(j)q(j,i)}{p(i)q(i,j)},1\right}
-\end{equation}</p>
+<p><img alt="Choose_Alpha" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/choose_alpha_zps820b59d0.png" /></p>
 <p>于是，经过对上述MCMC采样算法中接受率的微小改造，我们就得到了如下教科书中最常见的<strong>Metropolis-Hastings算法</strong>。</p>
 <p><img alt="mcmc-algo-2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/mcmc-algo-2_zps26a1c8bb.jpg" /></p>
 <p>对于分布$p(x)$,我们构造转移矩阵$Q\prime$使其满足细致平稳条件:</p>
@@ -351,8 +347,8 @@ p(A)p(x_2|y_1)=p(C)p(x_1|y_1)
 <p>于是我们可以如下构造平面上任意两点之间的转移概率矩阵$Q$:</p>
 <p>\begin{equation}
 \begin{split} 
-Q(A\rightarrow B) &amp; = p(y_B|x_1) &amp; \text{如果} \quad x_A=x_B=x_1 &amp; \ 
-Q(A\rightarrow C) &amp; = p(x_C|y_1) &amp; \text{如果} \quad y_A=y_C=y_1 &amp; \ 
+Q(A\rightarrow B) &amp; = p(y_B|x_1) &amp; \text{如果} \quad x_A=x_B=x_1 &amp; \\ 
+Q(A\rightarrow C) &amp; = p(x_C|y_1) &amp; \text{如果} \quad y_A=y_C=y_1 &amp; \\ 
 Q(A\rightarrow D) &amp; = 0 &amp; \text{其它} &amp; 
 \end{split}
 \end{equation}</p>
