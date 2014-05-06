@@ -59,7 +59,7 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="./zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html"><h1>自然语言处理(序章):我爱自然语言处理(II)</h1></a>
+            <a href="./qiang-lie-tui-jian-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html"><h1>[墙裂推荐]自然语言处理(序章):我爱自然语言处理(II)</h1></a>
         </div>
     </div>
     <div class="row-fluid">
@@ -77,6 +77,9 @@ Filed under <a href="./category/pearls.html">Pearls</a>
       </div>
       <div class="article-content span8">
 	<p>本文紧接上一篇<a href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">自然语言处理(序章):我爱自然语言处理(I)</a>,由于文章篇幅过长导致编辑器响应速度变慢,所以将其拆分为两篇,本文即为第二部分。(<strong>本博文引用内容版权属我爱自然语言博客作者及其引用文章作者,特此再次声明</strong>)。</p>
+<blockquote>
+<p><strong>小编推荐</strong>:本部分是我爱自然语言博客里写的最好的几篇文章了,墙裂推荐阅读;通过阅读本部分的文章,我对Metropolis Hastings算法以及Gibbs Sampling有了更为深入的了解。BTW,数学史真的很好玩啊！</p>
+</blockquote>
 <h1>MCMC 和 Gibbs Sampling</h1>
 <hr />
 <h2>随机模拟</h2>
@@ -505,9 +508,9 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 <p>其它的$M+K−2$个Dirichlet-Multinomial共轭结构和$z_i=k,w_i=t$是独立的。由于在语料去掉第$i$个词对应的 $(z_i,w_i)$，并不改变我们之前讨论的$M+K$个Dirichlet-Multinomial共轭结构，只是某些地方的计数会减少。所以$\vec{\theta}_m, \vec\varphi_k$的后验分布都是Dirichlet:</p>
 <p>\begin{equation}
 \begin{split} 
-p(\vec\theta_m|\vec\mathbf{z}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</em>) 
-&amp;= Dir(\vec{\theta}<em i="i" m_neg="m,\neg">m|  n</em> + \vec\alpha) \\ 
-p(\vec\varphi_k|\vec\mathbf{z}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</em>) 
+p(\vec\theta_m|\vec{\mathbf{z}}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</em>) 
+&amp;= Dir(\vec\theta_m|  n_{m,\neg i} + \vec\alpha) \\ 
+p(\vec\varphi_k|\vec{\mathbf{z}}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</em>) 
 &amp;= Dir( \vec\varphi_k|  n_{k，\neg i} + \vec\beta) 
 \end{split}
 \end{equation}</p>
@@ -571,7 +574,7 @@ p(\vec\varphi_k|\vec\mathbf{z}<em _neg="\neg" i="i">{\neg i}, \vec{\mathbf{w}}</
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="./zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html">
+	<a class="btn btn-mini xsmall" href="./qiang-lie-tui-jian-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>

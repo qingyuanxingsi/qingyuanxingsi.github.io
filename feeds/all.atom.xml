@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-06T00:00:00+08:00</updated><entry><title>自然语言处理(序章):我爱自然语言处理(II)</title><link href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html" rel="alternate"></link><updated>2014-05-06T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-06:zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html</id><summary type="html">&lt;p&gt;本文紧接上一篇&lt;a href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html"&gt;自然语言处理(序章):我爱自然语言处理(I)&lt;/a&gt;,由于文章篇幅过长导致编辑器响应速度变慢,所以将其拆分为两篇,本文即为第二部分。(&lt;strong&gt;本博文引用内容版权属我爱自然语言博客作者及其引用文章作者,特此再次声明&lt;/strong&gt;)。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-06T00:00:00+08:00</updated><entry><title>[墙裂推荐]自然语言处理(序章):我爱自然语言处理(II)</title><link href="http://www.qingyuanxingsi.com/qiang-lie-tui-jian-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html" rel="alternate"></link><updated>2014-05-06T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-06:qiang-lie-tui-jian-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-ii.html</id><summary type="html">&lt;p&gt;本文紧接上一篇&lt;a href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html"&gt;自然语言处理(序章):我爱自然语言处理(I)&lt;/a&gt;,由于文章篇幅过长导致编辑器响应速度变慢,所以将其拆分为两篇,本文即为第二部分。(&lt;strong&gt;本博文引用内容版权属我爱自然语言博客作者及其引用文章作者,特此再次声明&lt;/strong&gt;)。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;小编推荐&lt;/strong&gt;:本部分是我爱自然语言博客里写的最好的几篇文章了,墙裂推荐阅读;通过阅读本部分的文章,我对Metropolis Hastings算法以及Gibbs Sampling有了更为深入的了解。BTW,数学史真的很好玩啊！&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1&gt;MCMC 和 Gibbs Sampling&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;h2&gt;随机模拟&lt;/h2&gt;
@@ -428,9 +431,9 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 &lt;p&gt;其它的$M+K−2$个Dirichlet-Multinomial共轭结构和$z_i=k,w_i=t$是独立的。由于在语料去掉第$i$个词对应的 $(z_i,w_i)$，并不改变我们之前讨论的$M+K$个Dirichlet-Multinomial共轭结构，只是某些地方的计数会减少。所以$\vec{\theta}_m, \vec\varphi_k$的后验分布都是Dirichlet:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \begin{split} 
-p(\vec\theta_m|\vec\mathbf{z}&lt;em _neg="\neg" i="i"&gt;{\neg i}, \vec{\mathbf{w}}&lt;/em&gt;) 
-&amp;amp;= Dir(\vec{\theta}&lt;em i="i" m_neg="m,\neg"&gt;m|  n&lt;/em&gt; + \vec\alpha) \\ 
-p(\vec\varphi_k|\vec\mathbf{z}&lt;em _neg="\neg" i="i"&gt;{\neg i}, \vec{\mathbf{w}}&lt;/em&gt;) 
+p(\vec\theta_m|\vec{\mathbf{z}}&lt;em _neg="\neg" i="i"&gt;{\neg i}, \vec{\mathbf{w}}&lt;/em&gt;) 
+&amp;amp;= Dir(\vec\theta_m|  n_{m,\neg i} + \vec\alpha) \\ 
+p(\vec\varphi_k|\vec{\mathbf{z}}&lt;em _neg="\neg" i="i"&gt;{\neg i}, \vec{\mathbf{w}}&lt;/em&gt;) 
 &amp;amp;= Dir( \vec\varphi_k|  n_{k，\neg i} + \vec\beta) 
 \end{split}
 \end{equation}&lt;/p&gt;
