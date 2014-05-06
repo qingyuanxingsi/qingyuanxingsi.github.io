@@ -609,6 +609,29 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;p&gt;&lt;a href="http://www.eurandom.tue.nl/events/workshops/2010/YESIV/Prog-Abstr_files/Ghahramani-lecture2.pdf"&gt;Introduction to Gaussian Process&lt;/a&gt;
 * 今天看自然语言处理Standford公开课的时候看到最大熵模型(Maximum Entropy Models),视频讲的实在太罗嗦了,在网上找了找,下面这个PPT貌似还挺不错的。(原始PPT有部分错误,以下网盘共享文件是部分修正后版本,可能还会有错误,欢迎指出)&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://pan.baidu.com/s/1gdze7h5"&gt;Maximum Entropy Model&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;EM/pLSA/LDA的一些参考资料&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Christopher M. Bishop. Pattern Recognition and Machine Learning (Information Science and Statistics). Springer-Verlag New York, Inc., Secaucus, NJ, USA, 2006.&lt;/li&gt;
+&lt;li&gt;Gregor Heinrich. Parameter estimation for text analysis. Technical report, 2004.&lt;/li&gt;
+&lt;li&gt;Wayne Xin Zhao, Note for pLSA and LDA, Technical report, 2011.&lt;/li&gt;
+&lt;li&gt;CX Zhai, A note on the expectation-maximization (em) algorithm 2007&lt;/li&gt;
+&lt;li&gt;Qiaozhu Mei, A Note on EM Algorithm for Probabilistic Latent Semantic Analysis 2008&lt;/li&gt;
+&lt;li&gt;Christopher D. Manning, Prabhakar Raghavan and Hinrich Schütze, Introduction to Information Retrieval, Cambridge University Press. 2008.&lt;/li&gt;
+&lt;li&gt;Freddy Chong Tat Chua. Dimensionality reduction and clustering of text documents.Technical report, 2009.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;LDA算法伪代码实现参考&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.arbylon.net/projects/"&gt;Gregor Heinrich’s LDA-J&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.gatsby.ucl.ac.uk/teaching/courses/ml1-2008.html"&gt;Yee Whye Teh’s Gibbs LDA Matlab codes&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://psiexp.ss.uci.edu/research/programs_data/toolbox.htm"&gt;Mark Steyvers and Tom Griffiths’s topic modeling matlab toolbox&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://gibbslda.sourceforge.net/"&gt;GibbsLDA++&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h1&gt;PGM&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
@@ -671,6 +694,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;li&gt;支持向量机番外篇I:&lt;a href="http://blog.pluskid.org/?p=702"&gt;支持向量机：Duality&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;支持向量机番外篇II:&lt;a href="http://blog.pluskid.org/?p=723"&gt;支持向量机：Kernel II&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;Apriori算法细节&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pLSA算法EM算法求解&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
