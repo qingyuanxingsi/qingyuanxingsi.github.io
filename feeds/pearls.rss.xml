@@ -429,14 +429,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 &lt;li&gt;$\vec\beta \rightarrow \vec\varphi_k \rightarrow \vec w_{(k)}$;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;其它的$M+K−2$个Dirichlet-Multinomial共轭结构和$z_i=k,w_i=t$是独立的。由于在语料去掉第$i$个词对应的 $(z_i,w_i)$，并不改变我们之前讨论的$M+K$个Dirichlet-Multinomial共轭结构，只是某些地方的计数会减少。所以$\vec{\theta}_m, \vec\varphi_k$的后验分布都是Dirichlet:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\begin{split} 
-p(\vec\theta_m|\vec{\mathbf{z}}&lt;em _neg="\neg" i="i"&gt;{\neg i}, \vec{\mathbf{w}}&lt;/em&gt;) 
-&amp;amp;= Dir(\vec\theta_m|  n_{m,\neg i} + \vec\alpha) \\ 
-p(\vec\varphi_k|\vec{\mathbf{z}}&lt;em _neg="\neg" i="i"&gt;{\neg i}, \vec{\mathbf{w}}&lt;/em&gt;) 
-&amp;amp;= Dir( \vec\varphi_k|  n_{k，\neg i} + \vec\beta) 
-\end{split}
-\end{equation}&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Posterior_Dirichlet" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/posterior_dirichlet_zpsba59a8e5.png" /&gt;&lt;/p&gt;
 &lt;p&gt;使用上面两个式子，把以上想法综合一下，我们就得到了如下的Gibbs Sampling公式的推导:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Gibbs_sampling_formula_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_1_zps3d14e122.png" /&gt;&lt;/p&gt;
 &lt;p&gt;以上推导估计是整篇文章中最复杂的数学了，表面上看上去复杂，但是推导过程中的概率物理意义是简单明了的：$z_i=k,w_i=t$的概率只和两个Dirichlet-Multinomial共轭结构关联。而最终得到的$\hat{\theta}&lt;em kt="kt"&gt;{mk}, \hat{\varphi}&lt;/em&gt;$就是对应的两个Dirichlet后验分布在贝叶斯框架下的参数估计。借助于前面介绍的Dirichlet 参数估计的公式 ，我们有:&lt;/p&gt;
