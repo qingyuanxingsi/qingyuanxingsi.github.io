@@ -59,133 +59,102 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html"><h1>机器学习拾遗(II):大杂烩</h1></a>
+            <a href="../ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html"><h1>机器学习番外篇之在线学习(I):Online Learning与感知器</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>五 02 五月 2014 </p>
+<p>四 08 五月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="../category/notes.html">Notes</a>
+Filed under <a href="../category/pearls.html">Pearls</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/linear-models.html">Linear Models</a> <a href="../tag/notes.html">Notes</a> </p>
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/perception.html">Perception</a> <a href="../tag/online-learning.html">Online Learning</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<p>本文主要对之前看过的<em>Machine Learning:A Probabilistic Perspective</em>一书中有关离散数据生成模型、高斯模型以及线性模型的相关部分进行梳理。</p>
-<h1>Closed Form<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1" title="Closed-form expression">1</a></sup></h1>
-<hr>
-<p>在阅读<em>Machine Learning:A Probabilistic Perspective</em>这本书的时候经常看到<strong>Closed Form</strong>这个词。以下给出一简单说明:</p>
-<p>如果一个表达式可以表示成<strong>有限的</strong>某些特定的<strong>Ｗell-known</strong>函数的形式，那么我们说这个表达式是一个<strong>Closed Form</strong>表达式。一般而言,这些<strong>Well-known</strong>函数包括基本的函数，如常数、单个变量$x$、基本的算术操作、开方、指数对数函数、三角反三角函数等。如果一个问题可以得到一<strong>Closed Form</strong>的解,我们通常就说这个问题是可解的。</p>
-<p><strong>Closed–form</strong>表达式是解析表达式的一个非常重要的子类,解析表达式可包含有限或无限个<strong>Well-known</strong>函数。和更为广泛的解析表达式不同,<strong>Closed–form</strong>表达式并不包含无限级数和递归分数(<em>Continued Fractions</em>)形式，也不能包含积分和极限。</p>
-<p>一个方程或方程组当且仅当它的一个解可写成<strong>Closed-Form</strong>形式时,我们才说该方程或方程组具有一<strong>Closed-form solution</strong>.类似地,一个方程或方程组当且仅当它的一个解可写成解析形式时,我们才说该方程或方程组具有一解析解。</p>
-<h1>Gaussian Models<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2" title="Machine Learning:A Probabilistic Perspective Chapter 4">2</a></sup></h1>
-<hr>
-<h2>Diagonal LDA</h2>
-<p>在GLA中,如果我们限定不同类间共享$\Sigma$,并对每类使用一对角协方差矩阵，我们得到的模型则称为<strong>Diagonal LDA Model</strong>.对应的判别函数如下所示:</p>
+	<p>我们以前讨论的都是批量学习的方法(batch learning),即给定一堆训练样本,我们一次对样本进行训练,然后得到对于模型参数的估计,用得到的模型预测未知样本。而<strong>在线学习</strong>就是要根据新来的样例，边学习，边给出结果。</p>
+<p>假设样例按照到来的先后顺序依次定义为$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)},\cdots,(x^{(m)},y^{(m)}))$。$X$为样本特征，$y$为类别标签。我们的任务是到来一个样例$x$，给出其类别结果$y$的预测值，之后我们会看到$y$的真实值，然后根据真实值来重新调整模型参数，整个过程是重复迭代的过程，直到所有的样例完成。这么看来，我们也可以将原来用于批量学习的样例拿来作为在线学习的样例。在在线学习中我们主要关注在整个预测过程中预测错误的样例数。</p>
+<p>拿二值分类来讲，我们用$y=1$表示正例，$y=-1$表示负例。假设我们采用感知器算法<strong>（Perception algorithm）</strong>进行学习。我们的假设函数为:</p>
 <p>\begin{equation}
-\delta_c(x) = log\ p(x,y=c|\theta) = -\sum_{j=1}^D \frac{(x_j-\mu_{cj})^2}{2\sigma_j^2}+log\ \pi_c
+h_{\theta}(x) = g(\theta^T x)
 \end{equation}</p>
-<p>一般我们令$\hat\mu_{cj} = \bar{x}_{cj}$且$\hat\sigma_j^2=s_j^2$,$s_j^2$称为<em>Pooled empirical variance</em>,定义如下:</p>
-<p>\begin{equation}
-s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
-\end{equation}</p>
-<p>在高维情形下,该模型比LDA和RDA效果都要好。</p>
-<h2>方差MAP估计</h2>
-<p><em>ML</em>(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$\Sigma$的估计写的很复杂,于是基本上没看那部分,关于$\Sigma$的MAP估计可参考以下链接:</p>
-<p><a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a></p>
-<h1>Linear Regression<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 7">3</a></sup></h1>
-<hr>
-<h2>Bayesian Linear Regression</h2>
-<p>给定训练集$D={(x_i,y_i)|i=1,\cdots,n}$,我们有:</p>
-<p><img alt="Design_Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/design_matrix_zpse58dd2c8.png"></p>
-<p>对于Linear Regression,我们有:</p>
+<p>其中$x$是$n+1$维特征向量,最后一维为常量$1$，$\theta$是$n+1$维参数权重,最后一维表示Bias。函数$g$用来将$\theta^Tx$计算结果映射到$-1$和$1$上。具体公式如下：</p>
 <p>\begin{equation}
 \begin{split}
-f(x) &amp; = x^Tw \in R,x,w \in R^D   \\
-y &amp;= f(x) + \epsilon = x^Tw+\epsilon \in R \\
-\epsilon &amp;\sim\ N(0,\sigma^2) \in R
+g(z) = \left \lbrace
+\begin{array}{cc}
+1 &amp; \text{if} \  z \geq 0 \\
+-1 &amp; \text{if} \ z &lt; 0 
+\end{array}
+\right.
 \end{split}
 \end{equation}</p>
-<p>我们首先计算Likelihood:</p>
+<p>这个也是logistic回归中$g$的简化形式。</p>
+<p>现在我们提出一个在线学习算法如下：</p>
+<p>新来一个样例$(x,y)$，我们先用从之前样例学习到的$h_{\theta}(x)$来得到样例的预测值$y$，如果$h_{\theta}(x) = y$（即预测正确），那么不改变$\theta$，反之</p>
 <p>\begin{equation}
-\begin{split}
-P(y|X,w) &amp;= \prod_{i=1}^n P(y_i|x_i^Tw) \\
-&amp;= \prod_{i=1}^n N_{yi}(x_i^Tw,\sigma^2) \\
-&amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp[\frac{-(y_i-x_i^Tw)^2}{2\sigma^2}] \\
-&amp;= \frac{1}{(2\pi\sigma^2)^{n/2}}exp[\frac{-1}{2\sigma^2}||y-X^Tw||^2] \\
-&amp;= N_y(X^Tw,\sigma^2I_n)
-\end{split}
+\theta := \theta + yx
 \end{equation}</p>
-<p>另我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$</p>
-<p>则我们可得Posterior:</p>
-<p>\begin{equation}
-\begin{split}
-P(w|X,y) &amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
-&amp;= \frac{P(y|X,w)P(w)}{\int P(y|X,w)dw}  \\
-&amp;= \frac{N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)}{\int N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)dw} \\
-&amp;\sim\ N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)
-\end{split}
-\end{equation}</p>
-<p>更进一步地,我们有:</p>
-<p><img alt="MAP_Estimation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/map_weight_zps49ddf4b7.png"></p>
+<p>也就是说，如果对于预测错误的样例，$\theta$进行调整时只需加上（实际上为正例）或者减去（实际负例）样本特征$x$值即可。$\theta$初始值为向量0。这里我们关心的是$\theta^Tx$的符号，而不是它的具体值。调整方法非常简单。然而这个简单的调整方法还是很有效的，它的错误率不仅是有上界的，而且这个上界不依赖于样例数和特征维度。</p>
+<p>下面定理阐述了错误率上界：</p>
 <blockquote>
-<p>NOTE:Posterior协方差矩阵并不依赖观察值$y$.</p>
+<p><strong>定理（Block and Novikoff）</strong>:</p>
+<p>给定按照顺序到来的$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)},\cdots,(x^{(m)},y^{(m)}))$样例。假设对于所有的样例$||x^{(i)} \leq D$，也就是说特征向量长度有界为$D$。更进一步，假设存在一个单位长度向量$u$且$y^{(i)}(u^Tx^{(i)})\geq \gamma$。也就是说对于$y=1$的正例，$u^Tx^{(i)} \geq \gamma$，反例$u^Tx^{(i)} \leq -\gamma$，$u$能够有$\gamma$的间隔将正例和反例分开。那么感知算法的预测的错误样例数不超过$({D \over \gamma})^2$。</p>
 </blockquote>
-<p>我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:</p>
-<p><img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"></p>
-<h1>Logistic Regression<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 8">4</a></sup></h1>
-<hr>
-<p><em>ML</em>一书中给出的形式并不便于计算Gradient以及Hessian,以下根据李航<strong>统计学习方法</strong>中的相关内容给出以下较易计算的形式。</p>
-<p>对于给定的训练集$T={(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)}$,其中,$x_i \in R^n,y_i \in {0,1}$,我们令:</p>
+<p>根据对SVM的理解，这个定理就可以阐述为：如果训练样本线性可分，并且几何间距至少是$\gamma$，样例样本特征向量最长为$D$，那么感知算法错误数不会超过$({D \over \gamma})^2$。这个定理是62年提出的，63年Vapnik提出SVM，可见提出也不是偶然的，感知算法也许是当时的热门。</p>
+<p>下面主要讨论这个定理的证明：</p>
+<p>感知算法只在样例预测错误时进行更新，定义$\theta^{(k)}$是第$k$次预测错误时使用的样本特征权重，$\theta^{(1)} = \vec{0}$ 初始化为$\vec{0}$向量。假设第$k$次预测错误发生在样例$(x^{(i)},y^{(i)})$上，利用$\theta^{(k)}$计算$y^{(i)}$值时得到的结果不正确。也就是说下面的公式成立：</p>
 <p>\begin{equation}
-P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
+(x^{(i)})^T\theta^{(k)}y^{(i)} \leq 0
 \end{equation}</p>
-<p>对数似然函数为:
-\begin{equation}
-\begin{split}
-\ell(w) &amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\mu(x_i))] \\
-&amp;= \sum_{i=1}^N [y_i log \frac{\mu(x_i)}{1-\mu(x_i)}+log(1-\mu(x_i))] \\
-&amp;= \sum_{i=1}^N [y_i(w^Tx_i)-log(1+exp(w^Tx_i)]
-\end{split}
-\end{equation}</p>
-<p>为了使用最小值,在<em>ML</em>一书中用到的是Negetive Log Likelihood(NLL),特此说明。</p>
-<p>由此我们得到:</p>
+<p>根据感知算法的更新方法，我们有$\theta^{(k+1)} = \theta^{(k)} + y^{(i)}x^{(i)}$。这时候，两边都乘以$u$得到:</p>
 <p>\begin{equation}
 \begin{split}
-g &amp;= \frac{df(w)}{dw} = \sum_i (\mu_i-y_i)x_i = X^T(\mu-y) \\
-H &amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
-&amp;= \sum_i \mu_i(1-\mu_i)x_ix_i^T \\
-&amp;= X^TSX
+(\theta^{(k+1)})^Tu &amp;= (\theta^{(k)})^u + y^{(i)}(x^{(i)})^Tu  \\
+&amp;\geq (\theta^{(k)})^Tu + \gamma
 \end{split}
 \end{equation}</p>
-<p>其中,$S \triangleq diag(\mu_i(1-\mu_i))$.得到梯度和Hessian矩阵之后,以下我们就能使用最速下降、牛顿法、BFGS等方法对Logistic Regression进行求解了。</p>
-<h1>EM</h1>
-<hr>
-<p>本部分与<em>ML</em>一书第十一章无关,只是为了更清楚地了解<strong>EM算法</strong>。以下给出一个挺不错的PPT:</p>
-<p><a href="http://people.csail.mit.edu/fergus/research/tutorial_em.ppt">Tutorial EM</a></p>
-<blockquote>
-<p><em>TODO Board</em></p>
-<ul>
-<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5" title="Machine Learning:A Probabilistic Perspective Chapter 3">5</a></sup></li>
-<li><em>Regularized LDA</em></li>
-<li><em>Nearest shrunken centroids classifier</em></li>
-<li><em>Numerically stable computation[7.5.2]</em></li>
-<li><em>Connection with PCA[7.5.3]</em></li>
-<li><em>Estimating $\sigma^2$[7.6.3]</em></li>
-<li><em>Evidence Procedure[7.6.4]</em></li>
-<li><em>Conjugate Gradient(CG)</em></li>
-<li><em>BFGS(LBFGS)</em></li>
-<li><em>Multi-class Logistic Regression and Maximum Entropy Classfier</em></li>
-<li><em>Bayesian Logistic Regression[8.4]</em></li>
-<li><em>Online Learning[8.5]</em></li>
-<li><em>Generative vs Discriminative Classfiers[8.6]</em></li>
-</ul>
-</blockquote><script type="text/javascript">
+<p>这个式子是个递推公式，就像等差数列一样$f_{n+1}=f_n+d$。由此我们可得</p>
+<p>\begin{equation}
+(\theta^{(k+1)})^Tu \geq k\gamma
+\end{equation}</p>
+<p>因为初始$\theta$为$\vec{0}$。</p>
+<p>下面我们利用前面推导出的$(x^{(i)})^T\theta^{(k)}y^{(i)} \leq 0$和$||x^{(i)}|| \leq D$得到</p>
+<p>\begin{equation}
+\begin{split}
+||\theta^{(k+1)}||^2 &amp;= ||\theta^{(k)} + y^{(i)}x^{(i)}||^2    \\
+&amp;= ||\theta^{k}||^2 + ||x^{(i)}||^2 + 2y^{(i)}(x^{(i)})^T\theta^{(i)} \\
+&amp;\leq ||\theta^{k}||^2 + ||x^{(i)}||^2 \\
+&amp;\leq ||\theta^{k}||^2 + D^2
+\end{split}
+\end{equation}</p>
+<p>也就是说$\theta^{(k+1)}$的长度平方不会超过$\theta^{(k)}$与$D$的平方和。</p>
+<p>又是一个等差不等式，得到：</p>
+<p>\begin{equation}
+||\theta^{k+1}||^2 \leq kD^2
+\end{equation}</p>
+<p>两边开根号得：</p>
+<p>\begin{equation}
+\begin{split}
+\sqrt{k}D &amp; \geq ||\theta^{(k+1)}||   \\
+&amp; \geq (\theta^{(k+1)})^Tu  \\
+&amp; \geq k\gamma
+\end{split}
+\end{equation}</p>
+<p>其中第二步可能有点迷惑，我们细想u$$是单位向量的话:</p>
+<p>\begin{equation}
+z^Tu = ||z||||u||cos \phi \leq ||z||||u||
+\end{equation}</p>
+<p>因此上面的不等式成立，最后得到：</p>
+<p>\begin{equation}
+k \leq (D/\gamma)^2
+\end{equation}</p>
+<p>也就是预测错误的数目不会超过样本特征向量$x$的最长长度除以几何间隔的平方。实际上整个调整过程中$\theta$就是$x$的线性组合。</p>
+<p><strong>Original Link</strong>:<a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020173.html">在线学习（Online Learning）</a></p><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
@@ -215,14 +184,47 @@ H &amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"><em>Machine Learning:A Probabilistic Perspective Chapter 7</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"><em>Machine Learning:A Probabilistic Perspective Chapter 8</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html">
+ 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html"><h1>机器学习拾遗(II):大杂烩</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>五 02 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/notes.html">Notes</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/linear-models.html">Linear Models</a> <a href="../tag/notes.html">Notes</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>阅读<em>Machine Learning:A Probabilistic Perspective</em>一书关于上述部分的若干章节并对之前未理解的部分内容进行梳理。</p> 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
 
  
         
@@ -316,39 +318,6 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
       <div class="summary span8">
 	<p>本文主要介绍Latent Linear Models,主要介绍因子分析、主成分分析,由于ICA目前未完全看懂,ICA部分暂时搁置,待弄明白后有时间会另外写一篇介绍。</p> 
 	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-vilatent-linear-models.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html"><h1>机器学习系列(V): Generalized linear models and the exponential family</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>三 23 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/exponential-family.html">Exponential Family</a> <a href="../tag/generalized-linear-models.html">Generalized Linear Models</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要介绍广义线性模型以及指数分布族。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>

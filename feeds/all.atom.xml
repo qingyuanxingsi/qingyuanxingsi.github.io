@@ -1,5 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-07T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-07T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-07:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-08T00:00:00+08:00</updated><entry><title>机器学习番外篇之在线学习(I):Online Learning与感知器</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html" rel="alternate"></link><updated>2014-05-08T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-08:ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html</id><summary type="html">&lt;p&gt;我们以前讨论的都是批量学习的方法(batch learning),即给定一堆训练样本,我们一次对样本进行训练,然后得到对于模型参数的估计,用得到的模型预测未知样本。而&lt;strong&gt;在线学习&lt;/strong&gt;就是要根据新来的样例，边学习，边给出结果。&lt;/p&gt;
+&lt;p&gt;假设样例按照到来的先后顺序依次定义为$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)},\cdots,(x^{(m)},y^{(m)}))$。$X$为样本特征，$y$为类别标签。我们的任务是到来一个样例$x$，给出其类别结果$y$的预测值，之后我们会看到$y$的真实值，然后根据真实值来重新调整模型参数，整个过程是重复迭代的过程，直到所有的样例完成。这么看来，我们也可以将原来用于批量学习的样例拿来作为在线学习的样例。在在线学习中我们主要关注在整个预测过程中预测错误的样例数。&lt;/p&gt;
+&lt;p&gt;拿二值分类来讲，我们用$y=1$表示正例，$y=-1$表示负例。假设我们采用感知器算法&lt;strong&gt;（Perception algorithm）&lt;/strong&gt;进行学习。我们的假设函数为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+h_{\theta}(x) = g(\theta^T x)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中$x$是$n+1$维特征向量,最后一维为常量$1$，$\theta$是$n+1$维参数权重,最后一维表示Bias。函数$g$用来将$\theta^Tx$计算结果映射到$-1$和$1$上。具体公式如下：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+g(z) = \left \lbrace
+\begin{array}{cc}
+1 &amp;amp; \text{if} \  z \geq 0 \\
+-1 &amp;amp; \text{if} \ z &amp;lt; 0 
+\end{array}
+\right.
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这个也是logistic回归中$g$的简化形式。&lt;/p&gt;
+&lt;p&gt;现在我们提出一个在线学习算法如下：&lt;/p&gt;
+&lt;p&gt;新来一个样例$(x,y)$，我们先用从之前样例学习到的$h_{\theta}(x)$来得到样例的预测值$y$，如果$h_{\theta}(x) = y$（即预测正确），那么不改变$\theta$，反之&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\theta := \theta + yx
+\end{equation}&lt;/p&gt;
+&lt;p&gt;也就是说，如果对于预测错误的样例，$\theta$进行调整时只需加上（实际上为正例）或者减去（实际负例）样本特征$x$值即可。$\theta$初始值为向量0。这里我们关心的是$\theta^Tx$的符号，而不是它的具体值。调整方法非常简单。然而这个简单的调整方法还是很有效的，它的错误率不仅是有上界的，而且这个上界不依赖于样例数和特征维度。&lt;/p&gt;
+&lt;p&gt;下面定理阐述了错误率上界：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;定理（Block and Novikoff）&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;给定按照顺序到来的$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)},\cdots,(x^{(m)},y^{(m)}))$样例。假设对于所有的样例$||x^{(i)} \leq D$，也就是说特征向量长度有界为$D$。更进一步，假设存在一个单位长度向量$u$且$y^{(i)}(u^Tx^{(i)})\geq \gamma$。也就是说对于$y=1$的正例，$u^Tx^{(i)} \geq \gamma$，反例$u^Tx^{(i)} \leq -\gamma$，$u$能够有$\gamma$的间隔将正例和反例分开。那么感知算法的预测的错误样例数不超过$({D \over \gamma})^2$。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;根据对SVM的理解，这个定理就可以阐述为：如果训练样本线性可分，并且几何间距至少是$\gamma$，样例样本特征向量最长为$D$，那么感知算法错误数不会超过$({D \over \gamma})^2$。这个定理是62年提出的，63年Vapnik提出SVM，可见提出也不是偶然的，感知算法也许是当时的热门。&lt;/p&gt;
+&lt;p&gt;下面主要讨论这个定理的证明：&lt;/p&gt;
+&lt;p&gt;感知算法只在样例预测错误时进行更新，定义$\theta^{(k)}$是第$k$次预测错误时使用的样本特征权重，$\theta^{(1)} = \vec{0}$ 初始化为$\vec{0}$向量。假设第$k$次预测错误发生在样例$(x^{(i)},y^{(i)})$上，利用$\theta^{(k)}$计算$y^{(i)}$值时得到的结果不正确。也就是说下面的公式成立：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+(x^{(i)})^T\theta^{(k)}y^{(i)} \leq 0
+\end{equation}&lt;/p&gt;
+&lt;p&gt;根据感知算法的更新方法，我们有$\theta^{(k+1)} = \theta^{(k)} + y^{(i)}x^{(i)}$。这时候，两边都乘以$u$得到:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+(\theta^{(k+1)})^Tu &amp;amp;= (\theta^{(k)})^u + y^{(i)}(x^{(i)})^Tu  \\
+&amp;amp;\geq (\theta^{(k)})^Tu + \gamma
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这个式子是个递推公式，就像等差数列一样$f_{n+1}=f_n+d$。由此我们可得&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+(\theta^{(k+1)})^Tu \geq k\gamma
+\end{equation}&lt;/p&gt;
+&lt;p&gt;因为初始$\theta$为$\vec{0}$。&lt;/p&gt;
+&lt;p&gt;下面我们利用前面推导出的$(x^{(i)})^T\theta^{(k)}y^{(i)} \leq 0$和$||x^{(i)}|| \leq D$得到&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+||\theta^{(k+1)}||^2 &amp;amp;= ||\theta^{(k)} + y^{(i)}x^{(i)}||^2    \\
+&amp;amp;= ||\theta^{k}||^2 + ||x^{(i)}||^2 + 2y^{(i)}(x^{(i)})^T\theta^{(i)} \\
+&amp;amp;\leq ||\theta^{k}||^2 + ||x^{(i)}||^2 \\
+&amp;amp;\leq ||\theta^{k}||^2 + D^2
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;也就是说$\theta^{(k+1)}$的长度平方不会超过$\theta^{(k)}$与$D$的平方和。&lt;/p&gt;
+&lt;p&gt;又是一个等差不等式，得到：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+||\theta^{k+1}||^2 \leq kD^2
+\end{equation}&lt;/p&gt;
+&lt;p&gt;两边开根号得：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\sqrt{k}D &amp;amp; \geq ||\theta^{(k+1)}||   \\
+&amp;amp; \geq (\theta^{(k+1)})^Tu  \\
+&amp;amp; \geq k\gamma
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中第二步可能有点迷惑，我们细想u$$是单位向量的话:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+z^Tu = ||z||||u||cos \phi \leq ||z||||u||
+\end{equation}&lt;/p&gt;
+&lt;p&gt;因此上面的不等式成立，最后得到：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+k \leq (D/\gamma)^2
+\end{equation}&lt;/p&gt;
+&lt;p&gt;也就是预测错误的数目不会超过样本特征向量$x$的最长长度除以几何间隔的平方。实际上整个调整过程中$\theta$就是$x$的线性组合。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Original Link&lt;/strong&gt;:&lt;a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020173.html"&gt;在线学习（Online Learning）&lt;/a&gt;&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Machine Learning"></category><category term="Perception"></category><category term="Online Learning"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-07T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-07:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;Relation Extration&lt;ul&gt;
