@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-09T00:00:00+08:00</updated><entry><title>RSA是如何炼成的</title><link href="http://www.qingyuanxingsi.com/rsashi-ru-he-lian-cheng-de.html" rel="alternate"></link><updated>2014-05-09T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-09:rsashi-ru-he-lian-cheng-de.html</id><summary type="html">&lt;p&gt;最近为了研究某个极其无聊的问题，读了一些公钥加密的历史，意外地发现这段历史竟然非常有趣。尤其是&lt;strong&gt;RSA&lt;/strong&gt;算法的诞生过程，被很多书写得非常励志，看得人热血澎湃。果然比起算法本身，这些背后的故事更能吸引我的兴趣。&lt;/p&gt;
-&lt;p&gt;RSA算法具体是怎么回事，我就不在这瞎说了。简介可以看&lt;a href="http://en.wikipedia.org/wiki/RSA_(cryptosystem)"&gt;Wikipedia&lt;/a&gt;，如果想形象一点理解算法本身，这儿有个不错的视频，可以通过它了解RSA的基本思想。我就直接从RSA这三个人说起了。参考的书籍资料列在文末。&lt;/p&gt;
+&lt;p&gt;RSA算法具体是怎么回事，我就不在这瞎说了。简介可以看&lt;a href="http://en.wikipedia.org/wiki/RSA_(cryptosystem)"&gt;Wikipedia&lt;/a&gt;，如果想形象一点理解算法本身，这儿有个&lt;a href="http://v.youku.com/v_show/id_XNDQ0NTE3MDA0.html"&gt;不错的视频&lt;/a&gt;，可以通过它了解RSA的基本思想。我就直接从RSA这三个人说起了。参考的书籍资料列在文末。&lt;/p&gt;
 &lt;h1&gt;RSA背后的三个小伙&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;RSA是由三个提出者Ron Rivest、Adi Shamir和Leonard Adleman的姓氏首字母组成的。这三个人风格迥异，组成了一个技能互补的完美团队。&lt;/p&gt;
