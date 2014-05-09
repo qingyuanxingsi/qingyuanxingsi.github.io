@@ -59,43 +59,8 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="./spatial-indexing-algorithmskong-jian-suo-yin-suan-fa.html"><h1>Spatial Indexing Algorithms(空间索引算法)</h1></a>
+            <a href="./ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html"><h1>机器学习番外篇之在线学习(I):Online Learning与感知器</h1></a>
         </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>五 09 五月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/notes.html">Notes</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/algorithm.html">Algorithm</a> <a href="./tag/spatial-indexing.html">Spatial Indexing</a> </p>
-<p>
-</p>
-      </div>
-      <div class="article-content span8">
-	<p>最近这几天对空间索引算法灰常感兴趣,于是好好研究了一下,以下我将详细地介绍一些常见的空间索引算法。</p>
-<h1>R树<sup id="sf-spatial-indexing-algorithmskong-jian-suo-yin-suan-fa-1-back"><a class="simple-footnote" href="#sf-spatial-indexing-algorithmskong-jian-suo-yin-suan-fa-1" title="R-Tree: Spatial Representation on a Dynamic-Index Structure">1</a></sup></h1>
-<hr><ol class="simple-footnotes"><li id="sf-spatial-indexing-algorithmskong-jian-suo-yin-suan-fa-1"><a href="http://pan.baidu.com/s/1sj6RU0X">R-Tree: Spatial Representation on a Dynamic-Index Structure</a> <a class="simple-footnote-back" href="#sf-spatial-indexing-algorithmskong-jian-suo-yin-suan-fa-1-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="./spatial-indexing-algorithmskong-jian-suo-yin-suan-fa.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html"><h1>机器学习番外篇之在线学习(I):Online Learning与感知器</h1></a>
-      </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
@@ -110,15 +75,123 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <p>
 </p>
       </div>
-      <div class="summary span8">
-	<p>从感知器开始灰常灰常初步地了解在线学习。</p> 
+      <div class="article-content span8">
+	<p>我们以前讨论的都是批量学习的方法(batch learning),即给定一堆训练样本,我们一次对样本进行训练,然后得到对于模型参数的估计,用得到的模型预测未知样本。而<strong>在线学习</strong>就是要根据新来的样例，边学习，边给出结果。</p>
+<p>假设样例按照到来的先后顺序依次定义为$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)},\cdots,(x^{(m)},y^{(m)}))$。$X$为样本特征，$y$为类别标签。我们的任务是到来一个样例$x$，给出其类别结果$y$的预测值，之后我们会看到$y$的真实值，然后根据真实值来重新调整模型参数，整个过程是重复迭代的过程，直到所有的样例完成。这么看来，我们也可以将原来用于批量学习的样例拿来作为在线学习的样例。在在线学习中我们主要关注在整个预测过程中预测错误的样例数。</p>
+<p>拿二值分类来讲，我们用$y=1$表示正例，$y=-1$表示负例。假设我们采用感知器算法<strong>（Perception algorithm）</strong>进行学习。我们的假设函数为:</p>
+<p>\begin{equation}
+h_{\theta}(x) = g(\theta^T x)
+\end{equation}</p>
+<p>其中$x$是$n+1$维特征向量,最后一维为常量$1$，$\theta$是$n+1$维参数权重,最后一维表示Bias。函数$g$用来将$\theta^Tx$计算结果映射到$-1$和$1$上。具体公式如下：</p>
+<p>\begin{equation}
+\begin{split}
+g(z) = \left \lbrace
+\begin{array}{cc}
+1 &amp; \text{if} \  z \geq 0 \\
+-1 &amp; \text{if} \ z &lt; 0 
+\end{array}
+\right.
+\end{split}
+\end{equation}</p>
+<p>这个也是logistic回归中$g$的简化形式。</p>
+<p>现在我们提出一个在线学习算法如下：</p>
+<p>新来一个样例$(x,y)$，我们先用从之前样例学习到的$h_{\theta}(x)$来得到样例的预测值$y$，如果$h_{\theta}(x) = y$（即预测正确），那么不改变$\theta$，反之</p>
+<p>\begin{equation}
+\theta := \theta + yx
+\end{equation}</p>
+<p>也就是说，如果对于预测错误的样例，$\theta$进行调整时只需加上（实际上为正例）或者减去（实际负例）样本特征$x$值即可。$\theta$初始值为向量0。这里我们关心的是$\theta^Tx$的符号，而不是它的具体值。调整方法非常简单。然而这个简单的调整方法还是很有效的，它的错误率不仅是有上界的，而且这个上界不依赖于样例数和特征维度。</p>
+<p>下面定理阐述了错误率上界：</p>
+<blockquote>
+<p><strong>定理（Block and Novikoff）</strong>:</p>
+<p>给定按照顺序到来的$(x^{(1)},y^{(1)}),(x^{(2)},y^{(2)},\cdots,(x^{(m)},y^{(m)}))$样例。假设对于所有的样例$||x^{(i)} \leq D$，也就是说特征向量长度有界为$D$。更进一步，假设存在一个单位长度向量$u$且$y^{(i)}(u^Tx^{(i)})\geq \gamma$。也就是说对于$y=1$的正例，$u^Tx^{(i)} \geq \gamma$，反例$u^Tx^{(i)} \leq -\gamma$，$u$能够有$\gamma$的间隔将正例和反例分开。那么感知算法的预测的错误样例数不超过$({D \over \gamma})^2$。</p>
+</blockquote>
+<p>根据对SVM的理解，这个定理就可以阐述为：如果训练样本线性可分，并且几何间距至少是$\gamma$，样例样本特征向量最长为$D$，那么感知算法错误数不会超过$({D \over \gamma})^2$。这个定理是62年提出的，63年Vapnik提出SVM，可见提出也不是偶然的，感知算法也许是当时的热门。</p>
+<p>下面主要讨论这个定理的证明：</p>
+<p>感知算法只在样例预测错误时进行更新，定义$\theta^{(k)}$是第$k$次预测错误时使用的样本特征权重，$\theta^{(1)} = \vec{0}$ 初始化为$\vec{0}$向量。假设第$k$次预测错误发生在样例$(x^{(i)},y^{(i)})$上，利用$\theta^{(k)}$计算$y^{(i)}$值时得到的结果不正确。也就是说下面的公式成立：</p>
+<p>\begin{equation}
+(x^{(i)})^T\theta^{(k)}y^{(i)} \leq 0
+\end{equation}</p>
+<p>根据感知算法的更新方法，我们有$\theta^{(k+1)} = \theta^{(k)} + y^{(i)}x^{(i)}$。这时候，两边都乘以$u$得到:</p>
+<p>\begin{equation}
+\begin{split}
+(\theta^{(k+1)})^Tu &amp;= (\theta^{(k)})^u + y^{(i)}(x^{(i)})^Tu  \\
+&amp;\geq (\theta^{(k)})^Tu + \gamma
+\end{split}
+\end{equation}</p>
+<p>这个式子是个递推公式，就像等差数列一样$f_{n+1}=f_n+d$。由此我们可得</p>
+<p>\begin{equation}
+(\theta^{(k+1)})^Tu \geq k\gamma
+\end{equation}</p>
+<p>因为初始$\theta$为$\vec{0}$。</p>
+<p>下面我们利用前面推导出的$(x^{(i)})^T\theta^{(k)}y^{(i)} \leq 0$和$||x^{(i)}|| \leq D$得到</p>
+<p>\begin{equation}
+\begin{split}
+||\theta^{(k+1)}||^2 &amp;= ||\theta^{(k)} + y^{(i)}x^{(i)}||^2    \\
+&amp;= ||\theta^{k}||^2 + ||x^{(i)}||^2 + 2y^{(i)}(x^{(i)})^T\theta^{(i)} \\
+&amp;\leq ||\theta^{k}||^2 + ||x^{(i)}||^2 \\
+&amp;\leq ||\theta^{k}||^2 + D^2
+\end{split}
+\end{equation}</p>
+<p>也就是说$\theta^{(k+1)}$的长度平方不会超过$\theta^{(k)}$与$D$的平方和。</p>
+<p>又是一个等差不等式，得到：</p>
+<p>\begin{equation}
+||\theta^{k+1}||^2 \leq kD^2
+\end{equation}</p>
+<p>两边开根号得：</p>
+<p>\begin{equation}
+\begin{split}
+\sqrt{k}D &amp; \geq ||\theta^{(k+1)}||   \\
+&amp; \geq (\theta^{(k+1)})^Tu  \\
+&amp; \geq k\gamma
+\end{split}
+\end{equation}</p>
+<p>其中第二步可能有点迷惑，我们细想$u$是单位向量的话:</p>
+<p>\begin{equation}
+z^Tu = ||z||||u||cos \phi \leq ||z||||u||
+\end{equation}</p>
+<p>因此上面的不等式成立，最后得到：</p>
+<p>\begin{equation}
+k \leq (D/\gamma)^2
+\end{equation}</p>
+<p>也就是预测错误的数目不会超过样本特征向量$x$的最长长度除以几何间隔的平方。实际上整个调整过程中$\theta$就是$x$的线性组合。</p>
+<p><strong>Original Link</strong>:<a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020173.html">在线学习（Online Learning）</a></p><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+ 
 	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-fan-wai-pian-zhi-zai-xian-xue-xi-ionline-learningyu-gan-zhi-qi.html">
-          <i class="icon-plus-sign"></i> Read More </a>
+          <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
-      
+    
 
  
         
@@ -212,6 +285,39 @@ Filed under <a href="./category/pearls.html">Pearls</a>
       <div class="summary span8">
 	<p>昨天浏览了一下<a href="http://www.52nlp.cn">我爱自然语言处理</a>站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,逐篇浏览后以下为个人的一个基本总结。</p> 
 	<a class="btn btn-mini xsmall" href="./zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="./ji-qi-xue-xi-shi-yi-iida-za-hui.html"><h1>机器学习拾遗(II):大杂烩</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>五 02 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="./category/notes.html">Notes</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="./tag/machine-learning.html">Machine Learning</a> <a href="./tag/gaussian-models.html">Gaussian Models</a> <a href="./tag/linear-models.html">Linear Models</a> <a href="./tag/notes.html">Notes</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>阅读<em>Machine Learning:A Probabilistic Perspective</em>一书关于上述部分的若干章节并对之前未理解的部分内容进行梳理。</p> 
+	<a class="btn btn-mini xsmall" href="./ji-qi-xue-xi-shi-yi-iida-za-hui.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>
