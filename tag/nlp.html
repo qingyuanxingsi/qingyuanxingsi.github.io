@@ -121,8 +121,7 @@ P(w_1,w_2,…,w_t)=P(w_1)×P(w_2|w_1)×P(w_3|w_1,w_2)×…×P(w_t|w_1,w_2,…,w_
 <p>用神经网络训练语言模型的思想最早由百度IDL的徐伟于2000提出。（感谢<a href="http://weibo.com/1862459915">@余凯_西二旗民工</a>博士指出。）其论文《Can Artificial Neural Networks Learn Language Models?》提出一种用神经网络构建二元语言模型（即$P(w_t|w_{t−1})$的方法)。文中的基本思路与后续的语言模型的差别已经不大了。</p>
 <p>训练语言模型的最经典之作，要数Bengio等人在2001年发表在NIPS上的文章《A Neural Probabilistic Language Model》。当然现在看的话，肯定是要看他在2003年投到JMLR上的同名论文了。</p>
 <p>Bengio用了一个三层的神经网络来构建语言模型，同样也是n-gram模型。如下图所示:</p>
-<p><img alt="NN_Language_Model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/nn_language_model_zps54468eb4.png" />
-Bengio 2003</p>
+<p><img alt="NN_Language_Model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/nn_language_model_zps54468eb4.png" /></p>
 <p>图中最下方的$w_{t−n+1},…,w_{t−2},w_{t−1}$就是前$n−1$个词。现在需要根据这已知的$n−1$个词预测下一个词$w_t$。$C(w)$表示词$w$所对应的词向量，整个模型中使用的是一套唯一的词向量，存在矩阵$C$（一个$|V|×m$的矩阵）中。其中$|V|$ 表示词表的大小（语料中的总词数），$m$表示词向量的维度。$w$到$C(w)$的转化就是从矩阵中取出一行。</p>
 <p>网络的第一层（输入层）是将$C(w_{t−n+1}),…,C(w_{t−2}),C(w_{t−1})$这$n−1$个向量首尾相接拼起来，形成一个$(n−1)m$ 维的向量，下面记为$x$。</p>
 <p>网络的第二层（隐藏层）就如同普通的神经网络，直接使用$d+Hx$计算得到。$d$是一个偏置项。在此之后，使用$tanh$作为激活函数。</p>
@@ -139,7 +138,7 @@ y=b+Wx+Utanh(d+Hx)
 <p><strong>大牛就是大牛</strong>。</p>
 <h2>C&amp;W的SENNA</h2>
 <p>Ronan Collobert和Jason Weston在2008年的ICML上发表的《A Unified Architecture for Natural Language Processing: Deep Neural Networks with Multitask Learning》里面首次介绍了他们提出的词向量的计算方法。和上一篇牛文类似，如果现在要看的话，应该去看他们在 2011 年投到JMLR上的论文《Natural Language Processing (Almost) from Scratch》。文中总结了他们的多项工作，非常有系统性。这篇JMLR的论文题目也很霸气啊：从头开始搞 NLP。他们还把论文所写的系统开源了，叫做<a href="http://ml.nec-labs.com/senna/">SENNA</a>，3500多行纯C代码也是写得非常清晰。我就是靠着这份代码才慢慢看懂这篇论文的。可惜的是，代码只有测试部分，没有训练部分。</p>
-<p>实际上$C&amp;W$这篇论文主要目的并不是在于生成一份好的词向量，甚至不想训练语言模型，而是要用这份词向量去完成NLP里面的各种任务，比如词性标注、命名实体识别、短语识别、语义角色标注等等。</p>
+<p>实际上C&amp;W这篇论文主要目的并不是在于生成一份好的词向量，甚至不想训练语言模型，而是要用这份词向量去完成NLP里面的各种任务，比如词性标注、命名实体识别、短语识别、语义角色标注等等。</p>
 <p>由于目的的不同，C&amp;W的词向量训练方法在我看来也是最特别的。他们没有去近似地求$P(w_t|w_1,w_2,…,w_{t−1})$，而是直接去尝试近似$P(w_1,w_2,…,w_t)$。在实际操作中，他们并没有去求一个字符串的概率，而是求窗口连续$n$个词的打分$f(w_{t−n+1},…,w_{t−1},w_t)$。打分$f$越高的说明这句话越是正常的话；打分低的说明这句话不是太合理；如果是随机把几个词堆积在一起，那肯定是负分（差评）。打分只有相对高低之分，并没有概率的特性。</p>
 <p>有了这个对$f$的假设，C&amp;W就直接使用$pair-wise$的方法训练词向量。具体的来说，就是最小化下面的目标函数。</p>
 <p>\begin{equation}
