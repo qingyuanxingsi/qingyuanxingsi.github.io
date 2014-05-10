@@ -1,5 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-09T00:00:00+08:00</updated><entry><title>RSA是如何炼成的</title><link href="http://www.qingyuanxingsi.com/rsashi-ru-he-lian-cheng-de.html" rel="alternate"></link><updated>2014-05-09T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-09:rsashi-ru-he-lian-cheng-de.html</id><summary type="html">&lt;p&gt;最近为了研究某个极其无聊的问题，读了一些公钥加密的历史，意外地发现这段历史竟然非常有趣。尤其是&lt;strong&gt;RSA&lt;/strong&gt;算法的诞生过程，被很多书写得非常励志，看得人热血澎湃。果然比起算法本身，这些背后的故事更能吸引我的兴趣。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-10T00:00:00+08:00</updated><entry><title>机器学习外传之Deep Learning(II):当Deep Learning遇上NLP</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-wai-chuan-zhi-deep-learningiidang-deep-learningyu-shang-nlp.html" rel="alternate"></link><updated>2014-05-10T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-10:ji-qi-xue-xi-wai-chuan-zhi-deep-learningiidang-deep-learningyu-shang-nlp.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Original Link&lt;/strong&gt;:&lt;a href="http://licstar.net/archives/328"&gt;Deep Learning in NLP （一）词向量和语言模型&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Deep Learning算法已经在图像和音频领域取得了惊人的成果，但是在NLP领域中尚未见到如此激动人心的结果。关于这个原因，引一条我比较赞同的微博。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="http://weibo.com/u/1657470871"&gt;@王威廉&lt;/a&gt;：Steve Renals算了一下icassp录取文章题目中包含Deep learning的数量，发现有44篇，而naacl则有0篇。有一种说法是，语言（词、句子、篇章等）属于人类认知过程中产生的高层认知抽象实体，而语音和图像属于较为底层的原始输入信号，所以后两者更适合做deep learning来学习特征。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第一句就先不用管了，毕竟今年的ACL已经被灌了好多Deep Learning的论文了。第二句我很认同，不过我也有信心以后一定有人能挖掘出语言这种高层次抽象中的本质。不论最后这种方法是不是Deep Learning，就目前而言，Deep Learning在NLP领域中的研究已经将高深莫测的人类语言撕开了一层神秘的面纱。&lt;/p&gt;
+&lt;p&gt;我觉得其中最有趣也是最基本的，就是“词向量”了。&lt;/p&gt;
+&lt;p&gt;将词用“词向量”的方式表示可谓是将Deep Learning算法引入NLP领域的一个核心技术。大多数宣称用了Deep Learning的论文，其中往往也用了词向量。&lt;/p&gt;
+&lt;h1&gt;词向量是什么&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;自然语言理解的问题要转化为机器学习的问题，第一步肯定是要找一种方法把这些符号数学化。NLP中最直观，也是到目前为止最常用的词表示方法是&lt;em&gt;One-hot Representation&lt;/em&gt;,这种方法把每个词表示为一个很长的向量。这个向量的维度是词表大小，其中绝大多数元素为0，只有一个维度的值为 1，这个维度就代表了当前的词。&lt;/p&gt;
+&lt;p&gt;举个栗子，“话筒”表示为[0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 ...],“麦克”表示为 [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 ...]
+每个词都是茫茫0海中的一个1。这种One-hot Representation如果采用稀疏方式存储，会是非常的简洁：也就是给每个词分配一个数字ID。比如刚才的例子中，话筒记为 3，麦克记为8（假设从0开始记）。如果要编程实现的话，用Hash表给每个词分配一个编号就可以了。这么简洁的表示方法配合上最大熵、SVM、CRF 等等算法已经很好地完成了NLP领域的各种主流任务。&lt;/p&gt;
+&lt;p&gt;当然这种表示方法也存在一个重要的问题就是“词汇鸿沟”现象：任意两个词之间都是孤立的。光从这两个向量中看不出两个词是否有关系，哪怕是话筒和麦克这样的同义词也不能幸免于难。&lt;/p&gt;
+&lt;p&gt;Deep Learning中一般用到的词向量并不是刚才提到的用One-hot Representation表示的那种很长很长的词向量，而是用Distributed Representation（不知道这个应该怎么翻译，因为还存在一种叫“Distributional Representation”的表示方法，又是另一个不同的概念）表示的一种低维实数向量。这种向量一般长成这个样子：$[0.792, −0.177, −0.107, 0.109, −0.542,...]$。维度以50维和100维比较常见。这种向量的表示不是唯一的，后文会提到目前计算出这种向量的主流方法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;(原文作者注)&lt;em&gt;Distributed representation&lt;/em&gt;最大的贡献就是让相关或者相似的词，在距离上更接近了。向量的距离可以用最传统的欧氏距离来衡量，也可以用$cos$夹角来衡量。用这种方式表示的向量，“麦克”和“话筒”的距离会远远小于“麦克”和“天气”。可能理想情况下“麦克”和“话筒”的表示应该是完全一样的，但是由于有些人会把英文名“迈克”也写成“麦克”，导致“麦克”一词带上了一些人名的语义，因此不会和“话筒”完全一致。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;词向量的来历&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;Distributed representation最早是Hinton在1986年的论文《Learning distributed representations of concepts》中提出的。虽然这篇文章没有说要将词做Distributed representation，（甚至我很无厘头地猜想那篇文章是为了给他刚提出的 BP 网络打广告，）但至少这种先进的思想在那个时候就在人们的心中埋下了火种，到2000年之后开始逐渐被人重视。&lt;/p&gt;
+&lt;p&gt;Distributed representation用来表示词，通常被称为“Word Representation”或“Word Embedding”，中文俗称“词向量”。真的只能叫“俗称”，算不上翻译。半年前我本想翻译的，但是硬是想不出Embedding应该怎么翻译的，后来就这么叫习惯了-_-|||如果有好的翻译欢迎提出。Embedding一词的意义可以参考维基百科的相应页面&lt;a href="https://en.wikipedia.org/wiki/Embedding"&gt;（链接）&lt;/a&gt;。&lt;strong&gt;后文提到的所有“词向量”都是指用Distributed Representation表示的词向量&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;如果用传统的稀疏表示法表示词，在解决某些任务的时候（比如构建语言模型）会造成维数灾难[Bengio 2003]。使用低维的词向量就没这样的问题。同时从实践上看，高维的特征如果要套用Deep Learning，其复杂度几乎是难以接受的，因此低维的词向量在这里也饱受追捧。&lt;/p&gt;
+&lt;p&gt;同时如上一节提到的，相似词的词向量距离相近，这就让基于词向量设计的一些模型自带平滑功能，让模型看起来非常的漂亮。&lt;/p&gt;
+&lt;h1&gt;词向量的训练&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;要介绍词向量是怎么训练得到的，就不得不提到语言模型。到目前为止我了解到的所有训练方法都是在训练语言模型的同时，顺便得到词向量的。&lt;/p&gt;
+&lt;p&gt;这也比较容易理解，要从一段无标注的自然文本中学习出一些东西，无非就是统计出词频、词的共现、词的搭配之类的信息。而要从自然文本中统计并建立一个语言模型，无疑是要求最为精确的一个任务（也不排除以后有人创造出更好更有用的方法）。既然构建语言模型这一任务要求这么高，其中必然也需要对语言进行更精细的统计和分析，同时也会需要更好的模型，更大的数据来支撑。目前最好的词向量都来自于此，也就不难理解了。&lt;/p&gt;
+&lt;p&gt;这里介绍的工作均为从大量未标注的普通文本数据中无监督地学习出词向量（语言模型本来就是基于这个想法而来的），可以猜测，如果用上了有标注的语料，训练词向量的方法肯定会更多。不过视目前的语料规模，还是使用未标注语料的方法靠谱一些。&lt;/p&gt;
+&lt;p&gt;词向量的训练最经典的有3个工作，&lt;strong&gt;C&amp;amp;W 2008、M&amp;amp;H 2008、Mikolov 2010&lt;/strong&gt;。当然在说这些工作之前，不得不介绍一下这一系列中Bengio的经典之作。&lt;/p&gt;
+&lt;h1&gt;语言模型简介&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;插段广告，简单介绍一下语言模型，知道的可以无视这节。&lt;/p&gt;
+&lt;p&gt;语言模型其实就是看一句话是不是正常人说出来的。这玩意很有用，比如机器翻译、语音识别得到若干候选之后，可以利用语言模型挑一个尽量靠谱的结果。在NLP的其它任务里也都能用到。&lt;/p&gt;
+&lt;p&gt;语言模型形式化的描述就是给定一个字符串，看它是自然语言的概率$P(w_1,w_2,…,w_t)$。$w_1$到$w_t$依次表示这句话中的各个词。有个很简单的推论是：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+P(w_1,w_2,…,w_t)=P(w_1)×P(w_2|w_1)×P(w_3|w_1,w_2)×…×P(w_t|w_1,w_2,…,w_{t−1})
+\end{equation}&lt;/p&gt;
+&lt;p&gt;常用的语言模型都是在近似地求$P(w_t|w_1,w_2,…,w_{t−1})$。比如&lt;strong&gt;n-gram&lt;/strong&gt;模型就是用$P(w_t|w_{t−n+1},…,w_{t−1})$近似表示前者。
+　　
+顺便提一句，由于后面要介绍的每篇论文使用的符号差异太大，本博文里尝试统一使用Bengio 2003的符号系统（略做简化），以便在各方法之间做对比和分析。&lt;/p&gt;
+&lt;h2&gt;Bengio的经典之作&lt;/h2&gt;
+&lt;p&gt;用神经网络训练语言模型的思想最早由百度IDL的徐伟于2000提出。（感谢&lt;a href="http://weibo.com/1862459915"&gt;@余凯_西二旗民工&lt;/a&gt;博士指出。）其论文《Can Artificial Neural Networks Learn Language Models?》提出一种用神经网络构建二元语言模型（即$P(w_t|w_{t−1})$的方法)。文中的基本思路与后续的语言模型的差别已经不大了。&lt;/p&gt;
+&lt;p&gt;训练语言模型的最经典之作，要数Bengio等人在2001年发表在NIPS上的文章《A Neural Probabilistic Language Model》。当然现在看的话，肯定是要看他在2003年投到JMLR上的同名论文了。&lt;/p&gt;
+&lt;p&gt;Bengio用了一个三层的神经网络来构建语言模型，同样也是n-gram模型。如下图所示:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="NN_Language_Model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/nn_language_model_zps54468eb4.png" /&gt;
+Bengio 2003&lt;/p&gt;
+&lt;p&gt;图中最下方的$w_{t−n+1},…,w_{t−2},w_{t−1}$就是前$n−1$个词。现在需要根据这已知的$n−1$个词预测下一个词$w_t$。$C(w)$表示词$w$所对应的词向量，整个模型中使用的是一套唯一的词向量，存在矩阵$C$（一个$|V|×m$的矩阵）中。其中$|V|$ 表示词表的大小（语料中的总词数），$m$表示词向量的维度。$w$到$C(w)$的转化就是从矩阵中取出一行。&lt;/p&gt;
+&lt;p&gt;网络的第一层（输入层）是将$C(w_{t−n+1}),…,C(w_{t−2}),C(w_{t−1})$这$n−1$个向量首尾相接拼起来，形成一个$(n−1)m$ 维的向量，下面记为$x$。&lt;/p&gt;
+&lt;p&gt;网络的第二层（隐藏层）就如同普通的神经网络，直接使用$d+Hx$计算得到。$d$是一个偏置项。在此之后，使用$tanh$作为激活函数。&lt;/p&gt;
+&lt;p&gt;网络的第三层（输出层）一共有$|V|$个节点，每个节点$y_i$表示下一个词为$i$的未归一化log概率。最后使用softmax激活函数将输出值$y$归一化成概率。最终，$y$的计算公式为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+y=b+Wx+Utanh(d+Hx)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;式子中的$U$（一个$|V|×h$的矩阵)是隐藏层到输出层的参数，整个模型的多数计算集中在$U$和隐藏层的矩阵乘法中。后文的提到的3个工作，都有对这一环节的简化，提升计算的速度。&lt;/p&gt;
+&lt;p&gt;式子中还有一个矩阵$W$（$|V|×(n−1)m$），这个矩阵包含了从输入层到输出层的直连边。直连边就是从输入层直接到输出层的一个线性变换，好像也是神经网络中的一种常用技巧（没有仔细考察过）。如果不需要直连边的话，将$W$置为$0$就可以了。在最后的实验中，Bengio发现直连边虽然不能提升模型效果，但是可以少一半的迭代次数。同时他也猜想如果没有直连边，可能可以生成更好的词向量。&lt;/p&gt;
+&lt;p&gt;现在万事俱备，用随机梯度下降法把这个模型优化出来就可以了。需要注意的是，一般神经网络的输入层只是一个输入值，而在这里，输入层$x$也是参数（存在$C$中），也是需要优化的。优化结束之后，词向量有了，语言模型也有了。&lt;/p&gt;
+&lt;p&gt;这样得到的语言模型自带平滑，无需传统n-gram模型中那些复杂的平滑算法。Bengio在APNews数据集上做的对比实验也表明他的模型效果比精心设计平滑算法的普通n-gram算法要好10%到20%。&lt;/p&gt;
+&lt;p&gt;在结束介绍 Bengio大牛的经典作品之前再插一段八卦。在其JMLR论文中的未来工作一段，他提了一个能量函数，把输入向量和输出向量统一考虑，并以最小化能量函数为目标进行优化。后来M&amp;amp;H工作就是以此为基础展开的。&lt;/p&gt;
+&lt;p&gt;他提到一词多义有待解决，9年之后Huang提出了一种解决方案。他还在论文中随口（不是在Future Work中写的）提到：可以使用一些方法降低参数个数，比如用循环神经网络。后来Mikolov就顺着这个方向发表了一大堆论文，直到博士毕业。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;大牛就是大牛&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2&gt;C&amp;amp;W的SENNA&lt;/h2&gt;
+&lt;p&gt;Ronan Collobert和Jason Weston在2008年的ICML上发表的《A Unified Architecture for Natural Language Processing: Deep Neural Networks with Multitask Learning》里面首次介绍了他们提出的词向量的计算方法。和上一篇牛文类似，如果现在要看的话，应该去看他们在 2011 年投到JMLR上的论文《Natural Language Processing (Almost) from Scratch》。文中总结了他们的多项工作，非常有系统性。这篇JMLR的论文题目也很霸气啊：从头开始搞 NLP。他们还把论文所写的系统开源了，叫做&lt;a href="http://ml.nec-labs.com/senna/"&gt;SENNA&lt;/a&gt;，3500多行纯C代码也是写得非常清晰。我就是靠着这份代码才慢慢看懂这篇论文的。可惜的是，代码只有测试部分，没有训练部分。&lt;/p&gt;
+&lt;p&gt;实际上$C&amp;amp;W$这篇论文主要目的并不是在于生成一份好的词向量，甚至不想训练语言模型，而是要用这份词向量去完成NLP里面的各种任务，比如词性标注、命名实体识别、短语识别、语义角色标注等等。&lt;/p&gt;
+&lt;p&gt;由于目的的不同，C&amp;amp;W的词向量训练方法在我看来也是最特别的。他们没有去近似地求$P(w_t|w_1,w_2,…,w_{t−1})$，而是直接去尝试近似$P(w_1,w_2,…,w_t)$。在实际操作中，他们并没有去求一个字符串的概率，而是求窗口连续$n$个词的打分$f(w_{t−n+1},…,w_{t−1},w_t)$。打分$f$越高的说明这句话越是正常的话；打分低的说明这句话不是太合理；如果是随机把几个词堆积在一起，那肯定是负分（差评）。打分只有相对高低之分，并没有概率的特性。&lt;/p&gt;
+&lt;p&gt;有了这个对$f$的假设，C&amp;amp;W就直接使用$pair-wise$的方法训练词向量。具体的来说，就是最小化下面的目标函数。&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\sum\limits_{x\in \mathfrak{X}} { \sum\limits_{w\in \mathfrak{D}} {\max {0 , 1-f(x)+f(x^{(w)})} } }
+\end{equation}&lt;/p&gt;
+&lt;p&gt;$\mathfrak{X}$为训练集中的所有连续的$n$元短语，$\mathfrak{D}$是整个字典。第一个求和枚举了训练语料中的所有的$n$元短语，作为正样本。第二个对字典的枚举是构建负样本。$x^{(w)}$是将短语$x$的最中间的那个词，替换成$w$。在大多数情况下，在一个正常短语的基础上随便找个词替换掉中间的词，最后得到的短语肯定不是正确的短语，所以这样构造的负样本是非常可用的（多数情况下确实是负样本，极少数情况下把正常短语当作负样本也不影响大局）。同时，&lt;strong&gt;由于负样本仅仅是修改了正样本中的一个词，也不会让分类面距离负样本太远而影响分类效果(?)&lt;/strong&gt;(?)。再回顾这个式子，$x$是正样本，$x^{(w)}$ 是负样本，$f(x)$是对正样本的打分，$f(x^{(w)})$是对负样本的打分。最后希望正样本的打分要比负样本的打分至少高1分。&lt;/p&gt;
+&lt;p&gt;$f$函数的结构和Bengio 2003中提到的网络结构基本一致。同样是把窗口中的$n$个词对应的词向量串成一个长的向量，同样是经过一层网络（乘一个矩阵）得到隐藏层。不同之处在于C&amp;amp;W的输出层只有一个节点，表示得分，而不像Bengio那样的有$|V|$ 个节点。这么做可以大大降低计算复杂度，当然有这种简化还是因为C&amp;amp;W并不想做一个真正的语言模型，只是借用语言模型的思想辅助他完成NLP的其它任务。（其实C&amp;amp;W的方法与Bengio的方法还有一个区别，他们为了程序的效率用HardTanh代替tanh激活函数。）&lt;/p&gt;
+&lt;p&gt;他们在实验中取窗口大小$n=11$，字典大小$|V|=130000$，在维基百科英文语料和路透社语料中一共训练了$7$周，终于得到了这份伟大的词向量。&lt;/p&gt;
+&lt;p&gt;如前面所说C&amp;amp;W训练词向量的动机与其他人不同，因此他公布的词向量与其它词向量相比主要有两个区别：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;他的词表中只有小写单词。也就是说他把大写开头的单词和小写单词当作同一个词处理。其它的词向量都是把他们当作不同的词处理的。&lt;/li&gt;
+&lt;li&gt;他公布的词向量并不直接是上述公式的优化结果，而是在此基础上进一步跑了词性标注、命名实体识别等等一系列任务的 Multi-Task Learning之后，二次优化得到的。也可以理解为是半监督学习得到的，而非其他方法中纯无监督学习得到的。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;不过好在Turian在2010年对C&amp;amp;W和M&amp;amp;H向量做对比时，重新训练了一份词向量放到了网上，那份就没上面的两个“问题”（确切的说应该是差别），也可以用的更放心。后面会详细介绍Turian的工作。&lt;/p&gt;
+&lt;p&gt;关于这篇论文其实还是有些东西可以吐槽的，不过训练词向量这一块没有，是论文其他部分的。把吐槽机会留给下一篇博文了。&lt;/p&gt;
+&lt;h2&gt;M&amp;amp;H的HLBL&lt;/h2&gt;
+&lt;p&gt;Andriy Mnih和Geoffrey Hinton在2007年和2008年各发表了一篇关于训练语言模型和词向量的文章。2007年发表在ICML上的《Three new graphical models for statistical language modelling》表明了Hinton将Deep Learning战场扩展到NLP领域的决心。2008年发表在 NIPS 上的《A scalable hierarchical distributed language model》则提出了一种层级的思想替换了Bengio 2003方法中最后隐藏层到输出层最花时间的矩阵乘法，在保证效果的基础上，同时也提升了速度。下面简单介绍一下这两篇文章。&lt;/p&gt;
+&lt;p&gt;Hinton在2006年提出Deep Learning的概念之后，很快就来NLP最基础的任务上试了一把。果然，有效。M&amp;amp;H在ICML 2007上发表的这篇文章提出了“Log-Bilinear”语言模型。文章标题中可以看出他们其实一共提了3个模型。从最基本的RBM出发，一点点修改能量函数，最后得到了“Log-Bilinear”模型。&lt;/p&gt;
+&lt;p&gt;模型如果用神经网络的形式写出来，是这个样子：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+h &amp;amp;= \sum\limits_{i=1}^{t-1}{H_i C(w_i)} \\
+y_j &amp;amp;= C(w_j)^T h
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;这里的两个式子可以合写成一个$y_j = \sum\limits_{i=1}^{n-1}{C(w_j)^T H_iC(w_i)}$。$C(w)$是词$w$对应的词向量，形如$x^TMy$的模型叫做$Bilinear$模型，也就是M&amp;amp;H方法名字的来历了。&lt;/p&gt;
+&lt;p&gt;为了更好地理解模型的含义，还是来看这两个拆解的式子。$h$在这里表示隐藏层，这里的隐藏层比前面的所有模型都更厉害，直接有语义信息。首先从第二个式子中隐藏层能和词向量直接做内积可以看出，隐藏层的维度和词向量的维度是一致的（都是 $m$维）。$H_i$就是一个$m×m$的矩阵，该矩阵可以理解为第$i$个词经过$H_i$这种变换之后，对第$t$个词产生的贡献。因此这里的隐藏层是对前$t−1$个词的总结，也就是说隐藏层$h$是对下一个词的一种预测。&lt;/p&gt;
+&lt;p&gt;再看看第二个式子，预测下一个词为$w_j$的log概率是$y_j$，它直接就是$C(w_j)$和$h$的内积。内积基本上就可以反应相似度，如果各词向量的模基本一致的话，内积的大小能直接反应两个向量的cos夹角的大小。这里使用预测词向量$h$和各个已知词的词向量的相似度作为log概率，将词向量的作用发挥到了极致。这也是我觉得这次介绍的模型中最漂亮的一个。&lt;/p&gt;
+&lt;p&gt;这种“Log-Bilinear”模型看起来每个词需要使用上文所有的词作为输入，于是语料中最长的句子有多长，就会有多少个$H$矩阵。这显然是过于理想化了。最后在实现模型时，还是迫于现实的压力，用了类似n-gram的近似，只考虑了上文的3到5个词作为输入来预测下一个词。&lt;/p&gt;
+&lt;p&gt;M&amp;amp;H的思路如前面提到，是Bengio 2003提出的。经过大牛的实现，效果确实不错。虽然复杂度没有数量级上的降低，但是由于是纯线性模型，没有激活函数（当然在做语言模型的时候，最后还是对$y_j$跑了一个softmax），因此实际的训练和预测速度都会有很大的提升。同时隐藏层到输出层的变量直接用了词向量，这也就几乎少了一半的变量，使得模型更为简洁。最后论文中M&amp;amp;H用了和Bengio 2003完全一样的数据集做实验，效果有了一定的提升。&lt;/p&gt;
+&lt;p&gt;2008年NIPS的这篇论文，介绍的是“hierarchical log-bilinear”模型，很多论文中都把它称作简称“HLBL”。和前作相比，该方法使用了一个层级的结构做最后的预测。可以简单地设想一下把网络的最后一层变成一颗平衡二叉树，二叉树的每个非叶节点用于给预测向量分类，最后到叶节点就可以确定下一个词是哪个了。这在复杂度上有显著的提升，以前是对$|V|$个词一一做比较，最后找出最相似的，现在只需要做$log_2(|V|)$ 次判断即可。&lt;/p&gt;
+&lt;p&gt;这种层级的思想最初可见于Frederic Morin和Yoshua Bengio于2005年发表的论文《Hierarchical probabilistic neural network language model》中。但是这篇论文使用WordNet中的IS-A关系，转化为二叉树用于分类预测。实验结果发现速度提升了，效果变差了。&lt;/p&gt;
+&lt;p&gt;有了前车之鉴，M&amp;amp;H 就希望能从语料中自动学习出一棵树，并能达到比人工构建更好的效果。M&amp;amp;H使用一种bootstrapping的方法来构建这棵树。从随机的树开始，根据分类结果不断调整和迭代。最后得到的是一棵平衡二叉树，并且同一个词的预测可能处于多个不同的叶节点。这种用多个叶节点表示一个词的方法，可以提升下一个词是多义词时候的效果。M&amp;amp;H做的还不够彻底，后面Huang的工作直接对每个词学习出多个词向量，能更好地处理多义词。&lt;/p&gt;
+&lt;h2&gt;Mikolov的RNNLM&lt;/h2&gt;
+&lt;p&gt;前文说到，Bengio 2003论文里提了一句，可以使用一些方法降低参数个数，比如用循环神经网络。Mikolov就抓住了这个坑，从此与循环神经网络结下了不解之缘。他最早用循环神经网络做语言模型是在INTERSPEECH 2010上发表的《Recurrent neural network based language model》里。Recurrent neural network是循环神经网络，简称 RNN，还有个Recursive neural networks是递归神经网络（Richard Socher借此发了一大堆论文），也简称RNN。看到的时候需要注意区分一下。不过到目前为止，RNNLM只表示循环神经网络做的语言模型，还没有歧义。&lt;/p&gt;
+&lt;p&gt;在之后的几年中，Mikolov在一直在RNNLM上做各种改进，有速度上的，也有准确率上的。现在想了解RNNLM，看他的博士论文《Statistical Language Models based on Neural Networks》肯定是最好的选择。&lt;/p&gt;
+&lt;p&gt;循环神经网络与前面各方法中用到的前馈网络在结构上有比较大的差别，但是原理还是一样的。网络结构大致如下图所示:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="RNNLM" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/rnnlm_zpse53d7de5.png" /&gt;&lt;/p&gt;
+&lt;p&gt;左边是网络的抽象结构，由于循环神经网络多用在时序序列上，因此里面的输入层、隐藏层和输出层都带上了“(t)”。$w(t)$是句子中第$t$个词的One-hot representation的向量，也就是说$w$是一个非常长的向量，里面只有一个元素是 1。而下面的 $s(t−1)$向量就是上一个隐藏层。最后隐藏层计算公式为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+s(t)=sigmoid(Uw(t)+Ws(t−1))
+\end{equation}&lt;/p&gt;
+&lt;p&gt;从右图可以看出循环神经网络是如何展开的。每来一个新词，就和上一个隐藏层联合计算出下一个隐藏层，隐藏层反复利用，一直保留着最新的状态。各隐藏层通过一层传统的前馈网络得到输出值。&lt;/p&gt;
+&lt;p&gt;$w(t)$是一个词的 One-hot representation，那么$Uw(t)$也就相当于从矩阵$U$中选出了一列，这一列就是该词对应的词向量。&lt;/p&gt;
+&lt;p&gt;循环神经网络的最大优势在于，可以真正充分地利用所有上文信息来预测下一个词，而不像前面的其它工作那样，只能开一个 $n$个词的窗口，只用前$n$个词来预测下一个词。从形式上看，这是一个非常“终极”的模型，毕竟语言模型里能用到的信息，他全用上了。可惜的是，循环神经网络形式上非常好看，使用起来却非常难优化，如果优化的不好，长距离的信息就会丢失，甚至还无法达到开窗口看前若干个词的效果。Mikolov在RNNLM里面只使用了最朴素的BPTT优化算法，就已经比n-gram中的state of the art方法有更好的效果，这非常令人欣慰。如果用上了更强的优化算法，最后效果肯定还能提升很多。&lt;/p&gt;
+&lt;p&gt;对于最后隐藏层到输出层的巨大计算量，Mikolov使用了一种分组的方法：根据词频将$|V|$个词分成$\sqrt{|V|}$组，先通过 $\sqrt{|V|}$次判断，看下一个词属于哪个组，再通过若干次判断，找出其属于组内的哪个元素。最后均摊复杂度约为 $O(\sqrt{|V|})$，略差于M&amp;amp;H的$O(log(|V|))$，但是其浅层结构某种程度上可以减少误差传递，也不失为一种良策。&lt;/p&gt;
+&lt;p&gt;Mikolov的&lt;a href="http://www.fit.vutbr.cz/~imikolov/rnnlm/"&gt;RNNLM&lt;/a&gt;也是开源的。非常算法风格的代码，几乎所有功能都在一个文件里，工程也很好编译。比较好的是，RNNLM可以完美支持中文，如果语料存成UTF-8格式，就可以直接用了。&lt;/p&gt;
+&lt;p&gt;最后吐槽一句，我觉得他在隐藏层用sigmoid作为激活函数不够漂亮。&lt;strong&gt;因为隐藏层要和输入词联合计算得到下一个隐藏层，如果当前隐藏层的值全是正的，那么输入词对应的参数就会略微偏负(?)&lt;/strong&gt;，也就是说最后得到的词向量的均值不在0附近。总感觉不好看。当然，从实验效果看，是我太强迫症了。&lt;/p&gt;
+&lt;h2&gt;Huang的语义强化&lt;/h2&gt;
+&lt;p&gt;与前几位大牛的工作不同，Eric H. Huang的工作是在C&amp;amp;W的基础上改进而成的，并非自成一派从头做起。他这篇发表在ACL 2012上的《Improving Word Representations via Global Context and Multiple Word Prototypes》试图通过对模型的改进，使得词向量富含更丰富的语义信息。他在文中提出了两个主要创新来完成这一目标：（其实从论文标题就能看出来）第一个创新是使用全文信息辅助已有的局部信息，第二个创新是使用多个词向量来表示多义词。下面逐一介绍。&lt;/p&gt;
+&lt;p&gt;Huang认为C&amp;amp;W的工作只利用了“局部上下文（Local Context）”。C&amp;amp;W 在训练词向量的时候，只使用了上下文各5个词，算上自己总共有11个词的信息，这些局部的信息还不能充分挖掘出中间词的语义信息。Huang直接使用C&amp;amp;W的网络结构计算出一个得分，作为“局部得分”。&lt;/p&gt;
+&lt;p&gt;然后Huang提出了一个“全局信息”，这有点类似传统的词袋子模型。词袋子模型是把文章中所有词的One-hot Representation 加起来，形成一个向量（就像把词全都扔进一个袋子里），用来表示文章。Huang的全局模型是将文章中所有词的词向量求个加权平均（权重是词的$idf$），作为文章的语义。他把文章的语义向量和当前词的词向量拼接起来，形成一个两倍长度的向量作为输入，之后还是用C&amp;amp;W的网络结构算出一个打分。&lt;/p&gt;
+&lt;p&gt;有了C&amp;amp;W方法的得到的“局部得分”，再加上在C&amp;amp;W方法基础上改造得到的“全局得分”，Huang直接把两个得分相加，作为最终得分。最终得分使用 C&amp;amp;W 提出的pair-wise目标函数来优化。&lt;/p&gt;
+&lt;p&gt;加了这个全局信息有什么用处呢？Huang在实验中发现，他的模型能更好地捕捉词的语义信息。比如C&amp;amp;W的模型中，与markets最相近的词为firms、industries；而Huang的模型得到的结果是market、firms。很明显，C&amp;amp;W的方法由于只考虑了临近词的信息，最后的结果是词法特征最相近的词排在了前面（都是复数形式）。不过我觉得这个可能是英语才有的现象，中文没有词形变化，如果在中文中做同样的实验还不知道会有什么效果。&lt;/p&gt;
+&lt;p&gt;Huang论文的第二个贡献是将多义词用多个词向量来表示。Bengio 2003在最后提过这是一个重要的问题，不过当时他还在想办法解决，现在Huang给出了一种思路。&lt;/p&gt;
+&lt;p&gt;将每个词的上下文各$5$个词拿出来，对这$10$个词的词向量做加权平均（同样使用$idf$作为权重）。对所有得到的上下文向量做k-means聚类，根据聚类结果给每个词打上标签（不同类中的同一个词，当作不同的词处理），最后重新训练词向量。&lt;/p&gt;
+&lt;p&gt;当然这个实验的效果也是很不错的，最后star的某一个表示最接近的词是movie、film；另一个表示最接近的词是galaxy、planet。
+　　
+这篇文章还做了一些对比实验，在下一章评价里细讲。&lt;/p&gt;
+&lt;h1&gt;词向量的评价&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;词向量的评价大体上可以分成两种方式，第一种是把词向量融入现有系统中，看对系统性能的提升；第二种是直接从语言学的角度对词向量进行分析，如相似度、语义偏移等。&lt;/p&gt;
+&lt;h2&gt;提升现有系统&lt;/h2&gt;
+&lt;p&gt;词向量的用法最常见的有两种：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;直接用于神经网络模型的输入层。如C&amp;amp;W的SENNA系统中，将训练好的词向量作为输入，用前馈网络和卷积网络完成了词性标注、语义角色标注等一系列任务。再如Socher将词向量作为输入，用递归神经网络完成了句法分析、情感分析等多项任务。&lt;/li&gt;
+&lt;li&gt;作为辅助特征扩充现有模型。如Turian将词向量作为额外的特征加入到接近state of the art的方法中，进一步提高了命名实体识别和短语识别的效果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;具体的用法理论上会在下一篇博文中细讲。
+　　
+C&amp;amp;W的论文中有一些对比实验。实验的结果表明，使用词向量作为初始值替代随机初始值，其效果会有非常显著的提升（如：词性标注准确率从96.37%提升到97.20%；命名实体识别F值从81.47%提升到88.67%）。同时使用更大的语料来训练，效果也会有一些提升。&lt;/p&gt;
+&lt;p&gt;Turian发表在ACL 2010上的实验对比了C&amp;amp;W向量与M&amp;amp;H向量用作辅助特征时的效果。在短语识别和命名实体识别两个任务中，C&amp;amp;W 向量的效果都有略微的优势。同时他也发现，如果将这两种向量融合起来，会有更好的效果。除了这两种词向量，Turian 还使用Brown Cluster作为辅助特征做了对比，效果最好的其实是Brown Cluster，不过这个已经超出本文的范围了。&lt;/p&gt;
+&lt;h2&gt;语言学评价&lt;/h2&gt;
+&lt;p&gt;Huang 2012的论文提出了一些创新，能提升词向量中的语义成分。他也做了一些实验对比了各种词向量的语义特性。实验方法大致就是将词向量的相似度与人工标注的相似度做比较。最后Huang的方法语义相似度最好，其次是C&amp;amp;W向量，再然后是Turian训练的HLBL向量与C&amp;amp;W向量。这里因为Turian训练词向量时使用的数据集（RCV1）与其他的对比实验（Wiki）并不相同，因此并不是非常有可比性。但从这里可以推测一下，可能更大更丰富的语料对于语义的挖掘是有帮助的。&lt;/p&gt;
+&lt;p&gt;还有一个有意思的分析是Mikolov在2013年刚刚发表的一项发现。他发现两个词向量之间的关系，可以直接从这两个向量的差里体现出来。向量的差就是数学上的定义，直接逐位相减。比如$C(king)−C(queen) \approx C(man)−C(woman)$。更强大的是，与$C(king)−C(man)+C(woman)$最接近的向量就是$C(queen)$。&lt;/p&gt;
+&lt;p&gt;为了分析词向量的这个特点， Mikolov使用类比&lt;strong&gt;（analogy）&lt;/strong&gt;的方式来评测。如已知$a$之于$b$犹如$c$之于$d$。现在给出 $a、b、c$，看$C(a)−C(b)+C(c)$最接近的词是否是$d$。&lt;/p&gt;
+&lt;p&gt;在文章中Mikolov对比了词法关系（名词单复数good-better:rough-rougher、动词第三人称单数、形容词比较级最高级等）和语义关系（clothing-shirt:dish-bowl）。&lt;/p&gt;
+&lt;p&gt;在词法关系上，RNN的效果最好，然后是Turian实现的HLBL，最后是Turian的C&amp;amp;W。（RNN-80:19%；RNN-1600:39.6%；HLBL-100:18.7%；C&amp;amp;W-100:5%；-100表示词向量为100维）&lt;/p&gt;
+&lt;p&gt;在语义关系上，表现最好的还是$RNN$，然后是$Turian$的两个向量，差距没刚才的大。（RNN-80:0.211；C&amp;amp;W-100:0.154；HLBL-100:0.146）&lt;/p&gt;
+&lt;p&gt;但是这个对比实验用的训练语料是不同的，也不能特别说明优劣。&lt;/p&gt;
+&lt;p&gt;这些实验结果中最容易理解的是：&lt;strong&gt;语料越大，词向量就越好&lt;/strong&gt;。其它的实验由于缺乏严格控制条件进行对比，谈不上哪个更好哪个更差。不过这里的两个语言学分析都非常有意思，尤其是向量之间存在这种线性平移的关系，可能会是词向量发展的一个突破口。&lt;/p&gt;
+&lt;h1&gt;参考文献&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;Yoshua Bengio, Rejean Ducharme, Pascal Vincent, and Christian Jauvin. &lt;strong&gt;A neural probabilistic language model&lt;/strong&gt;. Journal of Machine Learning Research (JMLR), 3:1137–1155, 2003. &lt;a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Ronan Collobert, Jason Weston, Léon Bottou, Michael Karlen, Koray Kavukcuoglu and Pavel Kuksa. &lt;strong&gt;Natural Language Processing (Almost) from Scratch&lt;/strong&gt;. Journal of Machine Learning Research (JMLR), 12:2493-2537, 2011. &lt;a href="http://www.jmlr.org/papers/volume12/collobert11a/collobert11a.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Andriy Mnih &amp;amp; Geoffrey Hinton. &lt;strong&gt;Three new graphical models for statistical language modelling. International Conference on Machine Learning (ICML)&lt;/strong&gt;. 2007. &lt;a href="http://www.cs.utoronto.ca/~hinton/absps/threenew.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Andriy Mnih &amp;amp; Geoffrey Hinton.&lt;strong&gt;A scalable hierarchical distributed language model&lt;/strong&gt;. The Conference on Neural Information Processing Systems (NIPS) (pp. 1081–1088). 2008. &lt;a href="http://www.cs.utoronto.ca/~hinton/absps/andriytree.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Mikolov Tomáš. &lt;strong&gt;Statistical Language Models based on Neural Networks&lt;/strong&gt;. PhD thesis, Brno University of Technology. 2012. &lt;a href="http://www.fit.vutbr.cz/~imikolov/rnnlm/thesis.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Turian Joseph, Lev Ratinov, and Yoshua Bengio. &lt;strong&gt;Word representations: a simple and general method for semi-supervised learning&lt;/strong&gt;. Proceedings of the 48th Annual Meeting of the Association for Computational Linguistics (ACL). 2010. &lt;a href="http://www.aclweb.org/anthology-new/P/P10/P10-1040.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Eric Huang, Richard Socher, Christopher Manning and Andrew Ng.&lt;strong&gt;Improving word representations via global context and multiple word prototypes&lt;/strong&gt;. Proceedings of the 50th Annual Meeting of the Association for Computational Linguistics: Long Papers-Volume 1. 2012. &lt;a href="http://www-nlp.stanford.edu/pubs/HuangACL12.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Mikolov, Tomas, Wen-tau Yih, and Geoffrey Zweig.&lt;strong&gt;Linguistic regularities in continuous space word representations&lt;/strong&gt;. Proceedings of NAACL-HLT. 2013. &lt;a href="https://www.aclweb.org/anthology/N/N13/N13-1090.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="Deep Learning"></category><category term="NLP"></category></entry><entry><title>RSA是如何炼成的</title><link href="http://www.qingyuanxingsi.com/rsashi-ru-he-lian-cheng-de.html" rel="alternate"></link><updated>2014-05-09T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-09:rsashi-ru-he-lian-cheng-de.html</id><summary type="html">&lt;p&gt;最近为了研究某个极其无聊的问题，读了一些公钥加密的历史，意外地发现这段历史竟然非常有趣。尤其是&lt;strong&gt;RSA&lt;/strong&gt;算法的诞生过程，被很多书写得非常励志，看得人热血澎湃。果然比起算法本身，这些背后的故事更能吸引我的兴趣。&lt;/p&gt;
 &lt;p&gt;RSA算法具体是怎么回事，我就不在这瞎说了。简介可以看&lt;a href="http://en.wikipedia.org/wiki/RSA_(cryptosystem)"&gt;Wikipedia&lt;/a&gt;，如果想形象一点理解算法本身，这儿有个&lt;a href="http://v.youku.com/v_show/id_XNDQ0NTE3MDA0.html"&gt;不错的视频&lt;/a&gt;，可以通过它了解RSA的基本思想。我就直接从RSA这三个人说起了。参考的书籍资料列在文末。&lt;/p&gt;
 &lt;h1&gt;RSA背后的三个小伙&lt;/h1&gt;
 &lt;hr /&gt;
