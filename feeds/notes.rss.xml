@@ -372,11 +372,16 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 
 &lt;p&gt;不要把右边的部分放到圆括号里面--那样是错的！&lt;/p&gt;
 &lt;p&gt;另外一个好用的算法是sort(), 它使用起来非常简单。 看下面的一个例子：&lt;/p&gt;
-&lt;p&gt;vector&lt;int&gt; X; &lt;/int&gt;&lt;/p&gt;
-&lt;p&gt;//  &lt;/p&gt;
-&lt;p&gt;sort(X.begin(), X.end()); // Sort array in ascending order 
-sort(all(X));             // Sort array in ascending order, use our #define 
-sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse iterators &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;X&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="c1"&gt;//&lt;/span&gt;
+
+&lt;span class="nb"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;X.begin&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="nx"&gt;X.end&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt; &lt;span class="c1"&gt;// Sort array in ascending order &lt;/span&gt;
+&lt;span class="nb"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;X&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;             &lt;span class="c1"&gt;// Sort array in ascending order, use our #define &lt;/span&gt;
+&lt;span class="nb"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;X.rbegin&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="nx"&gt;X.rend&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt; &lt;span class="c1"&gt;// Sort array in descending order using with reverse iterators&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;h3&gt;Compiling STL Programs&lt;/h3&gt;
 &lt;p&gt;一个需要值得指出的事情就是STL的错误消息。由于STL已经被广泛的使用在源代码中了，所以有必要要求编译器去创建高效的可执行文件，STL的一个习惯在于它的难读的错误消息.&lt;/p&gt;
 &lt;p&gt;例如,如果你传递一个vector&lt;int&gt;的常引用给一些函数的时候：&lt;/int&gt;&lt;/p&gt;
@@ -534,10 +539,12 @@ sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse
 &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
     &lt;span class="c1"&gt;// 42 not presents in set &lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt; 
-&lt;span class="err"&gt;甚至&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
 
- &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;s.count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
+
+&lt;p&gt;甚至 &lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
       &lt;span class="c1"&gt;// … &lt;/span&gt;
  &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
@@ -711,7 +718,7 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
 &lt;span class="nx"&gt;typedef&lt;/span&gt; &lt;span class="kt"&gt;pair&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;ii&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;sz&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nx"&gt;a&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;size&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; 
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;pb&lt;/span&gt; &lt;span class="nx"&gt;push_back&lt;/span&gt; 
-&lt;span class="vi"&gt;#defile&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;(),(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; 
+&lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;(),(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; 
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;tr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="nb"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;typeof&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; 
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;present&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; 
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;cpresent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
@@ -749,7 +756,7 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1"&gt;&lt;a href="http://www.cnblogs.com/drizzlecrj/archive/2007/01/31/636116.html"&gt;Power up C++ with the Standard Template Library: Part I[翻译]&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="STL"></category></entry><entry><title>机器学习拾遗(II):大杂烩</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-iida-za-hui.html" rel="alternate"></link><updated>2014-05-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-02:ji-qi-xue-xi-shi-yi-iida-za-hui.html</id><summary type="html">&lt;p&gt;本文主要对之前看过的&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中有关离散数据生成模型、高斯模型以及线性模型的相关部分进行梳理。&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1"&gt;&lt;a href="http://www.cnblogs.com/drizzlecrj/archive/2007/01/31/636116.html"&gt;Power up C++ with the Standard Template Library: Part I[翻译]&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="STL"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(II):大杂烩</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-iida-za-hui.html" rel="alternate"></link><updated>2014-05-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-02:ji-qi-xue-xi-shi-yi-iida-za-hui.html</id><summary type="html">&lt;p&gt;本文主要对之前看过的&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中有关离散数据生成模型、高斯模型以及线性模型的相关部分进行梳理。&lt;/p&gt;
 &lt;h1&gt;Closed Form&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1" title="Closed-form expression"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;在阅读&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;这本书的时候经常看到&lt;strong&gt;Closed Form&lt;/strong&gt;这个词。以下给出一简单说明:&lt;/p&gt;

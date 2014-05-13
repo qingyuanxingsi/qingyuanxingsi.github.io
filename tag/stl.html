@@ -71,7 +71,7 @@ Filed under <a href="../category/notes.html">Notes</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/stl.html">STL</a> </p>
+    Tags <a href="../tag/stl.html">STL</a> <a href="../tag/notes.html">Notes</a> </p>
 <p>
 </p>
       </div>
@@ -449,11 +449,16 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 
 <p>不要把右边的部分放到圆括号里面--那样是错的！</p>
 <p>另外一个好用的算法是sort(), 它使用起来非常简单。 看下面的一个例子：</p>
-<p>vector<int> X; </int></p>
-<p>//  </p>
-<p>sort(X.begin(), X.end()); // Sort array in ascending order 
-sort(all(X));             // Sort array in ascending order, use our #define 
-sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse iterators </p>
+<div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">X</span><span class="p">;</span>
+
+<span class="c1">//</span>
+
+<span class="nb">sort</span><span class="p">(</span><span class="nx">X.begin</span><span class="p">(),</span> <span class="nx">X.end</span><span class="p">());</span> <span class="c1">// Sort array in ascending order </span>
+<span class="nb">sort</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">X</span><span class="p">));</span>             <span class="c1">// Sort array in ascending order, use our #define </span>
+<span class="nb">sort</span><span class="p">(</span><span class="nx">X.rbegin</span><span class="p">(),</span> <span class="nx">X.rend</span><span class="p">());</span> <span class="c1">// Sort array in descending order using with reverse iterators</span>
+</pre></div>
+
+
 <h3>Compiling STL Programs</h3>
 <p>一个需要值得指出的事情就是STL的错误消息。由于STL已经被广泛的使用在源代码中了，所以有必要要求编译器去创建高效的可执行文件，STL的一个习惯在于它的难读的错误消息.</p>
 <p>例如,如果你传递一个vector<int>的常引用给一些函数的时候：</int></p>
@@ -611,10 +616,12 @@ sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse
 <span class="p">}</span> 
 <span class="k">else</span> <span class="p">{</span> 
     <span class="c1">// 42 not presents in set </span>
-<span class="p">}</span> 
-<span class="err">甚至</span>
+<span class="p">}</span>
+</pre></div>
 
- <span class="k">if</span><span class="p">(</span><span class="nx">s.count</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span> <span class="p">{</span> 
+
+<p>甚至 </p>
+<div class="highlight"><pre> <span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span> <span class="p">{</span> 
       <span class="c1">// … </span>
  <span class="p">}</span>
 </pre></div>
@@ -788,7 +795,7 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
 <span class="nx">typedef</span> <span class="kt">pair</span><span class="o">&lt;</span><span class="nx">int</span><span class="p">,</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">ii</span><span class="p">;</span> 
 <span class="vi">#define</span> <span class="nx">sz</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="nx">int</span><span class="p">((</span><span class="nx">a</span><span class="p">)</span><span class="bp">.</span><span class="nb">size</span><span class="p">())</span> 
 <span class="vi">#define</span> <span class="nx">pb</span> <span class="nx">push_back</span> 
-<span class="vi">#defile</span> <span class="kc">all</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">(),(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">()</span> 
+<span class="vi">#define</span> <span class="kc">all</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">(),(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">()</span> 
 <span class="vi">#define</span> <span class="nx">tr</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span> <span class="nb">for</span><span class="p">(</span><span class="nx">typeof</span><span class="p">((</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">())</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">();</span> <span class="nx">i</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> 
 <span class="vi">#define</span> <span class="nx">present</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span> <span class="p">((</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">find</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">())</span> 
 <span class="vi">#define</span> <span class="nx">cpresent</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">c</span><span class="p">),</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">())</span>
