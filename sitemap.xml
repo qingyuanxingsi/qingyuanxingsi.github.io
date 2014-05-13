@@ -5,41 +5,48 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-05-13T17:31:40-00:00</lastmod>
+<lastmod>2014-05-13T19:31:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-05-13T17:31:40-00:00</lastmod>
+<lastmod>2014-05-13T19:31:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-05-13T17:31:40-00:00</lastmod>
+<lastmod>2014-05-13T19:31:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-05-13T17:31:40-00:00</lastmod>
+<lastmod>2014-05-13T19:31:09-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-05-13T17:31:40-00:00</lastmod>
+<lastmod>2014-05-13T19:31:09-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-zhan-ishou-xie-shu-zi-shi-bie.html</loc>
+<lastmod>2014-05-13T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie.html</loc>
 <lastmod>2014-05-13T00:00:00-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.7</priority>
@@ -229,7 +236,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/category/notes.html</loc>
-<lastmod>2014-05-02T00:00:00-00:00</lastmod>
+<lastmod>2014-05-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -629,6 +636,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/latent-linear-models.html</loc>
 <lastmod>2014-04-27T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/stl.html</loc>
+<lastmod>2014-05-13T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

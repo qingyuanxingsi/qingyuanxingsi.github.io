@@ -488,13 +488,16 @@ sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse
 
 
 <p>通过使用这些宏，我们可以遍历任何类型的容器，不仅仅是vector。这样将会为常量对象产生指向常量的迭代器并且为非常量对象产生普通迭代器，当然你也不会获得一个错误。</p>
-<p>void f(const vector<int>&amp; v) { 
-    int r = 0; 
-    tr(v, it) { 
-        r += (<em>it)</em>(*it); 
-    } 
-    return r; 
-} </int></p>
+<div class="highlight"><pre><span class="bp">void</span> <span class="nb">f</span><span class="p">(</span><span class="nx">const</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+    <span class="nx">tr</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">it</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="nb">r</span> <span class="o">+=</span> <span class="p">(</span><span class="o">*</span><span class="nx">it</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="nx">it</span><span class="p">);</span> 
+    <span class="p">}</span> 
+    <span class="k">return</span> <span class="nb">r</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></div>
+
+
 <p>注意： 为了提高可读性，我没有在#define行上添加额外的圆括号。这篇文章的下面将会给出更加精确的#define语句，并且你可以直接将其拷贝到你的模版代码中。</p>
 <p>遍历宏对与vector来说并不是必需的，但是对于一些复杂的数据类型，由于它们没有索引访问而迭代器是唯一访问数据的方法，这是遍历宏将显得非常方便。我们将在这篇文章的后面继续讨论它。</p>
 <h3>Data manipulation in vector</h3>
@@ -527,7 +530,7 @@ sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse
 <p>插入，删除的技巧很普遍，但对于STL的容器来说并不都是一样的。</p>
 <h3>String</h3>
 <p>这里有一个操纵字符串的特殊容器。这个字符串容器与vector<char>有一些不同之处。最大的不同之处在于字符串处理函数以及内存管理策略。唯一需要注意的事情是使用string::length()而不是vector::size(). string没有size()。</char></p>
-<p>string有一个不用迭代器而使用下标的取子串函数: </p>
+<p>string有一个不用迭代器而使用下标的取子串函数(<strong>substr()函数第一个参数表示起始位置,第二个参数表示截取的字符数</strong>): </p>
 <div class="highlight"><pre><span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">"hello"</span><span class="p">;</span> 
 <span class="n">string</span> 
     <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="c1">// "hel" </span>
@@ -541,223 +544,257 @@ sort(X.rbegin(), X.rend()); // Sort array in descending order using with reverse
 <h3>Set</h3>
 <p>通常很难决定是先讲set容器还是map容器。我的意见是如果读者有一个基本的算法概念，那么从'set'讲起会容易理解一点。</p>
 <p>考虑我们需要一个有着下面特征的容器：</p>
-<p>增加一个元素，但是不允许它重复出现
-删除元素
-获取不同元素的数量
-判断元素是否已经在集合当中</p>
-<p>这是一个经常被使用到的任务。STL为其提供了一个特殊的容器--set。set能够添加，移除和在O(logN)内检查是否有指定元素存在，这里的N是指在set中存在的对象数量。当像set中集合中添加元素时，重复的将会被丢弃。set中元素的数量N，可以在O(1)的时间复杂度内得到。我们将稍后谈到set和map的算法实现。现在，让我们先研究一下set的接口: </p>
-<p>set<int> S; </int></p>
-<p>for(int i = 1; i &lt;= 100; i++) { 
-      s.insert(i); // Insert 100 elements, [1..100] 
- } </p>
-<p>s.insert(42); // does nothing, 42 already exists in set </p>
-<p>for(int i = 2; i &lt;= 100; i += 2) { 
-      S.remove(i); // Remove even values 
- } </p>
-<p>int N = int(S.size()); // N will be 50 </p>
+<ul>
+<li>增加一个元素，但是不允许它重复出现</li>
+<li>删除元素</li>
+<li>获取不同元素的数量</li>
+<li>判断元素是否已经在集合当中</li>
+</ul>
+<p>这是一个经常被使用到的任务。STL为其提供了一个特殊的容器--set。set能够添加，移除和在$O(logN)$内检查是否有指定元素存在，这里的N是指在set中存在的对象数量。当像set中集合中添加元素时，重复的将会被丢弃。set中元素的数量N，可以在$O(1)$的时间复杂度内得到。我们将稍后谈到set和map的算法实现。现在，让我们先研究一下set的接口: </p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">S</span><span class="p">;</span>
+
+<span class="nb">for</span><span class="p">(</span><span class="nx">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">S.insert</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span> <span class="c1">// Insert 100 elements, [1..100] </span>
+<span class="p">}</span>
+
+<span class="nx">S.insert</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span> <span class="c1">// does nothing, 42 already exists in set</span>
+
+<span class="nb">for</span><span class="p">(</span><span class="nx">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">;</span> <span class="nx">i</span> <span class="o">+=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">S.remove</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span> <span class="c1">// Remove even values </span>
+<span class="p">}</span>
+
+<span class="nx">int</span> <span class="n">N</span> <span class="o">=</span> <span class="nx">int</span><span class="p">(</span><span class="nx">S.size</span><span class="p">());</span> <span class="c1">// N will be 50</span>
+</pre></div>
+
+
 <p>push_back()成员函数对set是不适用的。因为set中的元素没有什么顺序关系，因此push_back()在这里就不适用了。</p>
 <p>由于set并不是线性容器，所以使用索引去访问元素是不可能的。因此唯一访问set元素的方法是使用迭代器。</p>
-<p>// Calculate the sum of elements in set 
- set<int> S; 
- //<br>
- int r = 0; 
- for(set<int>::const_iterator it = S.begin(); it != S.end(); it++) { 
-      r += *it; 
- } 
-这里使用遍历宏会变得非常优雅，为什么呢？试想这里有一个集合 set<pair<string, pair<int,vector<int=""> &gt; &gt;,
-你怎样去访问它呢？写写迭代器的类型？哦，不。还是使用我们的遍历宏吧。</pair<string,></int></int></p>
-<p>set&lt; pair<string, pair<="" int,="" vector<int=""> &gt; &gt; SS; 
- int total = 0; 
- tr(SS, it) { 
-      total += it-&gt;second.first; 
- } 
-注意 'it-&gt;second.first'的语法。因为'it'是一个迭代器了，我们需要'it'中取出一个对象进行操作。
-所以正确的语法是 '(<em>it).second.first'.尽管如此，写'something-&gt;'要比'(</em>something)'来的容易一点。
-要完整的解释的话估计要写好长--只要记住，对于迭代器而言，两种语法都是允许的。</string,></p>
-<p>要判断set中是否已经存在一些元素，使用'find()'成员函数。不要感到迷惑，虽然：在STL中有许多'find()'.
-有一个全局的算法'find()' 参数包括两个迭代器，元素并且在O(N)内完成。在set中使用它来查找元素是可能的，
-但是为什么有已经存在的O(logN)的算法还要要使用O(N)的算法呢？当在set和map（multiset/multimap，
-hash_map/hash_set,等等)进行搜索时，不要使用全局的find--相反的使用成员函数 'set::find()'。
-作为顺序的查找，set::find将会返回一个迭代器，要么指向找到的元素，要么指向'end()'。所以检查元素是否
-存在应该像下面这样： </p>
-<p>set<int> s; 
- //<br>
- if(s.find(42) != s.end()) { 
-      // 42 presents in set 
- } 
- else { 
-      // 42 not presents in set 
- } 
-另外一个在O(logN)下工作的算法是计算函数。有些人认为</int></p>
-<p>set<int> s; 
- //<br>
- if(s.find(42) != s.end()) { 
-      // 42 presents in set 
- } 
- else { 
-      // 42 not presents in set 
- } 
-甚至 </int></p>
-<p>if(s.count(42)) { 
-      // … 
- } 
-非常容易写。但是就个人而言，在set或者map中使用count()是没有意义的：元素要么存在要么不存在。
+<div class="highlight"><pre><span class="c1">// Calculate the sum of elements in set </span>
+<span class="n">set</span><span class="o">&lt;</span><span class="k">int</span><span class="o">&gt;</span> <span class="no">S</span><span class="p">;</span> 
+<span class="c1">//  </span>
+<span class="k">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span> 
+<span class="k">for</span><span class="p">(</span><span class="n">set</span><span class="o">&lt;</span><span class="k">int</span><span class="o">&gt;::</span><span class="n">const_iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="no">S</span><span class="p">.</span><span class="k">begin</span><span class="p">();</span> <span class="n">it</span> <span class="o">!=</span> <span class="no">S</span><span class="p">.</span><span class="k">end</span><span class="p">();</span> <span class="n">it</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="n">r</span> <span class="o">+=</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></div>
+
+
+<p>这里使用遍历宏会变得非常优雅，为什么呢？试想这里有一个集合set<pair<string, pair<int,vector<int=""> &gt; &gt;,你怎样去访问它呢？写写迭代器的类型？哦，不。还是使用我们的遍历宏吧。</pair<string,></p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span> <span class="kt">pair</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">pair</span><span class="o">&lt;</span> <span class="nx">int</span><span class="p">,</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="o">&gt;</span> <span class="nx">SS</span><span class="p">;</span> 
+<span class="nx">int</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="nx">tr</span><span class="p">(</span><span class="nx">SS</span><span class="p">,</span> <span class="nx">it</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">total</span> <span class="o">+=</span> <span class="nx">it</span><span class="o">-&gt;</span><span class="nx">second.first</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></div>
+
+
+<p>注意 'it-&gt;second.first'的语法。因为'it'是一个迭代器了，我们需要'it'中取出一个对象进行操作。所以正确的语法是'(<em>it).second.first'.尽管如此，写'something-&gt;'要比'(</em>something)'来的容易一点。要完整的解释的话估计要写好长--只要记住，对于迭代器而言，两种语法都是允许的。</p>
+<p>要判断set中是否已经存在一些元素，使用'find()'成员函数。不要感到迷惑，虽然：在STL中有许多'find()'.有一个全局的算法'find()' 参数包括两个迭代器，元素并且在O(N)内完成。在set中使用它来查找元素是可能的，但是为什么有已经存在的O(logN)的算法还要要使用O(N)的算法呢？当在set和map（multiset/multimap，hash_map/hash_set,等等)进行搜索时，不要使用全局的find--相反的使用成员函数'set::find()'。作为顺序的查找，set::find将会返回一个迭代器，要么指向找到的元素，要么指向'end()'。所以检查元素是否存在应该像下面这样： </p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
+<span class="c1">//  </span>
+<span class="k">if</span><span class="p">(</span><span class="nx">s.find</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">s.end</span><span class="p">())</span> <span class="p">{</span> 
+    <span class="c1">// 42 presents in set </span>
+<span class="p">}</span> 
+<span class="k">else</span> <span class="p">{</span> 
+    <span class="c1">// 42 not presents in set </span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>另外一个在O(logN)下工作的算法是计算函数。有些人认为</p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
+<span class="c1">//  </span>
+<span class="k">if</span><span class="p">(</span><span class="nx">s.find</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span> <span class="o">!=</span> <span class="nx">s.end</span><span class="p">())</span> <span class="p">{</span> 
+    <span class="c1">// 42 presents in set </span>
+<span class="p">}</span> 
+<span class="k">else</span> <span class="p">{</span> 
+    <span class="c1">// 42 not presents in set </span>
+<span class="p">}</span> 
+<span class="err">甚至</span>
+
+ <span class="k">if</span><span class="p">(</span><span class="nx">s.count</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span> <span class="p">{</span> 
+      <span class="c1">// … </span>
+ <span class="p">}</span>
+</pre></div>
+
+
+<p>非常容易写。但是就个人而言，在set或者map中使用count()是没有意义的：元素要么存在要么不存在。
 对我来说，我更加喜欢使用下面两个宏：</p>
-<h1>define present(container, element) (container.find(element) != container.end())</h1>
-<h1>define cpresent(container, element) (find(all(container),element) != container.end())</h1>
+<div class="highlight"><pre><span class="c">#define present(container, element) (container.find(element) != container.end()) </span>
+<span class="c">#define cpresent(container, element) (find(all(container),element) != container.end())</span>
+</pre></div>
+
+
 <p>(记住 all(c) 代表 "c.begin(),c.end")</p>
 <p>这里，'present()'使用成员函数'find()'返回这个元素是否存在与容器中，而'cpresent'是用于vector的。</p>
 <p>想要从set中移除一个元素使用erase()函数。</p>
-<p>set<int> s; 
- // … 
- s.insert(54); 
- s.erase(29); 
-erase也有区间的形式: </int></p>
-<p>set<int> s; 
- // .. </int></p>
-<p>set<int>::iterator it1, it2; 
- it1 = s.find(10); 
- it2 = s.find(100); 
- // Will work if it1 and it2 are valid iterators, i.e. values 10 and 100 present in set. 
- s.erase(it1, it2); // Note that 10 will be deleted, but 100 will remain in the container </int></p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
+<span class="c1">// … </span>
+<span class="nx">s.insert</span><span class="p">(</span><span class="mi">54</span><span class="p">);</span> 
+<span class="nx">s.erase</span><span class="p">(</span><span class="mi">29</span><span class="p">);</span>
+</pre></div>
+
+
+<p>erase也有区间的形式: </p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
+<span class="c1">// ..</span>
+
+<span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">iterator</span> <span class="nx">it1</span><span class="p">,</span> <span class="nx">it2</span><span class="p">;</span> 
+<span class="n">it1</span> <span class="o">=</span> <span class="nx">s.find</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span> 
+<span class="n">it2</span> <span class="o">=</span> <span class="nx">s.find</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span> 
+<span class="c1">// Will work if it1 and it2 are valid iterators, i.e. values 10 and 100 present in set. </span>
+<span class="nx">s.erase</span><span class="p">(</span><span class="nx">it1</span><span class="p">,</span> <span class="nx">it2</span><span class="p">);</span> <span class="c1">// Note that 10 will be deleted, but 100 will remain in the container</span>
+</pre></div>
+
+
 <p>set有一个区间的构造函数： </p>
-<p>int data[5] = { 5, 1, 4, 2, 3 }; 
- set<int> S(data, data+5); 
-它给我们提供一个消除vector中重复元素的办法，并且进行排序，如下： </int></p>
-<p>vector<int> v; 
- // … 
- set<int> s(all(v)); 
- vector<int> v2(all(s)); 
-这里，'v2'将和 'v'包含一样的元素，但是进行了升序排序，并且不具有重复元素。</int></int></int></p>
-<p>任何可以进行比较的元素都可以在set中进行存储。这个将在后面进行讨论。</p>
-<p>Map</p>
+<div class="highlight"><pre><span class="nx">int</span> <span class="kd">data</span><span class="err">[</span><span class="mi">5</span><span class="cp">]</span> = {5, 1, 4, 2, 3 }; 
+set<span class="nt">&lt;int&gt;</span> S(data, data+5);
+</pre></div>
+
+
+<p>它给我们提供一个消除vector中重复元素的办法，并且进行排序，如下： </p>
+<div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span> 
+<span class="c1">// … </span>
+<span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span> 
+<span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v2</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nb">s</span><span class="p">));</span>
+</pre></div>
+
+
+<p>这里，'v2'将和 'v'包含一样的元素，但是进行了升序排序，并且不具有重复元素。任何可以进行比较的元素都可以在set中进行存储。这个将在后面进行讨论。</p>
+<h3>Map</h3>
 <p>有两种关于map的解释，简单的解释如下： </p>
-<p>map<string, int=""> M; 
- M["Top"] = 1; 
- M["Coder"] = 2; 
- M["SRM"] = 10; </string,></p>
-<p>int x = M["Top"] + M["Coder"]; </p>
-<p>if(M.find("SRM") != M.end()) { 
-      M.erase(M.find("SRM")); 
- } </p>
+<div class="highlight"><pre><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">M</span><span class="p">;</span> 
+<span class="n">M</span><span class="p">[</span><span class="s">"Top"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> 
+<span class="n">M</span><span class="p">[</span><span class="s">"Coder"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> 
+<span class="n">M</span><span class="p">[</span><span class="s">"SRM"</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">M</span><span class="p">[</span><span class="s">"Top"</span><span class="p">]</span> <span class="o">+</span> <span class="n">M</span><span class="p">[</span><span class="s">"Coder"</span><span class="p">];</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">M</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"SRM"</span><span class="p">)</span> <span class="o">!=</span> <span class="n">M</span><span class="p">.</span><span class="n">end</span><span class="p">())</span> <span class="p">{</span> 
+    <span class="n">M</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">M</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"SRM"</span><span class="p">));</span> 
+<span class="p">}</span>
+</pre></div>
+
+
 <p>非常简单，难道不是吗？</p>
-<p>事实上，map和set很像，除了map保存的不仅仅是值，而是一个队 <key,value>.
-map确保一个队中最多只有一个指定的key存在。另外一个比较好的是map定义了
-[]操作符。</key,value></p>
-<p>遍历map可以简单的使用'tr()'宏。注意迭代器将会使一个std::pair的key和value， 要获取值
-可以使用it-&gt;second.下面是个例子： </p>
-<p>map<string, int=""> M; 
- // … 
- int r = 0; 
- tr(M, it) { 
-      r += it-&gt;second; 
- } 
- 不要使用迭代器去更改map中元素的key， 因为它可能会破坏map内部数据结构的集成性（看下面).</string,></p>
-<p>要记住的最重要的关于map的事情是，[]操作符将会创建一个元素,如果那个元素不存在的话。并且这个元素将会
-被添加到map中。所以，如果你想使你的代码更加快，绝不要用[]操作符除非你能确保那个元素已经
-存在与map中了。这就是为什么[]操作符不用在map作为常引用参数传递给一些函数的原因了:</p>
-<p>void f(const map<string, int="">&amp; M) { 
-      if(M["the meaning"] == 42) { // Error! Cannot use [] on const map objects! 
-      } 
-      if(M.find("the meaning") != M.end() &amp;&amp; *M.find("the meaning") == 42) { // Correct 
-           cout &lt;&lt; "Don't Panic!" &lt;&lt; endl; 
-      } 
- } 
-Notice on Map and Set</string,></p>
-<p>map和set内部使用红黑树实现的。因此，当访问这些容器的时候，map和set的元素总是以升序排列。
-并且这就是为什么强烈建议不要在遍历map或者set时更改key值的原因了：如果你做了修改，那么将会
-打乱顺序，这样至少导致容器算法的不正确。</p>
+<p>事实上，map和set很像，除了map保存的不仅仅是值，而是一个键值对<key,value>.map确保一个队中最多只有一个指定的key存在。另外一个比较好的是map定义了[]操作符。</key,value></p>
+<p>遍历map可以简单的使用'tr()'宏。注意迭代器将会使一个std::pair的key和value，要获取值可以使用it-&gt;second.下面是个例子： </p>
+<div class="highlight"><pre><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">M</span><span class="p">;</span> 
+<span class="c1">// … </span>
+<span class="kt">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
+<span class="n">tr</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">it</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="n">r</span> <span class="o">+=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span> 
+<span class="p">}</span>
+</pre></div>
+
+
+<p>不要使用迭代器去更改map中元素的key， 因为它可能会破坏map内部数据结构的集成性（看下面).</p>
+<p>要记住的最重要的关于map的事情是，[]操作符将会创建一个元素,如果那个元素不存在的话。并且这个元素将会被添加到map中。所以，如果你想使你的代码更加快，绝不要用[]操作符除非你能确保那个元素已经存在与map中了。这就是为什么[]操作符不用在map作为常引用参数传递给一些函数的原因了:</p>
+<div class="highlight"><pre><span class="kt">void</span> <span class="nf">f</span><span class="p">(</span><span class="k">const</span> <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">M</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">if</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="s">"the meaning"</span><span class="p">]</span> <span class="o">==</span> <span class="mi">42</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Error! Cannot use [] on const map objects! </span>
+    <span class="p">}</span> 
+    <span class="k">if</span><span class="p">(</span><span class="n">M</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"the meaning"</span><span class="p">)</span> <span class="o">!=</span> <span class="n">M</span><span class="p">.</span><span class="n">end</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="o">*</span><span class="n">M</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"the meaning"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">42</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Correct </span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Don't Panic!"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> 
+    <span class="p">}</span> 
+<span class="p">}</span>
+</pre></div>
+
+
+<h3>Notice on Map and Set</h3>
+<p>map和set内部使用红黑树实现的。因此，当访问这些容器的时候，map和set的元素总是以升序排列。并且这就是为什么强烈建议不要在遍历map或者set时更改key值的原因了：如果你做了修改，那么将会打乱顺序，这样至少导致容器算法的不正确。</p>
 <p>但是事实上map和set元素总是有序的这一点在解决TopCoder问题上面是很实用的。</p>
 <p>另外一个重要的事情是定义在map和set迭代器上的操作符++和--。因此，如果值42在set当中并且它不是第一个
 也不是最后一个，那么下面这段代码是可以工作的：</p>
-<p>set<int> S; 
- //<br>
- set<int>::iterator it = S.find(42); 
- set<int>::iterator it1 = it, it2 = it; 
- it1--; 
- it2++; 
- int a = <em>it1, b = </em>it2; </int></int></int></p>
+<div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">S</span><span class="p">;</span> 
+<span class="c1">//  </span>
+<span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">iterator</span> <span class="n">it</span> <span class="o">=</span> <span class="nx">S.find</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span> 
+<span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">::</span><span class="nl">iterator</span> <span class="n">it1</span> <span class="o">=</span> <span class="nx">it</span><span class="p">,</span> <span class="n">it2</span> <span class="o">=</span> <span class="nx">it</span><span class="p">;</span> 
+<span class="nx">it1</span><span class="o">--</span><span class="p">;</span> 
+<span class="nx">it2</span><span class="o">++</span><span class="p">;</span> 
+<span class="nx">int</span> <span class="n">a</span> <span class="o">=</span> <span class="o">*</span><span class="nx">it1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="o">*</span><span class="nx">it2</span><span class="p">;</span>
+</pre></div>
+
+
 <p>这里a将包含42左边的第一个邻居，而b则包含右边的第一个邻居。</p>
-<p>More on algorithms</p>
-<p>是时候深入讨论一些算法了。大多数算法被定义在#include <algorithm>头文件中了。首先，STL提供了
-3个非常简单的算法： min(a,b), max(a,b), swap(a,b)。 这里min(a,b)和max(a,b)返回两个元素中的
-最小值和最大值，而swap(a,b)交换两个元素。</algorithm></p>
-<p>sort()算法也被广泛的使用着。调用sort(begin,end)将会将一定区间进行升序排列。注意sort()需要随机访问
-迭代器,因此它并不是在任何容器上都适用。尽管如此，你也许不会在一个已经有序的set上调用sort()。</p>
-<p>你已经听说了find()算法了。呼叫find(begin,end,element)将返回'element'第一次出现的迭代器或者end如果这个元素
-没有找到的话。与find(...)不同的是， count(begin,end,element)返回一个元素在整个容器或者部分中出现的数量。
-记住set和map都有成员函数find()和count(),它们都是在O(logN)内工作的，而std::find()和std::count()在O(N)内工作。</p>
-<p>其他一些有用的算法有 next_permutation() 和 prev_permutation()。让我们先谈谈 next_permutation.
-调用 next_permutation(begin, end)将会使区间[begin, end)保持同样元素的下一个排列或者当当前排列是最后一个排列时返回false。因此， next_permutation使得很多工作变得相当简单。如果你想要检查所有的排列，像下面这样写：</p>
-<p>vector<int> v; </int></p>
-<p>for(int i = 0; i &lt; 10; i++) { 
-      v.push_back(i); 
- } </p>
-<p>do { 
-      Solve(, v); 
- } while(next_permutation(all(v)); </p>
-<p>不用忘记确保容器中的元素在你第一次调用 next_permutation(...)之前已经排序了，他们的初始
-状态将决定第一个排列；否则的话，有一些排列将不会被检查到。</p>
-<p>String Streams</p>
+<h3>More on algorithms</h3>
+<p>是时候深入讨论一些算法了。大多数算法被定义在#include <algorithm>头文件中了。首先，STL提供了3个非常简单的算法： min(a,b), max(a,b), swap(a,b)。 这里min(a,b)和max(a,b)返回两个元素中的最小值和最大值，而swap(a,b)交换两个元素。</algorithm></p>
+<p>sort()算法也被广泛的使用着。调用sort(begin,end)将会将一定区间进行升序排列。<strong>注意sort()需要随机访问迭代器</strong>,因此它并不是在任何容器上都适用。尽管如此，你也许不会在一个已经有序的set上调用sort()。</p>
+<p>你已经听说了find()算法了。呼叫find(begin,end,element)将返回'element'第一次出现的迭代器或者end如果这个元素没有找到的话。与find(...)不同的是，count(begin,end,element)返回一个元素在整个容器或者部分中出现的数量。记住set和map都有成员函数find()和count(),它们都是在O(logN)内工作的，而std::find()和std::count()在O(N)内工作。</p>
+<p>其他一些有用的算法有next_permutation()和prev_permutation()。让我们先谈谈next_permutation.调用next_permutation(begin, end)将会使区间[begin, end)保持同样元素的下一个排列或者当当前排列是最后一个排列时返回false。因此，next_permutation使得很多工作变得相当简单。如果你想要检查所有的排列，像下面这样写：</p>
+<div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span>
+
+<span class="nb">for</span><span class="p">(</span><span class="nx">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="nx">v.push_back</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span> 
+<span class="p">}</span>
+
+<span class="k">do</span> <span class="p">{</span> 
+    <span class="nx">Solve</span><span class="p">(,</span><span class="nx">v</span><span class="p">);</span> 
+<span class="p">}</span> <span class="k">while</span><span class="p">(</span><span class="nx">next_permutation</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
+</pre></div>
+
+
+<p><strong>不用忘记确保容器中的元素在你第一次调用next_permutation(...)之前已经排序了，他们的初始状态将决定第一个排列；否则的话，有一些排列将不会被检查到</strong>。</p>
+<h3>String Streams</h3>
 <p>你经常需要处理一些字符串的输入和输出。C++为其提供了两个有趣的对象： 'istringstream'和'ostringstream'</p>
-<p>他们都在 #include <sstream> 中定义</sstream></p>
-<p>istringstream 对象允许你像从标准输入</p>
-<p>void f(const string&amp; s) { </p>
-<div class="highlight"><pre>  <span class="c1">// Construct an object to parse strings </span>
-  <span class="nx">istringstream</span> <span class="nx">is</span><span class="p">(</span><span class="nb">s</span><span class="p">);</span>
+<p>他们都在 #include <sstream> 中定义。istringstream 对象允许你像从标准输入</sstream></p>
+<div class="highlight"><pre><span class="bp">void</span> <span class="nb">f</span><span class="p">(</span><span class="nx">const</span> <span class="kt">string</span><span class="o">&amp;</span> <span class="nb">s</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="c1">// Construct an object to parse strings </span>
+    <span class="nx">istringstream</span> <span class="nx">is</span><span class="p">(</span><span class="nb">s</span><span class="p">);</span>
 
-  <span class="c1">// Vector to store data </span>
-  <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span>
+    <span class="c1">// Vector to store data </span>
+    <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span>
 
-  <span class="c1">// Read integer while possible and add it to the vector </span>
-  <span class="nx">int</span> <span class="nx">tmp</span><span class="p">;</span> 
-  <span class="k">while</span><span class="p">(</span><span class="nx">is</span> <span class="o">&gt;&gt;</span> <span class="nx">tmp</span><span class="p">)</span> <span class="p">{</span> 
-       <span class="nx">v.push_back</span><span class="p">(</span><span class="nx">tmp</span><span class="p">);</span> 
-  <span class="p">}</span>
+    <span class="c1">// Read integer while possible and add it to the vector </span>
+    <span class="nx">int</span> <span class="nx">tmp</span><span class="p">;</span> 
+    <span class="k">while</span><span class="p">(</span><span class="nx">is</span> <span class="o">&gt;&gt;</span> <span class="nx">tmp</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="nx">v.push_back</span><span class="p">(</span><span class="nx">tmp</span><span class="p">);</span> 
+    <span class="p">}</span> 
+<span class="p">}</span>
 </pre></div>
 
 
-<p>} </p>
 <p>ostringstream是用来格式化输出的。下面是代码：</p>
-<p>string f(const vector<int>&amp; v) { </int></p>
-<div class="highlight"><pre>  <span class="c1">// Constucvt an object to do formatted output </span>
-  <span class="nx">ostringstream</span> <span class="nx">os</span><span class="p">;</span>
+<div class="highlight"><pre><span class="kt">string</span> <span class="nb">f</span><span class="p">(</span><span class="nx">const</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
 
-  <span class="c1">// Copy all elements from vector&lt;int&gt; to string stream as text </span>
-  <span class="nx">tr</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">it</span><span class="p">)</span> <span class="p">{</span> 
-       <span class="nx">os</span> <span class="o">&lt;&lt;</span> <span class="s1">' '</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="nx">it</span><span class="p">;</span> 
-  <span class="p">}</span>
+    <span class="c1">// Constucvt an object to do formatted output </span>
+    <span class="nx">ostringstream</span> <span class="nx">os</span><span class="p">;</span>
 
-  <span class="c1">// Get string from string stream </span>
-  <span class="kt">string</span> <span class="n">s</span> <span class="o">=</span> <span class="nx">os.str</span><span class="p">();</span>
+    <span class="c1">// Copy all elements from vector&lt;int&gt; to string stream as text </span>
+    <span class="nx">tr</span><span class="p">(</span><span class="nx">v</span><span class="p">,</span> <span class="nx">it</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="nx">os</span> <span class="o">&lt;&lt;</span> <span class="s1">' '</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="nx">it</span><span class="p">;</span> 
+    <span class="p">}</span>
 
-  <span class="c1">// Remove first space character </span>
-  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">s.empty</span><span class="p">())</span> <span class="p">{</span> <span class="c1">// Beware of empty string here </span>
-       <span class="n">s</span> <span class="o">=</span> <span class="nx">s.substr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> 
-  <span class="p">}</span>
+    <span class="c1">// Get string from string stream </span>
+    <span class="kt">string</span> <span class="n">s</span> <span class="o">=</span> <span class="nx">os.str</span><span class="p">();</span>
 
-  <span class="k">return</span> <span class="nb">s</span><span class="p">;</span>
+    <span class="c1">// Remove first space character </span>
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">s.empty</span><span class="p">())</span> <span class="p">{</span> <span class="c1">// Beware of empty string here </span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nx">s.substr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> 
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nb">s</span><span class="p">;</span> 
+<span class="p">}</span>
 </pre></div>
 
 
-<p>} </p>
-<p>Summary</p>
+<h3>Summary</h3>
 <p>接着往下讲STL，我更想总结一下被用到的一些模版列表。这个将会简化阅读代码样例
 并且我希望，提高你的TopCoder技巧。这些模版列表和宏如下： </p>
-<p>typedef vector<int> vi; 
- typedef vector<vi> vvi; 
- typedef pair<int,int> ii; 
- #define sz(a) int((a).size()) 
- #define pb push_back 
- #defile all(c) (c).begin(),(c).end() 
- #define tr(c,i) for(typeof((c).begin()) i = (c).begin(); i != (c).end(); i++) 
- #define present(c,x) ((c).find(x) != (c).end()) 
- #define cpresent(c,x) (find(all(c),x) != (c).end()) 
-vector<int>容器被放在这是因为它真的很受欢迎。事实上，对于众多容器使用简短的假名
-（尤其像 vector<string>, vector<ii>, vector<pair<double, ii=""> &gt;)是非常方便的。
-但是这个列表仅仅包含需要理解接下来内容的宏。</pair<double,></ii></string></int></int,int></vi></int></p>
-<p>另外一个需要记住的是： 当#define左边的序列出现在右边时，它应该加上圆括号来避免许多
-不必要的问题。</p><script type="text/javascript">
+<div class="highlight"><pre><span class="nx">typedef</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">vi</span><span class="p">;</span> 
+<span class="nx">typedef</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">vi</span><span class="o">&gt;</span> <span class="nx">vvi</span><span class="p">;</span> 
+<span class="nx">typedef</span> <span class="kt">pair</span><span class="o">&lt;</span><span class="nx">int</span><span class="p">,</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">ii</span><span class="p">;</span> 
+<span class="vi">#define</span> <span class="nx">sz</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span> <span class="nx">int</span><span class="p">((</span><span class="nx">a</span><span class="p">)</span><span class="bp">.</span><span class="nb">size</span><span class="p">())</span> 
+<span class="vi">#define</span> <span class="nx">pb</span> <span class="nx">push_back</span> 
+<span class="vi">#defile</span> <span class="kc">all</span><span class="p">(</span><span class="nx">c</span><span class="p">)</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">(),(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">()</span> 
+<span class="vi">#define</span> <span class="nx">tr</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">i</span><span class="p">)</span> <span class="nb">for</span><span class="p">(</span><span class="nx">typeof</span><span class="p">((</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">())</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nx">begin</span><span class="p">();</span> <span class="nx">i</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">();</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> 
+<span class="vi">#define</span> <span class="nx">present</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span> <span class="p">((</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">find</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">())</span> 
+<span class="vi">#define</span> <span class="nx">cpresent</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">c</span><span class="p">),</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">())</span>
+</pre></div>
+
+
+<p>vector<int>容器被放在这是因为它真的很受欢迎。事实上，对于众多容器使用简短的假名（尤其像vector<string>,vector<ii>, vector<pair<double, ii=""> &gt;)是非常方便的。但是这个列表仅仅包含需要理解接下来内容的宏。</pair<double,></ii></string></int></p>
+<p>另外一个需要记住的是： 当#define左边的序列出现在右边时，它应该加上圆括号来避免许多不必要的问题。</p><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
