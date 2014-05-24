@@ -1,5 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-21T00:00:00+08:00</updated><entry><title>微语录[持续更新中]</title><link href="http://www.qingyuanxingsi.com/wei-yu-lu-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-21:wei-yu-lu-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;ul&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-24T00:00:00+08:00</updated><entry><title>计算机视觉(I):图像处理基础【待续】</title><link href="http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-dai-xu.html" rel="alternate"></link><updated>2014-05-24T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-24:ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-dai-xu.html</id><summary type="html">&lt;p&gt;还有一个月左右本科生涯就结束了,毕业设计目前也做的差不多了,趁着这段时间学点图像处理的东东,貌似应该可能会有点意思吧。&lt;/p&gt;
+&lt;h1&gt;直方图均衡化&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;p&gt;直方图均衡化的作用是&lt;strong&gt;图像增强&lt;/strong&gt;(关于直方图均衡化的背景等请参考参考文献[3])。&lt;/p&gt;
+&lt;p&gt;关于直方图均衡化有两个问题比较难懂:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;一是为什么要选用累积分布函数;&lt;/li&gt;
+&lt;li&gt;二是为什么使用累积分布函数处理后像素值会均匀分布。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;第一个问题。均衡化过程中，必须要保证两个条件：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;像素无论怎么映射，一定要保证原来的大小关系不变，较亮的区域，依旧是较亮的，较暗依旧暗，只是对比度增大，绝对不能明暗颠倒；&lt;/li&gt;
+&lt;li&gt;如果是八位图像，那么像素映射函数的值域应在0和255之间的，不能越界。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;综合以上两个条件，累积分布函数是个好的选择，因为累积分布函数是单调增函数（控制大小关系），并且值域是0到1（控制越界问题），所以直方图均衡化中使用的是累积分布函数。&lt;/p&gt;
+&lt;p&gt;第二个问题。累积分布函数具有一些好的性质，那么如何运用累积分布函数使得直方图均衡化？比较概率分布函数和累积分布函数，前者的二维图像是参差不齐的，后者是单调递增的。直方图均衡化过程中，映射方法是:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+s_k = \sum_{j=0}^k \frac{n_j}{n},k=0,1,2\cdots,L-1
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中，$n$是图像中像素的总和，$n_j$是当前灰度级的像素个数，$L$是图像中可能的灰度级总数。&lt;/p&gt;
+&lt;p&gt;下面我们来看看通过上述公式怎样实现的拉伸的。假设有如下图像：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="img_src" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hist1_zps2c68d1d4.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;得图像的统计信息如下图所示，并根据统计信息完成灰度值映射：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="HIST INFO" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hist2_zps208dde74.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;映射后的图像如下所示：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="img_dst" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hist3_zpsc1020cfe.jpg" /&gt;.&lt;/p&gt;
+&lt;p&gt;以下我们给出对彩色图像进行直方图均衡化的具体代码,对于彩色图像而言,我们需要先将图像分割成多个通道,然后对通道进行直方图均衡化，最后将得到的均衡化后的通道图合并为目标图像。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;iostream&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;opencv2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;core&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;core.hpp&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;opencv2&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;highgui&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;highgui.hpp&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;opencv&lt;/span&gt;&lt;span class="p"&gt;/&lt;/span&gt;&lt;span class="nx"&gt;cv.h&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+
+&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;char&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="nx"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;IplImage&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;cvLoadImage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/home/qingyuanxingsi/workspace/C++/contents/lena.jpg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;IplImage&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="nx"&gt;imgChannel&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; = { 0, 0, 0, 0 };
+    IplImage* dst = cvCreateImage(cvGetSize( src ), IPL_DEPTH_8U, 3);
+
+    if( src )
+    {
+        for( i = 0; i &lt;span class="nt"&gt;&amp;lt; src&lt;/span&gt; &lt;span class="na"&gt;-&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; nChannels; i++ )
+        {
+            //Single Channel Image required for hist equalization
+            imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; = cvCreateImage( cvGetSize( src ), IPL_DEPTH_8U, 1 );
+        }
+        //Split the channels
+        cvSplit( src, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; );//BGRA
+        for( i = 0; i &lt;span class="nt"&gt;&amp;lt; dst&lt;/span&gt; &lt;span class="na"&gt;-&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; nChannels; i++ )
+        {
+            //Hist Equalize
+            cvEqualizeHist( imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; );
+        }
+
+        //Merge the channels
+        cvMerge( imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;, dst );
+        cvNamedWindow( &amp;quot;src&amp;quot;, 1 );
+        cvShowImage( &amp;quot;src&amp;quot;, src );
+        cvNamedWindow( &amp;quot;Equalize&amp;quot;, 1 );
+        cvShowImage( &amp;quot;Equalize&amp;quot;, dst );
+
+        //Save the images
+        cvSaveImage(&amp;quot;src.jpg&amp;quot;,src);
+        cvSaveImage(&amp;quot;histEqualize.jpg&amp;quot;,dst);
+
+        cvWaitKey(0);
+        //Release Resources
+        for( i = 0; i &lt;span class="nt"&gt;&amp;lt; src&lt;/span&gt; &lt;span class="na"&gt;-&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt; nChannels; i++ )
+        {
+            if( imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; )
+            {
+                cvReleaseImage( &lt;span class="err"&gt;&amp;amp;&lt;/span&gt;imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; );
+                //imgChannel&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; = 0;
+            }
+        }
+        cvReleaseImage( &lt;span class="err"&gt;&amp;amp;&lt;/span&gt;dst );
+    }
+
+    return 0;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;上述代码中我们采用的图片为著名的&lt;strong&gt;Lena&lt;/strong&gt;,如下图所示:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="LENA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/src_zps4d025e5f.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;进行直方图均衡化后得到的图像如下图所示:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="LENA_EQUALIZED" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/histEqualize_zps433e20fa.jpg" /&gt;&lt;/p&gt;
+&lt;h1&gt;参考文献&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://blog.csdn.net/honpey/article/details/8770919"&gt;直方图均衡化原理&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.csdn.net/sundy_2004/article/details/7259614"&gt;OpenCV直方图均衡化(cvEqualizeHist)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Histogram_equalization"&gt;Histogram equalization&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="计算机视觉"></category><category term="图像处理"></category></entry><entry><title>微语录[持续更新中]</title><link href="http://www.qingyuanxingsi.com/wei-yu-lu-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-21T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-21:wei-yu-lu-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;ul&gt;
 &lt;li&gt;大多数的创新属于微创新&lt;strong&gt;Micro Innovation&lt;/strong&gt;,我理解为对缺陷的弥补，和品质的堆积。比如说洗衣服太费劲，于是发明洗衣机，这是对缺陷的弥补;苹果手机组合这个世界上已有的各种方案，推出一种新的用户体验，这属于品质聚集。(自然语言处理群-小宝儿)&lt;/li&gt;
 &lt;/ul&gt;</summary><category term="微语录"></category></entry><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-20T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-20:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
