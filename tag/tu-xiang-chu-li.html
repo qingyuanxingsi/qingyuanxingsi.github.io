@@ -273,6 +273,90 @@ G_0(x,y) = Ae^{\frac{-(x-\mu_x)^2}{2\sigma_x^2}+\frac{-(y-\mu_y)^2}{2\sigma_y^2}
 <p><img alt="Box Blur" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boxBlur_zpsc775ff39.jpg" /></p>
 <p><img alt="Average Blur" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/averageBlur_zps5004133d.jpg" /></p>
 <p><img alt="Gaussian Blur" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gaussianBlur_zps90a2a616.jpg" /></p>
+<h1>非线性滤波</h1>
+<hr />
+<h2>相关理论与概念讲解</h2>
+<h3>非线性滤波概述</h3>
+<p>之前的那篇文章里，我们所考虑的滤波器都是线性的，即两个信号之和的响应和他们各自响应之和相等。换句话说，每个像素的输出值是一些输入像素的加权和，线性滤波器易于构造，并且易于从频率响应角度来进行分析。</p>
+<p>其实在很多情况下，使用邻域像素的非线性滤波也许会得到更好的效果。比如在噪声是散粒噪声而不是高斯噪声，即图像偶尔会出现很大的值的时候。在这种情况下，用高斯滤波器对图像进行模糊的话，噪声像素是不会被去除的，它们只是转换为更为柔和但仍然可见的散粒。</p>
+<p>这就到了中值滤波登场的时候了。</p>
+<h3>中值滤波</h3>
+<p><strong>中值滤波(Median filter)</strong>是一种典型的非线性滤波技术，基本思想是用像素点邻域灰度值的中值来代替该像素点的灰度值，该方法在去除脉冲噪声、椒盐噪声的同时又能保留图像边缘细节.</p>
+<p>中值滤波是基于排序统计理论的一种能有效抑制噪声的非线性信号处理技术，其基本原理是把数字图像或数字序列中一点的值用该点的一个邻域中各点值的中值代替，让周围的像素值接近的真实值，从而消除孤立的噪声点，对于斑点噪声（speckle noise）和椒盐噪声（salt-and-pepper noise）来说尤其有用，因为它不依赖于邻域内那些与典型值差别很大的值。中值滤波器在处理连续图像窗函数时与线性滤波器的工作方式类似，但滤波过程却不再是加权运算。</p>
+<p>中值滤波在一定的条件下可以克服常见线性滤波器如最小均方滤波、方框滤波器、均值滤波等带来的图像细节模糊，而且对滤除脉冲干扰及图像扫描噪声非常有效，也常用于保护边缘信息,保存边缘的特性使它在不希望出现边缘模糊的场合也很有用，是非常经典的平滑噪声处理方法。</p>
+<h4>中值滤波与均值滤波器比较</h4>
+<p>中值滤波器与均值滤波器比较的优势：在均值滤波器中，由于噪声成分被放入平均计算中，所以输出受到了噪声的影响，但是在中值滤波器中，由于噪声成分很难选上，所以几乎不会影响到输出。因此同样用3x3区域进行处理，中值滤波消除的噪声能力更胜一筹。中值滤波无论是在消除噪声还是保存边缘方面都是一个不错的方法。</p>
+<p>中值滤波器与均值滤波器比较的劣势：中值滤波花费的时间是均值滤波的5倍以上。</p>
+<p>顾名思义，中值滤波选择每个像素的邻域像素中的中值作为输出，或者说中值滤波将每一像素点的灰度值设置为该点某邻域窗口内的所有像素点灰度值的中值。</p>
+<p>例如，取3 x 3的函数窗，计算以点$[i,j]$为中心的函数窗像素中值步骤如下:</p>
+<ol>
+<li>按强度值大小排列像素点．</li>
+<li>选择排序像素集的中间值作为点$[i,j]$的新值．</li>
+</ol>
+<p>这一过程如图下图所示:</p>
+<p><img alt="Median Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/median_filter_1_zpsb49d3057.png" /></p>
+<p>一般采用奇数点的邻域来计算中值，但如果像素点数为偶数时，中值就取排序像素中间两点的平均值．</p>
+<p>中值滤波在一定条件下，可以克服线性滤波器（如均值滤波等）所带来的图像细节模糊，而且对滤除脉冲干扰即<strong>图像扫描噪声</strong>最为有效。在实际运算过程中并不需要图像的统计特性，也给计算带来不少方便。但是对一些细节多，特别是线、尖顶等细节多的图像不宜采用中值滤波。</p>
+<h3>双边滤波</h3>
+<p><strong>双边滤波(Bilateral filter)</strong>是一种非线性的滤波方法，是结合图像的空间邻近度和像素值相似度的一种折衷处理，同时考虑空域信息和灰度相似性，达到保边去噪的目的。具有简单、非迭代、局部的特点。</p>
+<p>双边滤波器的好处是可以做边缘保存（edge preserving），一般过去用的维纳滤波或者高斯滤波去降噪，都会较明显地模糊边缘，对于高频细节的保护效果并不明显。双边滤波器顾名思义比高斯滤波多了一个高斯方差$\sigma_d$，它是基于空间分布的高斯滤波函数，所以在边缘附近，离的较远的像素不会太多影响到边缘上的像素值，这样就保证了边缘附近像素值的保存。但是由于保存了过多的高频信息，对于彩色图像里的高频噪声，双边滤波器不能够干净的滤掉，只能够对于低频信息进行较好的滤波。</p>
+<p>在双边滤波器中，输出像素的值依赖于邻域像素值的加权值组合：</p>
+<p>\begin{equation}
+ g(i,j) = \frac{\sum_{k,l} f(k,l)w(i,j,k,l)}{\sum_{k,l} w(i,j,k,l)}
+ \end{equation}</p>
+<p>而加权系数$w(i,j,k,l)$取决于定义域核和值域核的乘积。</p>
+<p>其中定义域核表示如下：</p>
+<p>\begin{equation}
+d(i,j,k,l) = exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2})
+\end{equation}</p>
+<p>定义域滤波对应图示：</p>
+<p><img alt="Bilateral Filter I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateral_filter_1_zpsdf39e81d.jpg" /></p>
+<p>值域核表示为：</p>
+<p>\begin{equation}
+r(i,j,k,l) = exp(-\frac{||f(i,j)-f(k,l)||^2}{2\sigma_r^2})
+\end{equation}</p>
+<p>值域滤波：</p>
+<p><img alt="Bilateral Filter II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateral_filter_2_zpsfb1c3bd4.jpg" /></p>
+<p>两者相乘后，就会产生依赖于数据的双边滤波权重函数：</p>
+<p>\begin{equation}
+w(i,j,k,l) = exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2}-\frac{||f(i,j)-f(k,l)||^2}{2\sigma_r^2})
+\end{equation}</p>
+<p>好了,关于中值滤波和双边滤波就介绍到这里啦。以下给出源码示例,图片还是采用椒盐化后的<strong>LENA</strong>:</p>
+<p><img alt="LENA PEPPER" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lena_pepper_zps03b26e7f.jpg" /></p>
+<div class="highlight"><pre><span class="cp">#include &quot;opencv2/core/core.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/highgui/highgui.hpp&quot;</span>
+<span class="cp">#include &quot;opencv2/imgproc/imgproc.hpp&quot;</span>
+
+<span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="p">)</span>
+<span class="p">{</span>
+       <span class="n">Mat</span> <span class="n">image</span><span class="o">=</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;/home/qingyuanxingsi/workspace/C++/contents/lena_pepper.jpg&quot;</span><span class="p">);</span>
+
+       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Median Blur&quot;</span> <span class="p">);</span>
+
+       <span class="c1">//Median Blur</span>
+       <span class="n">Mat</span> <span class="n">out</span><span class="p">;</span>
+       <span class="n">medianBlur</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
+       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Median Blur&quot;</span> <span class="p">,</span><span class="n">out</span> <span class="p">);</span>
+       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;medianBlur.jpg&quot;</span><span class="p">,</span><span class="n">out</span><span class="p">);</span>
+
+       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Bilateral Blur&quot;</span><span class="p">);</span>
+       <span class="c1">//Bilateral Blur</span>
+       <span class="n">Mat</span> <span class="n">bilateralBlur</span><span class="p">;</span>
+       <span class="n">bilateralFilter</span><span class="p">(</span> <span class="n">image</span><span class="p">,</span> <span class="n">bilateralBlur</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span> <span class="p">);</span>
+       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Bilateral Blur&quot;</span> <span class="p">,</span><span class="n">bilateralBlur</span> <span class="p">);</span>
+       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;bilateralBlur.jpg&quot;</span><span class="p">,</span><span class="n">bilateralBlur</span><span class="p">);</span>
+
+       <span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>经过中值滤波处理后得到的图像如下所示:</p>
+<p><img alt="Median Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/medianBlur_zpse9e58cde.jpg" /></p>
+<p>双边滤波后则得到如下图像:</p>
+<p><img alt="Bilateral Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateralBlur_zps500576ef.jpg" /></p>
 <blockquote>
 <p>TODO BOARD:</p>
 <ul>
@@ -286,6 +370,7 @@ G_0(x,y) = Ae^{\frac{-(x-\mu_x)^2}{2\sigma_x^2}+\frac{-(y-\mu_y)^2}{2\sigma_y^2}
 <li><a href="http://blog.csdn.net/sundy_2004/article/details/7259614">OpenCV直方图均衡化(cvEqualizeHist)</a></li>
 <li><a href="http://en.wikipedia.org/wiki/Histogram_equalization">Histogram equalization</a></li>
 <li><a href="http://blog.csdn.net/poem_qianmo/article/details/22745559#">【OpenCV入门教程之八】线性邻域滤波专场：方框滤波、均值滤波与高斯滤波</a></li>
+<li><a href="http://blog.csdn.net/poem_qianmo/article/details/23184547">【OpenCV入门教程之九】 非线性滤波专场：中值滤波、双边滤波</a></li>
 </ul><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
