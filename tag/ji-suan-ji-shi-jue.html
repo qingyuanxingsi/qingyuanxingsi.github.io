@@ -357,6 +357,164 @@ w(i,j,k,l) = exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2}-\frac{||f(i,j)-f(k,l)||^2}
 <p><img alt="Median Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/medianBlur_zpse9e58cde.jpg" /></p>
 <p>双边滤波后则得到如下图像:</p>
 <p><img alt="Bilateral Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateralBlur_zps500576ef.jpg" /></p>
+<h1>形态学图像处理</h1>
+<hr />
+<h2>相关理论与概念</h2>
+<h3>形态学概述</h3>
+<p>形态学（morphology）一词通常表示生物学的一个分支，该分支主要研究动植物的形态和结构。而我们图像处理中指的形态学，往往表示的是数学形态学。下面一起来了解数学形态学的概念。</p>
+<p>数学形态学（Mathematical morphology)是一门建立在格论和拓扑学基础之上的图像分析学科，是数学形态学图像处理的基本理论。其基本的运算包括：二值腐蚀和膨胀、二值开闭运算、骨架抽取、极限腐蚀、击中击不中变换、形态学梯度、Top-hat变换、颗粒分析、流域变换、灰值腐蚀和膨胀、灰值开闭运算、灰值形态学梯度等。</p>
+<p>简单来讲，形态学操作就是基于形状的一系列图像处理操作。其中,最基本的形态学操作有二种------膨胀与腐蚀(Dilation与Erosion)。</p>
+<p>膨胀与腐蚀能实现多种多样的功能，主要如下：</p>
+<ul>
+<li>消除噪声</li>
+<li>分割(isolate)出独立的图像元素，在图像中连接(join)相邻的元素。</li>
+<li>寻找图像中的明显的极大值区域或极小值区域</li>
+<li>求出图像的梯度</li>
+</ul>
+<p>我们在这里给出下文会用到的，用于对比膨胀与腐蚀运算的“青原行思”字样毛笔字原图：</p>
+<p><img alt="qingyuanxingsi" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/qingyuanxingsi_zpseffb8780.png" /></p>
+<p>在进行腐蚀和膨胀的讲解之前，首先需要注意，<strong>腐蚀和膨胀是对白色部分（高亮部分）而言的，不是黑色部分。膨胀就是图像中的高亮部分进行膨胀，“领域扩张”，效果图拥有比原图更大的高亮区域。腐蚀就是原图中的高亮部分被腐蚀，“领域被蚕食”，效果图拥有比原图更小的高亮区域</strong>。</p>
+<h3>膨胀</h3>
+<p>其实，膨胀就是求<strong>局部最大值</strong>的操作。</p>
+<p>按数学方面来说，膨胀或者腐蚀操作就是将图像（或图像的一部分区域，我们称之为$A$）与核（我们称之为$B$）进行卷积。
+核可以是任何的形状和大小，它拥有一个单独定义出来的参考点，我们称其为锚点（anchorpoint）。多数情况下，核是一个小的中间带有参考点和实心正方形或者圆盘，其实，我们可以把核视为模板或者掩码。</p>
+<p>而膨胀就是求局部最大值的操作，核$B$与图形卷积，即计算核$B$覆盖的区域的像素点的最大值，并把这个最大值赋值给参考点指定的像素。这样就会使图像中的高亮区域逐渐增长。如下图所示，这就是膨胀操作的初衷。</p>
+<p><img alt="Dilation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/dilation_zps98aef8c3.jpg" /></p>
+<p>膨胀的数学表达式：</p>
+<p>\begin{equation}
+dst(x,y) = max_{(x\prime,y\prime):element(x\prime,y\prime) \neq 0} src(x+x\prime,y+y\prime)
+\end{equation}</p>
+<p>膨胀效果图（毛笔字）：</p>
+<p><img alt="Dilation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/dilateImage_zps0dd1d7a2.png" /></p>
+<h3>腐蚀</h3>
+<p>再来看一下腐蚀，大家应该知道，膨胀和腐蚀是一对好基友，是相反的一对操作，所以腐蚀就是求局部最小值的操作。
+我们一般都会把腐蚀和膨胀对应起来理解和学习。下文就可以看到，两者的函数原型也是基本上一样的。</p>
+<p>原理图：</p>
+<p><img alt="Erosion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/erosion_zpsed6af489.jpg" /></p>
+<p>腐蚀的数学表达式：</p>
+<p>\begin{equation}
+dst(x,y) = min_{(x\prime,y\prime):element(x\prime,y\prime) \neq 0} src(x+x\prime,y+y\prime)
+\end{equation}</p>
+<p>腐蚀效果图（毛笔字）：</p>
+<p><img alt="Erosion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/erodeImage_zpsd284dea2.png" /></p>
+<p>代码示例如下:</p>
+<div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">core</span><span class="p">/</span><span class="nx">core.hpp</span><span class="o">&gt;</span>
+<span class="vi">#include</span><span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">highgui</span><span class="p">/</span><span class="nx">highgui.hpp</span><span class="o">&gt;</span>
+<span class="vi">#include</span><span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">imgproc</span><span class="p">/</span><span class="nx">imgproc.hpp</span><span class="o">&gt;</span>
+<span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
+
+<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
+<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">cv</span><span class="p">;</span>
+
+<span class="nx">int</span> <span class="nx">main</span><span class="p">(</span>  <span class="p">)</span>
+<span class="p">{</span>
+       <span class="c1">//Load original Image</span>
+       <span class="nx">Mat</span> <span class="n">image</span> <span class="o">=</span> <span class="nx">imread</span><span class="p">(</span><span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/qingyuanxingsi.png&quot;</span><span class="p">);</span>
+
+       <span class="c1">//Create the window</span>
+       <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Dilation&quot;</span><span class="p">);</span>
+       <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Erosion&quot;</span><span class="p">);</span>
+
+        <span class="c1">//Get Self-defined kernel</span>
+       <span class="nx">Mat</span> <span class="n">element</span> <span class="o">=</span> <span class="nx">getStructuringElement</span><span class="p">(</span><span class="nx">MORPH_RECT</span><span class="p">,</span> <span class="nb">Size</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>
+       <span class="nx">Mat</span> <span class="nx">dilateImage</span><span class="p">;</span>
+       <span class="nx">dilate</span><span class="p">(</span><span class="nb">image</span><span class="p">,</span><span class="nx">dilateImage</span><span class="p">,</span> <span class="nb">element</span><span class="p">);</span>
+
+       <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Dilation&quot;</span><span class="p">,</span> <span class="nx">dilateImage</span><span class="p">);</span>
+       <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;dilateImage.png&quot;</span><span class="p">,</span><span class="nx">dilateImage</span><span class="p">);</span>
+
+       <span class="nx">Mat</span> <span class="nx">erodeImage</span><span class="p">;</span>
+       <span class="nx">erode</span><span class="p">(</span><span class="nb">image</span><span class="p">,</span><span class="nx">erodeImage</span><span class="p">,</span> <span class="nb">element</span><span class="p">);</span>
+
+       <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Erosion&quot;</span><span class="p">,</span> <span class="nx">erodeImage</span><span class="p">);</span>
+       <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;erodeImage.png&quot;</span><span class="p">,</span><span class="nx">erodeImage</span><span class="p">);</span>
+
+       <span class="nx">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+
+       <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>生成的效果图上面已给出。</p>
+<h1>形态学处理进阶</h1>
+<hr />
+<p>首先呢，要知道形态学的高级形态，往往都是建立在腐蚀和膨胀这两个基本操作之上的。对膨胀和腐蚀心中有数了，接下来的高级形态学操作，应该就不难理解。</p>
+<h2>开运算（Opening Operation）</h2>
+<p>开运算（Opening Operation），其实就是先腐蚀后膨胀的过程。其数学表达式如下：</p>
+<p>\begin{equation}
+dst = open(src,element) = dilate(erode(src,element))
+\end{equation}</p>
+<p>开运算可以用来消除小物体、在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。效果图是这样的：</p>
+<p><img alt="Open" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/openImage_zps8b0d1f5c.png" /></p>
+<h2>闭运算(Closing Operation)</h2>
+<p>先膨胀后腐蚀的过程称为闭运算(Closing Operation)，其数学表达式如下：</p>
+<p>\begin{equation}
+dst = close(src,element) = erode(dilate(src,element))
+\end{equation}</p>
+<p>闭运算能够排除小型黑洞(黑色区域)。效果图如下所示：</p>
+<p><img alt="Close" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/closeImage_zpse027027f.png" /></p>
+<h2>形态学梯度（MorphologicalGradient）</h2>
+<p>形态学梯度（Morphological Gradient）为膨胀图与腐蚀图之差，数学表达式如下：</p>
+<p>\begin{equation}
+dst = morph_grad(src,element) = dilate(src-element) - erode(src,element)
+\end{equation}</p>
+<p>对二值图像进行这一操作可以将团块（blob）的边缘突出出来。我们可以用形态学梯度来保留物体的边缘轮廓，如下所示:</p>
+<p><img alt="Gradient" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gradientImage_zpsf671d62e.png" /></p>
+<h2>顶帽（Top Hat）</h2>
+<p>顶帽运算（Top Hat）又常常被译为”礼帽“运算。为原图像与上文刚刚介绍的“开运算“的结果图之差，数学表达式如下：</p>
+<p>\begin{equation}
+dst = tophat(src,element) = src - open(src,element)
+\end{equation}</p>
+<p>因为开运算带来的结果是放大了裂缝或者局部低亮度的区域，因此，从原图中减去开运算后的图，得到的效果图突出了比原图轮廓周围的区域更明亮的区域，且这一操作和选择的核的大小相关。</p>
+<p>顶帽运算往往用来分离比邻近点亮一些的斑块。当一幅图像具有大幅的背景的时候，而微小物品比较有规律的情况下，可以使用顶帽运算进行背景提取。如下所示:</p>
+<p><img alt="Tophat" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/tophatImage_zps1073d1fb.png" /></p>
+<h2>黑帽（Black Hat）</h2>
+<p>黑帽（Black Hat）运算为”闭运算“的结果图与原图像之差。数学表达式为：</p>
+<p>\begin{equation}
+dst = blackhat(src,element) = close(src,element)-src
+\end{equation}</p>
+<p>黑帽运算后的效果图突出了比原图轮廓周围的区域更暗的区域，且这一操作和选择的核的大小相关。所以，黑帽运算用来分离比邻近点暗一些的斑块。</p>
+<p><img alt="Black Hat" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/blackhatImage_zps354ea31c.png" /></p>
+<p>还是使用我们之前的毛笔字图片,增加的部分代码如下:</p>
+<div class="highlight"><pre><span class="n">Mat</span> <span class="n">openImage</span><span class="p">;</span>
+<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Open OP&quot;</span><span class="p">);</span>
+<span class="c1">//Open operation</span>
+<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">openImage</span><span class="p">,</span> <span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Open OP&quot;</span><span class="p">,</span> <span class="n">openImage</span><span class="p">);</span>
+<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;openImage.png&quot;</span><span class="p">,</span><span class="n">openImage</span><span class="p">);</span>
+
+<span class="n">Mat</span> <span class="n">closeImage</span><span class="p">;</span>
+<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Close OP&quot;</span><span class="p">);</span>
+<span class="c1">//Close operation</span>
+<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">closeImage</span><span class="p">,</span> <span class="n">MORPH_CLOSE</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Close OP&quot;</span><span class="p">,</span> <span class="n">closeImage</span><span class="p">);</span>
+<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;closeImage.png&quot;</span><span class="p">,</span><span class="n">closeImage</span><span class="p">);</span>
+
+<span class="n">Mat</span> <span class="n">gradientImage</span><span class="p">;</span>
+<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Gradient OP&quot;</span><span class="p">);</span>
+<span class="c1">//gradient operation</span>
+<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">gradientImage</span><span class="p">,</span> <span class="n">MORPH_GRADIENT</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Gradient OP&quot;</span><span class="p">,</span> <span class="n">gradientImage</span><span class="p">);</span>
+<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;gradientImage.png&quot;</span><span class="p">,</span><span class="n">gradientImage</span><span class="p">);</span>
+
+<span class="n">Mat</span> <span class="n">tophatImage</span><span class="p">;</span>
+<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Tophat OP&quot;</span><span class="p">);</span>
+<span class="c1">//Tophat operation</span>
+<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">tophatImage</span><span class="p">,</span> <span class="n">MORPH_TOPHAT</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Tophat OP&quot;</span><span class="p">,</span> <span class="n">tophatImage</span><span class="p">);</span>
+<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;tophatImage.png&quot;</span><span class="p">,</span><span class="n">tophatImage</span><span class="p">);</span>
+
+<span class="n">Mat</span> <span class="n">blackhatImage</span><span class="p">;</span>
+<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Blackhat OP&quot;</span><span class="p">);</span>
+<span class="c1">//Blackhat operation</span>
+<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">blackhatImage</span><span class="p">,</span> <span class="n">MORPH_BLACKHAT</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
+<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Blackhat OP&quot;</span><span class="p">,</span> <span class="n">blackhatImage</span><span class="p">);</span>
+<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;blackhatImage.png&quot;</span><span class="p">,</span><span class="n">blackhatImage</span><span class="p">);</span>
+</pre></div>
+
+
+<p>效果图以上已给出。</p>
 <blockquote>
 <p>TODO BOARD:</p>
 <ul>
@@ -371,6 +529,8 @@ w(i,j,k,l) = exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2}-\frac{||f(i,j)-f(k,l)||^2}
 <li><a href="http://en.wikipedia.org/wiki/Histogram_equalization">Histogram equalization</a></li>
 <li><a href="http://blog.csdn.net/poem_qianmo/article/details/22745559#">【OpenCV入门教程之八】线性邻域滤波专场：方框滤波、均值滤波与高斯滤波</a></li>
 <li><a href="http://blog.csdn.net/poem_qianmo/article/details/23184547">【OpenCV入门教程之九】 非线性滤波专场：中值滤波、双边滤波</a></li>
+<li><a href="http://blog.csdn.net/poem_qianmo/article/details/23710721">【OpenCV入门教程之十】 形态学图像处理（一）：膨胀与腐蚀</a></li>
+<li><a href="http://blog.csdn.net/poem_qianmo/article/details/23710721">【OpenCV入门教程之十一】 形态学图像处理（二）：开运算、闭运算、形态学梯度、顶帽、黑帽合辑</a></li>
 </ul><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
