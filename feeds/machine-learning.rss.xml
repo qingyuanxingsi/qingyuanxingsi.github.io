@@ -1,5 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-24T00:00:00+08:00</updated><entry><title>计算机视觉(I):图像处理基础初步</title><link href="http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html" rel="alternate"></link><updated>2014-05-24T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-24:ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html</id><summary type="html">&lt;p&gt;还有一个月左右本科生涯就结束了,毕业设计目前也做的差不多了,趁着这段时间学点图像处理的东东,貌似应该可能会有点意思吧。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/machine-learning.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-25T00:00:00+08:00</updated><entry><title>计算机视觉(II):边缘检测【待续】</title><link href="http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html" rel="alternate"></link><updated>2014-05-25T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-25:ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html</id><summary type="html">&lt;h1&gt;边缘&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;边缘(edge)&lt;/strong&gt;是指图像局部强度变化最显著的部分。主要存在于目标与目标、目标与背景、区域与区域(包括不同色彩)之间，是图像分割、纹理特征和形状特征等图像分析的重要基础。&lt;/p&gt;
+&lt;p&gt;图像强度的显著变化可分为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;阶跃变化函数，即图像强度在不连续处的两边的像素灰度值有着显著的差异；&lt;/li&gt;
+&lt;li&gt;线条（屋顶）变化函数，即图像强度突然从一个值变化到另一个值，保持一较小行程后又回到原来的值。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;图像的边缘有方向和幅度两个属性,沿边缘方向像素变化平缓,垂直于边缘方向像素变化剧烈.边缘上的这种变化可以用微分算子检测出来,通常用一阶或二阶导数来检测边缘。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Edge_Detection_I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_1_zps4e28524a.png" /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注:(a)(b)分别是阶跃函数和屋顶函数的二维图像；(c)(d)是阶跃和屋顶函数的函数图象；(e)(f)对应一阶导数；（g)(h)是二阶导数&lt;/strong&gt;。&lt;/p&gt;
+&lt;h1&gt;一阶导数法：梯度算子&lt;/h1&gt;
+&lt;p&gt;对于左图，左侧的边是正的（由暗到亮），右侧的边是负的（由亮到暗）。对于右图，结论相反。常数部分为零。用来检测边是否存在。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Edge_Detection_II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_2_zpsb552892a.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;梯度算子 Gradient operators&lt;/h2&gt;
+&lt;p&gt;函数$f(x,y)$在$(x,y)$处的梯度为一个向量：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown f = [\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}]^T
+\end{equation}&lt;/p&gt;
+&lt;p&gt;计算这个向量的大小为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+|\bigtriangledown f| = mag(\bigtriangledown f) = [(\frac{\partial f}{\partial x})^2+(\frac{\partial f}{\partial y})^2]^{1 \over 2}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;近似为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+|\bigtriangledown f| \thickapprox |G_x| + |G_y|
+\end{equation}&lt;/p&gt;
+&lt;p&gt;梯度的方向角为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+a(x,y) = arctan(\frac{G_y}{G_x})
+\end{equation}&lt;/p&gt;
+&lt;h2&gt;Sobel算子&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Sobel算子&lt;/strong&gt;的表示：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+G_x &amp;amp;= (z_7+2z_8+z_9) - (z_1+2Z_2+z_3) \\
+G_y &amp;amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;梯度幅值：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+|\bigtriangledown f| \thickapprox |G_x| + |G_y|
+\end{equation}&lt;/p&gt;
+&lt;p&gt;用卷积模板来实现：&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Conv Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_3_zps392719ee.png" /&gt;&lt;/p&gt;
+&lt;h1&gt;二阶微分法：拉普拉斯&lt;/h1&gt;
+&lt;p&gt;二阶微分在亮的一边是负的，在暗的一边是正的。常数部分为零。可以用来确定边的准确位置，以及像素在亮的一侧还是暗的一侧。&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Edge Detection IV" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_4_zpsfcf520a3.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;LapLace 拉普拉斯算子&lt;/h2&gt;
+&lt;p&gt;二维函数$f(x,y)$的拉普拉斯是一个二阶的微分，定义为：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown^2 f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;其中：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\frac{\partial^2 f}{\partial x^2} &amp;amp;= f[x+1,y]-2f[x,y]+f[x-1,y] \\
+\frac{\partial^2 f}{\partial y^2} &amp;amp;= f[x,y+1]-2f[x,y]+f[x,y-1]
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;p&gt;可以用多种方式将其表示为数字形式。对于一个3*3的区域，经验上被推荐最多的形式是：&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+\bigtriangledown^2 f = 4z_5 - (z_2+z_4+z_6+z_8)
+\end{equation}&lt;/p&gt;
+&lt;p&gt;定义数字形式的拉普拉斯要求系数之和必为0&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png" /&gt;&lt;/p&gt;
+&lt;p&gt;以下给出两种边缘检测算子的代码示例:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;iostream&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;opencv2/core/core.hpp&amp;quot;&lt;/span&gt;
+&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;opencv2/highgui/highgui.hpp&amp;quot;&lt;/span&gt;
+&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;opencv2/imgproc/imgproc.hpp&amp;quot;&lt;/span&gt;
+
+&lt;span class="nx"&gt;using&lt;/span&gt; &lt;span class="nx"&gt;namespace&lt;/span&gt; &lt;span class="nx"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="nx"&gt;using&lt;/span&gt; &lt;span class="nx"&gt;namespace&lt;/span&gt; &lt;span class="nx"&gt;cv&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;Mat&lt;/span&gt; &lt;span class="nb"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;src_gray&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;Mat&lt;/span&gt; &lt;span class="nx"&gt;grad&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;scale&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;delta&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;ddepth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;CV_16S&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;kernel_size&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;/// Load an image&lt;/span&gt;
+    &lt;span class="n"&gt;src&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;imread&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="nx"&gt;src.data&lt;/span&gt; &lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="nx"&gt;GaussianBlur&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nb"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;Size&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;BORDER_DEFAULT&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;cvtColor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nb"&gt;src&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;src_gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;CV_RGB2GRAY&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+
+
+    &lt;span class="c1"&gt;/////////////////////////// Sobe l////////////////////////////////////&lt;/span&gt;
+    &lt;span class="c1"&gt;/// Generate grad_x and grad_y&lt;/span&gt;
+    &lt;span class="nx"&gt;Mat&lt;/span&gt; &lt;span class="nx"&gt;grad_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;grad_y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;Mat&lt;/span&gt; &lt;span class="nx"&gt;abs_grad_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;abs_grad_y&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="c1"&gt;/// Gradient X&lt;/span&gt;
+    &lt;span class="c1"&gt;//Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );&lt;/span&gt;
+    &lt;span class="c1"&gt;//Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.&lt;/span&gt;
+    &lt;span class="nx"&gt;Sobel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nx"&gt;src_gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;grad_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ddepth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;delta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;BORDER_DEFAULT&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;convertScaleAbs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nx"&gt;grad_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;abs_grad_x&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="c1"&gt;/// Gradient Y&lt;/span&gt;
+    &lt;span class="c1"&gt;//Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );&lt;/span&gt;
+    &lt;span class="nx"&gt;Sobel&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nx"&gt;src_gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;grad_y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ddepth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;delta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;BORDER_DEFAULT&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;convertScaleAbs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nx"&gt;grad_y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;abs_grad_y&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+     &lt;span class="c1"&gt;/// Total Gradient (approximate)&lt;/span&gt;
+    &lt;span class="nx"&gt;addWeighted&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nx"&gt;abs_grad_x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;abs_grad_y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;grad&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="nx"&gt;namedWindow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Sobel&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;CV_WINDOW_AUTOSIZE&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Sobel&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;grad&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;imwrite&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Sobel.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;grad&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="c1"&gt;/////////////////////////////////// Laplace ///////////////////////////////&lt;/span&gt;
+    &lt;span class="nx"&gt;Mat&lt;/span&gt; &lt;span class="nx"&gt;abs_dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="nx"&gt;Laplacian&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nx"&gt;src_gray&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;ddepth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;kernel_size&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;delta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;BORDER_DEFAULT&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;convertScaleAbs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="nb"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;abs_dst&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;namedWindow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Laplacian&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;CV_WINDOW_AUTOSIZE&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;imshow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Laplacian&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;abs_dst&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="nx"&gt;imwrite&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Laplace.png&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;grad&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+    &lt;span class="nx"&gt;waitKey&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;源图我们采用海贼王路飞图像:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Lufei" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lufei_zps83311ff7.jpg" /&gt;&lt;/p&gt;
+&lt;p&gt;Sobel算子处理后得到如下边缘:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Sobel" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Sobel_zps3e362cbb.png" /&gt;&lt;/p&gt;
+&lt;p&gt;Sobel算子可以直接计算$G_x$ 、$G_y$可以检测到边的存在，以及从暗到亮，从亮到暗的变化。仅计算$|G_x|$，产生最强的响应是正交于$x$轴的边；$|G_y|$则是正交于$y$轴的边。&lt;/p&gt;
+&lt;p&gt;Laplacian算子则得到如下边缘:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png" /&gt;&lt;/p&gt;
+&lt;p&gt;拉普拉斯对噪声敏感，会产生双边效果。不能检测出边的方向。&lt;strong&gt;通常不直接用于边的检测，只起辅助的角色&lt;/strong&gt;，检测一个像素是在边的亮的一边还是暗的一边利用零跨越，确定边的位置。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;TODO BOARD:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sobel算子$G_x$,$G_y$定义确认;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;参考文献&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://blog.csdn.net/xiaowei_cqu/article/details/7829481"&gt;【OpenCV】边缘检测：Sobel、拉普拉斯算子&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="计算机视觉"></category><category term="图像处理"></category></entry><entry><title>计算机视觉(I):图像处理基础初步</title><link href="http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html" rel="alternate"></link><updated>2014-05-24T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-24:ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html</id><summary type="html">&lt;p&gt;还有一个月左右本科生涯就结束了,毕业设计目前也做的差不多了,趁着这段时间学点图像处理的东东,貌似应该可能会有点意思吧。&lt;/p&gt;
 &lt;h1&gt;直方图均衡化&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;直方图均衡化的作用是&lt;strong&gt;图像增强&lt;/strong&gt;(关于直方图均衡化的背景等请参考&lt;strong&gt;参考文献[3]&lt;/strong&gt;)。&lt;/p&gt;

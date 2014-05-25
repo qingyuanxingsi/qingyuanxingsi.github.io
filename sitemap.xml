@@ -5,37 +5,44 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-05-25T15:43:39-00:00</lastmod>
+<lastmod>2014-05-25T22:09:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-05-25T15:43:39-00:00</lastmod>
+<lastmod>2014-05-25T22:09:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-05-25T15:43:39-00:00</lastmod>
+<lastmod>2014-05-25T22:09:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-05-25T15:43:39-00:00</lastmod>
+<lastmod>2014-05-25T22:09:19-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-05-25T15:43:39-00:00</lastmod>
+<lastmod>2014-05-25T22:09:19-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html</loc>
+<lastmod>2014-05-25T00:00:00-00:00</lastmod>
+<changefreq>monthly</changefreq>
+<priority>0.7</priority>
 </url>
 
 <url>
@@ -243,7 +250,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/category/machine-learning.html</loc>
-<lastmod>2014-05-24T00:00:00-00:00</lastmod>
+<lastmod>2014-05-25T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -460,7 +467,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/tu-xiang-chu-li.html</loc>
-<lastmod>2014-05-24T00:00:00-00:00</lastmod>
+<lastmod>2014-05-25T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -502,7 +509,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/ji-suan-ji-shi-jue.html</loc>
-<lastmod>2014-05-24T00:00:00-00:00</lastmod>
+<lastmod>2014-05-25T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -754,7 +761,7 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/author/qingyuanxingsi.html</loc>
-<lastmod>2014-05-24T00:00:00-00:00</lastmod>
+<lastmod>2014-05-25T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>

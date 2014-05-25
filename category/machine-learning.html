@@ -59,12 +59,12 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html"><h1>计算机视觉(I):图像处理基础初步</h1></a>
+            <a href="../ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html"><h1>计算机视觉(II):边缘检测【待续】</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>六 24 五月 2014 </p>
+<p>日 25 五月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/machine-learning.html">Machine Learning</a>
@@ -76,464 +76,152 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
       </div>
       <div class="article-content span8">
-	<p>还有一个月左右本科生涯就结束了,毕业设计目前也做的差不多了,趁着这段时间学点图像处理的东东,貌似应该可能会有点意思吧。</p>
-<h1>直方图均衡化</h1>
-<hr />
-<p>直方图均衡化的作用是<strong>图像增强</strong>(关于直方图均衡化的背景等请参考<strong>参考文献[3]</strong>)。</p>
-<p>关于直方图均衡化有两个问题比较难懂:</p>
+	<h1>边缘</h1>
+<p><strong>边缘(edge)</strong>是指图像局部强度变化最显著的部分。主要存在于目标与目标、目标与背景、区域与区域(包括不同色彩)之间，是图像分割、纹理特征和形状特征等图像分析的重要基础。</p>
+<p>图像强度的显著变化可分为：</p>
 <ul>
-<li>一是为什么要选用累积分布函数;</li>
-<li>二是为什么使用累积分布函数处理后像素值会均匀分布。</li>
+<li>阶跃变化函数，即图像强度在不连续处的两边的像素灰度值有着显著的差异；</li>
+<li>线条（屋顶）变化函数，即图像强度突然从一个值变化到另一个值，保持一较小行程后又回到原来的值。</li>
 </ul>
-<p>第一个问题。均衡化过程中，必须要保证两个条件：</p>
-<ol>
-<li>像素无论怎么映射，一定要保证原来的大小关系不变，较亮的区域，依旧是较亮的，较暗依旧暗，只是对比度增大，绝对不能明暗颠倒；</li>
-<li>如果是八位图像，那么像素映射函数的值域应在0和255之间的，不能越界。</li>
-</ol>
-<p>综合以上两个条件，累积分布函数是个好的选择，因为累积分布函数是单调增函数（控制大小关系），并且值域是0到1（控制越界问题），所以直方图均衡化中使用的是累积分布函数。</p>
-<p>第二个问题。累积分布函数具有一些好的性质，那么如何运用累积分布函数使得直方图均衡化？比较概率分布函数和累积分布函数，前者的二维图像是参差不齐的，后者是单调递增的。直方图均衡化过程中，映射方法是:</p>
+<p>图像的边缘有方向和幅度两个属性,沿边缘方向像素变化平缓,垂直于边缘方向像素变化剧烈.边缘上的这种变化可以用微分算子检测出来,通常用一阶或二阶导数来检测边缘。</p>
+<p><img alt="Edge_Detection_I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_1_zps4e28524a.png" /></p>
+<p><strong>注:(a)(b)分别是阶跃函数和屋顶函数的二维图像；(c)(d)是阶跃和屋顶函数的函数图象；(e)(f)对应一阶导数；（g)(h)是二阶导数</strong>。</p>
+<h1>一阶导数法：梯度算子</h1>
+<p>对于左图，左侧的边是正的（由暗到亮），右侧的边是负的（由亮到暗）。对于右图，结论相反。常数部分为零。用来检测边是否存在。</p>
+<p><img alt="Edge_Detection_II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_2_zpsb552892a.png" /></p>
+<h2>梯度算子 Gradient operators</h2>
+<p>函数$f(x,y)$在$(x,y)$处的梯度为一个向量：</p>
 <p>\begin{equation}
-s_k = \sum_{j=0}^k \frac{n_j}{n},k=0,1,2\cdots,L-1
+\bigtriangledown f = [\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}]^T
 \end{equation}</p>
-<p>其中，$n$是图像中像素的总和，$n_j$是当前灰度级的像素个数，$L$是图像中可能的灰度级总数。</p>
-<p>下面我们来看看通过上述公式怎样实现的拉伸的。假设有如下图像：</p>
-<p><img alt="img_src" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hist1_zps2c68d1d4.jpg" /></p>
-<p>得图像的统计信息如下图所示，并根据统计信息完成灰度值映射：</p>
-<p><img alt="HIST INFO" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hist2_zps208dde74.jpg" /></p>
-<p>映射后的图像如下所示：</p>
-<p><img alt="img_dst" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hist3_zpsc1020cfe.jpg" />.</p>
-<p>以下我们给出对彩色图像进行直方图均衡化的具体代码,对于彩色图像而言,我们需要先将图像分割成多个通道,然后对通道进行直方图均衡化，最后将得到的均衡化后的通道图合并为目标图像。</p>
+<p>计算这个向量的大小为：</p>
+<p>\begin{equation}
+|\bigtriangledown f| = mag(\bigtriangledown f) = [(\frac{\partial f}{\partial x})^2+(\frac{\partial f}{\partial y})^2]^{1 \over 2}
+\end{equation}</p>
+<p>近似为:</p>
+<p>\begin{equation}
+|\bigtriangledown f| \thickapprox |G_x| + |G_y|
+\end{equation}</p>
+<p>梯度的方向角为：</p>
+<p>\begin{equation}
+a(x,y) = arctan(\frac{G_y}{G_x})
+\end{equation}</p>
+<h2>Sobel算子</h2>
+<p><strong>Sobel算子</strong>的表示：</p>
+<p>\begin{equation}
+\begin{split}
+G_x &amp;= (z_7+2z_8+z_9) - (z_1+2Z_2+z_3) \\
+G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
+\end{split}
+\end{equation}</p>
+<p>梯度幅值：</p>
+<p>\begin{equation}
+|\bigtriangledown f| \thickapprox |G_x| + |G_y|
+\end{equation}</p>
+<p>用卷积模板来实现：</p>
+<p><img alt="Conv Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_3_zps392719ee.png" /></p>
+<h1>二阶微分法：拉普拉斯</h1>
+<p>二阶微分在亮的一边是负的，在暗的一边是正的。常数部分为零。可以用来确定边的准确位置，以及像素在亮的一侧还是暗的一侧。</p>
+<p><img alt="Edge Detection IV" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_4_zpsfcf520a3.png" /></p>
+<h2>LapLace 拉普拉斯算子</h2>
+<p>二维函数$f(x,y)$的拉普拉斯是一个二阶的微分，定义为：</p>
+<p>\begin{equation}
+\bigtriangledown^2 f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}
+\end{equation}</p>
+<p>其中：</p>
+<p>\begin{equation}
+\begin{split}
+\frac{\partial^2 f}{\partial x^2} &amp;= f[x+1,y]-2f[x,y]+f[x-1,y] \\
+\frac{\partial^2 f}{\partial y^2} &amp;= f[x,y+1]-2f[x,y]+f[x,y-1]
+\end{split}
+\end{equation}</p>
+<p>可以用多种方式将其表示为数字形式。对于一个3*3的区域，经验上被推荐最多的形式是：</p>
+<p>\begin{equation}
+\bigtriangledown^2 f = 4z_5 - (z_2+z_4+z_6+z_8)
+\end{equation}</p>
+<p>定义数字形式的拉普拉斯要求系数之和必为0</p>
+<p><img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png" /></p>
+<p>以下给出两种边缘检测算子的代码示例:</p>
 <div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">core</span><span class="p">/</span><span class="nx">core.hpp</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">highgui</span><span class="p">/</span><span class="nx">highgui.hpp</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">opencv</span><span class="p">/</span><span class="nx">cv.h</span><span class="o">&gt;</span>
-
-<span class="nx">int</span> <span class="nx">main</span><span class="p">(</span><span class="nx">int</span> <span class="nx">argc</span><span class="p">,</span> <span class="nx">char</span><span class="o">**</span> <span class="nx">argv</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="nx">int</span> <span class="nx">i</span><span class="p">;</span>
-    <span class="nx">IplImage</span><span class="o">*</span> <span class="n">src</span> <span class="o">=</span> <span class="nx">cvLoadImage</span><span class="p">(</span><span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/lena.jpg&quot;</span><span class="p">,</span> <span class="mi">1</span> <span class="p">);</span>
-    <span class="nx">IplImage</span><span class="o">*</span> <span class="nx">imgChannel</span><span class="err">[</span><span class="mi">4</span><span class="cp">]</span> = { 0, 0, 0, 0 };
-    IplImage* dst = cvCreateImage(cvGetSize( src ), IPL_DEPTH_8U, 3);
-
-    if( src )
-    {
-        for( i = 0; i <span class="nt">&lt; src</span> <span class="na">-</span><span class="nt">&gt;</span> nChannels; i++ )
-        {
-            //Single Channel Image required for hist equalization
-            imgChannel<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> = cvCreateImage( cvGetSize( src ), IPL_DEPTH_8U, 1 );
-        }
-        //Split the channels
-        cvSplit( src, imgChannel<span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="mi">1</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="mi">2</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="mi">3</span><span class="cp">]</span> );//BGRA
-        for( i = 0; i <span class="nt">&lt; dst</span> <span class="na">-</span><span class="nt">&gt;</span> nChannels; i++ )
-        {
-            //Hist Equalize
-            cvEqualizeHist( imgChannel<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> );
-        }
-
-        //Merge the channels
-        cvMerge( imgChannel<span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="mi">1</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="mi">2</span><span class="cp">]</span>, imgChannel<span class="cp">[</span><span class="mi">3</span><span class="cp">]</span>, dst );
-        cvNamedWindow( &quot;src&quot;, 1 );
-        cvShowImage( &quot;src&quot;, src );
-        cvNamedWindow( &quot;Equalize&quot;, 1 );
-        cvShowImage( &quot;Equalize&quot;, dst );
-
-        //Save the images
-        cvSaveImage(&quot;src.jpg&quot;,src);
-        cvSaveImage(&quot;histEqualize.jpg&quot;,dst);
-
-        cvWaitKey(0);
-        //Release Resources
-        for( i = 0; i <span class="nt">&lt; src</span> <span class="na">-</span><span class="nt">&gt;</span> nChannels; i++ )
-        {
-            if( imgChannel<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> )
-            {
-                cvReleaseImage( <span class="err">&amp;</span>imgChannel<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> );
-                //imgChannel<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> = 0;
-            }
-        }
-        cvReleaseImage( <span class="err">&amp;</span>dst );
-    }
-
-    return 0;
-}
-</pre></div>
-
-
-<p>上述代码中我们采用的图片为著名的<strong>Lena</strong>,如下图所示:</p>
-<p><img alt="LENA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/src_zps4d025e5f.jpg" /></p>
-<p>进行直方图均衡化后得到的图像如下图所示:</p>
-<p><img alt="LENA_EQUALIZED" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/histEqualize_zps433e20fa.jpg" /></p>
-<h1>线性滤波</h1>
-<hr />
-<h2>相关理论与概念</h2>
-<h3>关于平滑处理</h3>
-<p>“平滑处理“（smoothing）也称“模糊处理”（bluring），是一项简单且使用频率很高的图像处理方法。平滑处理的用途有很多，最常见的是用来减少图像上的噪点或者失真。在涉及到降低图像分辨率时，平滑处理是非常好用的方法。</p>
-<h3>图像滤波与滤波器</h3>
-<p>首先我们看一下图像滤波的概念。<strong>图像滤波，即在尽量保留图像细节特征的条件下对目标图像的噪声进行抑制，是图像预处理中不可缺少的操作，其处理效果的好坏将直接影响到后续图像处理和分析的有效性和可靠性。</strong>消除图像中的噪声成分叫作图像的平滑化或滤波操作。信号或图像的能量大部分集中在幅度谱的低频和中频段是很常见的，而在较高频段，感兴趣的信息经常被噪声淹没。因此一个能降低高频成分幅度的滤波器就能够减弱噪声的影响。</p>
-<p>图像滤波的目的有两个:一是抽出对象的特征作为图像识别的特征模式;另一个是为适应图像处理的要求，消除图像数字化时所混入的噪声。</p>
-<p>而对滤波处理的要求也有两条:一是不能损坏图像的轮廓及边缘等重要信息;二是使图像清晰视觉效果好。</p>
-<p>平滑滤波是低频增强的空间域滤波技术。它的目的有两类：一类是模糊；另一类是消除噪音。（各种“两"，：））</p>
-<p>空间域的平滑滤波一般采用简单平均法进行，就是求邻近像元点的平均亮度值。邻域的大小与平滑的效果直接相关，邻域越大平滑的效果越好，但邻域过大，平滑会使边缘信息损失的越大，从而使输出的图像变得模糊，因此需合理选择邻域的大小。</p>
-<p>关于滤波器，一种形象的比喻法是：我们可以把滤波器想象成一个包含加权系数的窗口，当使用这个滤波器平滑处理图像时，就把这个窗口放到图像之上，透过这个窗口来看我们得到的图像。滤波器的种类有很多，在OpenCV中，提供了如下五种常用的图像平滑处理操作方法，且他们分别被封装在单独的函数中，使用起来非常方便：</p>
-<ul>
-<li>方框滤波——boxblur函数</li>
-<li>均值滤波（邻域平均滤波)——blur函数</li>
-<li>高斯滤波——GaussianBlur函数</li>
-<li>中值滤波——medianBlur函数</li>
-<li>双边滤波——bilateralFilter函数</li>
-</ul>
-<h3>线性滤波器简介</h3>
-<p>线性滤波器：线性滤波器经常用于剔除输入信号中不想要的频率或者从许多频率中选择一个想要的频率。几种常见的线性滤波器：</p>
-<ul>
-<li>允许低频率通过的低通滤波器。</li>
-<li>允许高频率通过的高通滤波器。</li>
-<li>允许一定范围频率通过的带通滤波器。</li>
-<li>阻止一定范围频率通过并且允许其它频率通过的带阻滤波器。</li>
-<li>允许所有频率通过、仅仅改变相位关系的全通滤波器。</li>
-<li>阻止一个狭窄频率范围通过的特殊带阻滤波器，陷波滤波器（Band-stop filter）。</li>
-</ul>
-<h3>关于滤波和模糊</h3>
-<p>关于滤波和模糊，大家往往在初次接触的时候会弄混淆，“一会儿说滤波，一会儿又说模糊，什么玩意儿啊”。没关系，在这里，我们就来辨别一下，为大家扫清障碍。</p>
-<p>我们上文已经提到过，滤波是将信号中特定波段频率滤除的操作，是抑制和防止干扰的一项重要措施。为了方便说明，就拿我们经常用的高斯滤波来作例子吧。我们知道，滤波可分低通滤波和高通滤波两种。而高斯滤波是指用高斯函数作为滤波函数的滤波操作，至于是不是模糊，要看是高斯低通还是高斯高通，<strong>低通就是模糊，高通就是锐化</strong>。其实说白了是很简单的，对吧:</p>
-<ul>
-<li>高斯滤波是指用高斯函数作为滤波函数的滤波操作。</li>
-<li>高斯模糊就是高斯低通滤波。</li>
-</ul>
-<h3>邻域算子与线性邻域滤波</h3>
-<p>邻域算子（局部算子）是利用给定像素周围的像素值的决定此像素的最终输出值的一种算子。而线性邻域滤波是一种常用的邻域算子，像素的输出值取决于输入像素的加权和，具体过程如下图。</p>
-<p>邻域算子除了用于局部色调调整以外，还可以用于图像滤波，实现图像的平滑和锐化，图像边缘增强或者图像噪声的去除。本部分，我们介绍的主角是线性邻域滤波算子，即用不同的权重去结合一个小邻域内的像素，来得到应有的处理效果。</p>
-<p><img alt="Linear Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/linear_filter_1_zps55e01741.jpg" /></p>
-<p>(<strong>图注：邻域滤波（卷积）：左边图像与中间图像的卷积产生右边图像。目标图像中蓝色标记的像素是利用原图像中红色标记的像素计算得到的。</strong>)</p>
-<p>线性滤波处理的输出像素值$g(i,j)$是输入像素值$f(i+k,j+l)$的加权和:</p>
-<p>\begin{equation}
-g(i,j) = \sum_{k,l} f(i+k,j+l) \times h(k,l)
-\end{equation}</p>
-<p>其中我们称$h$为“核”，滤波器的加权系数，即滤波器的“滤波系数”。</p>
-<p>上面的式子可以简单写作：</p>
-<p>\begin{equation}
-g = f \otimes h
-\end{equation}</p>
-<p>其中$f$表示输入像素值，$h$表示加权系数“核“，$g$表示输出像素值。以上我们提到过的方框滤波、均值滤波以及高斯滤波均属于线性滤波(对OpenCV各函数源码以及细节感兴趣的朋友请参考<strong>参考文献[4]</strong>)。</p>
-<p><strong>均值滤波</strong>是典型的线性滤波算法，主要方法为邻域平均法，即用一片图像区域的各个像素的均值来代替原图像中的各个像素值。一般需要在图像上对目标像素给出一个模板（核），该模板包括了其周围的临近像素（比如以目标像素为中心的周围8（3x3-1）个像素，构成一个滤波模板，即去掉目标像素本身）。再用模板中的全体像素的平均值来代替原来像素值。即对待处理的当前像素点$(x，y)$，选择一个模板，该模板由其近邻的若干像素组成，求模板中所有像素的均值，再把该均值赋予当前像素点$(x，y)$，作为处理后图像在该点上的灰度值$g(x,y)$，即$g（x，y）=1/m\sum f(x，y)$,其中$m$为该模板中包含当前像素在内的像素总个数。<strong>均值滤波本身存在着固有的缺陷，即它不能很好地保护图像细节，在图像去噪的同时也破坏了图像的细节部分，从而使图像变得模糊，不能很好地去除噪声点</strong>。</p>
-<p><strong>方框滤波</strong>则分为归一化和非归一化两种,归一化版本等同于均值滤波,非归一化版本求和之后不平均即可(对核未进行归一化)。归一化就是把要处理的量都缩放到一个范围内,比如(0,1)，以便统一处理和直观量化。而非归一化（Unnormalized）的方框滤波则用于计算每个像素邻域内的积分特性，比如密集光流算法（<em>dense optical flow algorithms</em>）中用到的图像倒数的协方差矩阵（<em>covariance matrices of image derivatives</em>).</p>
-<p><strong>高斯滤波</strong>也是一种线性平滑滤波，适用于消除高斯噪声，广泛应用于图像处理的减噪过程。通俗的讲，高斯滤波就是对整幅图像进行加权平均的过程，每一个像素点的值，都由其本身和邻域内的其他像素值经过加权平均后得到。高斯滤波的具体操作是：用一个模板（或称卷积、掩模）扫描图像中的每一个像素，用模板确定的邻域内像素的加权平均灰度值去替代模板中心像素点的值。</p>
-<p>大家常常说高斯滤波最有用的滤波操作，虽然它用起来，效率往往不是最高的。</p>
-<p>高斯模糊技术生成的图像，其视觉效果就像是经过一个半透明屏幕在观察图像，这与镜头焦外成像效果散景以及普通照明阴影中的效果都明显不同。高斯平滑也用于计算机视觉算法中的预先处理阶段，以增强图像在不同比例大小下的图像效果。从数学的角度来看，图像的高斯模糊过程就是图像与正态分布做卷积。由于正态分布又叫作高斯分布，所以这项技术就叫作高斯模糊。
-图像与圆形方框模糊做卷积将会生成更加精确的焦外成像效果。由于高斯函数的傅立叶变换是另外一个高斯函数，所以高斯模糊对于图像来说就是一个低通滤波操作。</p>
-<p>高斯滤波器是一类根据高斯函数的形状来选择权值的线性平滑滤波器。高斯平滑滤波器对于抑制服从正态分布的噪声非常有效。一维零均值高斯函数为：</p>
-<p>\begin{equation}
-G(x) = exp(-x^2/2\sigma^2)
-\end{equation}
-其中，高斯分布参数$\sigma$决定了高斯函数的宽度。对于图像处理来说，常用二维零均值离散高斯函数作平滑滤波器。
-二维高斯函数为：</p>
-<p>\begin{equation}
-G_0(x,y) = Ae^{\frac{-(x-\mu_x)^2}{2\sigma_x^2}+\frac{-(y-\mu_y)^2}{2\sigma_y^2}}
-\end{equation}</p>
-<p>针对如上提到的三种滤波算子,以下我们给出OpenCV源码示例,图片采用下图:</p>
-<p><img alt="AngelaBaby" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/angelababy_zps187c89ba.jpg" /></p>
-<div class="highlight"><pre><span class="cp">#include &quot;opencv2/core/core.hpp&quot;</span>
-<span class="cp">#include&quot;opencv2/highgui/highgui.hpp&quot;</span>
-<span class="cp">#include&quot;opencv2/imgproc/imgproc.hpp&quot;</span>
-
-<span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="p">)</span>
-<span class="p">{</span>
-       <span class="n">Mat</span> <span class="n">image</span><span class="o">=</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;/home/qingyuanxingsi/workspace/C++/contents/angelababy.jpg&quot;</span><span class="p">);</span>
-
-       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Box Blur&quot;</span> <span class="p">);</span>
-
-       <span class="c1">//Box Blur</span>
-       <span class="n">Mat</span> <span class="n">boxBlur</span><span class="p">;</span>
-       <span class="n">boxFilter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">boxBlur</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">Size</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>
-       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Box Blur&quot;</span> <span class="p">,</span><span class="n">boxBlur</span> <span class="p">);</span>
-       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;boxBlur.jpg&quot;</span><span class="p">,</span><span class="n">boxBlur</span><span class="p">);</span>
-
-       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Average Blur&quot;</span><span class="p">);</span>
-       <span class="c1">//Average Blur</span>
-       <span class="n">Mat</span> <span class="n">averageBlur</span><span class="p">;</span>
-       <span class="n">blur</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">averageBlur</span><span class="p">,</span><span class="n">Size</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">7</span><span class="p">));</span>
-       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Average Blur&quot;</span> <span class="p">,</span><span class="n">averageBlur</span> <span class="p">);</span>
-       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;averageBlur.jpg&quot;</span><span class="p">,</span><span class="n">averageBlur</span><span class="p">);</span>
-
-       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Gaussian Blur&quot;</span> <span class="p">);</span>
-
-       <span class="c1">//Gaussian Blur</span>
-       <span class="n">Mat</span> <span class="n">gaussianBlur</span><span class="p">;</span>
-       <span class="n">GaussianBlur</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gaussianBlur</span><span class="p">,</span> <span class="n">Size</span><span class="p">(</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span> <span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span> <span class="p">);</span>
-       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Gaussian Blur&quot;</span> <span class="p">,</span><span class="n">gaussianBlur</span><span class="p">);</span>
-       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;gaussianBlur.jpg&quot;</span><span class="p">,</span><span class="n">gaussianBlur</span><span class="p">);</span>
-
-       <span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>采用三种滤波方式得到的图像依次如下所示(方框滤波,均值滤波,高斯滤波):</p>
-<p><img alt="Box Blur" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/boxBlur_zpsc775ff39.jpg" /></p>
-<p><img alt="Average Blur" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/averageBlur_zps5004133d.jpg" /></p>
-<p><img alt="Gaussian Blur" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gaussianBlur_zps90a2a616.jpg" /></p>
-<h1>非线性滤波</h1>
-<hr />
-<h2>相关理论与概念讲解</h2>
-<h3>非线性滤波概述</h3>
-<p>之前的那篇文章里，我们所考虑的滤波器都是线性的，即两个信号之和的响应和他们各自响应之和相等。换句话说，每个像素的输出值是一些输入像素的加权和，线性滤波器易于构造，并且易于从频率响应角度来进行分析。</p>
-<p>其实在很多情况下，使用邻域像素的非线性滤波也许会得到更好的效果。比如在噪声是散粒噪声而不是高斯噪声，即图像偶尔会出现很大的值的时候。在这种情况下，用高斯滤波器对图像进行模糊的话，噪声像素是不会被去除的，它们只是转换为更为柔和但仍然可见的散粒。</p>
-<p>这就到了中值滤波登场的时候了。</p>
-<h3>中值滤波</h3>
-<p><strong>中值滤波(Median filter)</strong>是一种典型的非线性滤波技术，基本思想是用像素点邻域灰度值的中值来代替该像素点的灰度值，该方法在去除脉冲噪声、椒盐噪声的同时又能保留图像边缘细节.</p>
-<p>中值滤波是基于排序统计理论的一种能有效抑制噪声的非线性信号处理技术，其基本原理是把数字图像或数字序列中一点的值用该点的一个邻域中各点值的中值代替，让周围的像素值接近的真实值，从而消除孤立的噪声点，对于斑点噪声（speckle noise）和椒盐噪声（salt-and-pepper noise）来说尤其有用，因为它不依赖于邻域内那些与典型值差别很大的值。中值滤波器在处理连续图像窗函数时与线性滤波器的工作方式类似，但滤波过程却不再是加权运算。</p>
-<p>中值滤波在一定的条件下可以克服常见线性滤波器如最小均方滤波、方框滤波器、均值滤波等带来的图像细节模糊，而且对滤除脉冲干扰及图像扫描噪声非常有效，也常用于保护边缘信息,保存边缘的特性使它在不希望出现边缘模糊的场合也很有用，是非常经典的平滑噪声处理方法。</p>
-<h4>中值滤波与均值滤波器比较</h4>
-<p>中值滤波器与均值滤波器比较的优势：在均值滤波器中，由于噪声成分被放入平均计算中，所以输出受到了噪声的影响，但是在中值滤波器中，由于噪声成分很难选上，所以几乎不会影响到输出。因此同样用3x3区域进行处理，中值滤波消除的噪声能力更胜一筹。中值滤波无论是在消除噪声还是保存边缘方面都是一个不错的方法。</p>
-<p>中值滤波器与均值滤波器比较的劣势：中值滤波花费的时间是均值滤波的5倍以上。</p>
-<p>顾名思义，中值滤波选择每个像素的邻域像素中的中值作为输出，或者说中值滤波将每一像素点的灰度值设置为该点某邻域窗口内的所有像素点灰度值的中值。</p>
-<p>例如，取3 x 3的函数窗，计算以点$[i,j]$为中心的函数窗像素中值步骤如下:</p>
-<ol>
-<li>按强度值大小排列像素点．</li>
-<li>选择排序像素集的中间值作为点$[i,j]$的新值．</li>
-</ol>
-<p>这一过程如图下图所示:</p>
-<p><img alt="Median Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/median_filter_1_zpsb49d3057.png" /></p>
-<p>一般采用奇数点的邻域来计算中值，但如果像素点数为偶数时，中值就取排序像素中间两点的平均值．</p>
-<p>中值滤波在一定条件下，可以克服线性滤波器（如均值滤波等）所带来的图像细节模糊，而且对滤除脉冲干扰即<strong>图像扫描噪声</strong>最为有效。在实际运算过程中并不需要图像的统计特性，也给计算带来不少方便。但是对一些细节多，特别是线、尖顶等细节多的图像不宜采用中值滤波。</p>
-<h3>双边滤波</h3>
-<p><strong>双边滤波(Bilateral filter)</strong>是一种非线性的滤波方法，是结合图像的空间邻近度和像素值相似度的一种折衷处理，同时考虑空域信息和灰度相似性，达到保边去噪的目的。具有简单、非迭代、局部的特点。</p>
-<p>双边滤波器的好处是可以做边缘保存（edge preserving），一般过去用的维纳滤波或者高斯滤波去降噪，都会较明显地模糊边缘，对于高频细节的保护效果并不明显。双边滤波器顾名思义比高斯滤波多了一个高斯方差$\sigma_d$，它是基于空间分布的高斯滤波函数，所以在边缘附近，离的较远的像素不会太多影响到边缘上的像素值，这样就保证了边缘附近像素值的保存。但是由于保存了过多的高频信息，对于彩色图像里的高频噪声，双边滤波器不能够干净的滤掉，只能够对于低频信息进行较好的滤波。</p>
-<p>在双边滤波器中，输出像素的值依赖于邻域像素值的加权值组合：</p>
-<p>\begin{equation}
- g(i,j) = \frac{\sum_{k,l} f(k,l)w(i,j,k,l)}{\sum_{k,l} w(i,j,k,l)}
- \end{equation}</p>
-<p>而加权系数$w(i,j,k,l)$取决于定义域核和值域核的乘积。</p>
-<p>其中定义域核表示如下：</p>
-<p>\begin{equation}
-d(i,j,k,l) = exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2})
-\end{equation}</p>
-<p>定义域滤波对应图示：</p>
-<p><img alt="Bilateral Filter I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateral_filter_1_zpsdf39e81d.jpg" /></p>
-<p>值域核表示为：</p>
-<p>\begin{equation}
-r(i,j,k,l) = exp(-\frac{||f(i,j)-f(k,l)||^2}{2\sigma_r^2})
-\end{equation}</p>
-<p>值域滤波：</p>
-<p><img alt="Bilateral Filter II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateral_filter_2_zpsfb1c3bd4.jpg" /></p>
-<p>两者相乘后，就会产生依赖于数据的双边滤波权重函数：</p>
-<p>\begin{equation}
-w(i,j,k,l) = exp(-\frac{(i-k)^2+(j-l)^2}{2\sigma_d^2}-\frac{||f(i,j)-f(k,l)||^2}{2\sigma_r^2})
-\end{equation}</p>
-<p>好了,关于中值滤波和双边滤波就介绍到这里啦。以下给出源码示例,图片还是采用椒盐化后的<strong>LENA</strong>:</p>
-<p><img alt="LENA PEPPER" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lena_pepper_zps03b26e7f.jpg" /></p>
-<div class="highlight"><pre><span class="cp">#include &quot;opencv2/core/core.hpp&quot;</span>
-<span class="cp">#include &quot;opencv2/highgui/highgui.hpp&quot;</span>
-<span class="cp">#include &quot;opencv2/imgproc/imgproc.hpp&quot;</span>
-
-<span class="n">using</span> <span class="n">namespace</span> <span class="n">cv</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span> <span class="p">)</span>
-<span class="p">{</span>
-       <span class="n">Mat</span> <span class="n">image</span><span class="o">=</span><span class="n">imread</span><span class="p">(</span><span class="s">&quot;/home/qingyuanxingsi/workspace/C++/contents/lena_pepper.jpg&quot;</span><span class="p">);</span>
-
-       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Median Blur&quot;</span> <span class="p">);</span>
-
-       <span class="c1">//Median Blur</span>
-       <span class="n">Mat</span> <span class="n">out</span><span class="p">;</span>
-       <span class="n">medianBlur</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="mi">7</span><span class="p">);</span>
-       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Median Blur&quot;</span> <span class="p">,</span><span class="n">out</span> <span class="p">);</span>
-       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;medianBlur.jpg&quot;</span><span class="p">,</span><span class="n">out</span><span class="p">);</span>
-
-       <span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Bilateral Blur&quot;</span><span class="p">);</span>
-       <span class="c1">//Bilateral Blur</span>
-       <span class="n">Mat</span> <span class="n">bilateralBlur</span><span class="p">;</span>
-       <span class="n">bilateralFilter</span><span class="p">(</span> <span class="n">image</span><span class="p">,</span> <span class="n">bilateralBlur</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">25</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="mi">25</span><span class="o">/</span><span class="mi">2</span> <span class="p">);</span>
-       <span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Bilateral Blur&quot;</span> <span class="p">,</span><span class="n">bilateralBlur</span> <span class="p">);</span>
-       <span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;bilateralBlur.jpg&quot;</span><span class="p">,</span><span class="n">bilateralBlur</span><span class="p">);</span>
-
-       <span class="n">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>经过中值滤波处理后得到的图像如下所示:</p>
-<p><img alt="Median Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/medianBlur_zpse9e58cde.jpg" /></p>
-<p>双边滤波后则得到如下图像:</p>
-<p><img alt="Bilateral Filter" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bilateralBlur_zps500576ef.jpg" /></p>
-<h1>形态学图像处理</h1>
-<hr />
-<h2>相关理论与概念</h2>
-<h3>形态学概述</h3>
-<p>形态学（morphology）一词通常表示生物学的一个分支，该分支主要研究动植物的形态和结构。而我们图像处理中指的形态学，往往表示的是数学形态学。下面一起来了解数学形态学的概念。</p>
-<p>数学形态学（Mathematical morphology)是一门建立在格论和拓扑学基础之上的图像分析学科，是数学形态学图像处理的基本理论。其基本的运算包括：二值腐蚀和膨胀、二值开闭运算、骨架抽取、极限腐蚀、击中击不中变换、形态学梯度、Top-hat变换、颗粒分析、流域变换、灰值腐蚀和膨胀、灰值开闭运算、灰值形态学梯度等。</p>
-<p>简单来讲，形态学操作就是基于形状的一系列图像处理操作。其中,最基本的形态学操作有二种------膨胀与腐蚀(Dilation与Erosion)。</p>
-<p>膨胀与腐蚀能实现多种多样的功能，主要如下：</p>
-<ul>
-<li>消除噪声</li>
-<li>分割(isolate)出独立的图像元素，在图像中连接(join)相邻的元素。</li>
-<li>寻找图像中的明显的极大值区域或极小值区域</li>
-<li>求出图像的梯度</li>
-</ul>
-<p>我们在这里给出下文会用到的，用于对比膨胀与腐蚀运算的“青原行思”字样毛笔字原图：</p>
-<p><img alt="qingyuanxingsi" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/qingyuanxingsi_zpseffb8780.png" /></p>
-<p>在进行腐蚀和膨胀的讲解之前，首先需要注意，<strong>腐蚀和膨胀是对白色部分（高亮部分）而言的，不是黑色部分。膨胀就是图像中的高亮部分进行膨胀，“领域扩张”，效果图拥有比原图更大的高亮区域。腐蚀就是原图中的高亮部分被腐蚀，“领域被蚕食”，效果图拥有比原图更小的高亮区域</strong>。</p>
-<h3>膨胀</h3>
-<p>其实，膨胀就是求<strong>局部最大值</strong>的操作。</p>
-<p>按数学方面来说，膨胀或者腐蚀操作就是将图像（或图像的一部分区域，我们称之为$A$）与核（我们称之为$B$）进行卷积。
-核可以是任何的形状和大小，它拥有一个单独定义出来的参考点，我们称其为锚点（anchorpoint）。多数情况下，核是一个小的中间带有参考点和实心正方形或者圆盘，其实，我们可以把核视为模板或者掩码。</p>
-<p>而膨胀就是求局部最大值的操作，核$B$与图形卷积，即计算核$B$覆盖的区域的像素点的最大值，并把这个最大值赋值给参考点指定的像素。这样就会使图像中的高亮区域逐渐增长。如下图所示，这就是膨胀操作的初衷。</p>
-<p><img alt="Dilation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/dilation_zps98aef8c3.jpg" /></p>
-<p>膨胀的数学表达式：</p>
-<p>\begin{equation}
-dst(x,y) = max_{(x\prime,y\prime):element(x\prime,y\prime) \neq 0} src(x+x\prime,y+y\prime)
-\end{equation}</p>
-<p>膨胀效果图（毛笔字）：</p>
-<p><img alt="Dilation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/dilateImage_zps0dd1d7a2.png" /></p>
-<h3>腐蚀</h3>
-<p>再来看一下腐蚀，大家应该知道，膨胀和腐蚀是一对好基友，是相反的一对操作，所以腐蚀就是求局部最小值的操作。
-我们一般都会把腐蚀和膨胀对应起来理解和学习。下文就可以看到，两者的函数原型也是基本上一样的。</p>
-<p>原理图：</p>
-<p><img alt="Erosion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/erosion_zpsed6af489.jpg" /></p>
-<p>腐蚀的数学表达式：</p>
-<p>\begin{equation}
-dst(x,y) = min_{(x\prime,y\prime):element(x\prime,y\prime) \neq 0} src(x+x\prime,y+y\prime)
-\end{equation}</p>
-<p>腐蚀效果图（毛笔字）：</p>
-<p><img alt="Erosion" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/erodeImage_zpsd284dea2.png" /></p>
-<p>代码示例如下:</p>
-<div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">core</span><span class="p">/</span><span class="nx">core.hpp</span><span class="o">&gt;</span>
-<span class="vi">#include</span><span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">highgui</span><span class="p">/</span><span class="nx">highgui.hpp</span><span class="o">&gt;</span>
-<span class="vi">#include</span><span class="o">&lt;</span><span class="nx">opencv2</span><span class="p">/</span><span class="nx">imgproc</span><span class="p">/</span><span class="nx">imgproc.hpp</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
+<span class="vi">#include</span> <span class="s2">&quot;opencv2/core/core.hpp&quot;</span>
+<span class="vi">#include</span> <span class="s2">&quot;opencv2/highgui/highgui.hpp&quot;</span>
+<span class="vi">#include</span> <span class="s2">&quot;opencv2/imgproc/imgproc.hpp&quot;</span>
 
 <span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
 <span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">cv</span><span class="p">;</span>
 
-<span class="nx">int</span> <span class="nx">main</span><span class="p">(</span>  <span class="p">)</span>
+<span class="nx">int</span> <span class="nx">main</span><span class="p">()</span>
 <span class="p">{</span>
-       <span class="c1">//Load original Image</span>
-       <span class="nx">Mat</span> <span class="n">image</span> <span class="o">=</span> <span class="nx">imread</span><span class="p">(</span><span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/qingyuanxingsi.png&quot;</span><span class="p">);</span>
+    <span class="nx">Mat</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">;</span>
+    <span class="nx">Mat</span> <span class="nx">grad</span><span class="p">;</span>
 
-       <span class="c1">//Create the window</span>
-       <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Dilation&quot;</span><span class="p">);</span>
-       <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Erosion&quot;</span><span class="p">);</span>
+    <span class="nx">int</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="nx">int</span> <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nx">int</span> <span class="n">ddepth</span> <span class="o">=</span> <span class="nx">CV_16S</span><span class="p">;</span>
+    <span class="nx">int</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
 
-        <span class="c1">//Get Self-defined kernel</span>
-       <span class="nx">Mat</span> <span class="n">element</span> <span class="o">=</span> <span class="nx">getStructuringElement</span><span class="p">(</span><span class="nx">MORPH_RECT</span><span class="p">,</span> <span class="nb">Size</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>
-       <span class="nx">Mat</span> <span class="nx">dilateImage</span><span class="p">;</span>
-       <span class="nx">dilate</span><span class="p">(</span><span class="nb">image</span><span class="p">,</span><span class="nx">dilateImage</span><span class="p">,</span> <span class="nb">element</span><span class="p">);</span>
+    <span class="c1">/// Load an image</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="nx">imread</span><span class="p">(</span><span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg&quot;</span><span class="p">);</span>
 
-       <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Dilation&quot;</span><span class="p">,</span> <span class="nx">dilateImage</span><span class="p">);</span>
-       <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;dilateImage.png&quot;</span><span class="p">,</span><span class="nx">dilateImage</span><span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">src.data</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
 
-       <span class="nx">Mat</span> <span class="nx">erodeImage</span><span class="p">;</span>
-       <span class="nx">erode</span><span class="p">(</span><span class="nb">image</span><span class="p">,</span><span class="nx">erodeImage</span><span class="p">,</span> <span class="nb">element</span><span class="p">);</span>
+    <span class="nx">GaussianBlur</span><span class="p">(</span> <span class="nb">src</span><span class="p">,</span> <span class="nb">src</span><span class="p">,</span> <span class="nb">Size</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
+    <span class="nx">cvtColor</span><span class="p">(</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">CV_RGB2GRAY</span> <span class="p">);</span>
 
-       <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Erosion&quot;</span><span class="p">,</span> <span class="nx">erodeImage</span><span class="p">);</span>
-       <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;erodeImage.png&quot;</span><span class="p">,</span><span class="nx">erodeImage</span><span class="p">);</span>
 
-       <span class="nx">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="c1">/////////////////////////// Sobe l////////////////////////////////////</span>
+    <span class="c1">/// Generate grad_x and grad_y</span>
+    <span class="nx">Mat</span> <span class="nx">grad_x</span><span class="p">,</span> <span class="nx">grad_y</span><span class="p">;</span>
+    <span class="nx">Mat</span> <span class="nx">abs_grad_x</span><span class="p">,</span> <span class="nx">abs_grad_y</span><span class="p">;</span>
+    <span class="c1">/// Gradient X</span>
+    <span class="c1">//Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );</span>
+    <span class="c1">//Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.</span>
+    <span class="nx">Sobel</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">grad_x</span><span class="p">,</span> <span class="nx">ddepth</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">scale</span><span class="p">,</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
+    <span class="nx">convertScaleAbs</span><span class="p">(</span> <span class="nx">grad_x</span><span class="p">,</span> <span class="nx">abs_grad_x</span> <span class="p">);</span>
+    <span class="c1">/// Gradient Y</span>
+    <span class="c1">//Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );</span>
+    <span class="nx">Sobel</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">grad_y</span><span class="p">,</span> <span class="nx">ddepth</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">scale</span><span class="p">,</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
+    <span class="nx">convertScaleAbs</span><span class="p">(</span> <span class="nx">grad_y</span><span class="p">,</span> <span class="nx">abs_grad_y</span> <span class="p">);</span>
+     <span class="c1">/// Total Gradient (approximate)</span>
+    <span class="nx">addWeighted</span><span class="p">(</span> <span class="nx">abs_grad_x</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">abs_grad_y</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">grad</span> <span class="p">);</span>
 
-       <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Sobel&quot;</span><span class="p">,</span> <span class="nx">CV_WINDOW_AUTOSIZE</span> <span class="p">);</span>
+    <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Sobel&quot;</span><span class="p">,</span> <span class="nx">grad</span> <span class="p">);</span>
+    <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;Sobel.png&quot;</span><span class="p">,</span><span class="nx">grad</span><span class="p">);</span>
+
+    <span class="c1">/////////////////////////////////// Laplace ///////////////////////////////</span>
+    <span class="nx">Mat</span> <span class="nx">abs_dst</span><span class="p">,</span><span class="nb">dst</span><span class="p">;</span>
+    <span class="nx">Laplacian</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">ddepth</span><span class="p">,</span> <span class="nx">kernel_size</span><span class="p">,</span> <span class="nb">scale</span><span class="p">,</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
+    <span class="nx">convertScaleAbs</span><span class="p">(</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">abs_dst</span> <span class="p">);</span>
+    <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Laplacian&quot;</span><span class="p">,</span> <span class="nx">CV_WINDOW_AUTOSIZE</span> <span class="p">);</span>
+    <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Laplacian&quot;</span><span class="p">,</span> <span class="nx">abs_dst</span> <span class="p">);</span>
+    <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;Laplace.png&quot;</span><span class="p">,</span><span class="nx">grad</span><span class="p">);</span>
+
+    <span class="nx">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
-<p>生成的效果图上面已给出。</p>
-<h1>形态学处理进阶</h1>
-<hr />
-<p>首先呢，要知道形态学的高级形态，往往都是建立在腐蚀和膨胀这两个基本操作之上的。对膨胀和腐蚀心中有数了，接下来的高级形态学操作，应该就不难理解。</p>
-<h2>开运算（Opening Operation）</h2>
-<p>开运算（Opening Operation），其实就是先腐蚀后膨胀的过程。其数学表达式如下：</p>
-<p>\begin{equation}
-dst = open(src,element) = dilate(erode(src,element))
-\end{equation}</p>
-<p>开运算可以用来消除小物体、在纤细点处分离物体、平滑较大物体的边界的同时并不明显改变其面积。效果图是这样的：</p>
-<p><img alt="Open" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/openImage_zps8b0d1f5c.png" /></p>
-<h2>闭运算(Closing Operation)</h2>
-<p>先膨胀后腐蚀的过程称为闭运算(Closing Operation)，其数学表达式如下：</p>
-<p>\begin{equation}
-dst = close(src,element) = erode(dilate(src,element))
-\end{equation}</p>
-<p>闭运算能够排除小型黑洞(黑色区域)。效果图如下所示：</p>
-<p><img alt="Close" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/closeImage_zpse027027f.png" /></p>
-<h2>形态学梯度（MorphologicalGradient）</h2>
-<p>形态学梯度（Morphological Gradient）为膨胀图与腐蚀图之差，数学表达式如下：</p>
-<p>\begin{equation}
-\begin{split}
-dst &amp;= gradient(src,element) \\
-&amp;= dilate(src-element) - erode(src,element)
-\end{split}
-\end{equation}</p>
-<p>对二值图像进行这一操作可以将团块（blob）的边缘突出出来。我们可以用形态学梯度来保留物体的边缘轮廓，如下所示:</p>
-<p><img alt="Gradient" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gradientImage_zpsf671d62e.png" /></p>
-<h2>顶帽（Top Hat）</h2>
-<p>顶帽运算（Top Hat）又常常被译为”礼帽“运算。为原图像与上文刚刚介绍的“开运算“的结果图之差，数学表达式如下：</p>
-<p>\begin{equation}
-dst = tophat(src,element) = src - open(src,element)
-\end{equation}</p>
-<p>因为开运算带来的结果是放大了裂缝或者局部低亮度的区域，因此，从原图中减去开运算后的图，得到的效果图突出了比原图轮廓周围的区域更明亮的区域，且这一操作和选择的核的大小相关。</p>
-<p>顶帽运算往往用来分离比邻近点亮一些的斑块。当一幅图像具有大幅的背景的时候，而微小物品比较有规律的情况下，可以使用顶帽运算进行背景提取。如下所示:</p>
-<p><img alt="Tophat" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/tophatImage_zps1073d1fb.png" /></p>
-<h2>黑帽（Black Hat）</h2>
-<p>黑帽（Black Hat）运算为”闭运算“的结果图与原图像之差。数学表达式为：</p>
-<p>\begin{equation}
-dst = blackhat(src,element) = close(src,element)-src
-\end{equation}</p>
-<p>黑帽运算后的效果图突出了比原图轮廓周围的区域更暗的区域，且这一操作和选择的核的大小相关。所以，黑帽运算用来分离比邻近点暗一些的斑块。</p>
-<p><img alt="Black Hat" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/blackhatImage_zps354ea31c.png" /></p>
-<p>还是使用我们之前的毛笔字图片,增加的部分代码如下:</p>
-<div class="highlight"><pre><span class="n">Mat</span> <span class="n">openImage</span><span class="p">;</span>
-<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Open OP&quot;</span><span class="p">);</span>
-<span class="c1">//Open operation</span>
-<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">openImage</span><span class="p">,</span> <span class="n">MORPH_OPEN</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
-<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Open OP&quot;</span><span class="p">,</span> <span class="n">openImage</span><span class="p">);</span>
-<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;openImage.png&quot;</span><span class="p">,</span><span class="n">openImage</span><span class="p">);</span>
-
-<span class="n">Mat</span> <span class="n">closeImage</span><span class="p">;</span>
-<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Close OP&quot;</span><span class="p">);</span>
-<span class="c1">//Close operation</span>
-<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">closeImage</span><span class="p">,</span> <span class="n">MORPH_CLOSE</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
-<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Close OP&quot;</span><span class="p">,</span> <span class="n">closeImage</span><span class="p">);</span>
-<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;closeImage.png&quot;</span><span class="p">,</span><span class="n">closeImage</span><span class="p">);</span>
-
-<span class="n">Mat</span> <span class="n">gradientImage</span><span class="p">;</span>
-<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Gradient OP&quot;</span><span class="p">);</span>
-<span class="c1">//gradient operation</span>
-<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">gradientImage</span><span class="p">,</span> <span class="n">MORPH_GRADIENT</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
-<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Gradient OP&quot;</span><span class="p">,</span> <span class="n">gradientImage</span><span class="p">);</span>
-<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;gradientImage.png&quot;</span><span class="p">,</span><span class="n">gradientImage</span><span class="p">);</span>
-
-<span class="n">Mat</span> <span class="n">tophatImage</span><span class="p">;</span>
-<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Tophat OP&quot;</span><span class="p">);</span>
-<span class="c1">//Tophat operation</span>
-<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">tophatImage</span><span class="p">,</span> <span class="n">MORPH_TOPHAT</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
-<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Tophat OP&quot;</span><span class="p">,</span> <span class="n">tophatImage</span><span class="p">);</span>
-<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;tophatImage.png&quot;</span><span class="p">,</span><span class="n">tophatImage</span><span class="p">);</span>
-
-<span class="n">Mat</span> <span class="n">blackhatImage</span><span class="p">;</span>
-<span class="n">namedWindow</span><span class="p">(</span><span class="s">&quot;Blackhat OP&quot;</span><span class="p">);</span>
-<span class="c1">//Blackhat operation</span>
-<span class="n">morphologyEx</span><span class="p">(</span><span class="n">image</span><span class="p">,</span><span class="n">blackhatImage</span><span class="p">,</span> <span class="n">MORPH_BLACKHAT</span><span class="p">,</span> <span class="n">element</span><span class="p">);</span>
-<span class="n">imshow</span><span class="p">(</span><span class="s">&quot;Blackhat OP&quot;</span><span class="p">,</span> <span class="n">blackhatImage</span><span class="p">);</span>
-<span class="n">imwrite</span><span class="p">(</span><span class="s">&quot;blackhatImage.png&quot;</span><span class="p">,</span><span class="n">blackhatImage</span><span class="p">);</span>
-</pre></div>
-
-
-<p>效果图以上已给出。</p>
+<p>源图我们采用海贼王路飞图像:</p>
+<p><img alt="Lufei" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lufei_zps83311ff7.jpg" /></p>
+<p>Sobel算子处理后得到如下边缘:</p>
+<p><img alt="Sobel" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Sobel_zps3e362cbb.png" /></p>
+<p>Sobel算子可以直接计算$G_x$ 、$G_y$可以检测到边的存在，以及从暗到亮，从亮到暗的变化。仅计算$|G_x|$，产生最强的响应是正交于$x$轴的边；$|G_y|$则是正交于$y$轴的边。</p>
+<p>Laplacian算子则得到如下边缘:</p>
+<p><img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png" /></p>
+<p>拉普拉斯对噪声敏感，会产生双边效果。不能检测出边的方向。<strong>通常不直接用于边的检测，只起辅助的角色</strong>，检测一个像素是在边的亮的一边还是暗的一边利用零跨越，确定边的位置。</p>
 <blockquote>
 <p>TODO BOARD:</p>
 <ul>
-<li>密集光流算法</li>
+<li>Sobel算子$G_x$,$G_y$定义确认;</li>
 </ul>
 </blockquote>
 <h1>参考文献</h1>
 <hr />
 <ul>
-<li><a href="http://blog.csdn.net/honpey/article/details/8770919">直方图均衡化原理</a></li>
-<li><a href="http://blog.csdn.net/sundy_2004/article/details/7259614">OpenCV直方图均衡化(cvEqualizeHist)</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Histogram_equalization">Histogram equalization</a></li>
-<li><a href="http://blog.csdn.net/poem_qianmo/article/details/22745559#">【OpenCV入门教程之八】线性邻域滤波专场：方框滤波、均值滤波与高斯滤波</a></li>
-<li><a href="http://blog.csdn.net/poem_qianmo/article/details/23184547">【OpenCV入门教程之九】 非线性滤波专场：中值滤波、双边滤波</a></li>
-<li><a href="http://blog.csdn.net/poem_qianmo/article/details/23710721">【OpenCV入门教程之十】 形态学图像处理（一）：膨胀与腐蚀</a></li>
-<li><a href="http://blog.csdn.net/poem_qianmo/article/details/23710721">【OpenCV入门教程之十一】 形态学图像处理（二）：开运算、闭运算、形态学梯度、顶帽、黑帽合辑</a></li>
+<li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7829481">【OpenCV】边缘检测：Sobel、拉普拉斯算子</a></li>
 </ul><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
@@ -565,13 +253,46 @@ dst = blackhat(src,element) = close(src,element)-src
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html">
+	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html"><h1>计算机视觉(I):图像处理基础初步</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>六 24 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/machine-learning.html">Machine Learning</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/tu-xiang-chu-li.html">图像处理</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>本文主要介绍一点关于图像处理的基本知识,以为进一步了解计算机视觉算法打下一定的基础。</p> 
+	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
 
  
         
@@ -698,39 +419,6 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
       <div class="summary span8">
 	<p>本文主要介绍广义线性模型以及指数分布族。</p> 
 	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html"><h1>机器学习外传之Deep Learning(I):Sparse Autoencoder</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 13 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/deep-learning.html">Deep Learning</a> <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/back-propagation.html">Back Propagation</a> <a href="../tag/bp-neural-network.html">BP Neural Network</a> <a href="../tag/sparse-autoencoder.html">Sparse Autoencoder</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文简要介绍一下Deep Learning是什么以及其基本使用场景;在此基础上,我们会简要介绍一下BP神经网络以及Back Propagation反向传播算法。接下来在充分理解Back Propagation的基础之上,我们介绍一下Sparse Autoencoder稀疏自编码器。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-wai-chuan-zhi-deep-learningisparse-autoencoder.html">
           <i class="icon-plus-sign"></i> Read More </a>
 	<hr />
       </div>
