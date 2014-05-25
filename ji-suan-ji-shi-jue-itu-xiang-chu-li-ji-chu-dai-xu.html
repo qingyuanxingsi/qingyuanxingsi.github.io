@@ -455,7 +455,10 @@ dst = close(src,element) = erode(dilate(src,element))
 <h2>形态学梯度（MorphologicalGradient）</h2>
 <p>形态学梯度（Morphological Gradient）为膨胀图与腐蚀图之差，数学表达式如下：</p>
 <p>\begin{equation}
-dst = morph_grad(src,element) = dilate(src-element) - erode(src,element)
+\begin{split}
+dst &amp;= gradient(src,element) \\
+&amp;= dilate(src-element) - erode(src,element)
+\end{split}
 \end{equation}</p>
 <p>对二值图像进行这一操作可以将团块（blob）的边缘突出出来。我们可以用形态学梯度来保留物体的边缘轮廓，如下所示:</p>
 <p><img alt="Gradient" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gradientImage_zpsf671d62e.png" /></p>
