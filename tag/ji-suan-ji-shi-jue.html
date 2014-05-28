@@ -76,8 +76,7 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
       </div>
       <div class="article-content span8">
-	
-<blockquote>
+	<blockquote>
 <p>本文中的介绍相对粗浅，自己实现一遍这些算法可能会有更为深入的了解，理论部分也不是很充分，没有那种"边缘检测不过如此"的感觉，以后可能就这个问题进行更为深入的挖掘(如果时间允许的话).此外，本文中对Canny边缘的<strong>非极大值抑制</strong>也没有给出解释，有机会我们会详细讨论。</p>
 </blockquote>
 <h1 id="_1">边缘</h1>
@@ -88,11 +87,11 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 <li>线条（屋顶）变化函数，即图像强度突然从一个值变化到另一个值，保持一较小行程后又回到原来的值。</li>
 </ul>
 <p>图像的边缘有方向和幅度两个属性,沿边缘方向像素变化平缓,垂直于边缘方向像素变化剧烈.边缘上的这种变化可以用微分算子检测出来,通常用一阶或二阶导数来检测边缘。</p>
-<p><img alt="Edge_Detection_I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_1_zps4e28524a.png"/></p>
+<p><img alt="Edge_Detection_I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_1_zps4e28524a.png" /></p>
 <p><strong>注:(a)(b)分别是阶跃函数和屋顶函数的二维图像；(c)(d)是阶跃和屋顶函数的函数图象；(e)(f)对应一阶导数；（g)(h)是二阶导数</strong>。</p>
 <h1 id="_2">一阶导数法：梯度算子</h1>
 <p>对于左图，左侧的边是正的（由暗到亮），右侧的边是负的（由亮到暗）。对于右图，结论相反。常数部分为零。用来检测边是否存在。</p>
-<p><img alt="Edge_Detection_II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_2_zpsb552892a.png"/></p>
+<p><img alt="Edge_Detection_II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_2_zpsb552892a.png" /></p>
 <h2 id="gradient-operators">梯度算子 Gradient operators</h2>
 <p>函数$f(x,y)$在$(x,y)$处的梯度为一个向量：</p>
 <p>\begin{equation}
@@ -123,10 +122,10 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 |\bigtriangledown f| \thickapprox |G_x| + |G_y|
 \end{equation}</p>
 <p>用卷积模板来实现：</p>
-<p><img alt="Conv Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_3_zps392719ee.png"/></p>
+<p><img alt="Conv Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_3_zps392719ee.png" /></p>
 <h1 id="_3">二阶微分法：拉普拉斯</h1>
 <p>二阶微分在亮的一边是负的，在暗的一边是正的。常数部分为零。可以用来确定边的准确位置，以及像素在亮的一侧还是暗的一侧。</p>
-<p><img alt="Edge Detection IV" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_4_zpsfcf520a3.png"/></p>
+<p><img alt="Edge Detection IV" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_4_zpsfcf520a3.png" /></p>
 <h2 id="laplace">LapLace 拉普拉斯算子</h2>
 <p>二维函数$f(x,y)$的拉普拉斯是一个二阶的微分，定义为：</p>
 <p>\begin{equation}
@@ -144,7 +143,7 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 \bigtriangledown^2 f = 4z_5 - (z_2+z_4+z_6+z_8)
 \end{equation}</p>
 <p>定义数字形式的拉普拉斯要求系数之和必为0</p>
-<p><img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png"/></p>
+<p><img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png" /></p>
 <p>以下给出两种边缘检测算子的代码示例:</p>
 <pre><code>#include &lt;iostream&gt;
 #include "opencv2/core/core.hpp"
@@ -207,17 +206,17 @@ int main()
 }
 </code></pre>
 <p>源图我们采用海贼王路飞图像:</p>
-<p><img alt="Lufei" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lufei_zps83311ff7.jpg"/></p>
+<p><img alt="Lufei" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lufei_zps83311ff7.jpg" /></p>
 <p>Sobel算子处理后得到如下边缘:</p>
-<p><img alt="Sobel" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Sobel_zps3e362cbb.png"/></p>
+<p><img alt="Sobel" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Sobel_zps3e362cbb.png" /></p>
 <p>Sobel算子可以直接计算$G_x$ 、$G_y$可以检测到边的存在，以及从暗到亮，从亮到暗的变化。仅计算$|G_x|$，产生最强的响应是正交于$x$轴的边；$|G_y|$则是正交于$y$轴的边。</p>
 <p>Laplacian算子则得到如下边缘:</p>
-<p><img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png"/></p>
+<p><img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png" /></p>
 <p>拉普拉斯对噪声敏感，会产生双边效果。不能检测出边的方向。<strong>通常不直接用于边的检测，只起辅助的角色</strong>，检测一个像素是在边的亮的一边还是暗的一边利用零跨越，确定边的位置。</p>
 <h1 id="canny">Canny边缘检测</h1>
-<hr/>
+<hr />
 <p>在计算机视觉边缘检测算法实现时，实际上就是将图像与某边缘检测模板做卷积的过程。针对Canny而言，其卷积模板相对来说比较简单：</p>
-<p><img alt="Canny Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_template_zps34034b29.png"/></p>
+<p><img alt="Canny Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_template_zps34034b29.png" /></p>
 <p>我们将左上角视为$f[i,j]$,则其$x$,$y$方向的偏导数矩阵,梯度幅值以及方向的表达式分别为:</p>
 <p>\begin{equation}
 \begin{split}
@@ -284,11 +283,11 @@ int main( )
 }
 </code></pre>
 <p>通过设定不同的阈值，我们分别得到不同的边缘检测结果：</p>
-<p><img alt="threshold_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_0_zps09475230.png"/></p>
+<p><img alt="threshold_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_0_zps09475230.png" /></p>
 <p>当我们把阈值均设置为0时,我们得到的是原图像的边缘阵列；</p>
 <p>以下分别当低阈值分别设置为50和100时的结果:</p>
-<p><img alt="threshold_50" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_50_zpsa24f5b6c.png"/></p>
-<p><img alt="threshold_100" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_100_zps8dff2e1d.png"/></p>
+<p><img alt="threshold_50" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_50_zpsa24f5b6c.png" /></p>
+<p><img alt="threshold_100" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_100_zps8dff2e1d.png" /></p>
 <blockquote>
 <p>TODO BOARD:</p>
 <ul>
@@ -296,12 +295,12 @@ int main( )
 </ul>
 </blockquote>
 <h1 id="_5">参考文献</h1>
-<hr/>
+<hr />
 <ul>
 <li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7829481">【OpenCV】边缘检测：Sobel、拉普拉斯算子</a></li>
 <li><a href="http://blog.csdn.net/likezhaobin/article/details/6892176">Canny边缘检测算法原理及其VC实现详解(一)</a></li>
 <li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7839140">【OpenCV】Canny 边缘检测</a></li>
-</ul><script type="text/javascript">
+</ul><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
