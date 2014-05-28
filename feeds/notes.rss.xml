@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/notes.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-13T00:00:00+08:00</updated><entry><title>数据结构与算法学习札记(I):STL简介</title><link href="http://www.qingyuanxingsi.com/shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie.html" rel="alternate"></link><updated>2014-05-13T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-13:shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie.html</id><summary type="html">&lt;p&gt;今天想放松放松,所以看一下STL,算法以及C++的东西吧,以下简要记录一下看的过程中遇到的有意思的点,以及一些好玩的东东。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/notes.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-13T00:00:00+08:00</updated><entry><title>数据结构与算法学习札记(I):STL简介</title><link href="http://www.qingyuanxingsi.com/shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie.html" rel="alternate"></link><updated>2014-05-13T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-13:shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie.html</id><summary type="html">&lt;html&gt;&lt;body&gt;&lt;p&gt;今天想放松放松,所以看一下STL,算法以及C++的东西吧,以下简要记录一下看的过程中遇到的有意思的点,以及一些好玩的东东。&lt;/p&gt;
 &lt;h1&gt;STL&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;入门篇&lt;sup id="sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1-back"&gt;&lt;a class="simple-footnote" href="#sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1" title="Power up C++ with the Standard Template Library: Part I[翻译]"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;hr/&gt;
+&lt;h2&gt;入门篇[ref]&lt;a href="http://www.cnblogs.com/drizzlecrj/archive/2007/01/31/636116.html"&gt;Power up C++ with the Standard Template Library: Part I[翻译]&lt;/a&gt;[/ref]&lt;/h2&gt;
 &lt;p&gt;也许你已经使用C++作为主要编程语言来解决Topcoder中的问题了，这就意味着你已经在简单的使用STL了，因为数组和字符串都是以STL对象的方式传入到你的函数中的。也许你已经注意到了，有许多程序员他们写代码要比你快并且代码也比你的简洁。&lt;/p&gt;
 &lt;p&gt;也许你不是一个C++程序员，但是因为C++的强大功能以及它的库（或者因为你在Topcoder practice房间和比赛里面看到的简短的解决方案），你想成为一个这样的程序员。&lt;/p&gt;
 &lt;p&gt;不管你来自哪里，这篇文章将会帮助你掌握它。我们将会看到STL中一些强大的特性--一个强大的工具有的时候可以为你在算法比赛中节省很多时间。&lt;/p&gt;
@@ -23,25 +23,17 @@
 &lt;p&gt;当程序中使用STL的时候，需要包含相应的文件，对于大多数的容器，包含文件的名字与容器的名字相同，并且不需要后缀。如果你将要使用stack，只要在你的程序的开头加上下面的一句话就可以了：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#include &amp;lt;stack&amp;gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;容器类型（算法，函数对象和所有的STL内容）并不是定义在全局的名字空间中的，而是在一个特定的名叫“std”的名字空间里的。将下面的话添加在include之后和你的代码之前：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;using&lt;/span&gt; &lt;span class="n"&gt;namespace&lt;/span&gt; &lt;span class="n"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;另外一个重要的事情你要记住的是容器的类型是模版参数。程序当中模版参数使用 '&amp;lt;' 和 '&amp;gt;'标注的。例如:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;当使用嵌套的构造时，确保括号不要紧随着另外一个--中间最好留个空格。 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;CorrectDefinition&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;WrongDefinition&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// Wrong: compiler may be confused by 'operator &amp;gt;&amp;gt;'&lt;/span&gt;
 &lt;span class="nx"&gt;Vector&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:目前C++ 11版本两种写法都是支持的(笔者注）&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -54,24 +46,16 @@ for(int i = 9; i &amp;gt; 0; i--) {
     v&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; -= v&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;; 
 }
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;事实上，当你输入 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;空的vector被创建了。注意像一下创建的情形： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这里我们定义了一个有着10个vector&lt;int&gt;的数组，并且被初始化为空。在很多情形下，这并不是我们所想要的。这里应使用圆括号而不是方括号。&lt;/int&gt;&lt;/p&gt;
 &lt;p&gt;最常使用的vector的特征是得到它的大小&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;elements_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;两个注意点：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;第一，size()是无符号的，这个也许有的时候会产生一些问题。相应的，我通常定义一些宏，比如sz(C)，返回代表C的大小的带符号的数。&lt;/li&gt;
@@ -80,8 +64,6 @@ for(int i = 9; i &amp;gt; 0; i--) {
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;bool&lt;/span&gt; &lt;span class="n"&gt;is_nonempty_notgood&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// Try to avoid this&lt;/span&gt;
 &lt;span class="kt"&gt;bool&lt;/span&gt; &lt;span class="n"&gt;is_nonempty_ok&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;empty&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这个是因为并不是所有的容器可以在$O(1)$的复杂度内得到它的大小，并且你应当绝对的避免计算一个双端链表所有的元素     个数而仅仅是为了知道它是不是为空。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -92,8 +74,6 @@ for(int i = 9; i &amp;gt; 0; i--) {
 &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;elements_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;v.size&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;不要担心内存分配--vector不会为一个元素每次都分配。相反的，vector在使用push_buck增加元素的时候会比它需要的分配的多。唯一你要担心的是内存使用，但是在TopCoder中这个没什么关系（后面将更多的关注vector的内存策略）&lt;/p&gt;
 &lt;p&gt;当你需要重新规划vector的大小时，使用resize()函数： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
@@ -105,8 +85,6 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
     &lt;span class="na"&gt;v&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="na"&gt; =&lt;/span&gt;&lt;span class="err"&gt; &lt;/span&gt;&lt;span class="s"&gt;i*2;&lt;/span&gt; 
 &lt;span class="err"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;resize()函数使得vector包含需要数量的元素，如果你需要比vector已经有的元素少，最后部分的元素将被删除，如果你需要vector大小增长，它将会增加它的大小并且用用0进行初始化。&lt;/p&gt;
 &lt;p&gt;注意如果你在resize()之后使用push_buck()，它将会在新增加的大小后继续增加元素，而不是填充。在上面的例子中，vector最后的大小是25。而当我们在第二个循环中使用push_buch，它的大小将变为30.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
@@ -118,8 +96,6 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
     &lt;span class="na"&gt;v&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="na"&gt;push_back&lt;/span&gt;&lt;span class="err"&gt;(&lt;/span&gt;&lt;span class="na"&gt;i&lt;/span&gt;&lt;span class="err"&gt;*&lt;/span&gt;&lt;span class="na"&gt;2&lt;/span&gt;&lt;span class="err"&gt;);&lt;/span&gt; &lt;span class="err"&gt;//&lt;/span&gt; &lt;span class="na"&gt;Writes&lt;/span&gt; &lt;span class="na"&gt;to&lt;/span&gt; &lt;span class="na"&gt;elements&lt;/span&gt; &lt;span class="na"&gt;with&lt;/span&gt; &lt;span class="na"&gt;indices&lt;/span&gt; &lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;25&lt;/span&gt;&lt;span class="nx"&gt;..30&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="nx"&gt;..25&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;清除一个vector使用clear()成员函数。这个函数将使得vector包含0个元素。它并不是使这些元素为0。注意--它是完全清除这个容器。&lt;/p&gt;
 &lt;p&gt;有许多方法初始化vector， 你也可以从另外一个vector创建一个vector&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -127,32 +103,22 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;v2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v3&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;v2和v3的初始化是基本一样的。&lt;/p&gt;
 &lt;p&gt;如果你想要创建一个指定大小的vector，使用下面的构造函数 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="kd"&gt;Data&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1000&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;上面的例子中， Data在创建后将包含1000个0。记得用圆括号而不是方括号，如果你想使用指定的元素进行初始化，像如下方式构造：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;names&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="err"&gt;“&lt;/span&gt;&lt;span class="nx"&gt;Unknown&lt;/span&gt;&lt;span class="err"&gt;”&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;记住你可以创建任何类型的vector&lt;/p&gt;
 &lt;p&gt;多维数组也很重要，最简单的方法来创建一个二维数组是通过声明一个元素为vector的vector。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;Matrix&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;下面很清楚的向你显示如何创建一个指定大小的二维数组： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nb"&gt;N&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;N&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;Matrix&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;N&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;M&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这里我们创建了一个$N*M$的二维数组，并且初始化为-1.&lt;/p&gt;
 &lt;p&gt;最简单的向一个vector中添加数据是使用push_back(),但是如果我们不想在尾部添加呢？这里我们利用insert()函数来达到这个目的。并且这里也有erase()函数来清除元素。但是首先我们需要谈谈迭代器。&lt;/p&gt;
 &lt;p&gt;你需要记住一些非常重要的事情：当vector作为参数传递给一些函数的时候。一份拷贝也会被创建。创建一个这样的vector是非常耗时间和内存的，并且我们其实也不需要。事实上，发现一个需要vector的拷贝作为参数的情况是很少的，所以，你不应该写:&lt;/p&gt;
@@ -160,22 +126,16 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
     &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;相反的，你应该写：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="bp"&gt;void&lt;/span&gt; &lt;span class="nx"&gt;some_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// OK &lt;/span&gt;
     &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;如果你需要在函数中更改vector中的内容，忽略const修饰符就可以了。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;modify_vector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// Correct &lt;/span&gt;
     &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;++; 
 }
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;h3&gt;Pairs&lt;/h3&gt;
 &lt;p&gt;在我们谈论迭代器之前，让我们先谈谈pairs，Pairs在STL中被广泛使用着，像TopCoder SRM 250中的500分的简单问题，通常需要一些有着一对元素的简单数据结构，而STL中的std::pair正好是一对元素。最简单的形式如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;template&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kr"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kr"&gt;typename&lt;/span&gt; &lt;span class="n"&gt;T2&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
@@ -183,18 +143,14 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
     &lt;span class="n"&gt;T2&lt;/span&gt; &lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;};&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;简单的有pair&lt;int, int=""&gt;是一对整数，复杂的pair&lt;string,pair&lt;int,int&gt;&amp;gt;是一对有着字符串和两个整数的pair。在第二种情况下，用法如下：&lt;/string,pair&lt;int,int&gt;&lt;/int,&gt;&lt;/p&gt;
+&lt;p&gt;简单的有pair&lt;int int=""&gt;是一对整数，复杂的pair&lt;string&gt;&amp;gt;是一对有着字符串和两个整数的pair。在第二种情况下，用法如下：&lt;/string&gt;&lt;/int&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;pair&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="n"&gt;string&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// extract string &lt;/span&gt;
 &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// extract first int &lt;/span&gt;
 &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;P&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// extract second int&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;pairs的最大好处在于他们内建了比较操作，pairs比较是从第一个比较到第二个。如果第一个元素不相等，那么结果仅仅基于第一个元素的比较；第二个元素比较被用到仅当第一个元素相等的情况。 数组（或者vector）能够轻易的被STL中内部函数排序。&lt;/p&gt;
-&lt;p&gt;例如，如果你想对一个有着整数点的数组排序而使得它能够构成一个多边形，把他们放到vector&amp;lt; pair&lt;double,pair&lt;int, int=""&gt; &amp;gt;是一个好主意，这里的元素是{极坐标，{x, y}}。调用STL中的一个排序函数能够给你所需要的顺序。&lt;/double,pair&lt;int,&gt;&lt;/p&gt;
+&lt;p&gt;例如，如果你想对一个有着整数点的数组排序而使得它能够构成一个多边形，把他们放到vector&amp;lt; pair&lt;double int=""&gt; &amp;gt;是一个好主意，这里的元素是{极坐标，{x, y}}。调用STL中的一个排序函数能够给你所需要的顺序。&lt;/double&gt;&lt;/p&gt;
 &lt;p&gt;此外，pairs也被广泛的用在联合容器中，我们稍后将会在这里谈到它。&lt;/p&gt;
 &lt;h3&gt;Iterators&lt;/h3&gt;
 &lt;p&gt;什么是迭代器呢？在STL中，迭代器是最常使用的访问容器中数据的方法。考虑这样一个简单的问题：将一个有着N个int类型元素的数组倒序。让我们先看C写的一个解决方法：&lt;/p&gt;
@@ -207,8 +163,6 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
       &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这段代码已经很清晰了。上面代码可以很容器的改成指针的形式:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;reverse_array&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
       &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;first&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;last&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;A&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;N&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -219,8 +173,6 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
       &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;看这段代码的主循环部分，它在first和last指针上进行了4种不同的操作:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;比较指针(first &amp;lt; last)&lt;/li&gt;
@@ -257,8 +209,6 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
       &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这段代码和上面的不同之处在于我们没有在迭代器上使用'&amp;lt;'比较，而仅仅是使用'=='。另外，你不要对函数原型感到惊慌： 模版是声明函数的一个方法，它将使所有可以的参数类型得以工作。这个函数可以在参数是指向对象的指针或者所有简单迭代器时很好的工作。&lt;/p&gt;
 &lt;p&gt;让我们回到STL。STL算法总是使用两种迭代器，叫做"begin"和"end".这个end迭代器并不是指向最后一个元素，而是指向第一个非法的元素，也就是最后一个元素后面的一个。通常使用它是非常方便的。&lt;/p&gt;
 &lt;p&gt;每一个STL容器都有begin()和end()成员函数返回那个容器的begin和end迭代器。&lt;/p&gt;
@@ -286,8 +236,6 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
       &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;注意,这个函数和标准函数std::reverse(T begin, T end)所做的事情是一样的，后者可以在算法模块中找到(#include &lt;algorithm&gt;)&lt;/algorithm&gt;&lt;/p&gt;
 &lt;p&gt;此外， 任何一个有足够功能的对象可以被当作一个迭代器传递给STL算法和函数。这就是模版的力量之所在！看下面的例子：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -298,23 +246,17 @@ for(int i = 20; i &lt;span class="nt"&gt;&amp;lt; 25&lt;/span&gt;&lt;span class=
 &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="kd"&gt;data&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 }; 
 vector&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; primes(data, data+(sizeof(data) / sizeof(data&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;)));
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;最后一句话展示了从一个C的数组构造vector的例子。没有加索引的data被当成指向数组开始的指针，'data+N'指向第N个元素。当N是这个数组的长度时，'data+N'指向第一个不在数组的元素，所以‘data+data的长度'可以被当成数组'data'的end迭代器。表达式 'sizeof(data)/sizeof(data[0])'返回data数组的大小，但是这样的语句只能用在一小部分情况下，所以不要在任何地方使用它除了像以上的情况。(C程序员会同意我的说法的！)&lt;/p&gt;
 &lt;p&gt;更进一步的，我们可以甚至使用下面的构造: &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;span class="c1"&gt;// &lt;/span&gt;
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v.begin&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="nx"&gt;v.begin&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v.size&lt;/span&gt;&lt;span class="p"&gt;()/&lt;/span&gt;&lt;span class="nx"&gt;2&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这样就创建的v2向量等同于v向量的前半部分。&lt;/p&gt;
 &lt;p&gt;下面是使用reverse函数的一个例子 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;11&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;13&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;17&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;19&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt; 
 &lt;span class="n"&gt;reverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;6&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// the range { 5, 7, 9, 11 } is now { 11, 9, 7, 5 };&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;每一个容器还拥有rbegin()和rend()函数，他们返回的是倒置过的迭代器。倒置的迭代器被用在倒序容器上的，比如：&lt;/p&gt;
 &lt;p&gt;vector&lt;int&gt; v; 
 vector&lt;int&gt; v2(v.rbegin()+(v.size()/2), v.rend()); &lt;/int&gt;&lt;/int&gt;&lt;/p&gt;
@@ -329,8 +271,6 @@ vector&lt;int&gt; v2(v.rbegin()+(v.size()/2), v.rend()); &lt;/int&gt;&lt;/int&gt
     &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;it&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="c1"&gt;// Increment the value iterator is pointing to &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;建议你使用 '!=' 而不是 '&amp;lt;' 并且'empty()'而不是'size()!=0'--&lt;strong&gt;因为对于一些类型的容器而言，去判断一个迭代器是否在另外一个之前是非常低效的&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;现在你知道STL的算法函数reverse()了。其实许多STL算法是以这么一种方式声明的：他们通常使用一对迭代器，开始和结束迭代器，并且返回一个迭代器。&lt;/p&gt;
 &lt;p&gt;find()算法在一个区间内查找指定的元素，如果这个元素被找到了，那么指向这个元素第一次出现位置的迭代器将会被返回。反之，则返回这个区间的end迭代器。看下面的代码： &lt;/p&gt;
@@ -343,16 +283,12 @@ vector&lt;int&gt; v2(v.rbegin()+(v.size()/2), v.rend()); &lt;/int&gt;&lt;/int&gt
     &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;想要得到被找到的元素的下标，需要用find()的结果减去开始迭代器：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="mi"&gt;49&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; 
 &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;v&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
     &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;记得在使用STL算法的时候，在源代码中加上#include&lt;algorithm&gt;&lt;/algorithm&gt;&lt;/p&gt;
 &lt;p&gt;min_element和max_element返回一个指向单个元素的迭代器。要获得最小或者最大的元素，和find()一样，使用&lt;em&gt;min_element(...)或者 &lt;/em&gt;max_element(...)。要获得下标的话，减去容器或者一定范围的开始迭代器就可以了： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="kd"&gt;data&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; = { 1, 5, 2, 4, 3 }; 
@@ -363,13 +299,9 @@ int i1 =  max_element(X.begin(), X.end()) – X.begin; // Returns index of max e
 int v2 = *min_element(data, data+5); // Returns value of min element in array 
 int i3 = min_element(data, data+5) – data; // Returns index of min element in array
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;现在你可以看到有用的宏了:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#define all(c) c.begin(), c.end()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;不要把右边的部分放到圆括号里面--那样是错的！&lt;/p&gt;
 &lt;p&gt;另外一个好用的算法是sort(), 它使用起来非常简单。 看下面的一个例子：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;X&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -380,8 +312,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 &lt;span class="nb"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;X&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;             &lt;span class="c1"&gt;// Sort array in ascending order, use our #define &lt;/span&gt;
 &lt;span class="nb"&gt;sort&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;X.rbegin&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="nx"&gt;X.rend&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt; &lt;span class="c1"&gt;// Sort array in descending order using with reverse iterators&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;h3&gt;Compiling STL Programs&lt;/h3&gt;
 &lt;p&gt;一个需要值得指出的事情就是STL的错误消息。由于STL已经被广泛的使用在源代码中了，所以有必要要求编译器去创建高效的可执行文件，STL的一个习惯在于它的难读的错误消息.&lt;/p&gt;
 &lt;p&gt;例如,如果你传递一个vector&lt;int&gt;的常引用给一些函数的时候：&lt;/int&gt;&lt;/p&gt;
@@ -392,8 +322,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这里的错误是你正在从一个常量对象中创建一个非指向常量的迭代器(实际上找出错误比修改它要难).正确的代码如下：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="bp"&gt;void&lt;/span&gt; &lt;span class="nb"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
     &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -404,19 +332,13 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;尽管如此,让我告诉你在GNU C++中成为"typeof"的一个重要特性。这个操作符会在编译时被替换为表达式的类型。考虑下面的例子： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;typeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这样将会创建一个和(a+b)表达式相同的类型变量x。请注意typeof(v.size())对于STL中的任何容器类型来说都是无符号的。但是在TopCoder中typeof最重要的应用在于遍历一个容器。考虑下面一些宏：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;#define tr(container, iterator) \ &lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;typeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;container&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="n"&gt;iterator&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;container&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;iterator&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;container&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;end&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt; &lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;通过使用这些宏，我们可以遍历任何类型的容器，不仅仅是vector。这样将会为常量对象产生指向常量的迭代器并且为非常量对象产生普通迭代器，当然你也不会获得一个错误。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="bp"&gt;void&lt;/span&gt; &lt;span class="nb"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
     &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -426,8 +348,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;注意： 为了提高可读性，我没有在#define行上添加额外的圆括号。这篇文章的下面将会给出更加精确的#define语句，并且你可以直接将其拷贝到你的模版代码中。&lt;/p&gt;
 &lt;p&gt;遍历宏对与vector来说并不是必需的，但是对于一些复杂的数据类型，由于它们没有索引访问而迭代器是唯一访问数据的方法，这是遍历宏将显得非常方便。我们将在这篇文章的后面继续讨论它。&lt;/p&gt;
 &lt;h3&gt;Data manipulation in vector&lt;/h3&gt;
@@ -436,8 +356,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 &lt;span class="c1"&gt;//  &lt;/span&gt;
 &lt;span class="nx"&gt;v.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// Insert value 42 after the first&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;所有从第二个元素（下标为1）到最后一个都会向右移动一个单位来腾出空位给新插入的元素。如果你打算加入很多元素的话，做许多这样的移动是不太好的，你最好只调用insert()一次。所以，&lt;strong&gt;insert()有插入一段区间的形式&lt;/strong&gt;： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
@@ -448,14 +366,10 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 &lt;span class="c1"&gt;// Then copy the contents of v2 into v. &lt;/span&gt;
 &lt;span class="nx"&gt;v.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;vector也有一个叫做erase的函数，同样的，它也有两种形式，猜猜他们是什么样的： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
 &lt;span class="n"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;begin&lt;/span&gt; &lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;end&lt;/span&gt; &lt;span class="n"&gt;iterator&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;第一个例子中，vector中的单个元素将会被删除，在第二个例子中，由两个迭代器指定的区间将会从vector中删除。&lt;/p&gt;
 &lt;p&gt;插入，删除的技巧很普遍，但对于STL的容器来说并不都是一样的。&lt;/p&gt;
 &lt;h3&gt;String&lt;/h3&gt;
@@ -468,8 +382,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="n"&gt;s3&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="s"&gt;"hell"&lt;/span&gt; 
     &lt;span class="n"&gt;s4&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// "ello"&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;注意当(s.length()-1)作用在空串上的情况，因为s.length()返回的是无符号的数，那么unsigned(0)-1得到的并不是你期望的！&lt;/p&gt;
 &lt;h3&gt;Set&lt;/h3&gt;
 &lt;p&gt;通常很难决定是先讲set容器还是map容器。我的意见是如果读者有一个基本的算法概念，那么从'set'讲起会容易理解一点。&lt;/p&gt;
@@ -495,8 +407,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 
 &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;N&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;S.size&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt; &lt;span class="c1"&gt;// N will be 50&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;push_back()成员函数对set是不适用的。因为set中的元素没有什么顺序关系，因此push_back()在这里就不适用了。&lt;/p&gt;
 &lt;p&gt;由于set并不是线性容器，所以使用索引去访问元素是不可能的。因此唯一访问set元素的方法是使用迭代器。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// Calculate the sum of elements in set &lt;/span&gt;
@@ -507,17 +417,13 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;这里使用遍历宏会变得非常优雅，为什么呢？试想这里有一个集合set&lt;pair&lt;string, pair&lt;int,vector&lt;int=""&gt; &amp;gt; &amp;gt;,你怎样去访问它呢？写写迭代器的类型？哦，不。还是使用我们的遍历宏吧。&lt;/pair&lt;string,&gt;&lt;/p&gt;
+&lt;p&gt;这里使用遍历宏会变得非常优雅，为什么呢？试想这里有一个集合set&lt;pair pair=""&gt; &amp;gt; &amp;gt;,你怎样去访问它呢？写写迭代器的类型？哦，不。还是使用我们的遍历宏吧。&lt;/pair&gt;&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="kt"&gt;pair&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;pair&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;SS&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;total&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="nx"&gt;tr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;SS&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;it&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
     &lt;span class="nx"&gt;total&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="nx"&gt;it&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="nx"&gt;second.first&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;注意 'it-&amp;gt;second.first'的语法。因为'it'是一个迭代器了，我们需要'it'中取出一个对象进行操作。所以正确的语法是'(&lt;em&gt;it).second.first'.尽管如此，写'something-&amp;gt;'要比'(&lt;/em&gt;something)'来的容易一点。要完整的解释的话估计要写好长--只要记住，对于迭代器而言，两种语法都是允许的。&lt;/p&gt;
 &lt;p&gt;要判断set中是否已经存在一些元素，使用'find()'成员函数。不要感到迷惑，虽然：在STL中有许多'find()'.有一个全局的算法'find()' 参数包括两个迭代器，元素并且在O(N)内完成。在set中使用它来查找元素是可能的，但是为什么有已经存在的O(logN)的算法还要要使用O(N)的算法呢？当在set和map（multiset/multimap，hash_map/hash_set,等等)进行搜索时，不要使用全局的find--相反的使用成员函数'set::find()'。作为顺序的查找，set::find将会返回一个迭代器，要么指向找到的元素，要么指向'end()'。所以检查元素是否存在应该像下面这样： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
@@ -529,8 +435,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="c1"&gt;// 42 not presents in set &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;另外一个在O(logN)下工作的算法是计算函数。有些人认为&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="c1"&gt;//  &lt;/span&gt;
@@ -541,22 +445,16 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     &lt;span class="c1"&gt;// 42 not presents in set &lt;/span&gt;
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;甚至 &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt; &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;42&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
       &lt;span class="c1"&gt;// … &lt;/span&gt;
  &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;非常容易写。但是就个人而言，在set或者map中使用count()是没有意义的：元素要么存在要么不存在。
 对我来说，我更加喜欢使用下面两个宏：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c"&gt;#define present(container, element) (container.find(element) != container.end()) &lt;/span&gt;
 &lt;span class="c"&gt;#define cpresent(container, element) (find(all(container),element) != container.end())&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;(记住 all(c) 代表 "c.begin(),c.end")&lt;/p&gt;
 &lt;p&gt;这里，'present()'使用成员函数'find()'返回这个元素是否存在与容器中，而'cpresent'是用于vector的。&lt;/p&gt;
 &lt;p&gt;想要从set中移除一个元素使用erase()函数。&lt;/p&gt;
@@ -565,8 +463,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 &lt;span class="nx"&gt;s.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;54&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
 &lt;span class="nx"&gt;s.erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;29&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;erase也有区间的形式: &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="c1"&gt;// ..&lt;/span&gt;
@@ -577,22 +473,16 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 &lt;span class="c1"&gt;// Will work if it1 and it2 are valid iterators, i.e. values 10 and 100 present in set. &lt;/span&gt;
 &lt;span class="nx"&gt;s.erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;it1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;it2&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="c1"&gt;// Note that 10 will be deleted, but 100 will remain in the container&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;set有一个区间的构造函数： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="kd"&gt;data&lt;/span&gt;&lt;span class="err"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt; = {5, 1, 4, 2, 3 }; 
 set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;它给我们提供一个消除vector中重复元素的办法，并且进行排序，如下： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="c1"&gt;// … &lt;/span&gt;
 &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt; 
 &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;v2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这里，'v2'将和 'v'包含一样的元素，但是进行了升序排序，并且不具有重复元素。任何可以进行比较的元素都可以在set中进行存储。这个将在后面进行讨论。&lt;/p&gt;
 &lt;h3&gt;Map&lt;/h3&gt;
 &lt;p&gt;有两种关于map的解释，简单的解释如下： &lt;/p&gt;
@@ -607,10 +497,8 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
     &lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;erase&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;"SRM"&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;非常简单，难道不是吗？&lt;/p&gt;
-&lt;p&gt;事实上，map和set很像，除了map保存的不仅仅是值，而是一个键值对&lt;key,value&gt;.map确保一个队中最多只有一个指定的key存在。另外一个比较好的是map定义了[]操作符。&lt;/key,value&gt;&lt;/p&gt;
+&lt;p&gt;事实上，map和set很像，除了map保存的不仅仅是值，而是一个键值对&lt;key&gt;.map确保一个队中最多只有一个指定的key存在。另外一个比较好的是map定义了[]操作符。&lt;/key&gt;&lt;/p&gt;
 &lt;p&gt;遍历map可以简单的使用'tr()'宏。注意迭代器将会使一个std::pair的key和value，要获取值可以使用it-&amp;gt;second.下面是个例子： &lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="c1"&gt;// … &lt;/span&gt;
@@ -619,8 +507,6 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
     &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;it&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;second&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;不要使用迭代器去更改map中元素的key， 因为它可能会破坏map内部数据结构的集成性（看下面).&lt;/p&gt;
 &lt;p&gt;要记住的最重要的关于map的事情是，[]操作符将会创建一个元素,如果那个元素不存在的话。并且这个元素将会被添加到map中。所以，如果你想使你的代码更加快，绝不要用[]操作符除非你能确保那个元素已经存在与map中了。这就是为什么[]操作符不用在map作为常引用参数传递给一些函数的原因了:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;string&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;M&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; 
@@ -631,8 +517,6 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
     &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;h3&gt;Notice on Map and Set&lt;/h3&gt;
 &lt;p&gt;map和set内部使用红黑树实现的。因此，当访问这些容器的时候，map和set的元素总是以升序排列。并且这就是为什么强烈建议不要在遍历map或者set时更改key值的原因了：如果你做了修改，那么将会打乱顺序，这样至少导致容器算法的不正确。&lt;/p&gt;
 &lt;p&gt;但是事实上map和set元素总是有序的这一点在解决TopCoder问题上面是很实用的。&lt;/p&gt;
@@ -646,8 +530,6 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
 &lt;span class="nx"&gt;it2&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;it1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="nx"&gt;it2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;这里a将包含42左边的第一个邻居，而b则包含右边的第一个邻居。&lt;/p&gt;
 &lt;h3&gt;More on algorithms&lt;/h3&gt;
 &lt;p&gt;是时候深入讨论一些算法了。大多数算法被定义在#include &lt;algorithm&gt;头文件中了。首先，STL提供了3个非常简单的算法： min(a,b), max(a,b), swap(a,b)。 这里min(a,b)和max(a,b)返回两个元素中的最小值和最大值，而swap(a,b)交换两个元素。&lt;/algorithm&gt;&lt;/p&gt;
@@ -664,8 +546,6 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
     &lt;span class="nx"&gt;Solve&lt;/span&gt;&lt;span class="p"&gt;(,&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;next_permutation&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;&lt;strong&gt;不用忘记确保容器中的元素在你第一次调用next_permutation(...)之前已经排序了，他们的初始状态将决定第一个排列；否则的话，有一些排列将不会被检查到&lt;/strong&gt;。&lt;/p&gt;
 &lt;h3&gt;String Streams&lt;/h3&gt;
 &lt;p&gt;你经常需要处理一些字符串的输入和输出。C++为其提供了两个有趣的对象： 'istringstream'和'ostringstream'&lt;/p&gt;
@@ -684,8 +564,6 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
     &lt;span class="p"&gt;}&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;p&gt;ostringstream是用来格式化输出的。下面是代码：&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="nb"&gt;f&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;vector&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class="nx"&gt;v&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
 
@@ -708,8 +586,6 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
     &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="nb"&gt;s&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; 
 &lt;span class="p"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
 &lt;h3&gt;Summary&lt;/h3&gt;
 &lt;p&gt;接着往下讲STL，我更想总结一下被用到的一些模版列表。这个将会简化阅读代码样例
 并且我希望，提高你的TopCoder技巧。这些模版列表和宏如下： &lt;/p&gt;
@@ -723,219 +599,5 @@ set&lt;span class="nt"&gt;&amp;lt;int&amp;gt;&lt;/span&gt; S(data, data+5);
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;present&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; 
 &lt;span class="vi"&gt;#define&lt;/span&gt; &lt;span class="nx"&gt;cpresent&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kc"&gt;all&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="nx"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="bp"&gt;.&lt;/span&gt;&lt;span class="nb"&gt;end&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;p&gt;vector&lt;int&gt;容器被放在这是因为它真的很受欢迎。事实上，对于众多容器使用简短的假名（尤其像vector&lt;string&gt;,vector&lt;ii&gt;, vector&lt;pair&lt;double, ii=""&gt; &amp;gt;)是非常方便的。但是这个列表仅仅包含需要理解接下来内容的宏。&lt;/pair&lt;double,&gt;&lt;/ii&gt;&lt;/string&gt;&lt;/int&gt;&lt;/p&gt;
-&lt;p&gt;另外一个需要记住的是： 当#define左边的序列出现在右边时，它应该加上圆括号来避免许多不必要的问题。&lt;/p&gt;&lt;script type="text/javascript"&gt;
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-    }
-&lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1"&gt;&lt;a href="http://www.cnblogs.com/drizzlecrj/archive/2007/01/31/636116.html"&gt;Power up C++ with the Standard Template Library: Part I[翻译]&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="STL"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(II):大杂烩</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-iida-za-hui.html" rel="alternate"></link><updated>2014-05-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-02:ji-qi-xue-xi-shi-yi-iida-za-hui.html</id><summary type="html">&lt;p&gt;本文主要对之前看过的&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中有关离散数据生成模型、高斯模型以及线性模型的相关部分进行梳理。&lt;/p&gt;
-&lt;h1&gt;Closed Form&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1" title="Closed-form expression"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
-&lt;hr&gt;
-&lt;p&gt;在阅读&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;这本书的时候经常看到&lt;strong&gt;Closed Form&lt;/strong&gt;这个词。以下给出一简单说明:&lt;/p&gt;
-&lt;p&gt;如果一个表达式可以表示成&lt;strong&gt;有限的&lt;/strong&gt;某些特定的&lt;strong&gt;Ｗell-known&lt;/strong&gt;函数的形式，那么我们说这个表达式是一个&lt;strong&gt;Closed Form&lt;/strong&gt;表达式。一般而言,这些&lt;strong&gt;Well-known&lt;/strong&gt;函数包括基本的函数，如常数、单个变量$x$、基本的算术操作、开方、指数对数函数、三角反三角函数等。如果一个问题可以得到一&lt;strong&gt;Closed Form&lt;/strong&gt;的解,我们通常就说这个问题是可解的。&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Closed–form&lt;/strong&gt;表达式是解析表达式的一个非常重要的子类,解析表达式可包含有限或无限个&lt;strong&gt;Well-known&lt;/strong&gt;函数。和更为广泛的解析表达式不同,&lt;strong&gt;Closed–form&lt;/strong&gt;表达式并不包含无限级数和递归分数(&lt;em&gt;Continued Fractions&lt;/em&gt;)形式，也不能包含积分和极限。&lt;/p&gt;
-&lt;p&gt;一个方程或方程组当且仅当它的一个解可写成&lt;strong&gt;Closed-Form&lt;/strong&gt;形式时,我们才说该方程或方程组具有一&lt;strong&gt;Closed-form solution&lt;/strong&gt;.类似地,一个方程或方程组当且仅当它的一个解可写成解析形式时,我们才说该方程或方程组具有一解析解。&lt;/p&gt;
-&lt;h1&gt;Gaussian Models&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2" title="Machine Learning:A Probabilistic Perspective Chapter 4"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;Diagonal LDA&lt;/h2&gt;
-&lt;p&gt;在GLA中,如果我们限定不同类间共享$\Sigma$,并对每类使用一对角协方差矩阵，我们得到的模型则称为&lt;strong&gt;Diagonal LDA Model&lt;/strong&gt;.对应的判别函数如下所示:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\delta_c(x) = log\ p(x,y=c|\theta) = -\sum_{j=1}^D \frac{(x_j-\mu_{cj})^2}{2\sigma_j^2}+log\ \pi_c
-\end{equation}&lt;/p&gt;
-&lt;p&gt;一般我们令$\hat\mu_{cj} = \bar{x}_{cj}$且$\hat\sigma_j^2=s_j^2$,$s_j^2$称为&lt;em&gt;Pooled empirical variance&lt;/em&gt;,定义如下:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
-\end{equation}&lt;/p&gt;
-&lt;p&gt;在高维情形下,该模型比LDA和RDA效果都要好。&lt;/p&gt;
-&lt;h2&gt;方差MAP估计&lt;/h2&gt;
-&lt;p&gt;&lt;em&gt;ML&lt;/em&gt;(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$\Sigma$的估计写的很复杂,于是基本上没看那部分,关于$\Sigma$的MAP估计可参考以下链接:&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/"&gt;Regularized Gaussian Covariance Estimation&lt;/a&gt;&lt;/p&gt;
-&lt;h1&gt;Linear Regression&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 7"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
-&lt;hr&gt;
-&lt;h2&gt;Bayesian Linear Regression&lt;/h2&gt;
-&lt;p&gt;给定训练集$D={(x_i,y_i)|i=1,\cdots,n}$,我们有:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Design_Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/design_matrix_zpse58dd2c8.png"&gt;&lt;/p&gt;
-&lt;p&gt;对于Linear Regression,我们有:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\begin{split}
-f(x) &amp;amp; = x^Tw \in R,x,w \in R^D   \\
-y &amp;amp;= f(x) + \epsilon = x^Tw+\epsilon \in R \\
-\epsilon &amp;amp;\sim\ N(0,\sigma^2) \in R
-\end{split}
-\end{equation}&lt;/p&gt;
-&lt;p&gt;我们首先计算Likelihood:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\begin{split}
-P(y|X,w) &amp;amp;= \prod_{i=1}^n P(y_i|x_i^Tw) \\
-&amp;amp;= \prod_{i=1}^n N_{yi}(x_i^Tw,\sigma^2) \\
-&amp;amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp[\frac{-(y_i-x_i^Tw)^2}{2\sigma^2}] \\
-&amp;amp;= \frac{1}{(2\pi\sigma^2)^{n/2}}exp[\frac{-1}{2\sigma^2}||y-X^Tw||^2] \\
-&amp;amp;= N_y(X^Tw,\sigma^2I_n)
-\end{split}
-\end{equation}&lt;/p&gt;
-&lt;p&gt;另我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$&lt;/p&gt;
-&lt;p&gt;则我们可得Posterior:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\begin{split}
-P(w|X,y) &amp;amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
-&amp;amp;= \frac{P(y|X,w)P(w)}{\int P(y|X,w)dw}  \\
-&amp;amp;= \frac{N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)}{\int N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)dw} \\
-&amp;amp;\sim\ N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)
-\end{split}
-\end{equation}&lt;/p&gt;
-&lt;p&gt;更进一步地,我们有:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="MAP_Estimation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/map_weight_zps49ddf4b7.png"&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;NOTE:Posterior协方差矩阵并不依赖观察值$y$.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:&lt;/p&gt;
-&lt;p&gt;&lt;img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"&gt;&lt;/p&gt;
-&lt;h1&gt;Logistic Regression&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 8"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
-&lt;hr&gt;
-&lt;p&gt;&lt;em&gt;ML&lt;/em&gt;一书中给出的形式并不便于计算Gradient以及Hessian,以下根据李航&lt;strong&gt;统计学习方法&lt;/strong&gt;中的相关内容给出以下较易计算的形式。&lt;/p&gt;
-&lt;p&gt;对于给定的训练集$T={(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)}$,其中,$x_i \in R^n,y_i \in {0,1}$,我们令:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
-\end{equation}&lt;/p&gt;
-&lt;p&gt;对数似然函数为:
-\begin{equation}
-\begin{split}
-\ell(w) &amp;amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\mu(x_i))] \\
-&amp;amp;= \sum_{i=1}^N [y_i log \frac{\mu(x_i)}{1-\mu(x_i)}+log(1-\mu(x_i))] \\
-&amp;amp;= \sum_{i=1}^N [y_i(w^Tx_i)-log(1+exp(w^Tx_i)]
-\end{split}
-\end{equation}&lt;/p&gt;
-&lt;p&gt;为了使用最小值,在&lt;em&gt;ML&lt;/em&gt;一书中用到的是Negetive Log Likelihood(NLL),特此说明。&lt;/p&gt;
-&lt;p&gt;由此我们得到:&lt;/p&gt;
-&lt;p&gt;\begin{equation}
-\begin{split}
-g &amp;amp;= \frac{df(w)}{dw} = \sum_i (\mu_i-y_i)x_i = X^T(\mu-y) \\
-H &amp;amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
-&amp;amp;= \sum_i \mu_i(1-\mu_i)x_ix_i^T \\
-&amp;amp;= X^TSX
-\end{split}
-\end{equation}&lt;/p&gt;
-&lt;p&gt;其中,$S \triangleq diag(\mu_i(1-\mu_i))$.得到梯度和Hessian矩阵之后,以下我们就能使用最速下降、牛顿法、BFGS等方法对Logistic Regression进行求解了。&lt;/p&gt;
-&lt;h1&gt;EM&lt;/h1&gt;
-&lt;hr&gt;
-&lt;p&gt;本部分与&lt;em&gt;ML&lt;/em&gt;一书第十一章无关,只是为了更清楚地了解&lt;strong&gt;EM算法&lt;/strong&gt;。以下给出一个挺不错的PPT:&lt;/p&gt;
-&lt;p&gt;&lt;a href="http://people.csail.mit.edu/fergus/research/tutorial_em.ppt"&gt;Tutorial EM&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;Posterior Predicative for Multinomial-Dirichlet Models&lt;/em&gt;&lt;sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5" title="Machine Learning:A Probabilistic Perspective Chapter 3"&gt;5&lt;/a&gt;&lt;/sup&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Regularized LDA&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Nearest shrunken centroids classifier&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Numerically stable computation[7.5.2]&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Connection with PCA[7.5.3]&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Estimating $\sigma^2$[7.6.3]&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Evidence Procedure[7.6.4]&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Conjugate Gradient(CG)&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;BFGS(LBFGS)&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Multi-class Logistic Regression and Maximum Entropy Classfier&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Bayesian Logistic Regression[8.4]&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Online Learning[8.5]&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;Generative vs Discriminative Classfiers[8.6]&lt;/em&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-    }
-&lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"&gt;&lt;a href="http://en.wikipedia.org/wiki/Closed-form_expression"&gt;Closed-form expression&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 4&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 7&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 8&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 3&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Gaussian Models"></category><category term="Linear Models"></category><category term="Notes"></category></entry><entry><title>机器学习拾遗(I):概率图模型[待续]</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu.html</id><summary type="html">&lt;p&gt;今天突然发现&lt;em&gt;Machine Learning:A Probabilistic Perspective&lt;/em&gt;一书中看过的章节中还有一些东西没完全弄懂,或者有些东西干脆就漏掉了,所以这一阵子打算把看过的部分梳理一下,慢慢来,脚踏实地地把这本书吃透,至少达到让自己满意的理解水平吧。作为机器学习拾遗的第一篇,我们主要从这本书中涉及概率图模型的章节入手,以期对概率图模型有一个更为深入的了解,并把之前遗漏的部分知识点捡起来。&lt;/p&gt;
-&lt;h1&gt;Undirected Graphical Models&lt;sup id="sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1" title="Machine Learning:A Probabilistic Perspective Chapter 10"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
-&lt;hr&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Family&lt;/strong&gt;;For a directed graph,the family of a node is the node and its parents,$fam(s) = {s} \cup pa(s)$.&lt;/li&gt;
-&lt;li&gt;Influence(Decision Diagrams);人的行为是理智的,人们在决策时总希望自己所能得到的期望效用最大化(&lt;em&gt;Expected Utility&lt;/em&gt;),当我们对不同行动下的期望效用进行比较后就很容易做出对我们而言最好的&lt;em&gt;Action&lt;/em&gt;.然而,现实生活中信息对于决策具有非常重要的意义，当我们获得一些其他的有用的信息时，可能做出更为明智的决定。得知一定的决策信息后，一般而言，我们的最大期望效用会提高,而此时的最大期望效用值相对之前的提升量则称为&lt;strong&gt;Value of Perfect Information,VPI(完美信息价值)&lt;/strong&gt;。而实际上在现实生活中我们获取这些信息并不是不无代价的,因此 理智人能做出的理智选择是,当信息的VPI要大于获取信息的代价时,我们选择获取额外的信息，否则则不用获取该信息。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;&lt;img alt="Decision Diagrams" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/decision_diagram_zps163a6ef8.png"&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;TODO Board&lt;/em&gt;:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;MDP(&lt;em&gt;Markov Decision Process&lt;/em&gt;)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/blockquote&gt;&lt;script type="text/javascript"&gt;
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-    }
-&lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1"&gt;&lt;em&gt;Machine Learning:A Probabilistic Perspective Chapter 10&lt;/em&gt; &lt;a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-igai-lu-tu-mo-xing-dai-xu-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="Machine Learning"></category><category term="Graphical Models"></category><category term="Notes"></category></entry></feed>
+&lt;p&gt;vector&lt;int&gt;容器被放在这是因为它真的很受欢迎。事实上，对于众多容器使用简短的假名（尤其像vector&lt;string&gt;,vector&lt;ii&gt;, vector&lt;pair ii=""&gt; &amp;gt;)是非常方便的。但是这个列表仅仅包含需要理解接下来内容的宏。&lt;/pair&gt;&lt;/ii&gt;&lt;/string&gt;&lt;/int&gt;&lt;/p&gt;
+&lt;p&gt;另外一个需要记住的是： 当#define左边的序列出现在右边时，它应该加上圆括号来避免许多不必要的问题。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</summary><category term="STL"></category><category term="Notes"></category></entry></feed>

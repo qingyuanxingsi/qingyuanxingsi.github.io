@@ -31,11 +31,7 @@
 	<ul class="nav nav-pills pull-right">
             <li><a href="./pages/about.html">About</a></li>
 	    <li >
-	      <a href="./category/distributed-system.html ">Distributed System</a>
-	    <li >
 	      <a href="./category/life.html ">Life</a>
-	    <li >
-	      <a href="./category/machine-learning.html ">Machine Learning</a>
 	    <li  class="active" >
 	      <a href="./category/notes.html ">Notes</a>
 	    <li >
@@ -74,10 +70,10 @@ Filed under <a href="./category/notes.html">Notes</a>
       </div>
       
       <div class="span8">
-	<p>今天想放松放松,所以看一下STL,算法以及C++的东西吧,以下简要记录一下看的过程中遇到的有意思的点,以及一些好玩的东东。</p>
+	<html><body><p>今天想放松放松,所以看一下STL,算法以及C++的东西吧,以下简要记录一下看的过程中遇到的有意思的点,以及一些好玩的东东。</p>
 <h1>STL</h1>
-<hr>
-<h2>入门篇<sup id="sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1-back"><a class="simple-footnote" href="#sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1" title="Power up C++ with the Standard Template Library: Part I[翻译]">1</a></sup></h2>
+<hr/>
+<h2>入门篇[ref]<a href="http://www.cnblogs.com/drizzlecrj/archive/2007/01/31/636116.html">Power up C++ with the Standard Template Library: Part I[翻译]</a>[/ref]</h2>
 <p>也许你已经使用C++作为主要编程语言来解决Topcoder中的问题了，这就意味着你已经在简单的使用STL了，因为数组和字符串都是以STL对象的方式传入到你的函数中的。也许你已经注意到了，有许多程序员他们写代码要比你快并且代码也比你的简洁。</p>
 <p>也许你不是一个C++程序员，但是因为C++的强大功能以及它的库（或者因为你在Topcoder practice房间和比赛里面看到的简短的解决方案），你想成为一个这样的程序员。</p>
 <p>不管你来自哪里，这篇文章将会帮助你掌握它。我们将会看到STL中一些强大的特性--一个强大的工具有的时候可以为你在算法比赛中节省很多时间。</p>
@@ -98,25 +94,17 @@ Filed under <a href="./category/notes.html">Notes</a>
 <p>当程序中使用STL的时候，需要包含相应的文件，对于大多数的容器，包含文件的名字与容器的名字相同，并且不需要后缀。如果你将要使用stack，只要在你的程序的开头加上下面的一句话就可以了：</p>
 <div class="highlight"><pre><span class="c">#include &lt;stack&gt;</span>
 </pre></div>
-
-
 <p>容器类型（算法，函数对象和所有的STL内容）并不是定义在全局的名字空间中的，而是在一个特定的名叫“std”的名字空间里的。将下面的话添加在include之后和你的代码之前：</p>
 <div class="highlight"><pre><span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
 </pre></div>
-
-
 <p>另外一个重要的事情你要记住的是容器的类型是模版参数。程序当中模版参数使用 '&lt;' 和 '&gt;'标注的。例如:</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">N</span><span class="p">;</span>
 </pre></div>
-
-
 <p>当使用嵌套的构造时，确保括号不要紧随着另外一个--中间最好留个空格。 </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="nx">CorrectDefinition</span><span class="p">;</span> 
 <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&gt;</span> <span class="nx">WrongDefinition</span><span class="p">;</span> <span class="c1">// Wrong: compiler may be confused by 'operator &gt;&gt;'</span>
 <span class="nx">Vector</span>
 </pre></div>
-
-
 <blockquote>
 <p>NOTE:目前C++ 11版本两种写法都是支持的(笔者注）</p>
 </blockquote>
@@ -129,24 +117,16 @@ for(int i = 9; i &gt; 0; i--) {
     v<span class="cp">[</span><span class="nx">i</span><span class="cp">]</span> -= v<span class="cp">[</span><span class="nx">i</span><span class="o">-</span><span class="mi">1</span><span class="cp">]</span>; 
 }
 </pre></div>
-
-
 <p>事实上，当你输入 </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span>
 </pre></div>
-
-
 <p>空的vector被创建了。注意像一下创建的情形： </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="err">[</span><span class="mi">10</span><span class="cp">]</span>;
 </pre></div>
-
-
 <p>这里我们定义了一个有着10个vector<int>的数组，并且被初始化为空。在很多情形下，这并不是我们所想要的。这里应使用圆括号而不是方括号。</int></p>
 <p>最常使用的vector的特征是得到它的大小</p>
 <div class="highlight"><pre><span class="kt">int</span> <span class="n">elements_count</span> <span class="o">=</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">();</span>
 </pre></div>
-
-
 <p>两个注意点：</p>
 <ul>
 <li>第一，size()是无符号的，这个也许有的时候会产生一些问题。相应的，我通常定义一些宏，比如sz(C)，返回代表C的大小的带符号的数。</li>
@@ -155,8 +135,6 @@ for(int i = 9; i &gt; 0; i--) {
 <div class="highlight"><pre><span class="kt">bool</span> <span class="n">is_nonempty_notgood</span> <span class="o">=</span> <span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">);</span> <span class="c1">// Try to avoid this</span>
 <span class="kt">bool</span> <span class="n">is_nonempty_ok</span> <span class="o">=</span> <span class="o">!</span><span class="n">v</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span>
 </pre></div>
-
-
 <p>这个是因为并不是所有的容器可以在$O(1)$的复杂度内得到它的大小，并且你应当绝对的避免计算一个双端链表所有的元素     个数而仅仅是为了知道它是不是为空。</p>
 </li>
 </ul>
@@ -167,8 +145,6 @@ for(int i = 9; i &gt; 0; i--) {
 <span class="p">}</span> 
 <span class="nx">int</span> <span class="n">elements_count</span> <span class="o">=</span> <span class="nx">v.size</span><span class="p">();</span>
 </pre></div>
-
-
 <p>不要担心内存分配--vector不会为一个元素每次都分配。相反的，vector在使用push_buck增加元素的时候会比它需要的分配的多。唯一你要担心的是内存使用，但是在TopCoder中这个没什么关系（后面将更多的关注vector的内存策略）</p>
 <p>当你需要重新规划vector的大小时，使用resize()函数： </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> 
@@ -180,8 +156,6 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
     <span class="na">v</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="na"> =</span><span class="err"> </span><span class="s">i*2;</span> 
 <span class="err">}</span>
 </pre></div>
-
-
 <p>resize()函数使得vector包含需要数量的元素，如果你需要比vector已经有的元素少，最后部分的元素将被删除，如果你需要vector大小增长，它将会增加它的大小并且用用0进行初始化。</p>
 <p>注意如果你在resize()之后使用push_buck()，它将会在新增加的大小后继续增加元素，而不是填充。在上面的例子中，vector最后的大小是25。而当我们在第二个循环中使用push_buch，它的大小将变为30.</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> 
@@ -193,8 +167,6 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
     <span class="na">v</span><span class="err">.</span><span class="na">push_back</span><span class="err">(</span><span class="na">i</span><span class="err">*</span><span class="na">2</span><span class="err">);</span> <span class="err">//</span> <span class="na">Writes</span> <span class="na">to</span> <span class="na">elements</span> <span class="na">with</span> <span class="na">indices</span> <span class="cp">[</span><span class="mi">25</span><span class="nx">..30</span><span class="p">),</span> <span class="ow">not</span> <span class="err">[</span><span class="mi">20</span><span class="nx">..25</span><span class="p">)</span> <span class="o">!</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>清除一个vector使用clear()成员函数。这个函数将使得vector包含0个元素。它并不是使这些元素为0。注意--它是完全清除这个容器。</p>
 <p>有许多方法初始化vector， 你也可以从另外一个vector创建一个vector</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v1</span><span class="p">;</span> 
@@ -202,32 +174,22 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
 <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="n">v2</span> <span class="o">=</span> <span class="nx">v1</span><span class="p">;</span> 
 <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v3</span><span class="p">(</span><span class="nx">v1</span><span class="p">);</span>
 </pre></div>
-
-
 <p>v2和v3的初始化是基本一样的。</p>
 <p>如果你想要创建一个指定大小的vector，使用下面的构造函数 </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="kd">Data</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span>
 </pre></div>
-
-
 <p>上面的例子中， Data在创建后将包含1000个0。记得用圆括号而不是方括号，如果你想使用指定的元素进行初始化，像如下方式构造：</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="kt">string</span><span class="o">&gt;</span> <span class="nx">names</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="err">“</span><span class="nx">Unknown</span><span class="err">”</span><span class="p">);</span>
 </pre></div>
-
-
 <p>记住你可以创建任何类型的vector</p>
 <p>多维数组也很重要，最简单的方法来创建一个二维数组是通过声明一个元素为vector的vector。</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="nx">Matrix</span><span class="p">;</span>
 </pre></div>
-
-
 <p>下面很清楚的向你显示如何创建一个指定大小的二维数组： </p>
 <div class="highlight"><pre><span class="nx">int</span> <span class="nb">N</span><span class="p">,</span> <span class="nb">N</span><span class="p">;</span> 
 <span class="c1">//  </span>
 <span class="nx">vector</span><span class="o">&lt;</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="nx">Matrix</span><span class="p">(</span><span class="nb">N</span><span class="p">,</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">(</span><span class="nx">M</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">));</span>
 </pre></div>
-
-
 <p>这里我们创建了一个$N*M$的二维数组，并且初始化为-1.</p>
 <p>最简单的向一个vector中添加数据是使用push_back(),但是如果我们不想在尾部添加呢？这里我们利用insert()函数来达到这个目的。并且这里也有erase()函数来清除元素。但是首先我们需要谈谈迭代器。</p>
 <p>你需要记住一些非常重要的事情：当vector作为参数传递给一些函数的时候。一份拷贝也会被创建。创建一个这样的vector是非常耗时间和内存的，并且我们其实也不需要。事实上，发现一个需要vector的拷贝作为参数的情况是很少的，所以，你不应该写:</p>
@@ -235,22 +197,16 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
     <span class="c1">//  </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>相反的，你应该写：</p>
 <div class="highlight"><pre><span class="bp">void</span> <span class="nx">some_function</span><span class="p">(</span><span class="nx">const</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// OK </span>
     <span class="c1">//  </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>如果你需要在函数中更改vector中的内容，忽略const修饰符就可以了。</p>
 <div class="highlight"><pre><span class="nx">int</span> <span class="nx">modify_vector</span><span class="p">(</span><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// Correct </span>
     <span class="nx">v</span><span class="err">[</span><span class="mi">0</span><span class="cp">]</span>++; 
 }
 </pre></div>
-
-
 <h3>Pairs</h3>
 <p>在我们谈论迭代器之前，让我们先谈谈pairs，Pairs在STL中被广泛使用着，像TopCoder SRM 250中的500分的简单问题，通常需要一些有着一对元素的简单数据结构，而STL中的std::pair正好是一对元素。最简单的形式如下：</p>
 <div class="highlight"><pre><span class="n">template</span><span class="o">&lt;</span><span class="kr">typename</span> <span class="n">T1</span><span class="p">,</span> <span class="kr">typename</span> <span class="n">T2</span><span class="o">&gt;</span> <span class="k">struct</span> <span class="n">pair</span> <span class="p">{</span> 
@@ -258,18 +214,14 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
     <span class="n">T2</span> <span class="n">second</span><span class="p">;</span> 
 <span class="p">};</span>
 </pre></div>
-
-
-<p>简单的有pair<int, int="">是一对整数，复杂的pair<string,pair<int,int>&gt;是一对有着字符串和两个整数的pair。在第二种情况下，用法如下：</string,pair<int,int></int,></p>
+<p>简单的有pair<int int="">是一对整数，复杂的pair<string>&gt;是一对有着字符串和两个整数的pair。在第二种情况下，用法如下：</string></int></p>
 <div class="highlight"><pre><span class="n">pair</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">pair</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="kt">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">P</span><span class="p">;</span> 
 <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">P</span><span class="p">.</span><span class="n">first</span><span class="p">;</span> <span class="c1">// extract string </span>
 <span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="n">P</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">first</span><span class="p">;</span> <span class="c1">// extract first int </span>
 <span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="n">P</span><span class="p">.</span><span class="n">second</span><span class="p">.</span><span class="n">second</span><span class="p">;</span> <span class="c1">// extract second int</span>
 </pre></div>
-
-
 <p>pairs的最大好处在于他们内建了比较操作，pairs比较是从第一个比较到第二个。如果第一个元素不相等，那么结果仅仅基于第一个元素的比较；第二个元素比较被用到仅当第一个元素相等的情况。 数组（或者vector）能够轻易的被STL中内部函数排序。</p>
-<p>例如，如果你想对一个有着整数点的数组排序而使得它能够构成一个多边形，把他们放到vector&lt; pair<double,pair<int, int=""> &gt;是一个好主意，这里的元素是{极坐标，{x, y}}。调用STL中的一个排序函数能够给你所需要的顺序。</double,pair<int,></p>
+<p>例如，如果你想对一个有着整数点的数组排序而使得它能够构成一个多边形，把他们放到vector&lt; pair<double int=""> &gt;是一个好主意，这里的元素是{极坐标，{x, y}}。调用STL中的一个排序函数能够给你所需要的顺序。</double></p>
 <p>此外，pairs也被广泛的用在联合容器中，我们稍后将会在这里谈到它。</p>
 <h3>Iterators</h3>
 <p>什么是迭代器呢？在STL中，迭代器是最常使用的访问容器中数据的方法。考虑这样一个简单的问题：将一个有着N个int类型元素的数组倒序。让我们先看C写的一个解决方法：</p>
@@ -282,8 +234,6 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
       <span class="p">}</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>这段代码已经很清晰了。上面代码可以很容器的改成指针的形式:</p>
 <div class="highlight"><pre><span class="kt">void</span> <span class="nf">reverse_array</span><span class="p">(</span><span class="kt">int</span> <span class="o">*</span><span class="n">A</span><span class="p">,</span> <span class="kt">int</span> <span class="n">N</span><span class="p">)</span> <span class="p">{</span> 
       <span class="kt">int</span> <span class="o">*</span><span class="n">first</span> <span class="o">=</span> <span class="n">A</span><span class="p">,</span> <span class="o">*</span><span class="n">last</span> <span class="o">=</span> <span class="n">A</span><span class="o">+</span><span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span> 
@@ -294,8 +244,6 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
       <span class="p">}</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>看这段代码的主循环部分，它在first和last指针上进行了4种不同的操作:</p>
 <ul>
 <li>比较指针(first &lt; last)</li>
@@ -332,8 +280,6 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
       <span class="p">}</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>这段代码和上面的不同之处在于我们没有在迭代器上使用'&lt;'比较，而仅仅是使用'=='。另外，你不要对函数原型感到惊慌： 模版是声明函数的一个方法，它将使所有可以的参数类型得以工作。这个函数可以在参数是指向对象的指针或者所有简单迭代器时很好的工作。</p>
 <p>让我们回到STL。STL算法总是使用两种迭代器，叫做"begin"和"end".这个end迭代器并不是指向最后一个元素，而是指向第一个非法的元素，也就是最后一个元素后面的一个。通常使用它是非常方便的。</p>
 <p>每一个STL容器都有begin()和end()成员函数返回那个容器的begin和end迭代器。</p>
@@ -361,8 +307,6 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
       <span class="p">}</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>注意,这个函数和标准函数std::reverse(T begin, T end)所做的事情是一样的，后者可以在算法模块中找到(#include <algorithm>)</algorithm></p>
 <p>此外， 任何一个有足够功能的对象可以被当作一个迭代器传递给STL算法和函数。这就是模版的力量之所在！看下面的例子：</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span> 
@@ -373,23 +317,17 @@ for(int i = 20; i <span class="nt">&lt; 25</span><span class="err">;</span> <spa
 <span class="nx">int</span> <span class="kd">data</span><span class="err">[</span><span class="cp">]</span> = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31 }; 
 vector<span class="nt">&lt;int&gt;</span> primes(data, data+(sizeof(data) / sizeof(data<span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>)));
 </pre></div>
-
-
 <p>最后一句话展示了从一个C的数组构造vector的例子。没有加索引的data被当成指向数组开始的指针，'data+N'指向第N个元素。当N是这个数组的长度时，'data+N'指向第一个不在数组的元素，所以‘data+data的长度'可以被当成数组'data'的end迭代器。表达式 'sizeof(data)/sizeof(data[0])'返回data数组的大小，但是这样的语句只能用在一小部分情况下，所以不要在任何地方使用它除了像以上的情况。(C程序员会同意我的说法的！)</p>
 <p>更进一步的，我们可以甚至使用下面的构造: </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span>
 <span class="c1">// </span>
 <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v2</span><span class="p">(</span><span class="nx">v.begin</span><span class="p">(),</span> <span class="nx">v.begin</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="nx">v.size</span><span class="p">()/</span><span class="nx">2</span><span class="p">));</span>
 </pre></div>
-
-
 <p>这样就创建的v2向量等同于v向量的前半部分。</p>
 <p>下面是使用reverse函数的一个例子 </p>
 <div class="highlight"><pre><span class="kt">int</span> <span class="n">data</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span> <span class="p">};</span> 
 <span class="n">reverse</span><span class="p">(</span><span class="n">data</span><span class="o">+</span><span class="mi">2</span><span class="p">,</span> <span class="n">data</span><span class="o">+</span><span class="mi">6</span><span class="p">);</span> <span class="c1">// the range { 5, 7, 9, 11 } is now { 11, 9, 7, 5 };</span>
 </pre></div>
-
-
 <p>每一个容器还拥有rbegin()和rend()函数，他们返回的是倒置过的迭代器。倒置的迭代器被用在倒序容器上的，比如：</p>
 <p>vector<int> v; 
 vector<int> v2(v.rbegin()+(v.size()/2), v.rend()); </int></int></p>
@@ -404,8 +342,6 @@ vector<int> v2(v.rbegin()+(v.size()/2), v.rend()); </int></int></p>
     <span class="o">*</span><span class="nx">it</span><span class="o">++</span><span class="p">;</span> <span class="c1">// Increment the value iterator is pointing to </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>建议你使用 '!=' 而不是 '&lt;' 并且'empty()'而不是'size()!=0'--<strong>因为对于一些类型的容器而言，去判断一个迭代器是否在另外一个之前是非常低效的</strong>。</p>
 <p>现在你知道STL的算法函数reverse()了。其实许多STL算法是以这么一种方式声明的：他们通常使用一对迭代器，开始和结束迭代器，并且返回一个迭代器。</p>
 <p>find()算法在一个区间内查找指定的元素，如果这个元素被找到了，那么指向这个元素第一次出现位置的迭代器将会被返回。反之，则返回这个区间的end迭代器。看下面的代码： </p>
@@ -418,16 +354,12 @@ vector<int> v2(v.rbegin()+(v.size()/2), v.rend()); </int></int></p>
     <span class="c1">//  </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>想要得到被找到的元素的下标，需要用find()的结果减去开始迭代器：</p>
 <div class="highlight"><pre><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">find</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="mi">49</span><span class="p">)</span> <span class="o">-</span> <span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> 
 <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="p">.</span><span class="n">size</span><span class="p">())</span> <span class="p">{</span> 
     <span class="c1">//  </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>记得在使用STL算法的时候，在源代码中加上#include<algorithm></algorithm></p>
 <p>min_element和max_element返回一个指向单个元素的迭代器。要获得最小或者最大的元素，和find()一样，使用<em>min_element(...)或者 </em>max_element(...)。要获得下标的话，减去容器或者一定范围的开始迭代器就可以了： </p>
 <div class="highlight"><pre><span class="nx">int</span> <span class="kd">data</span><span class="err">[</span><span class="mi">5</span><span class="cp">]</span> = { 1, 5, 2, 4, 3 }; 
@@ -438,13 +370,9 @@ int i1 =  max_element(X.begin(), X.end()) – X.begin; // Returns index of max e
 int v2 = *min_element(data, data+5); // Returns value of min element in array 
 int i3 = min_element(data, data+5) – data; // Returns index of min element in array
 </pre></div>
-
-
 <p>现在你可以看到有用的宏了:</p>
 <div class="highlight"><pre><span class="c">#define all(c) c.begin(), c.end()</span>
 </pre></div>
-
-
 <p>不要把右边的部分放到圆括号里面--那样是错的！</p>
 <p>另外一个好用的算法是sort(), 它使用起来非常简单。 看下面的一个例子：</p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">X</span><span class="p">;</span>
@@ -455,8 +383,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 <span class="nb">sort</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">X</span><span class="p">));</span>             <span class="c1">// Sort array in ascending order, use our #define </span>
 <span class="nb">sort</span><span class="p">(</span><span class="nx">X.rbegin</span><span class="p">(),</span> <span class="nx">X.rend</span><span class="p">());</span> <span class="c1">// Sort array in descending order using with reverse iterators</span>
 </pre></div>
-
-
 <h3>Compiling STL Programs</h3>
 <p>一个需要值得指出的事情就是STL的错误消息。由于STL已经被广泛的使用在源代码中了，所以有必要要求编译器去创建高效的可执行文件，STL的一个习惯在于它的难读的错误消息.</p>
 <p>例如,如果你传递一个vector<int>的常引用给一些函数的时候：</int></p>
@@ -467,8 +393,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="c1">//  </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>这里的错误是你正在从一个常量对象中创建一个非指向常量的迭代器(实际上找出错误比修改它要难).正确的代码如下：</p>
 <div class="highlight"><pre><span class="bp">void</span> <span class="nb">f</span><span class="p">(</span><span class="nx">const</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span> 
     <span class="nx">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
@@ -479,19 +403,13 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="k">return</span> <span class="nb">r</span><span class="p">;</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>尽管如此,让我告诉你在GNU C++中成为"typeof"的一个重要特性。这个操作符会在编译时被替换为表达式的类型。考虑下面的例子： </p>
 <div class="highlight"><pre><span class="n">typeof</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">)</span> <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">);</span>
 </pre></div>
-
-
 <p>这样将会创建一个和(a+b)表达式相同的类型变量x。请注意typeof(v.size())对于STL中的任何容器类型来说都是无符号的。但是在TopCoder中typeof最重要的应用在于遍历一个容器。考虑下面一些宏：</p>
 <div class="highlight"><pre><span class="cp">#define tr(container, iterator) \ </span>
     <span class="k">for</span><span class="p">(</span><span class="n">typeof</span><span class="p">(</span><span class="n">container</span><span class="p">.</span><span class="n">begin</span><span class="p">())</span> <span class="n">iterator</span> <span class="o">=</span> <span class="n">container</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span> <span class="n">iterator</span> <span class="o">!=</span> <span class="n">container</span><span class="p">.</span><span class="n">end</span><span class="p">();</span> <span class="n">iterator</span><span class="o">++</span><span class="p">)</span>
 </pre></div>
-
-
 <p>通过使用这些宏，我们可以遍历任何类型的容器，不仅仅是vector。这样将会为常量对象产生指向常量的迭代器并且为非常量对象产生普通迭代器，当然你也不会获得一个错误。</p>
 <div class="highlight"><pre><span class="bp">void</span> <span class="nb">f</span><span class="p">(</span><span class="nx">const</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span> 
     <span class="nx">int</span> <span class="n">r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
@@ -501,8 +419,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="k">return</span> <span class="nb">r</span><span class="p">;</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>注意： 为了提高可读性，我没有在#define行上添加额外的圆括号。这篇文章的下面将会给出更加精确的#define语句，并且你可以直接将其拷贝到你的模版代码中。</p>
 <p>遍历宏对与vector来说并不是必需的，但是对于一些复杂的数据类型，由于它们没有索引访问而迭代器是唯一访问数据的方法，这是遍历宏将显得非常方便。我们将在这篇文章的后面继续讨论它。</p>
 <h3>Data manipulation in vector</h3>
@@ -511,8 +427,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 <span class="c1">//  </span>
 <span class="nx">v.insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">42</span><span class="p">);</span> <span class="c1">// Insert value 42 after the first</span>
 </pre></div>
-
-
 <p>所有从第二个元素（下标为1）到最后一个都会向右移动一个单位来腾出空位给新插入的元素。如果你打算加入很多元素的话，做许多这样的移动是不太好的，你最好只调用insert()一次。所以，<strong>insert()有插入一段区间的形式</strong>： </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span> 
 <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v2</span><span class="p">;</span>
@@ -523,14 +437,10 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 <span class="c1">// Then copy the contents of v2 into v. </span>
 <span class="nx">v.insert</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">all</span><span class="p">(</span><span class="nx">v2</span><span class="p">));</span>
 </pre></div>
-
-
 <p>vector也有一个叫做erase的函数，同样的，它也有两种形式，猜猜他们是什么样的： </p>
 <div class="highlight"><pre><span class="n">erase</span><span class="p">(</span><span class="n">iterator</span><span class="p">);</span> 
 <span class="n">erase</span><span class="p">(</span><span class="n">begin</span> <span class="n">iterator</span><span class="p">,</span> <span class="n">end</span> <span class="n">iterator</span><span class="p">);</span>
 </pre></div>
-
-
 <p>第一个例子中，vector中的单个元素将会被删除，在第二个例子中，由两个迭代器指定的区间将会从vector中删除。</p>
 <p>插入，删除的技巧很普遍，但对于STL的容器来说并不都是一样的。</p>
 <h3>String</h3>
@@ -543,8 +453,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="n">s3</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">s</span><span class="p">.</span><span class="n">length</span><span class="p">()</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="s">"hell"</span> 
     <span class="n">s4</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// "ello"</span>
 </pre></div>
-
-
 <p>注意当(s.length()-1)作用在空串上的情况，因为s.length()返回的是无符号的数，那么unsigned(0)-1得到的并不是你期望的！</p>
 <h3>Set</h3>
 <p>通常很难决定是先讲set容器还是map容器。我的意见是如果读者有一个基本的算法概念，那么从'set'讲起会容易理解一点。</p>
@@ -570,8 +478,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 
 <span class="nx">int</span> <span class="n">N</span> <span class="o">=</span> <span class="nx">int</span><span class="p">(</span><span class="nx">S.size</span><span class="p">());</span> <span class="c1">// N will be 50</span>
 </pre></div>
-
-
 <p>push_back()成员函数对set是不适用的。因为set中的元素没有什么顺序关系，因此push_back()在这里就不适用了。</p>
 <p>由于set并不是线性容器，所以使用索引去访问元素是不可能的。因此唯一访问set元素的方法是使用迭代器。</p>
 <div class="highlight"><pre><span class="c1">// Calculate the sum of elements in set </span>
@@ -582,17 +488,13 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="n">r</span> <span class="o">+=</span> <span class="o">*</span><span class="n">it</span><span class="p">;</span> 
 <span class="p">}</span>
 </pre></div>
-
-
-<p>这里使用遍历宏会变得非常优雅，为什么呢？试想这里有一个集合set<pair<string, pair<int,vector<int=""> &gt; &gt;,你怎样去访问它呢？写写迭代器的类型？哦，不。还是使用我们的遍历宏吧。</pair<string,></p>
+<p>这里使用遍历宏会变得非常优雅，为什么呢？试想这里有一个集合set<pair pair=""> &gt; &gt;,你怎样去访问它呢？写写迭代器的类型？哦，不。还是使用我们的遍历宏吧。</pair></p>
 <div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span> <span class="kt">pair</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span> <span class="kt">pair</span><span class="o">&lt;</span> <span class="nx">int</span><span class="p">,</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="o">&gt;</span> <span class="nx">SS</span><span class="p">;</span> 
 <span class="nx">int</span> <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> 
 <span class="nx">tr</span><span class="p">(</span><span class="nx">SS</span><span class="p">,</span> <span class="nx">it</span><span class="p">)</span> <span class="p">{</span> 
     <span class="nx">total</span> <span class="o">+=</span> <span class="nx">it</span><span class="o">-&gt;</span><span class="nx">second.first</span><span class="p">;</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>注意 'it-&gt;second.first'的语法。因为'it'是一个迭代器了，我们需要'it'中取出一个对象进行操作。所以正确的语法是'(<em>it).second.first'.尽管如此，写'something-&gt;'要比'(</em>something)'来的容易一点。要完整的解释的话估计要写好长--只要记住，对于迭代器而言，两种语法都是允许的。</p>
 <p>要判断set中是否已经存在一些元素，使用'find()'成员函数。不要感到迷惑，虽然：在STL中有许多'find()'.有一个全局的算法'find()' 参数包括两个迭代器，元素并且在O(N)内完成。在set中使用它来查找元素是可能的，但是为什么有已经存在的O(logN)的算法还要要使用O(N)的算法呢？当在set和map（multiset/multimap，hash_map/hash_set,等等)进行搜索时，不要使用全局的find--相反的使用成员函数'set::find()'。作为顺序的查找，set::find将会返回一个迭代器，要么指向找到的元素，要么指向'end()'。所以检查元素是否存在应该像下面这样： </p>
 <div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
@@ -604,8 +506,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="c1">// 42 not presents in set </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>另外一个在O(logN)下工作的算法是计算函数。有些人认为</p>
 <div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
 <span class="c1">//  </span>
@@ -616,22 +516,16 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
     <span class="c1">// 42 not presents in set </span>
 <span class="p">}</span>
 </pre></div>
-
-
 <p>甚至 </p>
 <div class="highlight"><pre> <span class="k">if</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span> <span class="p">{</span> 
       <span class="c1">// … </span>
  <span class="p">}</span>
 </pre></div>
-
-
 <p>非常容易写。但是就个人而言，在set或者map中使用count()是没有意义的：元素要么存在要么不存在。
 对我来说，我更加喜欢使用下面两个宏：</p>
 <div class="highlight"><pre><span class="c">#define present(container, element) (container.find(element) != container.end()) </span>
 <span class="c">#define cpresent(container, element) (find(all(container),element) != container.end())</span>
 </pre></div>
-
-
 <p>(记住 all(c) 代表 "c.begin(),c.end")</p>
 <p>这里，'present()'使用成员函数'find()'返回这个元素是否存在与容器中，而'cpresent'是用于vector的。</p>
 <p>想要从set中移除一个元素使用erase()函数。</p>
@@ -640,8 +534,6 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 <span class="nx">s.insert</span><span class="p">(</span><span class="mi">54</span><span class="p">);</span> 
 <span class="nx">s.erase</span><span class="p">(</span><span class="mi">29</span><span class="p">);</span>
 </pre></div>
-
-
 <p>erase也有区间的形式: </p>
 <div class="highlight"><pre><span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">;</span> 
 <span class="c1">// ..</span>
@@ -652,22 +544,16 @@ int i3 = min_element(data, data+5) – data; // Returns index of min element in 
 <span class="c1">// Will work if it1 and it2 are valid iterators, i.e. values 10 and 100 present in set. </span>
 <span class="nx">s.erase</span><span class="p">(</span><span class="nx">it1</span><span class="p">,</span> <span class="nx">it2</span><span class="p">);</span> <span class="c1">// Note that 10 will be deleted, but 100 will remain in the container</span>
 </pre></div>
-
-
 <p>set有一个区间的构造函数： </p>
 <div class="highlight"><pre><span class="nx">int</span> <span class="kd">data</span><span class="err">[</span><span class="mi">5</span><span class="cp">]</span> = {5, 1, 4, 2, 3 }; 
 set<span class="nt">&lt;int&gt;</span> S(data, data+5);
 </pre></div>
-
-
 <p>它给我们提供一个消除vector中重复元素的办法，并且进行排序，如下： </p>
 <div class="highlight"><pre><span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v</span><span class="p">;</span> 
 <span class="c1">// … </span>
 <span class="nb">set</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nb">s</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span> 
 <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">v2</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nb">s</span><span class="p">));</span>
 </pre></div>
-
-
 <p>这里，'v2'将和 'v'包含一样的元素，但是进行了升序排序，并且不具有重复元素。任何可以进行比较的元素都可以在set中进行存储。这个将在后面进行讨论。</p>
 <h3>Map</h3>
 <p>有两种关于map的解释，简单的解释如下： </p>
@@ -682,10 +568,8 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
     <span class="n">M</span><span class="p">.</span><span class="n">erase</span><span class="p">(</span><span class="n">M</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">"SRM"</span><span class="p">));</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>非常简单，难道不是吗？</p>
-<p>事实上，map和set很像，除了map保存的不仅仅是值，而是一个键值对<key,value>.map确保一个队中最多只有一个指定的key存在。另外一个比较好的是map定义了[]操作符。</key,value></p>
+<p>事实上，map和set很像，除了map保存的不仅仅是值，而是一个键值对<key>.map确保一个队中最多只有一个指定的key存在。另外一个比较好的是map定义了[]操作符。</key></p>
 <p>遍历map可以简单的使用'tr()'宏。注意迭代器将会使一个std::pair的key和value，要获取值可以使用it-&gt;second.下面是个例子： </p>
 <div class="highlight"><pre><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;</span> <span class="n">M</span><span class="p">;</span> 
 <span class="c1">// … </span>
@@ -694,8 +578,6 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
     <span class="n">r</span> <span class="o">+=</span> <span class="n">it</span><span class="o">-&gt;</span><span class="n">second</span><span class="p">;</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>不要使用迭代器去更改map中元素的key， 因为它可能会破坏map内部数据结构的集成性（看下面).</p>
 <p>要记住的最重要的关于map的事情是，[]操作符将会创建一个元素,如果那个元素不存在的话。并且这个元素将会被添加到map中。所以，如果你想使你的代码更加快，绝不要用[]操作符除非你能确保那个元素已经存在与map中了。这就是为什么[]操作符不用在map作为常引用参数传递给一些函数的原因了:</p>
 <div class="highlight"><pre><span class="kt">void</span> <span class="nf">f</span><span class="p">(</span><span class="k">const</span> <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="kt">int</span><span class="o">&gt;&amp;</span> <span class="n">M</span><span class="p">)</span> <span class="p">{</span> 
@@ -706,8 +588,6 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
     <span class="p">}</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <h3>Notice on Map and Set</h3>
 <p>map和set内部使用红黑树实现的。因此，当访问这些容器的时候，map和set的元素总是以升序排列。并且这就是为什么强烈建议不要在遍历map或者set时更改key值的原因了：如果你做了修改，那么将会打乱顺序，这样至少导致容器算法的不正确。</p>
 <p>但是事实上map和set元素总是有序的这一点在解决TopCoder问题上面是很实用的。</p>
@@ -721,8 +601,6 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
 <span class="nx">it2</span><span class="o">++</span><span class="p">;</span> 
 <span class="nx">int</span> <span class="n">a</span> <span class="o">=</span> <span class="o">*</span><span class="nx">it1</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="o">*</span><span class="nx">it2</span><span class="p">;</span>
 </pre></div>
-
-
 <p>这里a将包含42左边的第一个邻居，而b则包含右边的第一个邻居。</p>
 <h3>More on algorithms</h3>
 <p>是时候深入讨论一些算法了。大多数算法被定义在#include <algorithm>头文件中了。首先，STL提供了3个非常简单的算法： min(a,b), max(a,b), swap(a,b)。 这里min(a,b)和max(a,b)返回两个元素中的最小值和最大值，而swap(a,b)交换两个元素。</algorithm></p>
@@ -739,8 +617,6 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
     <span class="nx">Solve</span><span class="p">(,</span><span class="nx">v</span><span class="p">);</span> 
 <span class="p">}</span> <span class="k">while</span><span class="p">(</span><span class="nx">next_permutation</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">v</span><span class="p">));</span>
 </pre></div>
-
-
 <p><strong>不用忘记确保容器中的元素在你第一次调用next_permutation(...)之前已经排序了，他们的初始状态将决定第一个排列；否则的话，有一些排列将不会被检查到</strong>。</p>
 <h3>String Streams</h3>
 <p>你经常需要处理一些字符串的输入和输出。C++为其提供了两个有趣的对象： 'istringstream'和'ostringstream'</p>
@@ -759,8 +635,6 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
     <span class="p">}</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <p>ostringstream是用来格式化输出的。下面是代码：</p>
 <div class="highlight"><pre><span class="kt">string</span> <span class="nb">f</span><span class="p">(</span><span class="nx">const</span> <span class="nx">vector</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;&amp;</span> <span class="nx">v</span><span class="p">)</span> <span class="p">{</span>
 
@@ -783,8 +657,6 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
     <span class="k">return</span> <span class="nb">s</span><span class="p">;</span> 
 <span class="p">}</span>
 </pre></div>
-
-
 <h3>Summary</h3>
 <p>接着往下讲STL，我更想总结一下被用到的一些模版列表。这个将会简化阅读代码样例
 并且我希望，提高你的TopCoder技巧。这些模版列表和宏如下： </p>
@@ -798,40 +670,8 @@ set<span class="nt">&lt;int&gt;</span> S(data, data+5);
 <span class="vi">#define</span> <span class="nx">present</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span> <span class="p">((</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">find</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">())</span> 
 <span class="vi">#define</span> <span class="nx">cpresent</span><span class="p">(</span><span class="nx">c</span><span class="p">,</span><span class="nx">x</span><span class="p">)</span> <span class="p">(</span><span class="nb">find</span><span class="p">(</span><span class="kc">all</span><span class="p">(</span><span class="nx">c</span><span class="p">),</span><span class="nx">x</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="nx">c</span><span class="p">)</span><span class="bp">.</span><span class="nb">end</span><span class="p">())</span>
 </pre></div>
-
-
-<p>vector<int>容器被放在这是因为它真的很受欢迎。事实上，对于众多容器使用简短的假名（尤其像vector<string>,vector<ii>, vector<pair<double, ii=""> &gt;)是非常方便的。但是这个列表仅仅包含需要理解接下来内容的宏。</pair<double,></ii></string></int></p>
-<p>另外一个需要记住的是： 当#define左边的序列出现在右边时，它应该加上圆括号来避免许多不必要的问题。</p><script type="text/javascript">
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-    }
-</script>
-<ol class="simple-footnotes"><li id="sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1"><a href="http://www.cnblogs.com/drizzlecrj/archive/2007/01/31/636116.html">Power up C++ with the Standard Template Library: Part I[翻译]</a> <a class="simple-footnote-back" href="#sf-shu-ju-jie-gou-yu-suan-fa-xue-xi-zha-ji-istljian-jie-1-back">↩</a></li></ol>
+<p>vector<int>容器被放在这是因为它真的很受欢迎。事实上，对于众多容器使用简短的假名（尤其像vector<string>,vector<ii>, vector<pair ii=""> &gt;)是非常方便的。但是这个列表仅仅包含需要理解接下来内容的宏。</pair></ii></string></int></p>
+<p>另外一个需要记住的是： 当#define左边的序列出现在右边时，它应该加上圆括号来避免许多不必要的问题。</p></body></html>
 	<hr />
       </div>
     </div>
