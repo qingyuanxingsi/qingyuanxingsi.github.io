@@ -5,35 +5,35 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
 <loc>http://www.qingyuanxingsi.com/index.html</loc>
-<lastmod>2014-05-28T12:48:20-00:00</lastmod>
+<lastmod>2014-05-28T12:53:15-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/archives.html</loc>
-<lastmod>2014-05-28T12:48:20-00:00</lastmod>
+<lastmod>2014-05-28T12:53:15-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/tags.html</loc>
-<lastmod>2014-05-28T12:48:20-00:00</lastmod>
+<lastmod>2014-05-28T12:53:15-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/categories.html</loc>
-<lastmod>2014-05-28T12:48:20-00:00</lastmod>
+<lastmod>2014-05-28T12:53:15-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
 
 <url>
 <loc>http://www.qingyuanxingsi.com/pages/about.html</loc>
-<lastmod>2014-05-28T12:48:20-00:00</lastmod>
+<lastmod>2014-05-28T12:53:15-00:00</lastmod>
 <changefreq>monthly</changefreq>
 <priority>0.3</priority>
 </url>
@@ -284,8 +284,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/zhi-xing-ha-xi-suan-fa.html</loc>
-<lastmod>2014-03-11T00:00:00-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tag/nlp.html</loc>
+<lastmod>2014-05-10T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -298,8 +298,8 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/nlp.html</loc>
-<lastmod>2014-05-10T00:00:00-00:00</lastmod>
+<loc>http://www.qingyuanxingsi.com/tag/factor-analysis.html</loc>
+<lastmod>2014-04-27T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
@@ -431,13 +431,6 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 </url>
 
 <url>
-<loc>http://www.qingyuanxingsi.com/tag/factor-analysis.html</loc>
-<lastmod>2014-04-27T00:00:00-00:00</lastmod>
-<changefreq>daily</changefreq>
-<priority>0.5</priority>
-</url>
-
-<url>
 <loc>http://www.qingyuanxingsi.com/tag/hadoop.html</loc>
 <lastmod>2014-04-01T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
@@ -468,6 +461,13 @@ xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
 <loc>http://www.qingyuanxingsi.com/tag/tu-xiang-chu-li.html</loc>
 <lastmod>2014-05-27T00:00:00-00:00</lastmod>
+<changefreq>daily</changefreq>
+<priority>0.5</priority>
+</url>
+
+<url>
+<loc>http://www.qingyuanxingsi.com/tag/yi-zhi-xing-ha-xi-suan-fa.html</loc>
+<lastmod>2014-03-11T00:00:00-00:00</lastmod>
 <changefreq>daily</changefreq>
 <priority>0.5</priority>
 </url>
