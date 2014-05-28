@@ -76,11 +76,11 @@ Filed under <a href="../category/distributed-system.html">Distributed System</a>
 </p>
       </div>
       <div class="article-content span8">
-	<h1>PREFACE</h1>
+	<h1 id="preface">PREFACE</h1>
 <hr>
 <p>在上一篇<a href="http://www.qingyuanxingsi.com/fen-bu-shi-ji-suan-yu-cun-chu-xi-lie-xu-zhang-chu-ru-men-jing.html">分布式计算与存储系列(序章):初入门径</a>中,我们主要介绍了分布式存储的一些基础知识,在本系列中,我们会结合论文以及源码对分布式计算的基本理论以及一些应用系统进行研究，以期对分布式系统有一个更为深入的了解。本系列的前若干篇均以研究Yarn为主,主要参考<a href="http://book.douban.com/subject/25774649/">Hadoop技术内幕:深入解析YARN架构设计与实现原理</a>一书的整体架构,但是个人对这本书不是特别满意，讲述的还是有点浅,很多问题只是浅尝则止而已。(真正想<code>深入</code>了解YARN的不建议购买此书，如若只是想粗略的了解一下YARN的工作流程的童鞋倒是可以入手一本滴。)因此，本系列仅会采用其大体框架，在其大体框架下，对YARN设计的其他知识和设计模式等也会有进一步更为深入的介绍。好吧，闲话就不多说了,我们开始正式讨论。</p>
 <p>本文的主要目的是介绍一下YARN中用到的基础库,它们是YARN其他模块得以建立的基石,其重要性自然不言而喻。我们先从其RPC库说起。</p>
-<h1>The Secret of RPC</h1>
+<h1 id="the-secret-of-rpc">The Secret of RPC</h1>
 <hr>
 <p>当前存在非常多的开源 RPC 框架,比较有名的有 Thrift、Protocol Buffers 和 Avro。同Hadoop RPC一样,它们均由两部分组成:对象序列化和远程过程调用(Protocol Buflers官方仅提供了序列化实现,未提供远程调用相关实现,但三方 RPC 库非常多 )。相比于Hadoop RPC,它们有以下几个特点:</p>
 <ul>
@@ -94,8 +94,8 @@ Filed under <a href="../category/distributed-system.html">Distributed System</a>
 <li>当前 Hadoop 版本较多,而不同版本之间不能通信,比如0.20.2版本的JobTracker不能与0.21.0版本中的TaskTracker通信,如果用户企图这样做,会抛出<em>VersionMismatch</em>异常。</li>
 </ul>
 <p>为了解决以上几个问题,Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。Hadoop目前集成了Protocol Buffer以及Apache Avro的序列化部分,而函数调用调用机制仍采用Hadoop自带的,其中RPC采用Protocol Buffer,而Apache Avro则用于日志系统。以下对这两种序列化机制进行一个简要的介绍:</p>
-<h2>持久化框架</h2>
-<h3>Protocol Buffer<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" title="https://developers.google.com/protocol-buffers/docs/javatutorial">1</a></sup></h3>
+<h2 id="_1">持久化框架</h2>
+<h3 id="protocol-bufferrefhttpsdevelopersgooglecomprotocol-buffersdocsjavatutorialref">Protocol Buffer<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-1" title="https://developers.google.com/protocol-buffers/docs/javatutorial">1</a></sup></h3>
 <p>Protocol Buffers 是一种轻便高效的结构化数据存储格式,可以用于结构化数据序列化/反序列化。它很适合做数据存储或RPC的数据交换格式,常用作通信协议、数据存储等领域的与语言无关、平台无关、可扩展的序列化结构数据格式。目前支持C++、Java、Python三种语言。在
 Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffers。</p>
 <p>相比于常见的XML格式,Protocol Buffers官方网站这样描述它的优点:</p>
@@ -112,115 +112,105 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <li>使用Protocol Buffer Compiler编译生成JAVA类</li>
 <li>使用Protocol Buffer API读写报文</li>
 </ul>
-<h4>定义报文格式</h4>
+<h4 id="_2">定义报文格式</h4>
 <p>我们首先定义消息格式文件addressbook.proto,以下定义了一个人的通讯录的基本信息:</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">tutorial</span><span class="p">;</span>
+<pre><code>package tutorial;
 
-<span class="n">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">"com.qingyuanxingsi.tutorial"</span><span class="p">;</span>
-<span class="n">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">"AddressBookProtos"</span><span class="p">;</span>
+option java_package = "com.qingyuanxingsi.tutorial";
+option java_outer_classname = "AddressBookProtos";
 
-<span class="n">message</span> <span class="n">Person</span> <span class="p">{</span>
-    <span class="n">required</span> <span class="n">string</span> <span class="n">name</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">required</span> <span class="n">int32</span> <span class="n">id</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">string</span> <span class="n">email</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+message Person {
+    required string name = 1;
+    required int32 id = 2;
+    optional string email = 3;
 
-    <span class="k">enum</span> <span class="n">PhoneType</span> <span class="p">{</span>
-        <span class="n">MOBILE</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-        <span class="n">HOME</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="n">WORK</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="p">}</span>
+    enum PhoneType {
+        MOBILE = 0;
+        HOME = 1;
+        WORK = 2;
+    }
 
-    <span class="n">message</span> <span class="n">PhoneNumber</span> <span class="p">{</span>
-        <span class="n">required</span> <span class="n">string</span> <span class="n">number</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="n">optional</span> <span class="n">PhoneType</span> <span class="n">type</span> <span class="o">=</span> <span class="mi">2</span> <span class="p">[</span><span class="k">default</span> <span class="o">=</span> <span class="n">HOME</span><span class="p">];</span>
-    <span class="p">}</span>
+    message PhoneNumber {
+        required string number = 1;
+        optional PhoneType type = 2 [default = HOME];
+    }
 
-    <span class="n">repeated</span> <span class="n">PhoneNumber</span> <span class="n">phone</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-<span class="p">}</span>
+    repeated PhoneNumber phone = 4;
+}
 
-<span class="n">message</span> <span class="n">AddressBook</span> <span class="p">{</span>
-    <span class="n">repeated</span> <span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
+message AddressBook {
+    repeated Person person = 1;
+}
+</code></pre>
 <p>.proto文件开头包含一个包声明,以避免不同Project之间的命名冲突。Java中，package名即被用作Java包名,除非通过<code>java_package</code>另外显式指定表明。以上我们制定生成的包名为<code>com.qingyuanxingsi.tutorial</code>.<code>java_outer_classname</code>则指定了类名，我们生成的所有类均会被放在这个文件中。如果未显式制定，则会将文件名自动转化成Camel形式的类名。如,<code>my_proto.proto</code>默认情况下会生成<code>MyProto</code>作为其类名。</p>
 <p>接下来则是报文定义。一个报文即是一系列带有类型信息的Field的集合。很多简单数据类型可被用作Field Type,包括bool, int32, float, double, and string. 当然，你也可以自定义类型作为Field Type.在上述例子中,Person报文就包含PhoneNumber报文,AddressBook报文则包括Person报文。另外,报文可被嵌套定义,如PhoneNumber就定义在Person报文中。如果你想让你的某个Field具有一个或多个预定义的值,你可以使用枚举类型，如上述，我们想让电话号码类型取MOBILE, HOME, or WORK中的值。每个字段后的<code>=？</code>标记为每个Field分配了唯一的TAG,以用于二进制编码。</p>
 <p><code>required</code>关键字指定该Field必须被赋值，否则报文将会被视为<code>uninitialized</code>.编译此类报文则会抛出<em>RuntimeException</em>异常,除此之外,它与optional field基本相同。<code>optional</code>关键字则表明该Field可被设置，也可不设置。如果未设置,则会使用默认值。对于简单数据类型，我们可以定义我们自己的默认值,否则则会使用系统默认值。对于嵌套报文,默认值则通常会是报文的默认实例或者原型,其中每一个Field均未被设置。repeated则表明该字段可以重复任何多次。</p>
-<h4>编译生成JAVA类</h4>
+<h4 id="java">编译生成JAVA类</h4>
 <p>使用以下命令即可生成相应的JAVA类:</p>
-<div class="highlight"><pre><span class="n">protoc</span> <span class="o">-</span><span class="n">I</span><span class="o">=</span><span class="err">$</span><span class="n">SRC_DIR</span> <span class="o">--</span><span class="n">java_out</span><span class="o">=</span><span class="err">$</span><span class="n">DST_DIR</span> <span class="err">$</span><span class="n">SRC_DIR</span><span class="o">/</span><span class="n">addressbook</span><span class="p">.</span><span class="n">proto</span>
-</pre></div>
-
-
+<pre><code>protoc -I=$SRC_DIR --java_out=$DST_DIR $SRC_DIR/addressbook.proto
+</code></pre>
 <p>生成的类的结构如下图所示(此处不再给出源码):</p>
 <p><img alt="AddressBook Struture" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/addressBook_zps34178bad.png"></p>
-<h4>使用Protocol Buffer API读写报文</h4>
+<h4 id="protocol-buffer-api">使用Protocol Buffer API读写报文</h4>
 <p>如上图所示,我们可以看到一个<code>AddressBookProtos.java</code>类,其中则嵌套了多个类,每个类均有.proto中定义的message生成。每个类都有对应的一个<code>Builder</code>类,可以用于构造类实例。</p>
 <p>报文类以及Builder类对于报文的每个Field均提供了访问器。值得注意的是,报文类仅提供了getters,而Builder类既有getters,又有setters.以下给出Person类的一个实例:</p>
-<div class="highlight"><pre><span class="c1">// required string name = 1;</span>
-<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasName</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">String</span> <span class="n">getName</span><span class="p">();</span>
+<pre><code>// required string name = 1;
+public boolean hasName();
+public String getName();
 
-<span class="c1">// required int32 id = 2;</span>
-<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasId</span><span class="p">();</span>
-<span class="n">public</span> <span class="k">int</span> <span class="n">getId</span><span class="p">();</span>
+// required int32 id = 2;
+public boolean hasId();
+public int getId();
 
-<span class="c1">// optional string email = 3;</span>
-<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasEmail</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">String</span> <span class="n">getEmail</span><span class="p">();</span>
+// optional string email = 3;
+public boolean hasEmail();
+public String getEmail();
 
-<span class="c1">// repeated .tutorial.Person.PhoneNumber phone = 4;</span>
-<span class="n">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="n">getPhoneList</span><span class="p">();</span>
-<span class="n">public</span> <span class="k">int</span> <span class="n">getPhoneCount</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">PhoneNumber</span> <span class="n">getPhone</span><span class="p">(</span><span class="k">int</span> <span class="n">index</span><span class="p">);</span>
-</pre></div>
-
-
+// repeated .tutorial.Person.PhoneNumber phone = 4;
+public List&lt;PhoneNumber&gt; getPhoneList();
+public int getPhoneCount();
+public PhoneNumber getPhone(int index);
+</code></pre>
 <p>而与其对应的Builder类则getters和setters都有:</p>
-<div class="highlight"><pre><span class="c1">// required string name = 1;</span>
-<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasName</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">String</span> <span class="n">getName</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">setName</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearName</span><span class="p">();</span>
+<pre><code>// required string name = 1;
+public boolean hasName();
+public java.lang.String getName();
+public Builder setName(String value);
+public Builder clearName();
 
-<span class="c1">// required int32 id = 2;</span>
-<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasId</span><span class="p">();</span>
-<span class="n">public</span> <span class="k">int</span> <span class="n">getId</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">setId</span><span class="p">(</span><span class="k">int</span> <span class="n">value</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearId</span><span class="p">();</span>
+// required int32 id = 2;
+public boolean hasId();
+public int getId();
+public Builder setId(int value);
+public Builder clearId();
 
-<span class="c1">// optional string email = 3;</span>
-<span class="n">public</span> <span class="n">boolean</span> <span class="n">hasEmail</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">String</span> <span class="n">getEmail</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">setEmail</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearEmail</span><span class="p">();</span>
+// optional string email = 3;
+public boolean hasEmail();
+public String getEmail();
+public Builder setEmail(String value);
+public Builder clearEmail();
 
-<span class="c1">// repeated .tutorial.Person.PhoneNumber phone = 4;</span>
-<span class="n">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="n">getPhoneList</span><span class="p">();</span>
-<span class="n">public</span> <span class="k">int</span> <span class="n">getPhoneCount</span><span class="p">();</span>
-<span class="n">public</span> <span class="n">PhoneNumber</span> <span class="n">getPhone</span><span class="p">(</span><span class="k">int</span> <span class="n">index</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">setPhone</span><span class="p">(</span><span class="k">int</span> <span class="n">index</span><span class="p">,</span> <span class="n">PhoneNumber</span> <span class="n">value</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">addPhone</span><span class="p">(</span><span class="n">PhoneNumber</span> <span class="n">value</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">addAllPhone</span><span class="p">(</span><span class="n">Iterable</span><span class="o">&lt;</span><span class="n">PhoneNumber</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">);</span>
-<span class="n">public</span> <span class="n">Builder</span> <span class="n">clearPhone</span><span class="p">();</span>
-</pre></div>
-
-
+// repeated .tutorial.Person.PhoneNumber phone = 4;
+public List&lt;PhoneNumber&gt; getPhoneList();
+public int getPhoneCount();
+public PhoneNumber getPhone(int index);
+public Builder setPhone(int index, PhoneNumber value);
+public Builder addPhone(PhoneNumber value);
+public Builder addAllPhone(Iterable&lt;PhoneNumber&gt; value);
+public Builder clearPhone();
+</code></pre>
 <p>由Protocol Buffer Compiler编译生成的message类均是不可变的。Message实例一旦生成，就不能更改。为了构造一个message，我们首先构造一个builder,将Field设置成你想要的值,然后调用builder的build()方法。以下代码用于构造一个Person实例:</p>
-<div class="highlight"><pre><span class="n">Person</span> <span class="n">john</span> <span class="o">=</span>
-    <span class="n">Person</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">()</span>
-    <span class="p">.</span><span class="n">setId</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="s">"John Doe"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">setEmail</span><span class="p">(</span><span class="s">"jdoe@example.com"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">addPhone</span><span class="p">(</span>
-    <span class="n">Person</span><span class="p">.</span><span class="n">PhoneNumber</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">()</span>
-    <span class="p">.</span><span class="n">setNumber</span><span class="p">(</span><span class="s">"555-4321"</span><span class="p">)</span>
-    <span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneType</span><span class="p">.</span><span class="n">HOME</span><span class="p">))</span>
-<span class="p">.</span><span class="n">build</span><span class="p">();</span>
-</pre></div>
-
-
+<pre><code>Person john =
+    Person.newBuilder()
+    .setId(1234)
+    .setName("John Doe")
+    .setEmail("jdoe@example.com")
+    .addPhone(
+    Person.PhoneNumber.newBuilder()
+    .setNumber("555-4321")
+    .setType(Person.PhoneType.HOME))
+.build();
+</code></pre>
 <p>最后,每个Protocol Buffer类军定义了读写报文的方法,如下所示:</p>
 <ul>
 <li>byte[] toByteArray();持久化message对象并返回包含一字节数组。</li>
@@ -229,120 +219,118 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <li>static Person parseFrom(InputStream input);解析InputStream并构造报文实例.</li>
 </ul>
 <p>至此,我们给出一个报文读写实例,它用于将报文持久化到文件中然后从文件中解析构造得到原始报文:</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">protoc</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.protoc;
 
-<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">File</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">FileInputStream</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">FileNotFoundException</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">FileOutputStream</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">java</span><span class="p">.</span><span class="n">io</span><span class="p">.</span><span class="n">IOException</span><span class="p">;</span>
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
-<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">AddressBook</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">Person</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneNumber</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">com</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">tutorial</span><span class="p">.</span><span class="n">AddressBookProtos</span><span class="p">.</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneType</span><span class="p">;</span>
+import com.qingyuanxingsi.tutorial.AddressBookProtos.AddressBook;
+import com.qingyuanxingsi.tutorial.AddressBookProtos.Person;
+import com.qingyuanxingsi.tutorial.AddressBookProtos.Person.PhoneNumber;
+import com.qingyuanxingsi.tutorial.AddressBookProtos.Person.PhoneType;
 
-<span class="cm">/**</span>
-<span class="cm"> * A toy example demonstrates the writing and reading process to an address book</span>
-<span class="cm"> * proto.</span>
-<span class="cm"> * </span>
-<span class="cm"> * @author qingyuanxingsi</span>
-<span class="cm"> * </span>
-<span class="cm"> */</span>
-<span class="n">public</span> <span class="n">class</span> <span class="n">AddressBookDemo</span> <span class="p">{</span>
-    <span class="n">private</span> <span class="k">static</span> <span class="n">final</span> <span class="n">String</span> <span class="n">FILE_PATH</span> <span class="o">=</span> <span class="s">"addressbook.dat"</span><span class="p">;</span>
+/**
+ * A toy example demonstrates the writing and reading process to an address book
+ * proto.
+ * 
+ * @author qingyuanxingsi
+ * 
+ */
+public class AddressBookDemo {
+    private static final String FILE_PATH = "addressbook.dat";
 
-    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="n">addPerson</span><span class="p">();</span>
-        <span class="n">printData</span><span class="p">();</span>
-    <span class="p">}</span>
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        addPerson();
+        printData();
+    }
 
-    <span class="cm">/**</span>
-<span class="cm">     * Print the data out</span>
-<span class="cm">     */</span>
-    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">printData</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="n">try</span> <span class="p">{</span>
-            <span class="n">AddressBook</span> <span class="n">addressBook</span> <span class="o">=</span> <span class="n">AddressBook</span>
-                    <span class="p">.</span><span class="n">parseFrom</span><span class="p">(</span><span class="n">new</span> <span class="n">FileInputStream</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="n">FILE_PATH</span><span class="p">)));</span>
-            <span class="n">print</span><span class="p">(</span><span class="n">addressBook</span><span class="p">);</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// TODO Auto-generated catch block</span>
-            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// TODO Auto-generated catch block</span>
-            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+    /**
+     * Print the data out
+     */
+    public static void printData() {
+        // TODO Auto-generated method stub
+        try {
+            AddressBook addressBook = AddressBook
+                    .parseFrom(new FileInputStream(new File(FILE_PATH)));
+            print(addressBook);
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 
-    <span class="cm">/**</span>
-<span class="cm">     * Print the whole all data</span>
-<span class="cm">     * </span>
-<span class="cm">     * @param addressBook</span>
-<span class="cm">     */</span>
-    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">print</span><span class="p">(</span><span class="n">AddressBook</span> <span class="n">addressBook</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="c1">//Iterate over the address book</span>
-        <span class="k">for</span> <span class="p">(</span><span class="n">Person</span> <span class="n">person</span> <span class="o">:</span> <span class="n">addressBook</span><span class="p">.</span><span class="n">getPersonList</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Person ID: "</span> <span class="o">+</span> <span class="n">person</span><span class="p">.</span><span class="n">getId</span><span class="p">());</span>
-            <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Person Name: "</span> <span class="o">+</span> <span class="n">person</span><span class="p">.</span><span class="n">getName</span><span class="p">());</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="n">hasEmail</span><span class="p">())</span> <span class="p">{</span>
-                <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"E-mail address: "</span> <span class="o">+</span> <span class="n">person</span><span class="p">.</span><span class="n">getEmail</span><span class="p">());</span>
-            <span class="p">}</span>
+    /**
+     * Print the whole all data
+     * 
+     * @param addressBook
+     */
+    public static void print(AddressBook addressBook) {
+        // TODO Auto-generated method stub
+        //Iterate over the address book
+        for (Person person : addressBook.getPersonList()) {
+            System.out.println("Person ID: " + person.getId());
+            System.out.println("Person Name: " + person.getName());
+            if (person.hasEmail()) {
+                System.out.println("E-mail address: " + person.getEmail());
+            }
 
-            <span class="c1">//Get phone numbers</span>
-            <span class="k">for</span> <span class="p">(</span><span class="n">Person</span><span class="p">.</span><span class="n">PhoneNumber</span> <span class="n">phoneNumber</span> <span class="o">:</span> <span class="n">person</span><span class="p">.</span><span class="n">getPhoneList</span><span class="p">())</span> <span class="p">{</span>
-                <span class="k">switch</span> <span class="p">(</span><span class="n">phoneNumber</span><span class="p">.</span><span class="n">getType</span><span class="p">())</span> <span class="p">{</span>
-                <span class="k">case</span> <span class="n">MOBILE</span>:
-                    <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Mobile phone #: "</span><span class="p">);</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="n">HOME</span>:
-                    <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Home phone #: "</span><span class="p">);</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="k">case</span> <span class="n">WORK</span>:
-                    <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">"Work phone #: "</span><span class="p">);</span>
-                    <span class="k">break</span><span class="p">;</span>
-                <span class="p">}</span>
-                <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">phoneNumber</span><span class="p">.</span><span class="n">getNumber</span><span class="p">());</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+            //Get phone numbers
+            for (Person.PhoneNumber phoneNumber : person.getPhoneList()) {
+                switch (phoneNumber.getType()) {
+                case MOBILE:
+                    System.out.print("Mobile phone #: ");
+                    break;
+                case HOME:
+                    System.out.print("Home phone #: ");
+                    break;
+                case WORK:
+                    System.out.print("Work phone #: ");
+                    break;
+                }
+                System.out.println(phoneNumber.getNumber());
+            }
+        }
+    }
 
-    <span class="cm">/**</span>
-<span class="cm">     * Add a person to the address book file</span>
-<span class="cm">     */</span>
-    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="nf">addPerson</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="n">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="n">Person</span>
-                <span class="p">.</span><span class="n">newBuilder</span><span class="p">()</span>
-                <span class="p">.</span><span class="n">setId</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-                <span class="p">.</span><span class="n">setName</span><span class="p">(</span><span class="s">"qingyuanxingsi"</span><span class="p">)</span>
-                <span class="p">.</span><span class="n">setEmail</span><span class="p">(</span><span class="s">"demo@server.com"</span><span class="p">)</span>
-                <span class="p">.</span><span class="n">addPhone</span><span class="p">(</span>
-                        <span class="n">PhoneNumber</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">().</span><span class="n">setNumber</span><span class="p">(</span><span class="s">"13456723421"</span><span class="p">)</span>
-                                <span class="p">.</span><span class="n">setType</span><span class="p">(</span><span class="n">PhoneType</span><span class="p">.</span><span class="n">MOBILE</span><span class="p">).</span><span class="n">build</span><span class="p">()).</span><span class="n">build</span><span class="p">();</span>
-        <span class="n">AddressBook</span> <span class="n">addressBook</span> <span class="o">=</span> <span class="n">AddressBook</span><span class="p">.</span><span class="n">newBuilder</span><span class="p">().</span><span class="n">addPerson</span><span class="p">(</span><span class="n">person</span><span class="p">)</span>
-                <span class="p">.</span><span class="n">build</span><span class="p">();</span>
-        <span class="c1">// System.out.println(person);</span>
-        <span class="n">FileOutputStream</span> <span class="n">outputStream</span><span class="p">;</span>
-        <span class="n">try</span> <span class="p">{</span>
-            <span class="n">outputStream</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FileOutputStream</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="n">FILE_PATH</span><span class="p">));</span>
-            <span class="n">addressBook</span><span class="p">.</span><span class="n">writeTo</span><span class="p">(</span><span class="n">outputStream</span><span class="p">);</span>
-            <span class="n">outputStream</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">FileNotFoundException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// TODO Auto-generated catch block</span>
-            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// TODO Auto-generated catch block</span>
-            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h3>Apache Avro<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" title="http://avro.apache.org/docs/current/gettingstartedjava.html">2</a></sup></h3>
+    /**
+     * Add a person to the address book file
+     */
+    public static void addPerson() {
+        // TODO Auto-generated method stub
+        Person person = Person
+                .newBuilder()
+                .setId(1)
+                .setName("qingyuanxingsi")
+                .setEmail("demo@server.com")
+                .addPhone(
+                        PhoneNumber.newBuilder().setNumber("13456723421")
+                                .setType(PhoneType.MOBILE).build()).build();
+        AddressBook addressBook = AddressBook.newBuilder().addPerson(person)
+                .build();
+        // System.out.println(person);
+        FileOutputStream outputStream;
+        try {
+            outputStream = new FileOutputStream(new File(FILE_PATH));
+            addressBook.writeTo(outputStream);
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<h3 id="apache-avrorefhttpavroapacheorgdocscurrentgettingstartedjavahtmlref">Apache Avro<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-2" title="http://avro.apache.org/docs/current/gettingstartedjava.html">2</a></sup></h3>
 <p>Apache Avro 是Hadoop 下的一个子项目。它本身既是一个序列化框架,同时也实现了RPC 的功能。Avro官网描述Avro的特性和功能如下:</p>
 <ul>
 <li>丰富的数据结构类型;</li>
@@ -363,142 +351,126 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <li>使用Avro编译器生成特定语言的代码文件(可选);</li>
 <li>使用Avro库提供的 API 来编写应用程序。</li>
 </ul>
-<h4>定义消息格式文件</h4>
+<h4 id="_3">定义消息格式文件</h4>
 <p>Avro schema是用JSON定义的。它有基本数据类型(null, boolean, int, long, float, double, bytes, string)以及复合数据类型(record, enum, array, map, union, and fixed)组成。以下给出一个具体实例user.avsc:</p>
-<div class="highlight"><pre><span class="p">{</span><span class="s2">"namespace"</span><span class="o">:</span> <span class="s2">"example.avro"</span><span class="o">,</span>
-    <span class="s2">"type"</span><span class="o">:</span> <span class="s2">"record"</span><span class="o">,</span>
-    <span class="s2">"name"</span><span class="o">:</span> <span class="s2">"User"</span><span class="o">,</span>
-    <span class="s2">"fields"</span><span class="o">:</span> <span class="cp">[</span>
-        <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"name"</span><span class="p">,</span> <span class="s2">"type"</span><span class="p">:</span> <span class="s2">"string"</span><span class="p">},</span>
-        <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"favorite_number"</span><span class="p">,</span>  <span class="s2">"type"</span><span class="p">:</span> <span class="err">[</span><span class="s2">"int"</span><span class="p">,</span> <span class="s2">"null"</span><span class="cp">]</span><span class="p">}</span><span class="o">,</span>
-        <span class="p">{</span><span class="s2">"name"</span><span class="o">:</span> <span class="s2">"favorite_color"</span><span class="o">,</span> <span class="s2">"type"</span><span class="o">:</span> <span class="cp">[</span><span class="s2">"string"</span><span class="p">,</span> <span class="s2">"null"</span><span class="cp">]</span><span class="p">}</span>
-    <span class="o">]</span>
-<span class="err">}</span>
-</pre></div>
-
-
-<h4>Compiling the schema(Optional)</h4>
+<pre><code>{"namespace": "example.avro",
+    "type": "record",
+    "name": "User",
+    "fields": [
+        {"name": "name", "type": "string"},
+        {"name": "favorite_number",  "type": ["int", "null"]},
+        {"name": "favorite_color", "type": ["string", "null"]}
+    ]
+}
+</code></pre>
+<h4 id="compiling-the-schemaoptional">Compiling the schema(Optional)</h4>
 <p>同Protocol Buffer一样,Apache Avro可以根据Scheme定义自动生成JAVA类。我们可以通过avro-tools工具生成相应的类: </p>
-<div class="highlight"><pre><span class="nb">java</span> <span class="na">-jar</span> <span class="p">/</span><span class="nb">path</span><span class="p">/</span><span class="k">to</span><span class="p">/</span><span class="nx">avro</span><span class="na">-tools</span><span class="o">-</span><span class="mf">1.7.6</span><span class="bp">.</span><span class="nx">jar</span> <span class="nb">compile</span> <span class="nx">schema</span> <span class="o">&lt;</span><span class="nx">schema</span> <span class="nb">file</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="nx">destination</span><span class="o">&gt;</span>
-</pre></div>
-
-
+<pre><code>java -jar /path/to/avro-tools-1.7.6.jar compile schema &lt;schema file&gt; &lt;destination&gt;
+</code></pre>
 <p>就我们的例子而言,可以通过如下命令生成对应的JAVA类:</p>
-<div class="highlight"><pre><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">avro</span><span class="o">-</span><span class="n">tools</span><span class="o">-</span><span class="mf">1.7.6</span><span class="p">.</span><span class="n">jar</span> <span class="n">compile</span> <span class="n">schema</span> <span class="n">user</span><span class="p">.</span><span class="n">avsc</span>
-</pre></div>
-
-
+<pre><code>java -jar /path/to/avro-tools-1.7.6.jar compile schema user.avsc
+</code></pre>
 <p>生成的类结构如下图所示:</p>
 <p><img alt="User Structure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/User_zps8e56f737.png"></p>
-<h4>序列化与反序列化</h4>
+<h4 id="_4">序列化与反序列化</h4>
 <p>当我们直接使用生成的JAVA类时,可通过如下方法持久化一个User:</p>
-<div class="highlight"><pre><span class="c1">// Serialize user user1 to disk</span>
-<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"user.avro"</span><span class="p">);</span>
-<span class="n">DatumWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">userDatumWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpecificDatumWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">User</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
-<span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">dataFileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">userDatumWriter</span><span class="p">);</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">user1</span><span class="p">.</span><span class="n">getSchema</span><span class="p">(),</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"users.avro"</span><span class="p">));</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
-</pre></div>
-
-
+<pre><code>// Serialize user user1 to disk
+File file = new File("user.avro");
+DatumWriter&lt;User&gt; userDatumWriter = new SpecificDatumWriter&lt;User&gt;(User.class);
+DataFileWriter&lt;User&gt; dataFileWriter = new DataFileWriter&lt;User&gt;(userDatumWriter);
+dataFileWriter.create(user1.getSchema(), new File("users.avro"));
+dataFileWriter.append(user1);
+dataFileWriter.close();
+</code></pre>
 <p>我们首先创建一个<code>DatumWriter</code>, 它负责将JAVA对象转化成内存中的序列化格式;SpecificDatumWriter类则与具体的生成类相关并从指定类中抽取Schema定义信息。 然后我们创建一个<code>DataFileWriter</code>,它将内存中的持久化对象以及Schema定义持久化到文件中。 最后,我们通过其append方法添加一个User实例。</p>
 <p>当我们要反序列化时,则可以使用如下方法:</p>
-<div class="highlight"><pre><span class="c1">// Deserialize Users from disk</span>
-<span class="n">DatumReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">userDatumReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">SpecificDatumReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">User</span><span class="p">.</span><span class="k">class</span><span class="p">);</span>
-<span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">dataFileReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">userDatumReader</span><span class="p">);</span>
-<span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-<span class="k">while</span> <span class="p">(</span><span class="n">dataFileReader</span><span class="p">.</span><span class="n">hasNext</span><span class="p">())</span> <span class="p">{</span>
-<span class="c1">// Reuse user object by passing it to next(). This saves us from</span>
-<span class="c1">// allocating and garbage collecting many objects for files with</span>
-<span class="c1">// many items.</span>
-<span class="n">user</span> <span class="o">=</span> <span class="n">dataFileReader</span><span class="p">.</span><span class="n">next</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
-<span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>// Deserialize Users from disk
+DatumReader&lt;User&gt; userDatumReader = new SpecificDatumReader&lt;User&gt;(User.class);
+DataFileReader&lt;User&gt; dataFileReader = new DataFileReader&lt;User&gt;(file, userDatumReader);
+User user = null;
+while (dataFileReader.hasNext()) {
+// Reuse user object by passing it to next(). This saves us from
+// allocating and garbage collecting many objects for files with
+// many items.
+user = dataFileReader.next(user);
+System.out.println(user);
+}
+</code></pre>
 <p>反序列化与序列化基本相同,我们首先创建一个SpecificDatumReader,它将内存中的对象反序列化为我们的User实例,我们将DatumReader以及之前创建的文件传给DataFileReader,它从文件中读取信息。接着我们使用DataFileReader遍历已经序列化的User然后将反序列化之后的信息打印到标准输出流。</p>
 <p>当然,正如我们上述介绍Avro的特性时提到的那样,其实Avro可以不必生成对应的JAVA类,也就是说我们可以仅依靠Scheme定义直接序列化、反序列化对象。</p>
 <p>我们可以通过如下方法创建User实例:</p>
-<div class="highlight"><pre><span class="c1">//Read Scheme definition and create a Schema object</span>
-<span class="n">Schema</span> <span class="n">schema</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Parser</span><span class="p">().</span><span class="n">parse</span><span class="p">(</span><span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"user.avsc"</span><span class="p">));</span>
+<pre><code>//Read Scheme definition and create a Schema object
+Schema schema = new Parser().parse(new File("user.avsc"));
 
-<span class="c1">//Create user using above Schema </span>
-<span class="n">GenericRecord</span> <span class="n">user1</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericData</span><span class="p">.</span><span class="n">Record</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
-<span class="n">user1</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"name"</span><span class="p">,</span> <span class="s">"Alyssa"</span><span class="p">);</span>
-<span class="n">user1</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"favorite_number"</span><span class="p">,</span> <span class="mh">256</span><span class="p">);</span>
-<span class="c1">// Leave favorite color null</span>
+//Create user using above Schema 
+GenericRecord user1 = new GenericData.Record(schema);
+user1.put("name", "Alyssa");
+user1.put("favorite_number", 256);
+// Leave favorite color null
 
-<span class="n">GenericRecord</span> <span class="n">user2</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericData</span><span class="p">.</span><span class="n">Record</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
-<span class="n">user2</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"name"</span><span class="p">,</span> <span class="s">"Ben"</span><span class="p">);</span>
-<span class="n">user2</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"favorite_number"</span><span class="p">,</span> <span class="mh">7</span><span class="p">);</span>
-<span class="n">user2</span><span class="p">.</span><span class="n">put</span><span class="p">(</span><span class="s">"favorite_color"</span><span class="p">,</span> <span class="s">"red"</span><span class="p">);</span>
-</pre></div>
-
-
+GenericRecord user2 = new GenericData.Record(schema);
+user2.put("name", "Ben");
+user2.put("favorite_number", 7);
+user2.put("favorite_color", "red");
+</code></pre>
 <p>接着,我们可以以如下方式序列化User实例:</p>
-<div class="highlight"><pre><span class="c1">// Serialize user1 and user2 to disk</span>
-<span class="n">File</span> <span class="n">file</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="p">(</span><span class="s">"users.avro"</span><span class="p">);</span>
-<span class="n">DatumWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">datumWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericDatumWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
-<span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">dataFileWriter</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileWriter</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">datumWriter</span><span class="p">);</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">file</span><span class="p">);</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">user1</span><span class="p">);</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">user2</span><span class="p">);</span>
-<span class="n">dataFileWriter</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
-</pre></div>
-
-
+<pre><code>// Serialize user1 and user2 to disk
+File file = new File("users.avro");
+DatumWriter&lt;GenericRecord&gt; datumWriter = new GenericDatumWriter&lt;GenericRecord&gt;(schema);
+DataFileWriter&lt;GenericRecord&gt; dataFileWriter = new DataFileWriter&lt;GenericRecord&gt;(datumWriter);
+dataFileWriter.create(schema, file);
+dataFileWriter.append(user1);
+dataFileWriter.append(user2);
+dataFileWriter.close();
+</code></pre>
 <p>以上序列化过程基本和使用Code Generation时相同。</p>
 <p>最后,我们反序列化如上对象,当然,和之前Code Generation时也类似:</p>
-<div class="highlight"><pre><span class="c1">// Deserialize users from disk</span>
-<span class="n">DatumReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">datumReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">GenericDatumReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">schema</span><span class="p">);</span>
-<span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span> <span class="n">dataFileReader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DataFileReader</span><span class="o">&lt;</span><span class="n">GenericRecord</span><span class="o">&gt;</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">datumReader</span><span class="p">);</span>
-<span class="n">GenericRecord</span> <span class="n">user</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-<span class="k">while</span> <span class="p">(</span><span class="n">dataFileReader</span><span class="p">.</span><span class="n">hasNext</span><span class="p">())</span> <span class="p">{</span>
-<span class="c1">// Reuse user object by passing it to next(). This saves us from</span>
-<span class="c1">// allocating and garbage collecting many objects for files with</span>
-<span class="c1">// many items.</span>
-<span class="n">user</span> <span class="o">=</span> <span class="n">dataFileReader</span><span class="p">.</span><span class="n">next</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
-<span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">user</span><span class="p">);</span>
-</pre></div>
-
-
+<pre><code>// Deserialize users from disk
+DatumReader&lt;GenericRecord&gt; datumReader = new GenericDatumReader&lt;GenericRecord&gt;(schema);
+DataFileReader&lt;GenericRecord&gt; dataFileReader = new DataFileReader&lt;GenericRecord&gt;(file, datumReader);
+GenericRecord user = null;
+while (dataFileReader.hasNext()) {
+// Reuse user object by passing it to next(). This saves us from
+// allocating and garbage collecting many objects for files with
+// many items.
+user = dataFileReader.next(user);
+System.out.println(user);
+</code></pre>
 <p>以下给出一完整实例:</p>
-<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.avrodemo</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.avrodemo;
 
-<span class="k">import</span> <span class="nx">java.io.File</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">java.io.IOException</span><span class="p">;</span>
+import java.io.File;
+import java.io.IOException;
 
-<span class="k">import</span> <span class="nx">org.apache.avro.Schema</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.Schema.Parser</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.file.DataFileReader</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.file.DataFileWriter</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.generic.GenericData</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.generic.GenericRecord</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.io.DatumReader</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.io.DatumWriter</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.specific.SpecificDatumReader</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.avro.specific.SpecificDatumWriter</span><span class="p">;</span>
+import org.apache.avro.Schema;
+import org.apache.avro.Schema.Parser;
+import org.apache.avro.file.DataFileReader;
+import org.apache.avro.file.DataFileWriter;
+import org.apache.avro.generic.GenericData;
+import org.apache.avro.generic.GenericRecord;
+import org.apache.avro.io.DatumReader;
+import org.apache.avro.io.DatumWriter;
+import org.apache.avro.specific.SpecificDatumReader;
+import org.apache.avro.specific.SpecificDatumWriter;
 
-<span class="k">import</span> <span class="nx">example.avro.User</span><span class="p">;</span>
+import example.avro.User;
 
-<span class="cm">/**</span>
-<span class="cm"> * A toy example demonstrates the use of Apache Avro</span>
-<span class="cm"> * </span>
-<span class="cm"> * @author qingyuanxingsi</span>
-<span class="cm"> * @version 1.0</span>
-<span class="cm"> */</span>
-<span class="k">public</span> <span class="nf">class</span> <span class="nx">AvroDemo</span> <span class="p">{</span>
-    <span class="c1">// File Path storing demo data</span>
-    <span class="k">private</span> <span class="nf">static</span> <span class="nx">final</span> <span class="kt">String</span> <span class="n">FILE_PATH</span> <span class="o">=</span> <span class="s2">"user.dat"</span><span class="p">;</span>
+/**
+ * A toy example demonstrates the use of Apache Avro
+ * 
+ * @author qingyuanxingsi
+ * @version 1.0
+ */
+public class AvroDemo {
+    // File Path storing demo data
+    private static final String FILE_PATH = "user.dat";
 
-    <span class="cm">/**</span>
-<span class="cm">     * Test Case</span>
-<span class="cm">     * </span>
-<span class="cm">     * @param args</span>
-<span class="cm">     */</span>
-    <span class="k">public</span> <span class="nf">static</span> <span class="bp">void</span> <span class="nx">main</span><span class="p">(</span><span class="kt">String</span><span class="err">[</span><span class="cp">]</span> args) {
+    /**
+     * Test Case
+     * 
+     * @param args
+     */
+    public static void main(String[] args) {
         //Avro with code generation
         avroWithCode();
         //Avro without code generation
@@ -523,9 +495,9 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
             user.put("favorite_color", "BLUE");
             // Serialize it
             File file = new File(FILE_PATH);
-            DatumWriter<span class="nt">&lt;GenericRecord&gt;</span> userDatumWriter = new SpecificDatumWriter<span class="nt">&lt;GenericRecord&gt;</span>(
+            DatumWriter&lt;GenericRecord&gt; userDatumWriter = new SpecificDatumWriter&lt;GenericRecord&gt;(
                     schema);
-            DataFileWriter<span class="nt">&lt;GenericRecord&gt;</span> dataFileWriter = new DataFileWriter<span class="nt">&lt;GenericRecord&gt;</span>(
+            DataFileWriter&lt;GenericRecord&gt; dataFileWriter = new DataFileWriter&lt;GenericRecord&gt;(
                     userDatumWriter);
             try {
                 dataFileWriter.create(schema, file);
@@ -537,11 +509,11 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
             }
 
             // Deserialize Users from disk
-            DatumReader<span class="nt">&lt;GenericRecord&gt;</span> userDatumReader = new SpecificDatumReader<span class="nt">&lt;GenericRecord&gt;</span>(
+            DatumReader&lt;GenericRecord&gt; userDatumReader = new SpecificDatumReader&lt;GenericRecord&gt;(
                     schema);
-            DataFileReader<span class="nt">&lt;GenericRecord&gt;</span> dataFileReader;
+            DataFileReader&lt;GenericRecord&gt; dataFileReader;
             try {
-                dataFileReader = new DataFileReader<span class="nt">&lt;GenericRecord&gt;</span>(file, userDatumReader);
+                dataFileReader = new DataFileReader&lt;GenericRecord&gt;(file, userDatumReader);
                 GenericRecord tmp = null;
                 while (dataFileReader.hasNext()) {
                     // Reuse user object by passing it to next(). This saves us from
@@ -572,9 +544,9 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
                 .setFavoriteNumber(5).setFavoriteColor("PURPLE").build();
         // Serialize it
         File file = new File(FILE_PATH);
-        DatumWriter<span class="nt">&lt;User&gt;</span> userDatumWriter = new SpecificDatumWriter<span class="nt">&lt;User&gt;</span>(
+        DatumWriter&lt;User&gt; userDatumWriter = new SpecificDatumWriter&lt;User&gt;(
                 User.class);
-        DataFileWriter<span class="nt">&lt;User&gt;</span> dataFileWriter = new DataFileWriter<span class="nt">&lt;User&gt;</span>(
+        DataFileWriter&lt;User&gt; dataFileWriter = new DataFileWriter&lt;User&gt;(
                 userDatumWriter);
         try {
             dataFileWriter.create(user.getSchema(), file);
@@ -586,11 +558,11 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
         }
 
         // Deserialize Users from disk
-        DatumReader<span class="nt">&lt;User&gt;</span> userDatumReader = new SpecificDatumReader<span class="nt">&lt;User&gt;</span>(
+        DatumReader&lt;User&gt; userDatumReader = new SpecificDatumReader&lt;User&gt;(
                 User.class);
-        DataFileReader<span class="nt">&lt;User&gt;</span> dataFileReader;
+        DataFileReader&lt;User&gt; dataFileReader;
         try {
-            dataFileReader = new DataFileReader<span class="nt">&lt;User&gt;</span>(file, userDatumReader);
+            dataFileReader = new DataFileReader&lt;User&gt;(file, userDatumReader);
             User tmp = null;
             while (dataFileReader.hasNext()) {
                 // Reuse user object by passing it to next(). This saves us from
@@ -605,10 +577,8 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
         }
     }
 }
-</pre></div>
-
-
-<h2>也说动态代理<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3" title="参考java动态代理(JDK和cglib)">3</a></sup></h2>
+</code></pre>
+<h2 id="refjavajdkcglibref">也说动态代理<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-3" title="参考java动态代理(JDK和cglib)">3</a></sup></h2>
 <p>Hadoop RPC中设计的基本设计模式就是代理模式,因此想要看懂RPC部分源码，代理不可不知。</p>
 <p>代理模式是常用的java设计模式，他的特征是代理类与委托类有同样的接口，代理类主要负责为委托类预处理消息、过滤消息、把消息转发给委托类，以及事后处理消息等。代理类与委托类之间通常会存在关联关系，一个代理类的对象与一个委托类的对象关联，代理类的对象本身并不真正实现服务，而是通过调用委托类的对象的相关方法，来提供特定的服务。 </p>
 <p>按照代理的创建时期，代理类可以分为两种。 </p>
@@ -617,29 +587,25 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <li>动态代理：在程序运行时，运用反射机制动态创建而成。 </li>
 </ul>
 <p>静态代理的基本原理我们就不说了,简而言之就是代理类和委托类实现相同的借口,Client通过代理类调用实现类的方法(代理类持有委托类的实例)。然后这样做有一个很明显的弊端，那就是每一个代理类只能为一个接口服务，这样一来程序开发中必然会产生过多的代理，而且，所有的代理操作除了调用的方法不一样之外，其他的操作都一样，则此时肯定是重复代码。解决这一问题最好的做法是可以通过一个代理类完成全部的代理功能，那么此时就必须使用动态代理完成。动态代理类的字节码在程序运行时由Java反射机制动态生成，无需程序员手工编写它的源代码。动态代理类不仅简化了编程工作，而且提高了软件系统的可扩展性，因为Java反射机制可以生成任意类型的动态代理类。<code>java.lang.reflect</code>包中的Proxy类和InvocationHandler 接口提供了生成动态代理类的能力。 </p>
-<div class="highlight"><pre><span class="n">InvocationHandler</span><span class="err">接口：</span>
+<pre><code>InvocationHandler接口：
 
-<span class="n">public</span> <span class="n">interface</span> <span class="n">InvocationHandler</span> <span class="p">{</span> 
-    <span class="n">public</span> <span class="n">Object</span> <span class="n">invoke</span><span class="p">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="p">,</span><span class="n">Method</span> <span class="n">method</span><span class="p">,</span><span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="n">throws</span> <span class="n">Throwable</span><span class="p">;</span> 
-<span class="p">}</span> 
-<span class="err">参数说明：</span> 
-<span class="n">Object</span> <span class="n">proxy</span><span class="err">：指被代理的对象。</span> 
-<span class="n">Method</span> <span class="n">method</span><span class="err">：要调用的方法</span> 
-<span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="err">：方法调用时所需要的参数</span>
-</pre></div>
-
-
+public interface InvocationHandler { 
+    public Object invoke(Object proxy,Method method,Object[] args) throws Throwable; 
+} 
+参数说明： 
+Object proxy：指被代理的对象。 
+Method method：要调用的方法 
+Object[] args：方法调用时所需要的参数
+</code></pre>
 <p>可以将InvocationHandler接口的子类想象成一个代理的最终操作类，替换掉ProxySubject。 </p>
 <p>Proxy类是专门完成代理的操作类，可以通过此类为一个或多个接口动态地生成实现类，此类提供了如下的操作方法： </p>
-<div class="highlight"><pre><span class="kr">public</span> <span class="kr">static</span> <span class="nb">Object</span> <span class="nx">newProxyInstance</span><span class="p">(</span><span class="nx">ClassLoader</span> <span class="nx">loader</span><span class="p">,</span> <span class="nx">Class</span><span class="cp">&lt;?</span><span class="o">&gt;</span><span class="p">[]</span> <span class="nx">interfaces</span><span class="p">,</span> 
-<span class="nx">InvocationHandler</span> <span class="nx">h</span><span class="p">)</span> <span class="nx">throws</span> <span class="nx">IllegalArgumentException</span> 
-<span class="err">参数说明：</span> 
-<span class="nx">ClassLoader</span> <span class="nx">loader</span><span class="err">：类加载器</span> 
-<span class="nx">Class</span><span class="o">&lt;?&gt;</span><span class="p">[]</span> <span class="nx">interfaces</span><span class="err">：得到全部的接口</span> 
-<span class="nx">InvocationHandler</span> <span class="nx">h</span><span class="err">：得到</span><span class="nx">InvocationHandler</span><span class="err">接口的子类实例</span>
-</pre></div>
-
-
+<pre><code>public static Object newProxyInstance(ClassLoader loader, Class&lt;?&gt;[] interfaces, 
+InvocationHandler h) throws IllegalArgumentException 
+参数说明： 
+ClassLoader loader：类加载器 
+Class&lt;?&gt;[] interfaces：得到全部的接口 
+InvocationHandler h：得到InvocationHandler接口的子类实例
+</code></pre>
 <blockquote>
 <p>NOTE:类加载器 
 在Proxy类中的newProxyInstance（）方法中需要一个ClassLoader类的实例，ClassLoader实际上对应的是类加载器，在Java中主要有以下三种类加载器; </p>
@@ -650,156 +616,152 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </ul>
 </blockquote>
 <p>以下给出一具体实例:</p>
-<div class="highlight"><pre><span class="c1">//BookFacade.java,define interfaces</span>
-<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+<pre><code>//BookFacade.java,define interfaces
+package org.qingyuanxingsi.proxypattern;
 
-<span class="n">public</span> <span class="k">interface</span> <span class="n">BookFacade</span> <span class="p">{</span>
-    <span class="c1">//Add book interface</span>
-    <span class="n">public</span> <span class="k">void</span> <span class="n">addBook</span><span class="p">();</span>  
-<span class="p">}</span>
+public interface BookFacade {
+    //Add book interface
+    public void addBook();  
+}
 
-<span class="c1">//BookFacadeImpl.java,具体实现类</span>
-<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+//BookFacadeImpl.java,具体实现类
+package org.qingyuanxingsi.proxypattern;
 
-<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeImpl</span> <span class="n">implements</span> <span class="n">BookFacade</span> <span class="p">{</span>
+public class BookFacadeImpl implements BookFacade {
 
-    <span class="p">@</span><span class="n">Override</span>
-    <span class="n">public</span> <span class="k">void</span> <span class="n">addBook</span><span class="p">()</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Adding books to the database!"</span><span class="p">);</span>
-    <span class="p">}</span>
+    @Override
+    public void addBook() {
+        // TODO Auto-generated method stub
+        System.out.println("Adding books to the database!");
+    }
 
-<span class="p">}</span>
+}
 
-<span class="c1">//BookFacadeProxy.java,生成动态代理</span>
-<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+//BookFacadeProxy.java,生成动态代理
+package org.qingyuanxingsi.proxypattern;
 
-<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">InvocationHandler</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">Method</span><span class="p">;</span>
-<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">Proxy</span><span class="p">;</span>
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
-<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeProxy</span> <span class="n">implements</span> <span class="n">InvocationHandler</span> <span class="p">{</span>
-    <span class="n">private</span> <span class="n">Object</span> <span class="n">target</span><span class="p">;</span>
+public class BookFacadeProxy implements InvocationHandler {
+    private Object target;
 
-    <span class="n">public</span> <span class="n">Object</span> <span class="k">bind</span><span class="p">(</span><span class="n">Object</span> <span class="n">target</span><span class="p">){</span>
-        <span class="k">this</span><span class="p">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">;</span>
-        <span class="c1">//Get the proxy object</span>
-        <span class="c1">//Interfaces must be bound,this is one drawback(which can be fixed by cglib)</span>
-        <span class="k">return</span> <span class="n">Proxy</span><span class="p">.</span><span class="n">newProxyInstance</span><span class="p">(</span><span class="n">target</span><span class="p">.</span><span class="n">getClass</span><span class="p">().</span><span class="n">getClassLoader</span><span class="p">(),</span> <span class="n">target</span><span class="p">.</span><span class="n">getClass</span><span class="p">().</span><span class="n">getInterfaces</span><span class="p">(),</span> <span class="k">this</span><span class="p">);</span>
-    <span class="p">}</span>
+    public Object bind(Object target){
+        this.target = target;
+        //Get the proxy object
+        //Interfaces must be bound,this is one drawback(which can be fixed by cglib)
+        return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), this);
+    }
 
-    <span class="p">@</span><span class="n">Override</span>
-    <span class="n">public</span> <span class="n">Object</span> <span class="n">invoke</span><span class="p">(</span><span class="n">Object</span> <span class="n">proxy</span><span class="p">,</span> <span class="n">Method</span> <span class="n">method</span><span class="p">,</span> <span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span>
-            <span class="n">throws</span> <span class="n">Throwable</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="k">null</span><span class="p">;</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Transaction begins!"</span><span class="p">);</span>
-        <span class="c1">//Execute the method</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">method</span><span class="p">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"Transaction ends!"</span><span class="p">);</span>
-        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args)
+            throws Throwable {
+        // TODO Auto-generated method stub
+        Object result = null;
+        System.out.println("Transaction begins!");
+        //Execute the method
+        result = method.invoke(target, args);
+        System.out.println("Transaction ends!");
+        return result;
+    }
+}
 
-<span class="c1">//TestProxy.java,test case</span>
-<span class="kn">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">proxypattern</span><span class="p">;</span>
+//TestProxy.java,test case
+package org.qingyuanxingsi.proxypattern;
 
-<span class="n">public</span> <span class="k">class</span> <span class="n">TestProxy</span> <span class="p">{</span>
+public class TestProxy {
 
-    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// TODO Auto-generated method stub</span>
-        <span class="n">BookFacadeProxy</span> <span class="n">proxy</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BookFacadeProxy</span><span class="p">();</span>
-        <span class="n">BookFacade</span> <span class="n">bookProxy</span> <span class="o">=</span> <span class="p">(</span><span class="n">BookFacade</span><span class="p">)</span><span class="n">proxy</span><span class="p">.</span><span class="k">bind</span><span class="p">(</span><span class="k">new</span> <span class="n">BookFacadeImpl</span><span class="p">());</span>
-        <span class="n">bookProxy</span><span class="p">.</span><span class="n">addBook</span><span class="p">();</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
+    public static void main(String[] args) {
+        // TODO Auto-generated method stub
+        BookFacadeProxy proxy = new BookFacadeProxy();
+        BookFacade bookProxy = (BookFacade)proxy.bind(new BookFacadeImpl());
+        bookProxy.addBook();
+    }
+}
+</code></pre>
 <p>但是，JDK的动态代理依靠接口实现，如果有些类并没有实现接口，则不能使用JDK代理，这就要使用cglib动态代理了。JDK的动态代理机制只能代理实现了接口的类，而不能实现接口的类就不能实现JDK的动态代理，cglib是针对类来实现代理的，他的原理是对指定的目标类生成一个子类，并覆盖其中方法实现增强，但因为采用的是继承，所以不能对final修饰的类进行代理。具体示例如下:</p>
-<div class="highlight"><pre><span class="c1">//BookFacadeImpl1.java,没有实现接口的实现类</span>
-<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">impl</span><span class="p">;</span>
+<pre><code>//BookFacadeImpl1.java,没有实现接口的实现类
+package net.battier.dao.impl;
 
-<span class="cm">/** </span>
-<span class="cm"> * 这个是没有实现接口的实现类 </span>
-<span class="cm"> *  </span>
-<span class="cm"> * @author student </span>
-<span class="cm"> *  </span>
-<span class="cm"> */</span>  
-<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeImpl1</span> <span class="p">{</span>  
-    <span class="n">public</span> <span class="k">void</span> <span class="n">addBook</span><span class="p">()</span> <span class="p">{</span>  
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"增加图书的普通方法..."</span><span class="p">);</span>  
-    <span class="p">}</span>  
-<span class="p">}</span>
+/** 
+ * 这个是没有实现接口的实现类 
+ *  
+ * @author student 
+ *  
+ */  
+public class BookFacadeImpl1 {  
+    public void addBook() {  
+        System.out.println("增加图书的普通方法...");  
+    }  
+}
 
-<span class="c1">//BookfacadeCglib.java,使用cglib实现动态代理</span>
-<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">proxy</span><span class="p">;</span>
+//BookfacadeCglib.java,使用cglib实现动态代理
+package net.battier.proxy;
 
-<span class="kn">import</span> <span class="nn">java</span><span class="p">.</span><span class="n">lang</span><span class="p">.</span><span class="n">reflect</span><span class="p">.</span><span class="n">Method</span><span class="p">;</span>
+import java.lang.reflect.Method;
 
-<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">sf</span><span class="p">.</span><span class="n">cglib</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">Enhancer</span><span class="p">;</span>  
-<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">sf</span><span class="p">.</span><span class="n">cglib</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">MethodInterceptor</span><span class="p">;</span>  
-<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">sf</span><span class="p">.</span><span class="n">cglib</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">MethodProxy</span><span class="p">;</span>
+import net.sf.cglib.proxy.Enhancer;  
+import net.sf.cglib.proxy.MethodInterceptor;  
+import net.sf.cglib.proxy.MethodProxy;
 
-<span class="cm">/** </span>
-<span class="cm"> * 使用cglib动态代理 </span>
-<span class="cm"> *  </span>
-<span class="cm"> * @author student </span>
-<span class="cm"> *  </span>
-<span class="cm"> */</span>  
-<span class="n">public</span> <span class="k">class</span> <span class="n">BookFacadeCglib</span> <span class="n">implements</span> <span class="n">MethodInterceptor</span> <span class="p">{</span>  
-    <span class="n">private</span> <span class="n">Object</span> <span class="n">target</span><span class="p">;</span>
+/** 
+ * 使用cglib动态代理 
+ *  
+ * @author student 
+ *  
+ */  
+public class BookFacadeCglib implements MethodInterceptor {  
+    private Object target;
 
-    <span class="cm">/** </span>
-<span class="cm">     * 创建代理对象 </span>
-<span class="cm">     *  </span>
-<span class="cm">     * @param target </span>
-<span class="cm">     * @return </span>
-<span class="cm">     */</span>  
-    <span class="n">public</span> <span class="n">Object</span> <span class="n">getInstance</span><span class="p">(</span><span class="n">Object</span> <span class="n">target</span><span class="p">)</span> <span class="p">{</span>  
-        <span class="k">this</span><span class="p">.</span><span class="n">target</span> <span class="o">=</span> <span class="n">target</span><span class="p">;</span>  
-        <span class="n">Enhancer</span> <span class="n">enhancer</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Enhancer</span><span class="p">();</span>  
-        <span class="n">enhancer</span><span class="p">.</span><span class="n">setSuperclass</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">target</span><span class="p">.</span><span class="n">getClass</span><span class="p">());</span>  
-        <span class="c1">// 回调方法  </span>
-        <span class="n">enhancer</span><span class="p">.</span><span class="n">setCallback</span><span class="p">(</span><span class="k">this</span><span class="p">);</span>  
-        <span class="c1">// 创建代理对象  </span>
-        <span class="k">return</span> <span class="n">enhancer</span><span class="p">.</span><span class="n">create</span><span class="p">();</span>  
-    <span class="p">}</span>
+    /** 
+     * 创建代理对象 
+     *  
+     * @param target 
+     * @return 
+     */  
+    public Object getInstance(Object target) {  
+        this.target = target;  
+        Enhancer enhancer = new Enhancer();  
+        enhancer.setSuperclass(this.target.getClass());  
+        // 回调方法  
+        enhancer.setCallback(this);  
+        // 创建代理对象  
+        return enhancer.create();  
+    }
 
-    <span class="p">@</span><span class="n">Override</span>  
-    <span class="c1">// 回调方法  </span>
-    <span class="n">public</span> <span class="n">Object</span> <span class="n">intercept</span><span class="p">(</span><span class="n">Object</span> <span class="n">obj</span><span class="p">,</span> <span class="n">Method</span> <span class="n">method</span><span class="p">,</span> <span class="n">Object</span><span class="p">[]</span> <span class="n">args</span><span class="p">,</span>  
-            <span class="n">MethodProxy</span> <span class="n">proxy</span><span class="p">)</span> <span class="n">throws</span> <span class="n">Throwable</span> <span class="p">{</span>  
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"事物开始"</span><span class="p">);</span>  
-        <span class="n">proxy</span><span class="p">.</span><span class="n">invokeSuper</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">);</span>  
-        <span class="n">System</span><span class="p">.</span><span class="n">out</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">"事物结束"</span><span class="p">);</span>  
-        <span class="k">return</span> <span class="k">null</span><span class="p">;</span>
-
-
-    <span class="p">}</span>
-
-<span class="p">}</span>
-
-<span class="c1">//TestCglib.java,a test case</span>
-<span class="kn">package</span> <span class="n">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
-
-<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">dao</span><span class="p">.</span><span class="n">impl</span><span class="p">.</span><span class="n">BookFacadeImpl1</span><span class="p">;</span>  
-<span class="kn">import</span> <span class="nn">net</span><span class="p">.</span><span class="n">battier</span><span class="p">.</span><span class="n">proxy</span><span class="p">.</span><span class="n">BookFacadeCglib</span><span class="p">;</span>
-
-<span class="n">public</span> <span class="k">class</span> <span class="n">TestCglib</span> <span class="p">{</span>
-
-    <span class="n">public</span> <span class="k">static</span> <span class="k">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>  
-        <span class="n">BookFacadeCglib</span> <span class="n">cglib</span><span class="o">=</span><span class="k">new</span> <span class="n">BookFacadeCglib</span><span class="p">();</span>  
-        <span class="n">BookFacadeImpl1</span> <span class="n">bookCglib</span><span class="o">=</span><span class="p">(</span><span class="n">BookFacadeImpl1</span><span class="p">)</span><span class="n">cglib</span><span class="p">.</span><span class="n">getInstance</span><span class="p">(</span><span class="k">new</span> <span class="n">BookFacadeImpl1</span><span class="p">());</span>  
-        <span class="n">bookCglib</span><span class="p">.</span><span class="n">addBook</span><span class="p">();</span>  
-    <span class="p">}</span>  
-<span class="p">}</span>
-</pre></div>
+    @Override  
+    // 回调方法  
+    public Object intercept(Object obj, Method method, Object[] args,  
+            MethodProxy proxy) throws Throwable {  
+        System.out.println("事物开始");  
+        proxy.invokeSuper(obj, args);  
+        System.out.println("事物结束");  
+        return null;
 
 
-<h2>Dive Into Hadoop RPC</h2>
+    }
+
+}
+
+//TestCglib.java,a test case
+package net.battier.test;
+
+import net.battier.dao.impl.BookFacadeImpl1;  
+import net.battier.proxy.BookFacadeCglib;
+
+public class TestCglib {
+
+    public static void main(String[] args) {  
+        BookFacadeCglib cglib=new BookFacadeCglib();  
+        BookFacadeImpl1 bookCglib=(BookFacadeImpl1)cglib.getInstance(new BookFacadeImpl1());  
+        bookCglib.addBook();  
+    }  
+}
+</code></pre>
+<h2 id="dive-into-hadoop-rpc">Dive Into Hadoop RPC</h2>
 <p>好吧,具备了以上两个基础知识后,我们可以一睹Hadoop RPC的真面目了。</p>
-<h3>RPC通信模型</h3>
+<h3 id="rpc">RPC通信模型</h3>
 <p>RPC 是一种通过网络从远程计算机上请求服务,但不需要了解底层网络技术的协议。RPC协议假定某些传输协议(如TCP或UDP等)已经存在,并通过这些传输协议为通信程序之间传递访问请求或者应答信息。在OSI网络通信模型中,RPC跨越了传输层和应用层。RPC使得开发分布式应用程序更加容易。RPC通常采用客户机 / 服务器模型。请求程序是一个客户机,而服务提供程序则是一个服务器。一个典型的RPC框架如下图所示,主要包括以下几个部分:</p>
 <p><img alt="RPC ARCHITECTURE" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/rpc_structure_zpsf7959ccf.png"></p>
 <ul>
@@ -821,7 +783,7 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 <li>被调用函数按照所获参数执行,并将结果返回给Stub程序;</li>
 <li>Stub程序将此结果封装成消息,通过网络通信模块逐级地传送给客户程序。</li>
 </ol>
-<h3>RPC总体架构</h3>
+<h3 id="rpc_1">RPC总体架构</h3>
 <p>同其他RPC框架一样,Hadoop RPC主要分为四个部分,分别是序列化层、函数调用层、网络传输层和服务器端处理框架,具体实现机制如下:</p>
 <ul>
 <li>序列化层。序列化主要作用是将结构化对象转为字节流以便于通过网络进行传输或写入持久存储,在RPC框架中,它主要用于将用户请求中的参数或者应答转化成字节流以便跨机器传输。前面介绍的Protocol Buffers和Apache Avro均可用在序列化层,Hadoop本身也提供了一套序列化框架,一个类只要实现Writable接口即可支持对象序列化与反序列化。</li>
@@ -831,82 +793,72 @@ Google 内部,几乎所有的RPC协议和文件格式都是采用Protocol Buffer
 </ul>
 <p>Hadoop RPC 总体架构如下图所示,自下而上可分为两层,第一层是一个基于Java NIO (New I/O)实现的客户机–服务器(C/S)通信模型。其中,客户端将用户的调用方法及其参数封装成请求包后发送到服务器端。服务器端收到请求包后,经解包、调用函数、打包结果等一系列操作后,将结果返回给客户端。为了增强Sever端的扩展性和并发处理能力,Hadoop RPC采用了基于事件驱动的Reactor设计模式,在具体实现时,用到了JDK提供的各种功能包,主要包括java.nio(NIO)、java.lang.reflect(反射机制和动态代理)、java.net(网络编程库)等。第二层是供更上层程序直接调用的 RPC 接口,这些接口底层即为C/S通信模型。</p>
 <p><img alt="Hadoop RPC总体架构" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/whole_rpc_zpsddc95cd6.png"></p>
-<h3>Hadoop RPC使用方法</h3>
+<h3 id="hadoop-rpc">Hadoop RPC使用方法</h3>
 <p>Hadoop RPC 对外主要提供了两种接口(见类 org.apache.hadoop.ipc.RPC),分别是:</p>
-<div class="highlight"><pre><span class="c1">//Construct a client proxy instance for sending RPC requests to server</span>
-<span class="n">public</span> <span class="k">static</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">ProtocolProxy</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="n">getProxy</span><span class="o">/</span><span class="n">waitForProxy</span><span class="p">(...)</span>
+<pre><code>//Construct a client proxy instance for sending RPC requests to server
+public static &lt;T&gt; ProtocolProxy &lt;T&gt; getProxy/waitForProxy(...)
 
-<span class="c1">//Build a server instance for a specific protocol,handle requests</span>
-<span class="n">public</span> <span class="k">static</span> <span class="n">Server</span> <span class="no">RPC</span><span class="p">.</span><span class="n">Builder</span> <span class="p">(</span><span class="n">Configuration</span><span class="p">).</span><span class="n">build</span><span class="p">()</span>
-</pre></div>
-
-
+//Build a server instance for a specific protocol,handle requests
+public static Server RPC.Builder (Configuration).build()
+</code></pre>
 <p>通常而言,使用Hadoop RPC可分为以下4个步骤。</p>
 <ol>
 <li>
 <p>定义 RPC 协议
 RPC协议是客户端和服务器端之间的通信接口,它定义了服务器端对外提供的服务接口。如下所示,我们定义一个ClientProtocol通信接口,声明了echo()和add()两个方法。需要注意的是,Hadoop 中所有自定义 RPC 接口都需要继承VersionedProtocol接口,它描述了协议的版本信息。</p>
-<div class="highlight"><pre><span class="n">interface</span> <span class="n">ClientProtocol</span> <span class="n">extends</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">ipc</span><span class="p">.</span><span class="n">VersionedProtocol</span> <span class="p">{</span>
-    <span class="c1">// 版本号,默认情况下,不同版本号的 RPC Client 和 Server 之间不能相互通信</span>
-    <span class="n">public</span> <span class="k">static</span> <span class="n">final</span> <span class="kt">long</span> <span class="n">versionID</span> <span class="o">=</span> <span class="mi">1L</span><span class="p">;</span>
-    <span class="n">String</span> <span class="n">echo</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span><span class="p">;</span>
-    <span class="kt">int</span> <span class="n">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">v1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v2</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>interface ClientProtocol extends org.apache.hadoop.ipc.VersionedProtocol {
+    // 版本号,默认情况下,不同版本号的 RPC Client 和 Server 之间不能相互通信
+    public static final long versionID = 1L;
+    String echo(String value) throws IOException;
+    int add(int v1, int v2) throws IOException;
+}
+</code></pre>
 </li>
 <li>
 <p>实现 RPC 协议
 Hadoop RPC协议通常是一个Java 接口,用户需要实现该接口。对ClientProtocol接口进行简单的实现如下所示:</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="k">static</span> <span class="n">class</span> <span class="n">ClientProtocolImpl</span> <span class="n">implements</span> <span class="n">ClientProtocol</span> <span class="p">{</span>
+<pre><code>public static class ClientProtocolImpl implements ClientProtocol {
 
-    <span class="c1">// 重载的方法,用于获取自定义的协议版本号,</span>
-    <span class="n">public</span> <span class="kt">long</span> <span class="n">getProtocolVersion</span><span class="p">(</span><span class="n">String</span> <span class="n">protocol</span><span class="p">,</span> <span class="kt">long</span> <span class="n">clientVersion</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">ClientProtocol</span><span class="p">.</span><span class="n">versionID</span><span class="p">;</span>
-    <span class="p">}</span>
+    // 重载的方法,用于获取自定义的协议版本号,
+    public long getProtocolVersion(String protocol, long clientVersion) {
+        return ClientProtocol.versionID;
+    }
 
-    <span class="c1">// 重载的方法,用于获取协议签名</span>
-    <span class="n">public</span> <span class="n">ProtocolSignature</span> <span class="n">getProtocolSignature</span><span class="p">(</span><span class="n">String</span> <span class="n">protocol</span><span class="p">,</span> <span class="kt">long</span> <span class="n">clientVersion</span><span class="p">,</span>
-    <span class="n">inthashcode</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">new</span> <span class="n">ProtocolSignature</span><span class="p">(</span><span class="n">ClientProtocol</span><span class="p">.</span><span class="n">versionID</span><span class="p">,</span> <span class="n">null</span><span class="p">);</span>
-    <span class="p">}</span>
+    // 重载的方法,用于获取协议签名
+    public ProtocolSignature getProtocolSignature(String protocol, long clientVersion,
+    inthashcode) {
+        return new ProtocolSignature(ClientProtocol.versionID, null);
+    }
 
-    <span class="n">public</span> <span class="n">String</span> <span class="n">echo</span><span class="p">(</span><span class="n">String</span> <span class="n">value</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
-    <span class="p">}</span>
+    public String echo(String value) throws IOException {
+        return value;
+    }
 
-    <span class="n">public</span> <span class="kt">int</span> <span class="n">add</span><span class="p">(</span><span class="kt">int</span> <span class="n">v1</span><span class="p">,</span> <span class="kt">int</span> <span class="n">v2</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">v1</span> <span class="o">+</span> <span class="n">v2</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
+    public int add(int v1, int v2) throws IOException {
+        return v1 + v2;
+    }
+}
+</code></pre>
 </li>
 <li>
 <p>构造并启动 RPC Server
 直接使用静态类Builder构造一个RPC Server,并调用函数start()启动该Server:</p>
-<div class="highlight"><pre><span class="n">Server</span> <span class="n">server</span> <span class="o">=</span> <span class="n">new</span> <span class="n">RPC</span><span class="p">.</span><span class="n">Builder</span><span class="p">(</span><span class="n">conf</span><span class="p">).</span><span class="n">setProtocol</span><span class="p">(</span><span class="n">ClientProtocol</span><span class="p">.</span><span class="n">class</span><span class="p">)</span>
-<span class="p">.</span><span class="n">setInstance</span><span class="p">(</span><span class="n">new</span> <span class="n">ClientProtocolImpl</span><span class="p">()).</span><span class="n">setBindAddress</span><span class="p">(</span><span class="n">ADDRESS</span><span class="p">).</span><span class="n">setPort</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="p">.</span><span class="n">setNumHandlers</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="n">build</span><span class="p">();</span>
-<span class="n">server</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
-</pre></div>
-
-
+<pre><code>Server server = new RPC.Builder(conf).setProtocol(ClientProtocol.class)
+.setInstance(new ClientProtocolImpl()).setBindAddress(ADDRESS).setPort(0)
+.setNumHandlers(5).build();
+server.start();
+</code></pre>
 <p>其中,BindAddress(由函数setBindAddress设置)和Port(由函数setPort设置,0表示由系统随机选择一个端口号)分别表示服务器的host和监听端口号,而 NnumHandlers(由函数setNumHandlers设置)表示服务器端处理请求的线程数目。到此为止,服务器处理监听状态,等待客户端请求到达。
 4. 构造 RPC Client 并发送 RPC 请求
 使用静态方法getProxy构造客户端代理对象,直接通过代理对象调用远程端的方法,具体如下所示:</p>
-<div class="highlight"><pre><span class="n">proxy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ClientProtocol</span><span class="p">)</span><span class="n">RPC</span><span class="p">.</span><span class="n">getProxy</span><span class="p">(</span><span class="n">ClientProtocol</span><span class="p">.</span><span class="n">class</span><span class="p">,</span> <span class="n">ClientProtocol</span><span class="p">.</span><span class="n">versionID</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">conf</span><span class="p">);</span>
-<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">);</span>
-<span class="n">String</span> <span class="n">echoResult</span> <span class="o">=</span> <span class="n">proxy</span><span class="p">.</span><span class="n">echo</span><span class="p">(</span><span class="s">"result"</span><span class="p">);</span>
-</pre></div>
-
-
+<pre><code>proxy = (ClientProtocol)RPC.getProxy(ClientProtocol.class, ClientProtocol.versionID, addr, conf);
+int result = proxy.add(5, 6);
+String echoResult = proxy.echo("result");
+</code></pre>
 </li>
 </ol>
 <p>经过以上四步,我们便利用Hadoop RPC搭建了一个非常高效的客户机–服务器网络模型。接下来,我们将深入到Hadoop RPC内部,剖析它的设计原理及技巧。</p>
-<h3>Hadoop RPC类详解</h3>
+<h3 id="hadoop-rpc_1">Hadoop RPC类详解</h3>
 <p>Hadoop RPC主要由三个大类组成,即RPC、Client和Server,分别对应对外编程接口、客户端实现和服务器实现。</p>
 <ul>
 <li>ipc.RPC类分析
@@ -922,11 +874,9 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 </ul>
 <p><img alt="Client" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/client_zpsedc34497.png"></p>
 <p>Client类对外提供了一类执行远程调用的接口,这些接口的名称一样,仅仅是参数列表不同,比如其中一个的声明如下所示:</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">Writable</span> <span class="n">call</span><span class="p">(</span><span class="n">Writable</span> <span class="n">param</span><span class="p">,</span> <span class="n">ConnectionIdremoteId</span><span class="p">)</span>
-<span class="n">throws</span> <span class="n">InterruptedException</span><span class="p">,</span> <span class="n">IOException</span><span class="p">;</span>
-</pre></div>
-
-
+<pre><code>public Writable call(Writable param, ConnectionIdremoteId)
+throws InterruptedException, IOException;
+</code></pre>
 <p>Client 内部有两个重要的内部类,分别是Call和Connection。</p>
 <ul>
 <li>Call 类 :封装了一个RPC请求,它包含5个成员变量,分别是唯一标识id、函数调用信息param、函数执行返回值value、出错或者异常信息error和执行完成标识符done。由于Hadoop RPC Server采用异步方式处理客户端请求,这使远程过程调用的发生顺序与结果返回顺序无直接关系,而Client端正是通过id识别不同的函数调用的。当客户端向服务器端发送请求时,只需填充id和param两个变量,而剩下的3个变量(value、error和done)则由服务器端根据函数执行情况填充。</li>
@@ -963,7 +913,7 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 <li>处理请求;该阶段主要任务是从共享队列callQueue中获取Call对象,执行对应的函数调用,并将结果返回给客户端,这全部由Handler线程完成。Server 端可同时存在多个Handler线程,它们并行从共享队列中读取Call对象,经执行对应的函数调用后,将尝试着直接将结果返回给对应的客户端。但考虑到某些函数调用返回结果很大或者网络速度过慢,可能难以将结果一次性发送到客户端,此时Handler将尝试着将后续发送任务交给Responder线程。</li>
 <li>返回结果;前面提到,每个Handler线程执行完函数调用后,会尝试着将执行结果返回给客户端,但对于特殊情况,比如函数调用返回结果过大或者网络异常情况(网速过慢),会将发送任务交给Responder线程。Server端仅存在一个Responder线程,它的内部包含一个Selector对象,用于监听SelectionKey.OP_WRITE事件。当Handler没能将结果一次性发送到客户端时,会向该Selector对象注册SelectionKey.OP_WRITE事件,进而由Responder 线程采用异步方式继续发送未发送完成的结果。</li>
 </ol>
-<h3>Hadoop RPC流程剖析</h3>
+<h3 id="hadoop-rpc_2">Hadoop RPC流程剖析</h3>
 <p>以下我们对Hadoop Yarn的具体实现进行剖析。Hadoop YARN将RPC中的序列化部分剥离开,以便将现有的开源RPC框架集成进来。经过改进之后,Hadoop RPC的类关系如下图所示,RPC类变成了一个工厂,它将具体的RPC实现授权给RpcEngine实现类,而现有的开源RPC只要实现RpcEngine接口,便可以集成到Hadoop RPC中。在该图中,WritableRpcEngine是采用Hadoop自带的序列化框架实现的RPC,而AvroRpcEngine和ProtobufRpcEngine分别是开源RPC(或序列化)框架Apache Avro和Protocol Buffers对应的 RpcEngine 实现,用户可通过配置参数rpc.engine.{protocol}以指定协议 {protocol} 采用的序列化方式。需要注意的是,当前实现中,Hadoop RPC 只是采用了这些开源框架的序列化机制,底层的函数调用机制仍采用 Hadoop 自带的。YARN提供的对外类是YarnRPC,用户只需使用该类便可以构建一个基于Hadoop RPC且采用Protocol Buffers序列化框架的通信协议。YarnRPC相关实现类如下图所示。</p>
 <p><img alt="RPC Factory" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/rpc_factory_zpsf645e84c.png"></p>
 <p><img alt="YarnRPC" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/yarn_rpc_zpse183e893.png"></p>
@@ -981,206 +931,188 @@ Client主要完成的功能是发送远程过程调用信息并接收执行结�
 </ul>
 <p>为了进一步说明 YARN RPC 的使用方法,本小节给出一个具体的应用实例。
 在 YARN 中,ResourceManager和NodeManager之间的通信协议是ResourceTracker,其中NodeManager是该协议的客户端,ResourceManager是服务端,NodeManager通过该协议中定义的两个RPC函数(registerNodeManager和nodeHeartbeat)向ResourceManager注册和周期性发送心跳信息。ResourceManager(服务器端)中的相关代码如下:</p>
-<div class="highlight"><pre><span class="c1">// ResourceTrackerService 实现了 ResourceTracker 通信接口,并启动 RPC Server</span>
-<span class="n">public</span> <span class="k">class</span> <span class="n">ResourceTrackerService</span> <span class="k">extends</span> <span class="n">AbstractService</span> <span class="n">implements</span>
-<span class="n">ResourceTracker</span> <span class="p">{</span>
-    <span class="n">private</span> <span class="n">Server</span> <span class="n">server</span><span class="p">;</span>
-    <span class="p">...</span>
-    <span class="k">protected</span> <span class="k">void</span> <span class="n">serviceStart</span><span class="p">()</span> <span class="n">throws</span> <span class="n">Exception</span> <span class="p">{</span>
-        <span class="k">super</span><span class="p">.</span><span class="n">serviceStart</span><span class="p">();</span>
-        <span class="n">Configuration</span> <span class="n">conf</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">();</span>
-        <span class="n">YarnRPC</span> <span class="n">rpc</span> <span class="o">=</span> <span class="n">YarnRPC</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">conf</span><span class="p">);</span> <span class="c1">// 使用 YarnRPC 类</span>
-        <span class="k">this</span><span class="p">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">rpc</span><span class="p">.</span><span class="n">getServer</span><span class="p">(</span><span class="n">ResourceTracker</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="k">this</span><span class="p">,</span> <span class="n">resourceTrackerAddress</span><span class="p">,</span>
-        <span class="n">conf</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="n">conf</span><span class="p">.</span><span class="n">getInt</span><span class="p">(</span><span class="n">YarnConfiguration</span><span class="p">.</span><span class="no">RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT</span><span class="p">,</span>
-        <span class="n">YarnConfiguration</span><span class="p">.</span><span class="no">DEFAULT_RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT</span><span class="p">));</span>
-        <span class="k">this</span><span class="p">.</span><span class="n">server</span><span class="p">.</span><span class="n">start</span><span class="p">();</span>
-    <span class="p">}</span>
-    <span class="p">...</span>
-    <span class="p">@</span><span class="n">Override</span>
-    <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
-    <span class="n">RegisterNodeManagerRequest</span> <span class="n">request</span><span class="p">)</span> <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span>
-    <span class="n">IOException</span> <span class="p">{</span>
-        <span class="c1">// 具体实现</span>
-    <span class="p">}</span>
-    <span class="p">@</span><span class="n">Override</span>
-    <span class="n">public</span> <span class="n">NodeHeartbeatResponse</span> <span class="n">nodeHeartbeat</span><span class="p">(</span><span class="n">NodeHeartbeatRequest</span> <span class="n">request</span><span class="p">)</span>
-    <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span> <span class="n">IOException</span> <span class="p">{</span>
-        <span class="c1">// 具体实现</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>// ResourceTrackerService 实现了 ResourceTracker 通信接口,并启动 RPC Server
+public class ResourceTrackerService extends AbstractService implements
+ResourceTracker {
+    private Server server;
+    ...
+    protected void serviceStart() throws Exception {
+        super.serviceStart();
+        Configuration conf = getConfig();
+        YarnRPC rpc = YarnRPC.create(conf); // 使用 YarnRPC 类
+        this.server = rpc.getServer(ResourceTracker.class, this, resourceTrackerAddress,
+        conf, null, conf.getInt(YarnConfiguration.RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT,
+        YarnConfiguration.DEFAULT_RM_RESOURCE_TRACKER_CLIENT_THREAD_COUNT));
+        this.server.start();
+    }
+    ...
+    @Override
+    public RegisterNodeManagerResponse registerNodeManager(
+    RegisterNodeManagerRequest request) throws YarnException,
+    IOException {
+        // 具体实现
+    }
+    @Override
+    public NodeHeartbeatResponse nodeHeartbeat(NodeHeartbeatRequest request)
+    throws YarnException, IOException {
+        // 具体实现
+    }
+}
+</code></pre>
 <p>NodeManager(客户端)中的相关代码如下。</p>
-<div class="highlight"><pre><span class="c1">//该函数是从YARN源代码中简单修改而来的</span>
-<span class="k">protected</span> <span class="n">ResourceTracker</span> <span class="n">getRMClient</span><span class="p">()</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
-    <span class="n">Configuration</span> <span class="n">conf</span> <span class="o">=</span> <span class="n">getConfig</span><span class="p">();</span>
-    <span class="n">InetSocketAddress</span> <span class="n">rmAddress</span> <span class="o">=</span> <span class="n">getRMAddress</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">protocol</span><span class="p">);</span>
-    <span class="n">RetryPolicy</span> <span class="n">retryPolicy</span> <span class="o">=</span> <span class="n">createRetryPolicy</span><span class="p">(</span><span class="n">conf</span><span class="p">);</span>
-    <span class="n">ResourceTracker</span> <span class="n">proxy</span> <span class="o">=</span> <span class="n">RMProxy</span><span class="p">.</span><span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span><span class="n">getProxy</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">ResourceTracker</span><span class="p">.</span><span class="k">class</span><span class="p">,</span> <span class="n">rmAddress</span><span class="p">);</span>
-    <span class="no">LOG</span><span class="p">.</span><span class="n">info</span><span class="p">(</span><span class="s">"Connecting to ResourceManager at "</span> <span class="o">+</span> <span class="n">rmAddress</span><span class="p">);</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">ResourceTracker</span><span class="p">)</span> <span class="n">RetryProxy</span><span class="p">.</span><span class="n">create</span><span class="p">(</span><span class="n">protocol</span><span class="p">,</span> <span class="n">proxy</span><span class="p">,</span> <span class="n">retryPolicy</span><span class="p">);</span>
-<span class="p">}</span>
-<span class="p">...</span>
-<span class="k">this</span><span class="p">.</span><span class="n">resourceTracker</span> <span class="o">=</span> <span class="n">getRMClient</span><span class="p">();</span>
-<span class="p">...</span>
-<span class="n">RegisterNodeManagerResponse</span> <span class="n">regNMResponse</span> <span class="o">=</span> <span class="n">resourceTracker</span><span class="p">.</span><span class="n">registerNodeManager</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
-<span class="p">...</span>
-<span class="n">response</span> <span class="o">=</span> <span class="n">resourceTracker</span><span class="p">.</span><span class="n">nodeHeartbeat</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
-</pre></div>
-
-
+<pre><code>//该函数是从YARN源代码中简单修改而来的
+protected ResourceTracker getRMClient() throws IOException {
+    Configuration conf = getConfig();
+    InetSocketAddress rmAddress = getRMAddress(conf, protocol);
+    RetryPolicy retryPolicy = createRetryPolicy(conf);
+    ResourceTracker proxy = RMProxy.&lt;T&gt;getProxy(conf, ResourceTracker.class, rmAddress);
+    LOG.info("Connecting to ResourceManager at " + rmAddress);
+    return (ResourceTracker) RetryProxy.create(protocol, proxy, retryPolicy);
+}
+...
+this.resourceTracker = getRMClient();
+...
+RegisterNodeManagerResponse regNMResponse = resourceTracker.registerNodeManager(request);
+...
+response = resourceTracker.nodeHeartbeat(request);
+</code></pre>
 <p>为了能够让以上代码正常工作,YARN 按照以下流程实现各种功能。</p>
 <p><strong>步骤1</strong> 定义通信协议接口(Java Interface)。定义通信协议接口ResourceTracker,它包含registerNodeManager和nodeHeartbeat两个函数,且每个函数包含一个参数和一个返
 回值,具体如下:</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">ResourceTracker</span> <span class="p">{</span>
-    <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
-    <span class="n">RegisterNodeManagerRequest</span> <span class="n">request</span><span class="p">)</span> <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span> <span class="n">IOException</span><span class="p">;</span>
-    <span class="n">public</span> <span class="n">NodeHeartbeatResponse</span> <span class="n">nodeHeartbeat</span><span class="p">(</span><span class="n">NodeHeartbeatRequest</span> <span class="n">request</span><span class="p">)</span>
-    <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span> <span class="n">IOException</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>public interface ResourceTracker {
+    public RegisterNodeManagerResponse registerNodeManager(
+    RegisterNodeManagerRequest request) throws YarnException, IOException;
+    public NodeHeartbeatResponse nodeHeartbeat(NodeHeartbeatRequest request)
+    throws YarnException, IOException;
+}
+</code></pre>
 <p><strong>步骤2</strong> 为通信协议ResourceTracker提供Protocol Buffers定义和Java实现。前面提到,Protocol Buffers仅提供了序列化框架,但未提供RPC实现,因此RPC部分需要由用户自己实现,而YARN 则让ResourceTrackerService 类实现了ResourceTracker协议,它的 Protocol Buffers 定义(具体见文件ResourceTracker.proto)如下:</p>
-<div class="highlight"><pre><span class="n">option</span> <span class="n">java_package</span> <span class="o">=</span> <span class="s">"org.apache.hadoop.yarn.proto"</span><span class="p">;</span>
-<span class="n">option</span> <span class="n">java_outer_classname</span> <span class="o">=</span> <span class="s">"ResourceTracker"</span><span class="p">;</span>
-<span class="n">option</span> <span class="n">java_generic_services</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-<span class="n">option</span> <span class="n">java_generate_equals_and_hash</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
-<span class="n">import</span> <span class="s">"yarn_server_common_service_protos.proto"</span><span class="p">;</span>
-<span class="n">service</span> <span class="n">ResourceTrackerService</span> <span class="p">{</span>
-    <span class="n">rpc</span> <span class="n">registerNodeManager</span><span class="p">(</span><span class="n">RegisterNodeManagerRequestProto</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">RegisterNode</span>
-    <span class="n">ManagerResponseProto</span><span class="p">);</span>
-    <span class="n">rpc</span> <span class="nf">nodeHeartbeat</span><span class="p">(</span><span class="n">NodeHeartbeatRequestProto</span><span class="p">)</span> <span class="n">returns</span> <span class="p">(</span><span class="n">NodeHeartbeatResponseProto</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>option java_package = "org.apache.hadoop.yarn.proto";
+option java_outer_classname = "ResourceTracker";
+option java_generic_services = true;
+option java_generate_equals_and_hash = true;
+import "yarn_server_common_service_protos.proto";
+service ResourceTrackerService {
+    rpc registerNodeManager(RegisterNodeManagerRequestProto) returns (RegisterNode
+    ManagerResponseProto);
+    rpc nodeHeartbeat(NodeHeartbeatRequestProto) returns (NodeHeartbeatResponseProto);
+}
+</code></pre>
 <p>ResourceTracker的RPC函数实现是由ResourceManager中的ResourceTrackerService完成的。</p>
 <p><strong>步骤3</strong> 为RPC函数的参数和返回值提供Protocol Buffers定义。YARN需要保证每个RPC函数的参数和返回值是采用Protocol Buffers定义的,因此 ResourceTracker协议中RegisterNodeManagerRequest、RegisterNodeManagerResponse、NodeHeartbeatRequest 和
 NodeHeartbeatResponse 四个参数或者返回值需要使用Protocol Buffers定义,具体如下(见yarn_server_common_service_protos.proto 文件):</p>
-<div class="highlight"><pre><span class="n">import</span> <span class="s">"yarn_protos.proto"</span><span class="p">;</span>
-<span class="n">import</span> <span class="s">"yarn_server_common_protos.proto"</span><span class="p">;</span>
-<span class="n">message</span> <span class="n">RegisterNodeManagerRequestProto</span> <span class="p">{</span>
-    <span class="n">optional</span> <span class="n">NodeIdProto</span> <span class="n">node_id</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">int32</span> <span class="n">http_port</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">ResourceProto</span> <span class="n">resource</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code>import "yarn_protos.proto";
+import "yarn_server_common_protos.proto";
+message RegisterNodeManagerRequestProto {
+    optional NodeIdProto node_id = 1;
+    optional int32 http_port = 3;
+    optional ResourceProto resource = 4;
+}
 
-<span class="n">message</span> <span class="n">RegisterNodeManagerResponseProto</span> <span class="p">{</span>
-    <span class="n">optional</span> <span class="n">MasterKeyProto</span> <span class="n">container_token_master_key</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">MasterKeyProto</span> <span class="n">nm_token_master_key</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">NodeActionProto</span> <span class="n">nodeAction</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">int64</span> <span class="n">rm_identifier</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
-    <span class="n">optional</span> <span class="n">string</span> <span class="n">diagnostics_message</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="p">...</span> <span class="c1">// 其他几个参数和返回值的定义</span>
-</pre></div>
-
-
+message RegisterNodeManagerResponseProto {
+    optional MasterKeyProto container_token_master_key = 1;
+    optional MasterKeyProto nm_token_master_key = 2;
+    optional NodeActionProto nodeAction = 3;
+    optional int64 rm_identifier = 4;
+    optional string diagnostics_message = 5;
+}
+... // 其他几个参数和返回值的定义
+</code></pre>
 <p><strong>步骤4</strong> 为RPC函数的参数和返回值提供Java定义和封装。YARN采用了Protocol Buffers 作为参数和返回值的序列化框架,且以原生态 .proto文件的方式给出了定义,而具体的Java代码生成需在代码编写之后完成。基于以上考虑,为了更容易使用Protocol Buffers生成的(Java 语言)参数和返回值定义,YARN RPC为每个RPC函数的参数和返回值提供Java定义和封装,以参数RegisterNodeManagerRequest 为例进行说明。
 Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords):</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">interface</span> <span class="n">RegisterNodeManagerRequest</span> <span class="p">{</span>
-    <span class="n">NodeId</span> <span class="n">getNodeId</span><span class="p">();</span>
-    <span class="kt">int</span> <span class="nf">getHttpPort</span><span class="p">();</span>
-    <span class="n">Resource</span> <span class="nf">getResource</span><span class="p">();</span>
-    <span class="kt">void</span> <span class="nf">setNodeId</span><span class="p">(</span><span class="n">NodeId</span> <span class="n">nodeId</span><span class="p">);</span>
-    <span class="kt">void</span> <span class="nf">setHttpPort</span><span class="p">(</span><span class="kt">int</span> <span class="n">port</span><span class="p">);</span>
-    <span class="kt">void</span> <span class="nf">setResource</span><span class="p">(</span><span class="n">Resource</span> <span class="n">resource</span><span class="p">);</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>public interface RegisterNodeManagerRequest {
+    NodeId getNodeId();
+    int getHttpPort();
+    Resource getResource();
+    void setNodeId(NodeId nodeId);
+    void setHttpPort(int port);
+    void setResource(Resource resource);
+}
+</code></pre>
 <p>Java封装如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecords.impl.pb):</p>
-<div class="highlight"><pre><span class="k">public</span> <span class="nf">class</span> <span class="nx">RegisterNodeManagerRequestPBImpl</span> <span class="nx">extends</span>
-<span class="nx">ProtoBase</span><span class="o">&lt;</span><span class="nx">RegisterNodeManagerRequestProto</span><span class="o">&gt;</span> <span class="nx">implements</span> <span class="nx">RegisterNodeManagerRequest</span> <span class="p">{</span>
-    <span class="nx">RegisterNodeManagerRequestProto</span> <span class="n">proto</span> <span class="o">=</span> <span class="nx">RegisterNodeManagerRequestProto.</span>
-    <span class="nx">getDefaultInstance</span><span class="p">();</span>
-    <span class="nx">RegisterNodeManagerRequestProto.Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="kt">null</span><span class="p">;</span>
-    <span class="k">private</span> <span class="nf">NodeId</span> <span class="n">nodeId</span> <span class="o">=</span> <span class="kt">null</span><span class="p">;</span>
-    <span class="nx">...</span>
-    <span class="p">@</span><span class="nx">Override</span>
-    <span class="k">public</span> <span class="nf">NodeId</span> <span class="nx">getNodeId</span><span class="p">()</span> <span class="p">{</span>
-        <span class="nx">RegisterNodeManagerRequestProtoOrBuilder</span> <span class="n">p</span> <span class="o">=</span> <span class="nx">viaProto</span> <span class="o">?</span> <span class="nx">proto</span> <span class="p">:</span> <span class="nx">builder</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">this.nodeId</span> <span class="o">!=</span> <span class="kt">null</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="nx">this.nodeId</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">p.hasNodeId</span><span class="p">())</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="kt">null</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="n">this.nodeId</span> <span class="o">=</span> <span class="nx">convertFromProtoFormat</span><span class="p">(</span><span class="nx">p.getNodeId</span><span class="p">());</span>
-        <span class="k">return</span> <span class="nx">this.nodeId</span><span class="p">;</span>
-    <span class="p">}</span>
+<pre><code>public class RegisterNodeManagerRequestPBImpl extends
+ProtoBase&lt;RegisterNodeManagerRequestProto&gt; implements RegisterNodeManagerRequest {
+    RegisterNodeManagerRequestProto proto = RegisterNodeManagerRequestProto.
+    getDefaultInstance();
+    RegisterNodeManagerRequestProto.Builder builder = null;
+    private NodeId nodeId = null;
+    ...
+    @Override
+    public NodeId getNodeId() {
+        RegisterNodeManagerRequestProtoOrBuilder p = viaProto ? proto : builder;
+        if (this.nodeId != null) {
+            return this.nodeId;
+        }
+        if (!p.hasNodeId()) {
+            return null;
+        }
+        this.nodeId = convertFromProtoFormat(p.getNodeId());
+        return this.nodeId;
+    }
 
-    <span class="p">@</span><span class="nx">Override</span>
-    <span class="k">public</span> <span class="nf">void</span> <span class="nx">setNodeId</span><span class="p">(</span><span class="nx">NodeId</span> <span class="nx">nodeId</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">maybeInitBuilder</span><span class="p">();</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">nodeId</span> <span class="o">==</span> <span class="kt">null</span><span class="p">)</span>
-            <span class="nx">builder.clearNodeId</span><span class="p">();</span>
-        <span class="n">this.nodeId</span> <span class="o">=</span> <span class="nx">nodeId</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="nx">...</span>
-<span class="p">}</span>
-</pre></div>
-
-
+    @Override
+    public void setNodeId(NodeId nodeId) {
+        maybeInitBuilder();
+        if (nodeId == null)
+            builder.clearNodeId();
+        this.nodeId = nodeId;
+    }
+    ...
+}
+</code></pre>
 <p><strong>步骤5</strong> 为通信协议提供客户端和服务器端实现。客户端代码放在org.apache.hadoop.yarn.server.api.impl.pb.client 包中,且类名为 ResourceTrackerPBClientImpl,实现如下:</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">ResourceTrackerPBClientImpl</span> <span class="n">implements</span> <span class="n">ResourceTracker</span><span class="p">,</span> <span class="n">Closeable</span> <span class="p">{</span>
-    <span class="n">private</span> <span class="n">ResourceTrackerPB</span> <span class="n">proxy</span><span class="p">;</span>
-    <span class="n">public</span> <span class="nf">ResourceTrackerPBClientImpl</span><span class="p">(</span><span class="kt">long</span> <span class="n">clientVersion</span><span class="p">,</span> <span class="n">InetSocketAddress</span> <span class="n">addr</span><span class="p">,</span>
-        <span class="n">Configuration</span> <span class="n">conf</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
-        <span class="n">RPC</span><span class="p">.</span><span class="n">setProtocolEngine</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">ResourceTrackerPB</span><span class="p">.</span><span class="n">class</span><span class="p">,</span> <span class="n">ProtobufRpcEngine</span><span class="p">.</span><span class="n">class</span><span class="p">);</span>
-        <span class="n">proxy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ResourceTrackerPB</span><span class="p">)</span><span class="n">RPC</span><span class="p">.</span><span class="n">getProxy</span><span class="p">(</span>
-        <span class="n">ResourceTrackerPB</span><span class="p">.</span><span class="n">class</span><span class="p">,</span> <span class="n">clientVersion</span><span class="p">,</span> <span class="n">addr</span><span class="p">,</span> <span class="n">conf</span><span class="p">);</span>
-    <span class="p">}</span>
+<pre><code>public class ResourceTrackerPBClientImpl implements ResourceTracker, Closeable {
+    private ResourceTrackerPB proxy;
+    public ResourceTrackerPBClientImpl(long clientVersion, InetSocketAddress addr,
+        Configuration conf) throws IOException {
+        RPC.setProtocolEngine(conf, ResourceTrackerPB.class, ProtobufRpcEngine.class);
+        proxy = (ResourceTrackerPB)RPC.getProxy(
+        ResourceTrackerPB.class, clientVersion, addr, conf);
+    }
 
-    <span class="err">@</span><span class="n">Override</span>
-    <span class="n">public</span> <span class="n">RegisterNodeManagerResponse</span> <span class="n">registerNodeManager</span><span class="p">(</span>
-    <span class="n">RegisterNodeManagerRequest</span> <span class="n">request</span><span class="p">)</span> <span class="n">throws</span> <span class="n">YarnException</span><span class="p">,</span>
-    <span class="n">IOException</span> <span class="p">{</span>
-        <span class="n">RegisterNodeManagerRequestProto</span> <span class="n">requestProto</span> <span class="o">=</span> <span class="p">((</span><span class="n">RegisterNodeManagerRequestP</span>
-        <span class="n">BImpl</span><span class="p">)</span><span class="n">request</span><span class="p">).</span><span class="n">getProto</span><span class="p">();</span>
-        <span class="n">try</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="n">new</span> <span class="n">RegisterNodeManagerResponsePBImpl</span><span class="p">(</span><span class="n">proxy</span><span class="p">.</span><span class="n">registerNodeManager</span><span class="p">(</span><span class="n">null</span><span class="p">,</span> <span class="n">requestProto</span><span class="p">));</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">ServiceException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">RPCUtil</span><span class="p">.</span><span class="n">unwrapAndThrowException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-            <span class="k">return</span> <span class="n">null</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="p">...</span>
-<span class="p">}</span>
-</pre></div>
-
-
+    @Override
+    public RegisterNodeManagerResponse registerNodeManager(
+    RegisterNodeManagerRequest request) throws YarnException,
+    IOException {
+        RegisterNodeManagerRequestProto requestProto = ((RegisterNodeManagerRequestP
+        BImpl)request).getProto();
+        try {
+            return new RegisterNodeManagerResponsePBImpl(proxy.registerNodeManager(null, requestProto));
+        } catch (ServiceException e) {
+            RPCUtil.unwrapAndThrowException(e);
+            return null;
+        }
+    }
+    ...
+}
+</code></pre>
 <p>服务端代码放在org.apache.hadoop.yarn.server.api.impl.pb.server包中,且类名为ResourceTrackerPBServerImpl,实现如下:</p>
-<div class="highlight"><pre><span class="n">public</span> <span class="n">class</span> <span class="n">ResourceTrackerPBServiceImpl</span> <span class="n">implements</span> <span class="n">ResourceTrackerPB</span> <span class="p">{</span>
-    <span class="n">private</span> <span class="n">ResourceTracker</span> <span class="n">real</span><span class="p">;</span>
-    <span class="n">public</span> <span class="nf">ResourceTrackerPBServiceImpl</span><span class="p">(</span><span class="n">ResourceTracker</span> <span class="n">impl</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">this</span><span class="p">.</span><span class="n">real</span> <span class="o">=</span> <span class="n">impl</span><span class="p">;</span>
-    <span class="p">}</span>
+<pre><code>public class ResourceTrackerPBServiceImpl implements ResourceTrackerPB {
+    private ResourceTracker real;
+    public ResourceTrackerPBServiceImpl(ResourceTracker impl) {
+        this.real = impl;
+    }
 
-    <span class="err">@</span><span class="n">Override</span>
-    <span class="n">public</span> <span class="n">RegisterNodeManagerResponseProto</span> <span class="n">registerNodeManager</span><span class="p">(</span>
-    <span class="n">RpcController</span> <span class="n">controller</span><span class="p">,</span> <span class="n">RegisterNodeManagerRequestProto</span> <span class="n">proto</span><span class="p">)</span>
-    <span class="n">throws</span> <span class="n">ServiceException</span> <span class="p">{</span>
-        <span class="n">RegisterNodeManagerRequestPBImpl</span> <span class="n">request</span> <span class="o">=</span> <span class="n">new</span> <span class="n">RegisterNodeManagerRequestPBImpl</span><span class="p">(</span><span class="n">proto</span><span class="p">);</span>
-        <span class="n">try</span> <span class="p">{</span>
-            <span class="n">RegisterNodeManagerResponse</span> <span class="n">response</span> <span class="o">=</span> <span class="n">real</span><span class="p">.</span><span class="n">registerNodeManager</span><span class="p">(</span><span class="n">request</span><span class="p">);</span>
-            <span class="k">return</span> <span class="p">((</span><span class="n">RegisterNodeManagerResponsePBImpl</span><span class="p">)</span><span class="n">response</span><span class="p">).</span><span class="n">getProto</span><span class="p">();</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">YarnException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">throw</span> <span class="n">new</span> <span class="n">ServiceException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">IOException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">throw</span> <span class="n">new</span> <span class="n">ServiceException</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="p">...</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h1>服务库与事件库</h1>
+    @Override
+    public RegisterNodeManagerResponseProto registerNodeManager(
+    RpcController controller, RegisterNodeManagerRequestProto proto)
+    throws ServiceException {
+        RegisterNodeManagerRequestPBImpl request = new RegisterNodeManagerRequestPBImpl(proto);
+        try {
+            RegisterNodeManagerResponse response = real.registerNodeManager(request);
+            return ((RegisterNodeManagerResponsePBImpl)response).getProto();
+        } catch (YarnException e) {
+            throw new ServiceException(e);
+        } catch (IOException e) {
+            throw new ServiceException(e);
+        }
+    }
+    ...
+}
+</code></pre>
+<h1 id="_5">服务库与事件库</h1>
 <hr>
-<h2>服务库</h2>
+<h2 id="_6">服务库</h2>
 <p>对于生命周期较长的对象,YARN采用了基于服务的对象管理模型对其进行管理,该模型主要有以下几个特点:</p>
 <ul>
 <li>将每个被服务化的对象分为 4 个状态: NOTINITED(被创建)、 INITED(已初始化)、STARTED(已启动)、STOPPED(已停止)。</li>
@@ -1190,7 +1122,7 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 <p>YARN中关于服务模型的类图(位于包org.apache.hadoop.service中)如下图所示。</p>
 <p><img alt="Yarn Service" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/service_zps0c2f0998.png"></p>
 <p>在这个图中,我们可以看到,所有的服务对象最终均实现了接口Service,它定义了最基本的服务初始化、启动、停止等操作,而AbstractService类提供了一个最基本的Service实现。YARN中所有对象,如果是非组合服务,直接继承AbstractService类即可,否则需继承CompositeService。比如,对于ResourceManager而言,它是一个组合服务,它组合了各种服务对象,包括ClientRMService、ApplicationMasterLauncher、ApplicationMasterService 等。在 YARN 中,ResourceManager和NodeManager属于组合服务,它们内部包含多个单一服务和组合服务,以实现对内部多种服务的统一管理。</p>
-<h2>事件库<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5" title="其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。">5</a></sup></h2>
+<h2 id="refandroid-handlerref">事件库<sup id="sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5-back"><a class="simple-footnote" href="#sf-fen-bu-shi-ji-suan-xi-lie-iyarnji-chu-ku-chu-tan-5" title="其实其基本实现结构与Android Handler类似,有兴趣的朋友可以查阅一下相关资料。">5</a></sup></h2>
 <p>YARN采用了基于事件驱动的并发模型,该模型能够大大增强并发性,从而提高系统整体性能。为了构建该模型,YARN将各种处理逻辑抽象成事件和对应事件调度器,并将每类事件的处理过程分割成多个步骤,用有限状态机表示。YARN中的事件处理模型可概括为下图。</p>
 <p><img alt="Yarn Events" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/yarn_event_zpsbaeaa655.png"></p>
 <p>整个处理过程大致为:处理请求会作为事件进入系统,由中央异步调度器(Async-Dispatcher)负责传递给相应事件调度器(Event Handler)。该事件调度器可能将该事件转发给另外一个事件调度器,也可能交给一个带有有限状态机的事件处理器,其处理结果也以事
@@ -1202,126 +1134,118 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
 <p>服务化和事件驱动软件设计思想的引入,使得YARN具有低耦合、高内聚的特点,各个模块只需完成各自功能,而模块之间则采用事件联系起来,系统设计简单且维护方便。</p>
 <p>为了说明 YARN 服务库和事件库的使用方法,本小节介绍一个简单的实例,该实例可看做MapReduceApplicationMaster(MRAppMaster)的简化版。该例子涉及任务和作业两种对象的事件以及一个中央异步调度器。步骤如下。</p>
 <p><strong>步骤1</strong> 定义Task事件。</p>
-<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.test</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.test;
 
-<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.AbstractEvent</span><span class="p">;</span>
-
-
-<span class="k">public</span> <span class="nf">class</span> <span class="nx">TaskEvent</span> <span class="nx">extends</span> <span class="nx">AbstractEvent</span><span class="o">&lt;</span><span class="nx">TaskEventType</span><span class="o">&gt;</span><span class="p">{</span>
-    <span class="c1">//Task id</span>
-    <span class="k">private</span> <span class="nf">String</span> <span class="nx">taskId</span><span class="p">;</span>
-
-    <span class="k">public</span> <span class="nf">TaskEvent</span><span class="p">(</span><span class="na">String</span> <span class="nx">taskId</span><span class="p">,</span><span class="na">TaskEventType</span> <span class="k">type</span><span class="p">){</span>
-        <span class="nx">super</span><span class="p">(</span><span class="k">type</span><span class="p">);</span>
-        <span class="n">this.taskId</span> <span class="o">=</span> <span class="nx">taskId</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="k">public</span> <span class="nf">String</span> <span class="nx">getTaskId</span><span class="p">(){</span>
-        <span class="k">return</span> <span class="nx">taskId</span><span class="p">;</span>
-    <span class="p">}</span>
-
-<span class="p">}</span>
-</pre></div>
+import org.apache.hadoop.yarn.event.AbstractEvent;
 
 
+public class TaskEvent extends AbstractEvent&lt;TaskEventType&gt;{
+    //Task id
+    private String taskId;
+
+    public TaskEvent(String taskId,TaskEventType type){
+        super(type);
+        this.taskId = taskId;
+    }
+
+    public String getTaskId(){
+        return taskId;
+    }
+
+}
+</code></pre>
 <p>其中,Task事件类型定义如下:</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.test;
 
-<span class="n">public</span> <span class="k">enum</span> <span class="n">TaskEventType</span><span class="p">{</span>
-    <span class="n">T_KILL</span><span class="p">,</span>
-    <span class="n">T_SCHEDULE</span>  
-<span class="p">}</span>
-</pre></div>
-
-
+public enum TaskEventType{
+    T_KILL,
+    T_SCHEDULE  
+}
+</code></pre>
 <p><strong>步骤2</strong> 定义Job事件。</p>
-<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.test</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.test;
 
-<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.AbstractEvent</span><span class="p">;</span>
+import org.apache.hadoop.yarn.event.AbstractEvent;
 
-<span class="k">public</span> <span class="nf">class</span> <span class="nx">JobEvent</span> <span class="nx">extends</span> <span class="nx">AbstractEvent</span><span class="o">&lt;</span><span class="nx">JobEventType</span><span class="o">&gt;</span><span class="p">{</span>
+public class JobEvent extends AbstractEvent&lt;JobEventType&gt;{
 
-    <span class="k">private</span> <span class="nf">String</span> <span class="nx">jobId</span><span class="p">;</span>
+    private String jobId;
 
-    <span class="k">public</span> <span class="nf">JobEvent</span><span class="p">(</span><span class="na">String</span> <span class="nx">jobId</span><span class="p">,</span><span class="na">JobEventType</span> <span class="k">type</span><span class="p">)</span> <span class="p">{</span>
-        <span class="nx">super</span><span class="p">(</span><span class="k">type</span><span class="p">);</span>
-        <span class="c1">// TODO Auto-generated constructor stub</span>
-        <span class="n">this.jobId</span> <span class="o">=</span> <span class="nx">jobId</span><span class="p">;</span>
-    <span class="p">}</span>
+    public JobEvent(String jobId,JobEventType type) {
+        super(type);
+        // TODO Auto-generated constructor stub
+        this.jobId = jobId;
+    }
 
-    <span class="k">public</span> <span class="nf">String</span> <span class="nx">getJobId</span><span class="p">(){</span>
-        <span class="k">return</span> <span class="nx">jobId</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
+    public String getJobId(){
+        return jobId;
+    }
+}
+</code></pre>
 <p>其中,Job事件类型定义如下:</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.test;
 
-<span class="n">public</span> <span class="k">enum</span> <span class="n">JobEventType</span> <span class="p">{</span>
-    <span class="n">JOB_KILL</span><span class="p">,</span>
-    <span class="n">JOB_INIT</span><span class="p">,</span>
-    <span class="n">JOB_START</span>
-<span class="p">}</span>
-</pre></div>
-
-
+public enum JobEventType {
+    JOB_KILL,
+    JOB_INIT,
+    JOB_START
+}
+</code></pre>
 <p><strong>步骤3</strong> 事件调度器。
 接下来定义一个中央异步调度器,它接收Job和Task两种类型事件,并交给对应的事件处理器处理,代码如下:</p>
-<div class="highlight"><pre><span class="nx">package</span> <span class="nx">org.qingyuanxingsi.test</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.test;
 
-<span class="k">import</span> <span class="nx">org.apache.hadoop.conf.Configuration</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.hadoop.service.CompositeService</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.hadoop.service.Service</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.AsyncDispatcher</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.Dispatcher</span><span class="p">;</span>
-<span class="k">import</span> <span class="nx">org.apache.hadoop.yarn.event.EventHandler</span><span class="p">;</span>
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.service.CompositeService;
+import org.apache.hadoop.service.Service;
+import org.apache.hadoop.yarn.event.AsyncDispatcher;
+import org.apache.hadoop.yarn.event.Dispatcher;
+import org.apache.hadoop.yarn.event.EventHandler;
 
 
-<span class="cm">/**</span>
-<span class="cm"> * A simple central async dispatcher</span>
-<span class="cm"> * @author qingyuanxingsi</span>
-<span class="cm"> *</span>
-<span class="cm"> */</span>
-<span class="k">public</span> <span class="nf">class</span> <span class="nx">SimpleMRAppMaster</span> <span class="nx">extends</span> <span class="nx">CompositeService</span> <span class="p">{</span>
-    <span class="c1">//Central Async Dispatcher</span>
-    <span class="k">private</span> <span class="nf">Dispatcher</span> <span class="nx">dispatcher</span><span class="p">;</span>
-    <span class="p">@</span><span class="nx">SuppressWarnings</span><span class="p">(</span><span class="s2">"unused"</span><span class="p">)</span>
-    <span class="k">private</span> <span class="nf">String</span> <span class="nx">jobId</span><span class="p">;</span>
-    <span class="c1">//The number of tasks contained in this job</span>
-    <span class="k">private</span> <span class="nf">int</span> <span class="nx">taskNum</span><span class="p">;</span>
-    <span class="c1">//All tasks</span>
-    <span class="k">private</span> <span class="nf">String</span><span class="err">[</span><span class="cp">]</span> taskIdArray;
+/**
+ * A simple central async dispatcher
+ * @author qingyuanxingsi
+ *
+ */
+public class SimpleMRAppMaster extends CompositeService {
+    //Central Async Dispatcher
+    private Dispatcher dispatcher;
+    @SuppressWarnings("unused")
+    private String jobId;
+    //The number of tasks contained in this job
+    private int taskNum;
+    //All tasks
+    private String[] taskIdArray;
 
     public SimpleMRAppMaster(String name,String jobId,
             int taskNum) {
         super(name);
         this.jobId = jobId;
         this.taskNum = taskNum;
-        this.taskIdArray = new String<span class="cp">[</span><span class="nx">taskNum</span><span class="cp">]</span>;
-        for(int i=0; i<span class="nt">&lt;taskNum</span><span class="err">;</span> <span class="na">i</span><span class="err">++){</span>
-            <span class="na">taskIdArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="na"> =</span><span class="err"> </span><span class="s">new</span> <span class="na">String</span><span class="err">(</span><span class="na">jobId</span><span class="err">+"</span><span class="na">_task_</span><span class="err">"+</span><span class="na">i</span><span class="err">);</span>      
-        <span class="err">}</span>
-    <span class="err">}</span>
+        this.taskIdArray = new String[taskNum];
+        for(int i=0; i&lt;taskNum; i++){
+            taskIdArray[i] = new String(jobId+"_task_"+i);      
+        }
+    }
 
 
-    <span class="err">@</span><span class="na">Override</span>
-    <span class="na">protected</span> <span class="na">void</span> <span class="na">serviceInit</span><span class="err">(</span><span class="na">Configuration</span> <span class="na">conf</span><span class="err">)</span> <span class="na">throws</span> <span class="na">Exception</span> <span class="err">{</span>
-        <span class="err">//</span> <span class="na">TODO</span> <span class="na">Auto-generated</span> <span class="na">method</span> <span class="na">stub</span>
-        <span class="na">dispatcher =</span><span class="err"> </span><span class="s">new</span> <span class="na">AsyncDispatcher</span><span class="err">();</span>
-        <span class="err">//</span><span class="na">Register</span> <span class="na">the</span> <span class="na">event</span> <span class="na">handler</span> <span class="na">for</span> <span class="na">job</span> <span class="na">and</span> <span class="na">task</span> <span class="na">events</span>
-        <span class="na">dispatcher</span><span class="err">.</span><span class="na">register</span><span class="err">(</span><span class="na">JobEventType</span><span class="err">.</span><span class="na">class</span><span class="err">,</span> <span class="na">new</span> <span class="na">JobEventDispatcher</span><span class="err">());</span>
-        <span class="na">dispatcher</span><span class="err">.</span><span class="na">register</span><span class="err">(</span><span class="na">TaskEventType</span><span class="err">.</span><span class="na">class</span><span class="err">,</span> <span class="na">new</span> <span class="na">TaskEventDispatcher</span><span class="err">());</span>
-        <span class="na">addService</span><span class="err">((</span><span class="na">Service</span><span class="err">)</span><span class="na">dispatcher</span><span class="err">);</span>
-        <span class="na">super</span><span class="err">.</span><span class="na">serviceInit</span><span class="err">(</span><span class="na">conf</span><span class="err">);</span>
-    <span class="err">}</span>
+    @Override
+    protected void serviceInit(Configuration conf) throws Exception {
+        // TODO Auto-generated method stub
+        dispatcher = new AsyncDispatcher();
+        //Register the event handler for job and task events
+        dispatcher.register(JobEventType.class, new JobEventDispatcher());
+        dispatcher.register(TaskEventType.class, new TaskEventDispatcher());
+        addService((Service)dispatcher);
+        super.serviceInit(conf);
+    }
 
-    <span class="na">public</span> <span class="na">Dispatcher</span> <span class="na">getDispatcher</span><span class="err">(){</span>
-        <span class="na">return</span> <span class="na">dispatcher</span><span class="err">;</span>
-    <span class="err">}</span>
+    public Dispatcher getDispatcher(){
+        return dispatcher;
+    }
 
-    <span class="na">private</span> <span class="na">class</span> <span class="na">JobEventDispatcher</span> <span class="na">implements</span> <span class="na">EventHandler</span><span class="err">&lt;</span><span class="na">JobEvent</span><span class="nt">&gt;</span>{
+    private class JobEventDispatcher implements EventHandler&lt;JobEvent&gt;{
 
         @SuppressWarnings("unchecked")
         @Override
@@ -1329,30 +1253,30 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
             // TODO Auto-generated method stub
             if(event.getType() == JobEventType.JOB_KILL){
                 System.out.println("Receive JOB_KILL event,killing all the tasks");
-                for(int i=0;i<span class="nt">&lt;taskNum</span><span class="err">;</span><span class="na">i</span><span class="err">++){</span>
-                    <span class="na">dispatcher</span><span class="err">.</span><span class="na">getEventHandler</span><span class="err">().</span><span class="na">handle</span><span class="err">(</span><span class="na">new</span> <span class="na">TaskEvent</span><span class="err">(</span><span class="na">taskIdArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="err">,</span>
-                            <span class="na">TaskEventType</span><span class="err">.</span><span class="na">T_KILL</span><span class="err">));</span>
-                <span class="err">}</span>
-            <span class="err">}</span>
-            <span class="na">else</span> <span class="na">if</span><span class="err">(</span><span class="na">event</span><span class="err">.</span><span class="na">getType</span><span class="err">()</span> <span class="err">==</span> <span class="na">JobEventType</span><span class="err">.</span><span class="na">JOB_INIT</span><span class="err">){</span>
-                <span class="na">System</span><span class="err">.</span><span class="na">out</span><span class="err">.</span><span class="na">println</span><span class="err">("</span><span class="na">Receive</span> <span class="na">JOB_Init</span> <span class="na">event</span><span class="err">,</span><span class="na">initializing</span> <span class="na">all</span> <span class="na">the</span> <span class="na">tasks</span><span class="err">");</span>
-                <span class="na">for</span><span class="err">(</span><span class="na">int</span> <span class="na">i=</span><span class="s">0;i&lt;taskNum;i++){</span>
-                    <span class="na">dispatcher</span><span class="err">.</span><span class="na">getEventHandler</span><span class="err">().</span><span class="na">handle</span><span class="err">(</span><span class="na">new</span> <span class="na">TaskEvent</span><span class="err">(</span><span class="na">taskIdArray</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="err">,</span>
-                            <span class="na">TaskEventType</span><span class="err">.</span><span class="na">T_SCHEDULE</span><span class="err">));</span>
-                <span class="err">}</span>
-            <span class="err">}</span>
-        <span class="err">}</span>   
-    <span class="err">}</span>
+                for(int i=0;i&lt;taskNum;i++){
+                    dispatcher.getEventHandler().handle(new TaskEvent(taskIdArray[i],
+                            TaskEventType.T_KILL));
+                }
+            }
+            else if(event.getType() == JobEventType.JOB_INIT){
+                System.out.println("Receive JOB_Init event,initializing all the tasks");
+                for(int i=0;i&lt;taskNum;i++){
+                    dispatcher.getEventHandler().handle(new TaskEvent(taskIdArray[i],
+                            TaskEventType.T_SCHEDULE));
+                }
+            }
+        }   
+    }
 
 
 
-    <span class="err">@</span><span class="na">Override</span>
-    <span class="na">protected</span> <span class="na">void</span> <span class="na">serviceStart</span><span class="err">()</span> <span class="na">throws</span> <span class="na">Exception</span> <span class="err">{</span>
-        <span class="err">//</span> <span class="na">TODO</span> <span class="na">Auto-generated</span> <span class="na">method</span> <span class="na">stub</span>
-        <span class="na">super</span><span class="err">.</span><span class="na">serviceStart</span><span class="err">();</span>
-    <span class="err">}</span>
+    @Override
+    protected void serviceStart() throws Exception {
+        // TODO Auto-generated method stub
+        super.serviceStart();
+    }
 
-    <span class="na">private</span> <span class="na">class</span> <span class="na">TaskEventDispatcher</span> <span class="na">implements</span> <span class="na">EventHandler</span><span class="err">&lt;</span><span class="na">TaskEvent</span><span class="nt">&gt;</span>{
+    private class TaskEventDispatcher implements EventHandler&lt;TaskEvent&gt;{
 
         @Override
         public void handle(TaskEvent event) {
@@ -1368,41 +1292,39 @@ Java接口定义如下(见Java包org.apache.hadoop.yarn.server.api.protocolrecor
         }
     }
 }
-</pre></div>
-
-
+</code></pre>
 <p><strong>步骤4</strong> 测试程序。</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">org</span><span class="p">.</span><span class="n">qingyuanxingsi</span><span class="p">.</span><span class="n">test</span><span class="p">;</span>
+<pre><code>package org.qingyuanxingsi.test;
 
-<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">conf</span><span class="p">.</span><span class="n">Configuration</span><span class="p">;</span>
-<span class="n">import</span> <span class="n">org</span><span class="p">.</span><span class="n">apache</span><span class="p">.</span><span class="n">hadoop</span><span class="p">.</span><span class="n">yarn</span><span class="p">.</span><span class="n">conf</span><span class="p">.</span><span class="n">YarnConfiguration</span><span class="p">;</span>
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.yarn.conf.YarnConfiguration;
 
 
-<span class="cm">/**</span>
-<span class="cm"> * Just a simple test case</span>
-<span class="cm"> * @author qingyuanxingsi</span>
-<span class="cm"> * @version 1.0</span>
-<span class="cm"> */</span>
-<span class="n">public</span> <span class="n">class</span> <span class="n">SimpleMRAppMasterTest</span> <span class="p">{</span>
-    <span class="err">@</span><span class="n">SuppressWarnings</span><span class="p">({</span> <span class="s">"unchecked"</span><span class="p">,</span> <span class="s">"resource"</span> <span class="p">})</span>
-    <span class="n">public</span> <span class="k">static</span> <span class="kt">void</span> <span class="n">main</span><span class="p">(</span><span class="n">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">){</span>
-        <span class="n">String</span> <span class="n">jobId</span> <span class="o">=</span> <span class="s">"job_20140321_01"</span><span class="p">;</span>
-        <span class="n">SimpleMRAppMaster</span> <span class="n">master</span> <span class="o">=</span> <span class="n">new</span> <span class="n">SimpleMRAppMaster</span><span class="p">(</span><span class="s">"Simple MRAppMaster"</span><span class="p">,</span><span class="n">jobId</span><span class="p">,</span><span class="mi">5</span><span class="p">);</span>
-        <span class="n">YarnConfiguration</span> <span class="n">conf</span> <span class="o">=</span> <span class="n">new</span> <span class="n">YarnConfiguration</span><span class="p">(</span><span class="n">new</span> <span class="n">Configuration</span><span class="p">());</span>
-        <span class="n">try</span> <span class="p">{</span>
-            <span class="n">master</span><span class="p">.</span><span class="n">serviceInit</span><span class="p">(</span><span class="n">conf</span><span class="p">);</span>
-            <span class="n">master</span><span class="p">.</span><span class="n">serviceStart</span><span class="p">();</span>
-            <span class="n">master</span><span class="p">.</span><span class="n">getDispatcher</span><span class="p">().</span><span class="n">getEventHandler</span><span class="p">().</span><span class="n">handle</span><span class="p">(</span><span class="n">new</span> <span class="n">JobEvent</span><span class="p">(</span><span class="n">jobId</span><span class="p">,</span>
-                    <span class="n">JobEventType</span><span class="p">.</span><span class="n">JOB_KILL</span><span class="p">));</span>
-            <span class="n">master</span><span class="p">.</span><span class="n">getDispatcher</span><span class="p">().</span><span class="n">getEventHandler</span><span class="p">().</span><span class="n">handle</span><span class="p">(</span><span class="n">new</span> <span class="n">JobEvent</span><span class="p">(</span><span class="n">jobId</span><span class="p">,</span>
-                    <span class="n">JobEventType</span><span class="p">.</span><span class="n">JOB_INIT</span><span class="p">));</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// TODO Auto-generated catch block</span>
-            <span class="n">e</span><span class="p">.</span><span class="n">printStackTrace</span><span class="p">();</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div><script type="text/javascript">
+/**
+ * Just a simple test case
+ * @author qingyuanxingsi
+ * @version 1.0
+ */
+public class SimpleMRAppMasterTest {
+    @SuppressWarnings({ "unchecked", "resource" })
+    public static void main(String[] args){
+        String jobId = "job_20140321_01";
+        SimpleMRAppMaster master = new SimpleMRAppMaster("Simple MRAppMaster",jobId,5);
+        YarnConfiguration conf = new YarnConfiguration(new Configuration());
+        try {
+            master.serviceInit(conf);
+            master.serviceStart();
+            master.getDispatcher().getEventHandler().handle(new JobEvent(jobId,
+                    JobEventType.JOB_KILL));
+            master.getDispatcher().getEventHandler().handle(new JobEvent(jobId,
+                    JobEventType.JOB_INIT));
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre><script type="text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
         mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';

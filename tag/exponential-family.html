@@ -76,10 +76,10 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
       </div>
       <div class="article-content span8">
-	<h1>指数分布族</h1>
+	<h1 id="_1">指数分布族</h1>
 <hr />
 <p>一件特别神奇的事是实际上我们学过或者用到的很多分布函数均可以写成一种一致的形式,事实上，属于这个家族的分布函数还是很多的，例如高斯分布、Bernoulli分布、二项分布、多项分布、指数分布、泊松分布、Dirichlet分布等,作为一个庞大家族的一员，这些分布函数具有一个它们引以为豪的共同的名字------<strong>指数分布族</strong>。以下我们就介绍一下指数分布族的基础知识吧。</p>
-<h2>定义</h2>
+<h2 id="_2">定义</h2>
 <p>传说中的这个神奇的家族中的分一个分布函数均可写成如下形式:</p>
 <p>\begin{equation}
 p(x) = h(x)e^{\theta^T T(x)-A(\theta)}
@@ -100,7 +100,7 @@ e^{A(\theta)} = \int h(x) e^{\theta^T T(x)} dx
 <p>当$T(x)=x$时,$A(\theta)$是对于$h(x)$做<strong>拉普拉斯变换</strong>之后的$log$值。</p>
 </blockquote>
 <p>以下我们举几个实例以使我们对其有一个更为清晰的认识:</p>
-<h3>Bernoulli Distribution</h3>
+<h3 id="bernoulli-distribution">Bernoulli Distribution</h3>
 <p>对于Bernoulli分布,我们有:</p>
 <p>\begin{equation}
 \begin{split}
@@ -119,12 +119,12 @@ T(x) &amp;= x \\
 A(\theta) &amp;= log(1+e^{\theta})
 \end{split}
 \end{equation}</p>
-<h3>Univariate Gaussian</h3>
+<h3 id="univariate-gaussian">Univariate Gaussian</h3>
 <p>对于单变量高斯分布,我们有:</p>
 <p><img alt="Univariate Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_zps8407f3a0.png" /></p>
 <p>其中:</p>
 <p><img alt="Univariate Gaussian Params" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_params_zps58c5d9d3.png" /></p>
-<h3>Multivariate Gaussian</h3>
+<h3 id="multivariate-gaussian">Multivariate Gaussian</h3>
 <p>对于形如下式的多变量高斯分布:</p>
 <p>\begin{equation}
 p(x) = \frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}} e^{(x-\mu)^T \Sigma^{-1} (x-\mu)/2}
@@ -147,12 +147,12 @@ xx^T
 \right)
 \end{split}
 \end{equation}</p>
-<h2>一阶导数</h2>
+<h2 id="_3">一阶导数</h2>
 <p><img alt="First Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/first_derivative_zps6152bd77.png" /></p>
-<h2>二阶导数</h2>
+<h2 id="_4">二阶导数</h2>
 <p><img alt="Second Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/second_deriative_zps8d444606.png" /></p>
 <p>即$A(\theta)$是凸的($\succeq$表示正定positive definite)</p>
-<h2>Maximum Likelihood</h2>
+<h2 id="maximum-likelihood">Maximum Likelihood</h2>
 <p>根据$p(x)$的定义,我们有:</p>
 <p>\begin{equation}
 l(\theta) = \sum_{i=1}^{N} log p(x_i|\theta) = \sum_{i=1}^{N} [log h(x_i) + \theta^T T(x_i) - A(\theta)]
@@ -165,7 +165,7 @@ l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
 <p>\begin{equation}
 A\prime(\hat\theta_{ML})=\frac{1}{N} \sum_{i=1}^N T(x_i)
 \end{equation}</p>
-<h2>Conjugate Priors in Bayesian Statistics</h2>
+<h2 id="conjugate-priors-in-bayesian-statistics">Conjugate Priors in Bayesian Statistics</h2>
 <p>根据Bayes Rule,我们有:</p>
 <p>\begin{equation}
 p(\theta|x) = \frac{p(x|\theta)p(\theta)}{\int p(x|\theta)p(\theta) d\theta}
@@ -179,10 +179,10 @@ p(\theta|x) = \frac{p(x|\theta)p(\theta)}{\int p(x|\theta)p(\theta) d\theta}
 </blockquote>
 <p>常见的共轭分布如下表所示:</p>
 <p><img alt="Conjugate Prior" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/conjugate_priors_zps0d694b87.png" /></p>
-<h1>广义线性模型</h1>
+<h1 id="_5">广义线性模型</h1>
 <hr />
 <p>从软件工程的视角来看,如果我们把广义线性模型(Generalized Linear Models,GLM)看作一个类,线性回归与Logistic回归只不过是该类的两个实例而已,由此可见GLM是一个较为高大上的东东啊!以下对其进行一个较为简单的介绍:</p>
-<h2>基础知识</h2>
+<h2 id="_6">基础知识</h2>
 <p>为了理解GLM,我们首先引入:</p>
 <p>\begin{equation}
 p(y_i|\theta,\sigma^2) = exp[\frac{y_i\theta-A(\theta)}{\sigma^2}+c(y_i,\sigma^2)]
@@ -240,7 +240,7 @@ y_i
 log p(y_i|x_i,w) = y_i log \mu_i - \mu_i - log(y_i!)
 \end{equation}</p>
 <p>其中,$y_i \in {0,1,2,...}$,$\mu_i = exp(w^Tx_i)$,$\theta_i = log(\mu_i) = w^Tx_i$且$\sigma^2=1$.这里我们取$A(\theta) = e^{\theta}$,于是我们有$E[y_i] = var[y_i] = \mu_i$.</p>
-<h2>MLE Estimation</h2>
+<h2 id="mle-estimation">MLE Estimation</h2>
 <p>其极大似然函数具有如下形式:</p>
 <p>\begin{equation}
 \begin{split}
@@ -270,7 +270,7 @@ log p(y_i|x_i,w) = y_i log \mu_i - \mu_i - log(y_i!)
 <li>Learning to rank</li>
 </ul>
 </blockquote>
-<h1>参考文献</h1>
+<h1 id="_7">参考文献</h1>
 <hr />
 <ol>
 <li><a href="http://www.cs.columbia.edu/~jebara/4771/tutorials/lecture12.pdf">Exponential Family</a></li>

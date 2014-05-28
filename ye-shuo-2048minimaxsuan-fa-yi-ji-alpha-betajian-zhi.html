@@ -77,11 +77,11 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 	<p>今天看机器学习Logistic Regression,脑子实在转不过来了,于是到处游荡了一下,然后不经意间发现了这篇特别好玩的文章<a href="http://blog.codinglabs.org/articles/2048-ai-analysis.html">2048-AI程序算法分析</a>,于是摘录如下。(<strong>版权属原作者所有,特此声明</strong>)</p>
 <p>针对目前火爆的2048游戏，有人实现了一个AI程序，可以以较大概率（高于90%）赢得游戏，想一睹该AI程序的童鞋们请移步<a href="http://ov3y.github.io/2048-AI/">2048AI实现</a>,点击Auto-run按钮即可运行。此外作者在<a href="http://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048">stackoverflow上简要介绍了AI的算法框架和实现思路</a>。但是这个回答主要集中在启发函数的选取上，对AI用到的核心算法并没有仔细说明。这篇文章将主要分为两个部分，第一部分介绍其中用到的基础算法，即Minimax和Alpha-beta剪枝；第二部分分析作者具体的实现。</p>
 <p><img alt="2048" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2048_zps4f3b681e.png"></p>
-<h1>基础算法</h1>
+<h1 id="_1">基础算法</h1>
 <p>2048本质上可以抽象成信息对称双人对弈模型（玩家向四个方向中的一个移动，然后计算机在某个空格中填入2或4）。这里“信息对称”是指在任一时刻对弈双方对格局的信息完全一致，移动策略仅依赖对接下来格局的推理。作者使用的核心算法为对弈模型中常用的带Alpha-beta剪枝的Minimax。这个算法也常被用于如国际象棋等信息对称对弈AI中。</p>
-<h2>Minimax</h2>
+<h2 id="minimax">Minimax</h2>
 <p>下面先介绍不带剪枝的Minimax。首先本文将通过一个简单的例子说明Minimax算法的思路和决策方式。</p>
-<h3>问题</h3>
+<h3 id="_2">问题</h3>
 <p>现在考虑这样一个游戏：有三个盘子A、B和C，每个盘子分别放有三张纸币。A放的是1、20、50；B放的是5、10、100；C放的是1、5、20。单位均为“元”。有甲、乙两人，两人均对三个盘子和上面放置的纸币有可以任意查看。游戏分三步：</p>
 <ol>
 <li>甲从三个盘子中选取一个。</li>
@@ -90,14 +90,14 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 </ol>
 <p>其中甲的目标是最后拿到的纸币面值尽量大，乙的目标是让甲最后拿到的纸币面值尽量小。</p>
 <p>下面用Minimax算法解决这个问题。</p>
-<h3>基本思路</h3>
+<h3 id="_3">基本思路</h3>
 <p>一般解决博弈类问题的自然想法是将格局组织成一棵树，树的每一个节点表示一种格局，而父子关系表示由父格局经过一步可以到达子格局。Minimax也不例外，它通过对以当前格局为根的格局树搜索来确定下一步的选择。而一切格局树搜索算法的核心都是对每个格局价值的评价。Minimax算法基于以下朴素思想确定格局价值：</p>
 <ul>
 <li>Minimax是一种悲观算法，即假设对手每一步都会将我方引入从当前看理论上价值最小的格局方向，即对手具有完美决策能力。因此我方的策略应该是选择那些对方所能达到的让我方最差情况中最好的，也就是让对方在完美决策下所对我造成的损失最小。</li>
 <li>Minimax不找理论最优解，因为理论最优解往往依赖于对手是否足够愚蠢，Minimax中我方完全掌握主动，如果对方每一步决策都是完美的，则我方可以达到预计的最小损失格局，如果对方没有走出完美决策，则我方可能达到比预计的最悲观情况更好的结局。总之我方就是要在最坏情况中选择最好的。
 上面的表述有些抽象，下面看具体示例。</li>
 </ul>
-<h3>解题</h3>
+<h3 id="_4">解题</h3>
 <p>下图是上述示例问题的格局树：</p>
 <p><img alt="Situation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/01_zps1cf40396.png"></p>
 <p>注意，由于示例问题格局数非常少，我们可以给出完整的格局树。这种情况下我可以找到Minimax算法的全局最优解。而真实情况中，格局树非常庞大，即使是计算机也不可能给出完整的树，因此我们往往只搜索一定深度，这时只能找到局部最优解。</p>
@@ -123,7 +123,7 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <li>因为上述原因，Minimax一般是寻找一个局部最优解而不是全局最优解，搜索深度越大越可能找到更好的解，但计算耗时会呈指数级膨胀。</li>
 <li>也是因为无法一次构造出完整的格局树，所以真实问题中Minimax一般是边对弈边计算局部格局树，而不是只计算一次，但已计算的中间结果可以缓存。</li>
 </ul>
-<h2>Alpha-beta剪枝<sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"><a class="simple-footnote" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example">1</a></sup></h2>
+<h2 id="alpha-betarefstep-by-stepalpha-beta-cutting-exampleref">Alpha-beta剪枝<sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"><a class="simple-footnote" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example">1</a></sup></h2>
 <p>简单的Minimax算法有一个很大的问题就是计算复杂性。由于所需搜索的节点数随最大深度呈指数膨胀，而算法的效果往往和深度相关，因此这极大限制了算法的效果。</p>
 <p>Alpha-beta剪枝是对Minimax的补充和改进。采用Alpha-beta剪枝后，我们可不必构造和搜索最大深度D内的所有节点，在构造过程中，如果发现当前格局再往下不能找到更好的解，我们就停止在这个格局及以下的搜索，也就是剪枝。</p>
 <p>Alpha-beta基于这样一种朴素的思想：<strong>时时刻刻记得当前已经知道的最好选择，如果从当前格局搜索下去，不可能找到比已知最优解更好的解，则停止这个格局分支的搜索（剪枝），回溯到父节点继续搜索</strong>。</p>
@@ -164,9 +164,9 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <blockquote>
 <p>NOTE:在查找讲解Alpha-Beta剪枝算法的过程中看到了这样一种表述,我个人觉得这么理解可能更容易看懂这个算法:Alpha是对于Max节点而言从该节点到根节点路径上最好的Option,而Beta是对于Min节点而言从该节点到根节点路径上最好的Option;Max节点的目标是最大化所得收益,而Min节点目标则是最小化Max节点所得收益.(MORE SEE AT <a href="http://www.youtube.com/watch?v=xBXHtz4Gbdo">Step by Step: Alpha Beta Pruning|GoAgent翻墙</a>)</p>
 </blockquote>
-<h1>针对2048游戏的实现</h1>
+<h1 id="2048">针对2048游戏的实现</h1>
 <p>下面看一下ov3y同学针对2048实现的AI。原程序见于<a href="https://github.com/ov3y/2048-AI">github</a>，主要程序都在<a href="https://github.com/ov3y/2048-AI/blob/master/js/ai.js">ai.js</a>中。</p>
-<h2>建模</h2>
+<h2 id="_5">建模</h2>
 <p>上面说过Minimax和Alpha-beta都是针对信息对称的轮流对弈问题，这里作者是这样抽象游戏的：</p>
 <ul>
 <li>我方：游戏玩家。每次可以选择上、下、左、右四个行棋策略中的一种（某些格局会少于四种，因为有些方向不可走）。行棋后方块按照既定逻辑移动及合并，格局转换完成。</li>
@@ -174,100 +174,94 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <li>胜利条件：出现某个方块的数值为“2048”。</li>
 <li>失败条件：格子全满，且无法向四个方向中任何一个方向移动（均不能触发合并）。如此2048游戏就被建模成一个信息对称的双人对弈问题。</li>
 </ul>
-<h2>格局评价</h2>
+<h2 id="_6">格局评价</h2>
 <p>作为算法的核心，如何评价当前格局的价值是重中之重。在2048中，除了终局外，中间格局并无非常明显的价值评价指标，因此需要用一些启发式的指标来评价格局。那些分数高的“好”格局是容易引向胜利的格局，而分低的“坏”格局是容易引向失败的格局。</p>
 <p>作者采用了如下几个启发式指标。</p>
-<h3>单调性</h3>
+<h3 id="_7">单调性</h3>
 <p><code>单调性</code>指方块从左到右、从上到下均遵从递增或递减。一般来说，越单调的格局越好。下面是一个具有良好单调格局的例子：</p>
 <p><img alt="单调性" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/11_zps7ce37f15.png"></p>
-<h3>平滑性</h3>
+<h3 id="_8">平滑性</h3>
 <p><code>平滑性</code>是指每个方块与其直接相邻方块数值的差，其中差越小越平滑。例如2旁边是4就比2旁边是128平滑。一般认为越平滑的格局越好。下面是一个具有极端平滑性的例子：</p>
 <p><img alt="平滑性" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/12_zpsb53c5ef7.png"></p>
-<h3>空格数</h3>
+<h3 id="_9">空格数</h3>
 <p>这个很好理解，因为一般来说，空格子越少对玩家越不利。所以我们认为空格越多的格局越好。</p>
-<h3>孤立空格数</h3>
+<h3 id="_10">孤立空格数</h3>
 <p>这个指标评价空格被分开的程度，空格越分散则格局越差。</p>
 <p>具体来说，2048-AI在评价格局时，对这些启发指标采用了加权策略。具体代码如下：</p>
-<div class="highlight"><pre><span class="c1">// static evaluation function</span>
-<span class="no">AI</span><span class="p">.</span><span class="n">prototype</span><span class="p">.</span><span class="n">eval</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="n">emptyCells</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">availableCells</span><span class="p">().</span><span class="n">length</span><span class="p">;</span>
+<pre><code>// static evaluation function
+AI.prototype.eval = function() {
+    var emptyCells = this.grid.availableCells().length;
 
-    <span class="k">var</span> <span class="n">smoothWeight</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
-        <span class="c1">//monoWeight   = 0.0,</span>
-        <span class="c1">//islandWeight = 0.0,</span>
-        <span class="n">mono2Weight</span>  <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
-        <span class="n">emptyWeight</span>  <span class="o">=</span> <span class="mf">2.7</span><span class="p">,</span>
-        <span class="n">maxWeight</span>    <span class="o">=</span> <span class="mf">1.0</span><span class="p">;</span>
+    var smoothWeight = 0.1,
+        //monoWeight   = 0.0,
+        //islandWeight = 0.0,
+        mono2Weight  = 1.0,
+        emptyWeight  = 2.7,
+        maxWeight    = 1.0;
 
-    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">smoothness</span><span class="p">()</span> <span class="o">*</span> <span class="n">smoothWeight</span>
-        <span class="c1">//+ this.grid.monotonicity() * monoWeight</span>
-        <span class="c1">//- this.grid.islands() * islandWeight</span>
-        <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">monotonicity2</span><span class="p">()</span> <span class="o">*</span> <span class="n">mono2Weight</span>
-        <span class="o">+</span> <span class="n">Math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">emptyCells</span><span class="p">)</span> <span class="o">*</span> <span class="n">emptyWeight</span>
-        <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">maxValue</span><span class="p">()</span> <span class="o">*</span> <span class="n">maxWeight</span><span class="p">;</span>
-<span class="p">};</span>
-</pre></div>
-
-
+    return this.grid.smoothness() * smoothWeight
+        //+ this.grid.monotonicity() * monoWeight
+        //- this.grid.islands() * islandWeight
+        + this.grid.monotonicity2() * mono2Weight
+        + Math.log(emptyCells) * emptyWeight
+        + this.grid.maxValue() * maxWeight;
+};
+</code></pre>
 <p>有兴趣的同学可以调整一下权重看看有什么效果。</p>
-<h2>对对方选择的剪枝</h2>
+<h2 id="_11">对对方选择的剪枝</h2>
 <p>在这个程序中，除了采用Alpha-beta剪枝外，在min节点还采用了另一种剪枝，即只考虑对方走出让格局最差的那一步（而实际2048中计算机的选择是随机的），而不是搜索全部对方可能的走法。这是因为对方所有可能的选择为“空格数×2”，如果全部搜索的话会严重限制搜索深度。
 相关剪枝代码如下：</p>
-<div class="highlight"><pre><span class="c1">// try a 2 and 4 in each cell and measure how annoying it is</span>
-<span class="c1">// with metrics from eval</span>
-<span class="k">var</span> <span class="n">candidates</span> <span class="o">=</span> <span class="p">[];</span>
-<span class="k">var</span> <span class="n">cells</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">availableCells</span><span class="p">();</span>
-<span class="k">var</span> <span class="n">scores</span> <span class="o">=</span> <span class="p">{</span> <span class="mh">2</span><span class="o">:</span> <span class="p">[],</span> <span class="mh">4</span><span class="o">:</span> <span class="p">[]</span> <span class="p">};</span>
-<span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="n">value</span> <span class="n">in</span> <span class="n">scores</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="n">i</span> <span class="n">in</span> <span class="n">cells</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">scores</span><span class="p">[</span><span class="n">value</span><span class="p">].</span><span class="n">push</span><span class="p">(</span><span class="k">null</span><span class="p">);</span>
-        <span class="k">var</span> <span class="k">cell</span> <span class="o">=</span> <span class="n">cells</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
-        <span class="k">var</span> <span class="n">tile</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Tile</span><span class="p">(</span><span class="k">cell</span><span class="p">,</span> <span class="n">parseInt</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mh">10</span><span class="p">));</span>
-        <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">insertTile</span><span class="p">(</span><span class="n">tile</span><span class="p">);</span>
-        <span class="n">scores</span><span class="p">[</span><span class="n">value</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">smoothness</span><span class="p">()</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">islands</span><span class="p">();</span>
-        <span class="k">this</span><span class="p">.</span><span class="n">grid</span><span class="p">.</span><span class="n">removeTile</span><span class="p">(</span><span class="k">cell</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<pre><code>// try a 2 and 4 in each cell and measure how annoying it is
+// with metrics from eval
+var candidates = [];
+var cells = this.grid.availableCells();
+var scores = { 2: [], 4: [] };
+for (var value in scores) {
+    for (var i in cells) {
+        scores[value].push(null);
+        var cell = cells[i];
+        var tile = new Tile(cell, parseInt(value, 10));
+        this.grid.insertTile(tile);
+        scores[value][i] = -this.grid.smoothness() + this.grid.islands();
+        this.grid.removeTile(cell);
+    }
+}
 
-<span class="c1">// now just pick out the most annoying moves</span>
-<span class="k">var</span> <span class="n">maxScore</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="n">max</span><span class="p">(</span><span class="n">Math</span><span class="p">.</span><span class="n">max</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mh">2</span><span class="p">]),</span> <span class="n">Math</span><span class="p">.</span><span class="n">max</span><span class="p">.</span><span class="n">apply</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mh">4</span><span class="p">]));</span>
-<span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="n">value</span> <span class="n">in</span> <span class="n">scores</span><span class="p">)</span> <span class="p">{</span> <span class="c1">// 2 and 4</span>
-    <span class="k">for</span> <span class="p">(</span><span class="k">var</span> <span class="n">i</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">scores</span><span class="p">[</span><span class="n">value</span><span class="p">].</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">scores</span><span class="p">[</span><span class="n">value</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">maxScore</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">candidates</span><span class="p">.</span><span class="n">push</span><span class="p">(</span> <span class="p">{</span> <span class="nl">position:</span> <span class="n">cells</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="nl">value:</span> <span class="n">parseInt</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mh">10</span><span class="p">)</span> <span class="p">}</span> <span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2>搜索深度</h2>
+// now just pick out the most annoying moves
+var maxScore = Math.max(Math.max.apply(null, scores[2]), Math.max.apply(null, scores[4]));
+for (var value in scores) { // 2 and 4
+    for (var i=0; i&lt;scores[value].length; i++) {
+        if (scores[value][i] == maxScore) {
+            candidates.push( { position: cells[i], value: parseInt(value, 10) } );
+        }
+    }
+}
+</code></pre>
+<h2 id="_12">搜索深度</h2>
 <p>在2048-AI的实现中，并没有限制搜索的最大深度，而是限制每次“思考”的时间。这里设定了一个超时时间，默认为100ms，在这个时间内，会从1开始，搜索到所能达到的深度。相关代码：</p>
-<div class="highlight"><pre><span class="c1">// performs iterative deepening over the alpha-beta search</span>
-<span class="no">AI</span><span class="p">.</span><span class="n">prototype</span><span class="p">.</span><span class="n">iterativeDeep</span> <span class="o">=</span> <span class="k">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="n">start</span> <span class="o">=</span> <span class="p">(</span><span class="k">new</span> <span class="n">Date</span><span class="p">()).</span><span class="n">getTime</span><span class="p">();</span>
-    <span class="k">var</span> <span class="n">depth</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
-    <span class="k">var</span> <span class="n">best</span><span class="p">;</span>
-    <span class="k">do</span> <span class="p">{</span>
-        <span class="k">var</span> <span class="n">newBest</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="n">search</span><span class="p">(</span><span class="n">depth</span><span class="p">,</span> <span class="o">-</span><span class="mh">10000</span><span class="p">,</span> <span class="mh">10000</span><span class="p">,</span> <span class="mh">0</span> <span class="p">,</span><span class="mh">0</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">newBest</span><span class="p">.</span><span class="n">move</span> <span class="o">==</span> <span class="o">-</span><span class="mh">1</span><span class="p">)</span> <span class="p">{</span>
-            <span class="c1">//console.log('BREAKING EARLY');</span>
-            <span class="k">break</span><span class="p">;</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="n">best</span> <span class="o">=</span> <span class="n">newBest</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="n">depth</span><span class="o">++</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">while</span> <span class="p">(</span> <span class="p">(</span><span class="k">new</span> <span class="n">Date</span><span class="p">()).</span><span class="n">getTime</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span> <span class="o">&lt;</span> <span class="n">minSearchTime</span><span class="p">);</span>
-    <span class="c1">//console.log('depth', --depth);</span>
-    <span class="c1">//console.log(this.translate(best.move));</span>
-    <span class="c1">//console.log(best);</span>
-    <span class="k">return</span> <span class="n">best</span>
-<span class="p">}</span>
-</pre></div>
-
-
+<pre><code>// performs iterative deepening over the alpha-beta search
+AI.prototype.iterativeDeep = function() {
+    var start = (new Date()).getTime();
+    var depth = 0;
+    var best;
+    do {
+        var newBest = this.search(depth, -10000, 10000, 0 ,0);
+        if (newBest.move == -1) {
+            //console.log('BREAKING EARLY');
+            break;
+        } else {
+            best = newBest;
+        }
+        depth++;
+    } while ( (new Date()).getTime() - start &lt; minSearchTime);
+    //console.log('depth', --depth);
+    //console.log(this.translate(best.move));
+    //console.log(best);
+    return best
+}
+</code></pre>
 <p>因此这个算法实现的效果实际上依赖于执行javascript引擎机器的性能。当然可以通过增加超时时间来达到更好的效果，但此时每一步行走速度会相应变慢。</p>
-<h2>算法的改进</h2>
+<h2 id="_13">算法的改进</h2>
 <p>目前这个实现作者声称成功合成2048的概率超过90%，但是合成4096甚至8192的概率并不高。作者在<a href="https://github.com/ov3y/2048-AI/blob/master/README.md">github项目的REAMDE</a>中同时给出了一些优化建议，这些建议包括：</p>
 <ul>
 <li>缓存结果。目前这个实现并没有对已搜索的树做缓存，每一步都要重新开始搜索。</li>

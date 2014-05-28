@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-28T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-28T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-28:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1&gt;Pocket&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-28T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-28T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-28:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://zhuanlan.zhihu.com/wille/19759362"&gt;如果看了这篇文章你还不懂傅里叶变换，那就过来掐死我吧&lt;/a&gt;;关于傅立叶变换一个非常精彩的介绍，原来傅立叶背后就是人生啊，墙裂推荐，想看的猛戳左边给出的链接吧！&lt;/li&gt;
@@ -7,12 +7,12 @@
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html"&gt;罗辑思维 2014：迷茫时代的明白人 11&lt;/a&gt;;活在当下。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;TOOLS&lt;/h1&gt;
+&lt;h1 id="tools"&gt;TOOLS&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://blog.csdn.net/poem_qianmo/article/details/19925819"&gt;【OpenCV入门教程之二】 一览众山小：OpenCV 2.4.8组件结构全解析&lt;/a&gt;;关于OpenCV 2.4.8功能模块的一个粗略的介绍,读毕可大概知道OpenCV每个模块大概是干啥的。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1 id="nlprefnatural-language-processingref"&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;Relation Extration&lt;ul&gt;
@@ -22,7 +22,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;SVM&lt;/h1&gt;
+&lt;h1 id="svm"&gt;SVM&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;对于SVM这么高端大气上档次的东西,当然要单独列出来。今天其他东西实在看不下去了,所以把Pluskid之前写的一系列讲SVM的文章再挖出来看看。以下是目录以及对每篇的简单说明:&lt;/p&gt;
 &lt;ul&gt;
@@ -36,7 +36,7 @@
 &lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=692"&gt;支持向量机：Outliers&lt;/a&gt;;通过引入松弛变量处理Outliers,而实际上最后的优化形式只是加上$\alpha_i \leq C$的限制。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://blog.pluskid.org/?p=696"&gt;支持向量机：Numerical Optimization&lt;/a&gt;;以非常通俗易懂的方式介绍了一下&lt;strong&gt;SMO(Sequential Minimal Optimization)&lt;/strong&gt;,赞一个。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;Deep Learning&lt;/h1&gt;
+&lt;h1 id="deep-learning"&gt;Deep Learning&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;稀疏编码(&lt;em&gt;Sparse Coding&lt;/em&gt;)&lt;/li&gt;
@@ -50,7 +50,7 @@
 &lt;li&gt;&lt;strong&gt;受限Boltzmann机&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://pan.baidu.com/s/1gdh3P1x"&gt;A Brief Introduction to Restricted Boltzmann Machine&lt;/a&gt;&lt;/p&gt;
-&lt;h1&gt;算法&lt;/h1&gt;
+&lt;h1 id="_1"&gt;算法&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
@@ -90,7 +90,7 @@
 &lt;li&gt;最近脑子总是不断宕机,宕机了就什么也看不了了,刚看了一篇一个人讲自己怎么学习算法的博文,感觉还不错(只是看了作者的经历,他看过的那些书还没来得及看)。以下给出链接:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://zh.lucida.me/blog/on-learning-algorithms/"&gt;我的算法学习之路&lt;/a&gt;&lt;/p&gt;
-&lt;h1&gt;Machine Learning&lt;/h1&gt;
+&lt;h1 id="machine-learning"&gt;Machine Learning&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;看的有点累了,不想看&lt;em&gt;EM&lt;/em&gt;算法复杂的数学公式推导了,所以找到之前看过的一篇,回顾一下,等以后想看了再详细介绍&lt;em&gt;Mixture Models&lt;/em&gt;和&lt;em&gt;EM&lt;/em&gt;算法吧!&lt;/li&gt;
@@ -160,10 +160,10 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.chawenti.com/articles/12497.html"&gt;一种用来确定K-Means算法类别数的方法&lt;/a&gt;;&lt;strong&gt;平均质心距离加权平均值&lt;/strong&gt;。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;PGM&lt;/h1&gt;
+&lt;h1 id="pgm"&gt;PGM&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;以下给出讲解PGM比较深入浅出的一系列Lecture Slides。&lt;/p&gt;
-&lt;h2&gt;PART I:Introduction to PGM&lt;/h2&gt;
+&lt;h2 id="part-iintroduction-to-pgm"&gt;PART I:Introduction to PGM&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-1-Introduction-Combined.pdf"&gt;Introduction and Overview&lt;/a&gt;;主要介绍了PGM的背景以及Factor的基础知识。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Bayes-Nets.pdf"&gt;Bayesian Network Fundamentals&lt;/a&gt;;简要介绍了什么是Bayesian Network、Reasoning Patterns以及Influence Flow.最后简要介绍了一下Naive Bayes Classifier.&lt;/li&gt;
@@ -181,7 +181,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-2-Representation-Markov-Nets.pdf"&gt;Markov Network Fundamentals&lt;/a&gt;;本部分涵盖的内容有Markov Network,General Gibbs Distribution,CRF,Log-Linear Models.(&lt;strong&gt;Logistic Models is a simple CRF;CRF does not need to concern about the correlation between features!&lt;/strong&gt;)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;PART II:PGM Inference&lt;/h2&gt;
+&lt;h2 id="part-iipgm-inference"&gt;PART II:PGM Inference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Variable-Elimination.pdf"&gt;Variable Elimination&lt;/a&gt;;简要介绍了如何在Bayesian Network以及Ｍarkov Network中执行VE算法;接着对其复杂度进行了分析;最后从图的视角重新审视了一下VE算法.&lt;/li&gt;
 &lt;/ul&gt;
@@ -200,7 +200,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-MAP.pdf"&gt;MAP Estimation&lt;/a&gt;;关于MAP Inference的基础知识。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-3-Sampling.pdf"&gt;Sampling Methods&lt;/a&gt;;Basic Sampling Methods.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;PART III:PGM Learning&lt;/h2&gt;
+&lt;h2 id="part-iiipgm-learning"&gt;PART III:PGM Learning&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-1.pdf"&gt;Learning: Parameter Estimation, Part 1&lt;/a&gt; &amp;amp; &lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-Parameters-Part-2.pdf"&gt;Learning: Parameter Estimation, Part 2&lt;/a&gt;;Parameter Estimation for BN and MN;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://spark-university.s3.amazonaws.com/stanford-pgm/slides/Section-5-Learning-BN-Structures.pdf"&gt;Structure Learning&lt;/a&gt;;&lt;/li&gt;
@@ -262,7 +262,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;p&gt;第一句就先不用管了，毕竟今年的ACL已经被灌了好多Deep Learning的论文了。第二句我很认同，不过我也有信心以后一定有人能挖掘出语言这种高层次抽象中的本质。不论最后这种方法是不是Deep Learning，就目前而言，Deep Learning在NLP领域中的研究已经将高深莫测的人类语言撕开了一层神秘的面纱。&lt;/p&gt;
 &lt;p&gt;我觉得其中最有趣也是最基本的，就是“词向量”了。&lt;/p&gt;
 &lt;p&gt;将词用“词向量”的方式表示可谓是将Deep Learning算法引入NLP领域的一个核心技术。大多数宣称用了Deep Learning的论文，其中往往也用了词向量。&lt;/p&gt;
-&lt;h1&gt;词向量是什么&lt;/h1&gt;
+&lt;h1 id="_1"&gt;词向量是什么&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;自然语言理解的问题要转化为机器学习的问题，第一步肯定是要找一种方法把这些符号数学化。NLP中最直观，也是到目前为止最常用的词表示方法是&lt;em&gt;One-hot Representation&lt;/em&gt;,这种方法把每个词表示为一个很长的向量。这个向量的维度是词表大小，其中绝大多数元素为0，只有一个维度的值为 1，这个维度就代表了当前的词。&lt;/p&gt;
 &lt;p&gt;举个栗子，“话筒”表示为[0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 ...],“麦克”表示为 [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 ...]
@@ -272,19 +272,19 @@ x_{ZCAwhite} = Ux_{PCAwhite}
 &lt;blockquote&gt;
 &lt;p&gt;(原文作者注)&lt;em&gt;Distributed representation&lt;/em&gt;最大的贡献就是让相关或者相似的词，在距离上更接近了。向量的距离可以用最传统的欧氏距离来衡量，也可以用$cos$夹角来衡量。用这种方式表示的向量，“麦克”和“话筒”的距离会远远小于“麦克”和“天气”。可能理想情况下“麦克”和“话筒”的表示应该是完全一样的，但是由于有些人会把英文名“迈克”也写成“麦克”，导致“麦克”一词带上了一些人名的语义，因此不会和“话筒”完全一致。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1&gt;词向量的来历&lt;/h1&gt;
+&lt;h1 id="_2"&gt;词向量的来历&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;Distributed representation最早是Hinton在1986年的论文《Learning distributed representations of concepts》中提出的。虽然这篇文章没有说要将词做Distributed representation，（甚至我很无厘头地猜想那篇文章是为了给他刚提出的 BP 网络打广告，）但至少这种先进的思想在那个时候就在人们的心中埋下了火种，到2000年之后开始逐渐被人重视。&lt;/p&gt;
 &lt;p&gt;Distributed representation用来表示词，通常被称为“Word Representation”或“Word Embedding”，中文俗称“词向量”。真的只能叫“俗称”，算不上翻译。半年前我本想翻译的，但是硬是想不出Embedding应该怎么翻译的，后来就这么叫习惯了-_-|||如果有好的翻译欢迎提出。Embedding一词的意义可以参考维基百科的相应页面&lt;a href="https://en.wikipedia.org/wiki/Embedding"&gt;（链接）&lt;/a&gt;。&lt;strong&gt;后文提到的所有“词向量”都是指用Distributed Representation表示的词向量&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;如果用传统的稀疏表示法表示词，在解决某些任务的时候（比如构建语言模型）会造成维数灾难[Bengio 2003]。使用低维的词向量就没这样的问题。同时从实践上看，高维的特征如果要套用Deep Learning，其复杂度几乎是难以接受的，因此低维的词向量在这里也饱受追捧。&lt;/p&gt;
 &lt;p&gt;同时如上一节提到的，相似词的词向量距离相近，这就让基于词向量设计的一些模型自带平滑功能，让模型看起来非常的漂亮。&lt;/p&gt;
-&lt;h1&gt;词向量的训练&lt;/h1&gt;
+&lt;h1 id="_3"&gt;词向量的训练&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;要介绍词向量是怎么训练得到的，就不得不提到语言模型。到目前为止我了解到的所有训练方法都是在训练语言模型的同时，顺便得到词向量的。&lt;/p&gt;
 &lt;p&gt;这也比较容易理解，要从一段无标注的自然文本中学习出一些东西，无非就是统计出词频、词的共现、词的搭配之类的信息。而要从自然文本中统计并建立一个语言模型，无疑是要求最为精确的一个任务（也不排除以后有人创造出更好更有用的方法）。既然构建语言模型这一任务要求这么高，其中必然也需要对语言进行更精细的统计和分析，同时也会需要更好的模型，更大的数据来支撑。目前最好的词向量都来自于此，也就不难理解了。&lt;/p&gt;
 &lt;p&gt;这里介绍的工作均为从大量未标注的普通文本数据中无监督地学习出词向量（语言模型本来就是基于这个想法而来的），可以猜测，如果用上了有标注的语料，训练词向量的方法肯定会更多。不过视目前的语料规模，还是使用未标注语料的方法靠谱一些。&lt;/p&gt;
 &lt;p&gt;词向量的训练最经典的有3个工作，&lt;strong&gt;C&amp;amp;W 2008、M&amp;amp;H 2008、Mikolov 2010&lt;/strong&gt;。当然在说这些工作之前，不得不介绍一下这一系列中Bengio的经典之作。&lt;/p&gt;
-&lt;h1&gt;语言模型简介&lt;/h1&gt;
+&lt;h1 id="_4"&gt;语言模型简介&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;插段广告，简单介绍一下语言模型，知道的可以无视这节。&lt;/p&gt;
 &lt;p&gt;语言模型其实就是看一句话是不是正常人说出来的。这玩意很有用，比如机器翻译、语音识别得到若干候选之后，可以利用语言模型挑一个尽量靠谱的结果。在NLP的其它任务里也都能用到。&lt;/p&gt;
@@ -295,7 +295,7 @@ P(w_1,w_2,…,w_t)=P(w_1)×P(w_2|w_1)×P(w_3|w_1,w_2)×…×P(w_t|w_1,w_2,…,w_
 &lt;p&gt;常用的语言模型都是在近似地求$P(w_t|w_1,w_2,…,w_{t−1})$。比如&lt;strong&gt;n-gram&lt;/strong&gt;模型就是用$P(w_t|w_{t−n+1},…,w_{t−1})$近似表示前者。
 　　
 顺便提一句，由于后面要介绍的每篇论文使用的符号差异太大，本博文里尝试统一使用Bengio 2003的符号系统（略做简化），以便在各方法之间做对比和分析。&lt;/p&gt;
-&lt;h2&gt;Bengio的经典之作&lt;/h2&gt;
+&lt;h2 id="bengio"&gt;Bengio的经典之作&lt;/h2&gt;
 &lt;p&gt;用神经网络训练语言模型的思想最早由百度IDL的徐伟于2000提出。（感谢&lt;a href="http://weibo.com/1862459915"&gt;@余凯_西二旗民工&lt;/a&gt;博士指出。）其论文《Can Artificial Neural Networks Learn Language Models?》提出一种用神经网络构建二元语言模型（即$P(w_t|w_{t−1})$的方法)。文中的基本思路与后续的语言模型的差别已经不大了。&lt;/p&gt;
 &lt;p&gt;训练语言模型的最经典之作，要数Bengio等人在2001年发表在NIPS上的文章《A Neural Probabilistic Language Model》。当然现在看的话，肯定是要看他在2003年投到JMLR上的同名论文了。&lt;/p&gt;
 &lt;p&gt;Bengio用了一个三层的神经网络来构建语言模型，同样也是n-gram模型。如下图所示:&lt;/p&gt;
@@ -314,7 +314,7 @@ y=b+Wx+Utanh(d+Hx)
 &lt;p&gt;在结束介绍 Bengio大牛的经典作品之前再插一段八卦。在其JMLR论文中的未来工作一段，他提了一个能量函数，把输入向量和输出向量统一考虑，并以最小化能量函数为目标进行优化。后来M&amp;amp;H工作就是以此为基础展开的。&lt;/p&gt;
 &lt;p&gt;他提到一词多义有待解决，9年之后Huang提出了一种解决方案。他还在论文中随口（不是在Future Work中写的）提到：可以使用一些方法降低参数个数，比如用循环神经网络。后来Mikolov就顺着这个方向发表了一大堆论文，直到博士毕业。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;大牛就是大牛&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2&gt;C&amp;amp;W的SENNA&lt;/h2&gt;
+&lt;h2 id="cwsenna"&gt;C&amp;amp;W的SENNA&lt;/h2&gt;
 &lt;p&gt;Ronan Collobert和Jason Weston在2008年的ICML上发表的《A Unified Architecture for Natural Language Processing: Deep Neural Networks with Multitask Learning》里面首次介绍了他们提出的词向量的计算方法。和上一篇牛文类似，如果现在要看的话，应该去看他们在 2011 年投到JMLR上的论文《Natural Language Processing (Almost) from Scratch》。文中总结了他们的多项工作，非常有系统性。这篇JMLR的论文题目也很霸气啊：从头开始搞 NLP。他们还把论文所写的系统开源了，叫做&lt;a href="http://ml.nec-labs.com/senna/"&gt;SENNA&lt;/a&gt;，3500多行纯C代码也是写得非常清晰。我就是靠着这份代码才慢慢看懂这篇论文的。可惜的是，代码只有测试部分，没有训练部分。&lt;/p&gt;
 &lt;p&gt;实际上C&amp;amp;W这篇论文主要目的并不是在于生成一份好的词向量，甚至不想训练语言模型，而是要用这份词向量去完成NLP里面的各种任务，比如词性标注、命名实体识别、短语识别、语义角色标注等等。&lt;/p&gt;
 &lt;p&gt;由于目的的不同，C&amp;amp;W的词向量训练方法在我看来也是最特别的。他们没有去近似地求$P(w_t|w_1,w_2,…,w_{t−1})$，而是直接去尝试近似$P(w_1,w_2,…,w_t)$。在实际操作中，他们并没有去求一个字符串的概率，而是求窗口连续$n$个词的打分$f(w_{t−n+1},…,w_{t−1},w_t)$。打分$f$越高的说明这句话越是正常的话；打分低的说明这句话不是太合理；如果是随机把几个词堆积在一起，那肯定是负分（差评）。打分只有相对高低之分，并没有概率的特性。&lt;/p&gt;
@@ -332,7 +332,7 @@ y=b+Wx+Utanh(d+Hx)
 &lt;/ol&gt;
 &lt;p&gt;不过好在Turian在2010年对C&amp;amp;W和M&amp;amp;H向量做对比时，重新训练了一份词向量放到了网上，那份就没上面的两个“问题”（确切的说应该是差别），也可以用的更放心。后面会详细介绍Turian的工作。&lt;/p&gt;
 &lt;p&gt;关于这篇论文其实还是有些东西可以吐槽的，不过训练词向量这一块没有，是论文其他部分的。把吐槽机会留给下一篇博文了。&lt;/p&gt;
-&lt;h2&gt;M&amp;amp;H的HLBL&lt;/h2&gt;
+&lt;h2 id="mhhlbl"&gt;M&amp;amp;H的HLBL&lt;/h2&gt;
 &lt;p&gt;Andriy Mnih和Geoffrey Hinton在2007年和2008年各发表了一篇关于训练语言模型和词向量的文章。2007年发表在ICML上的《Three new graphical models for statistical language modelling》表明了Hinton将Deep Learning战场扩展到NLP领域的决心。2008年发表在 NIPS 上的《A scalable hierarchical distributed language model》则提出了一种层级的思想替换了Bengio 2003方法中最后隐藏层到输出层最花时间的矩阵乘法，在保证效果的基础上，同时也提升了速度。下面简单介绍一下这两篇文章。&lt;/p&gt;
 &lt;p&gt;Hinton在2006年提出Deep Learning的概念之后，很快就来NLP最基础的任务上试了一把。果然，有效。M&amp;amp;H在ICML 2007上发表的这篇文章提出了“Log-Bilinear”语言模型。文章标题中可以看出他们其实一共提了3个模型。从最基本的RBM出发，一点点修改能量函数，最后得到了“Log-Bilinear”模型。&lt;/p&gt;
 &lt;p&gt;模型如果用神经网络的形式写出来，是这个样子：&lt;/p&gt;
@@ -350,7 +350,7 @@ y_j &amp;amp;= C(w_j)^T h
 &lt;p&gt;2008年NIPS的这篇论文，介绍的是“hierarchical log-bilinear”模型，很多论文中都把它称作简称“HLBL”。和前作相比，该方法使用了一个层级的结构做最后的预测。可以简单地设想一下把网络的最后一层变成一颗平衡二叉树，二叉树的每个非叶节点用于给预测向量分类，最后到叶节点就可以确定下一个词是哪个了。这在复杂度上有显著的提升，以前是对$|V|$个词一一做比较，最后找出最相似的，现在只需要做$log_2(|V|)$ 次判断即可。&lt;/p&gt;
 &lt;p&gt;这种层级的思想最初可见于Frederic Morin和Yoshua Bengio于2005年发表的论文《Hierarchical probabilistic neural network language model》中。但是这篇论文使用WordNet中的IS-A关系，转化为二叉树用于分类预测。实验结果发现速度提升了，效果变差了。&lt;/p&gt;
 &lt;p&gt;有了前车之鉴，M&amp;amp;H 就希望能从语料中自动学习出一棵树，并能达到比人工构建更好的效果。M&amp;amp;H使用一种bootstrapping的方法来构建这棵树。从随机的树开始，根据分类结果不断调整和迭代。最后得到的是一棵平衡二叉树，并且同一个词的预测可能处于多个不同的叶节点。这种用多个叶节点表示一个词的方法，可以提升下一个词是多义词时候的效果。M&amp;amp;H做的还不够彻底，后面Huang的工作直接对每个词学习出多个词向量，能更好地处理多义词。&lt;/p&gt;
-&lt;h2&gt;Mikolov的RNNLM&lt;/h2&gt;
+&lt;h2 id="mikolovrnnlm"&gt;Mikolov的RNNLM&lt;/h2&gt;
 &lt;p&gt;前文说到，Bengio 2003论文里提了一句，可以使用一些方法降低参数个数，比如用循环神经网络。Mikolov就抓住了这个坑，从此与循环神经网络结下了不解之缘。他最早用循环神经网络做语言模型是在INTERSPEECH 2010上发表的《Recurrent neural network based language model》里。Recurrent neural network是循环神经网络，简称 RNN，还有个Recursive neural networks是递归神经网络（Richard Socher借此发了一大堆论文），也简称RNN。看到的时候需要注意区分一下。不过到目前为止，RNNLM只表示循环神经网络做的语言模型，还没有歧义。&lt;/p&gt;
 &lt;p&gt;在之后的几年中，Mikolov在一直在RNNLM上做各种改进，有速度上的，也有准确率上的。现在想了解RNNLM，看他的博士论文《Statistical Language Models based on Neural Networks》肯定是最好的选择。&lt;/p&gt;
 &lt;p&gt;循环神经网络与前面各方法中用到的前馈网络在结构上有比较大的差别，但是原理还是一样的。网络结构大致如下图所示:&lt;/p&gt;
@@ -365,7 +365,7 @@ s(t)=sigmoid(Uw(t)+Ws(t−1))
 &lt;p&gt;对于最后隐藏层到输出层的巨大计算量，Mikolov使用了一种分组的方法：根据词频将$|V|$个词分成$\sqrt{|V|}$组，先通过 $\sqrt{|V|}$次判断，看下一个词属于哪个组，再通过若干次判断，找出其属于组内的哪个元素。最后均摊复杂度约为 $O(\sqrt{|V|})$，略差于M&amp;amp;H的$O(log(|V|))$，但是其浅层结构某种程度上可以减少误差传递，也不失为一种良策。&lt;/p&gt;
 &lt;p&gt;Mikolov的&lt;a href="http://www.fit.vutbr.cz/~imikolov/rnnlm/"&gt;RNNLM&lt;/a&gt;也是开源的。非常算法风格的代码，几乎所有功能都在一个文件里，工程也很好编译。比较好的是，RNNLM可以完美支持中文，如果语料存成UTF-8格式，就可以直接用了。&lt;/p&gt;
 &lt;p&gt;最后吐槽一句，我觉得他在隐藏层用sigmoid作为激活函数不够漂亮。&lt;strong&gt;因为隐藏层要和输入词联合计算得到下一个隐藏层，如果当前隐藏层的值全是正的，那么输入词对应的参数就会略微偏负(?)&lt;/strong&gt;，也就是说最后得到的词向量的均值不在0附近。总感觉不好看。当然，从实验效果看，是我太强迫症了。&lt;/p&gt;
-&lt;h2&gt;Huang的语义强化&lt;/h2&gt;
+&lt;h2 id="huang"&gt;Huang的语义强化&lt;/h2&gt;
 &lt;p&gt;与前几位大牛的工作不同，Eric H. Huang的工作是在C&amp;amp;W的基础上改进而成的，并非自成一派从头做起。他这篇发表在ACL 2012上的《Improving Word Representations via Global Context and Multiple Word Prototypes》试图通过对模型的改进，使得词向量富含更丰富的语义信息。他在文中提出了两个主要创新来完成这一目标：（其实从论文标题就能看出来）第一个创新是使用全文信息辅助已有的局部信息，第二个创新是使用多个词向量来表示多义词。下面逐一介绍。&lt;/p&gt;
 &lt;p&gt;Huang认为C&amp;amp;W的工作只利用了“局部上下文（Local Context）”。C&amp;amp;W 在训练词向量的时候，只使用了上下文各5个词，算上自己总共有11个词的信息，这些局部的信息还不能充分挖掘出中间词的语义信息。Huang直接使用C&amp;amp;W的网络结构计算出一个得分，作为“局部得分”。&lt;/p&gt;
 &lt;p&gt;然后Huang提出了一个“全局信息”，这有点类似传统的词袋子模型。词袋子模型是把文章中所有词的One-hot Representation 加起来，形成一个向量（就像把词全都扔进一个袋子里），用来表示文章。Huang的全局模型是将文章中所有词的词向量求个加权平均（权重是词的$idf$），作为文章的语义。他把文章的语义向量和当前词的词向量拼接起来，形成一个两倍长度的向量作为输入，之后还是用C&amp;amp;W的网络结构算出一个打分。&lt;/p&gt;
@@ -376,10 +376,10 @@ s(t)=sigmoid(Uw(t)+Ws(t−1))
 &lt;p&gt;当然这个实验的效果也是很不错的，最后star的某一个表示最接近的词是movie、film；另一个表示最接近的词是galaxy、planet。
 　　
 这篇文章还做了一些对比实验，在下一章评价里细讲。&lt;/p&gt;
-&lt;h1&gt;词向量的评价&lt;/h1&gt;
+&lt;h1 id="_5"&gt;词向量的评价&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;词向量的评价大体上可以分成两种方式，第一种是把词向量融入现有系统中，看对系统性能的提升；第二种是直接从语言学的角度对词向量进行分析，如相似度、语义偏移等。&lt;/p&gt;
-&lt;h2&gt;提升现有系统&lt;/h2&gt;
+&lt;h2 id="_6"&gt;提升现有系统&lt;/h2&gt;
 &lt;p&gt;词向量的用法最常见的有两种：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;直接用于神经网络模型的输入层。如C&amp;amp;W的SENNA系统中，将训练好的词向量作为输入，用前馈网络和卷积网络完成了词性标注、语义角色标注等一系列任务。再如Socher将词向量作为输入，用递归神经网络完成了句法分析、情感分析等多项任务。&lt;/li&gt;
@@ -389,7 +389,7 @@ s(t)=sigmoid(Uw(t)+Ws(t−1))
 　　
 C&amp;amp;W的论文中有一些对比实验。实验的结果表明，使用词向量作为初始值替代随机初始值，其效果会有非常显著的提升（如：词性标注准确率从96.37%提升到97.20%；命名实体识别F值从81.47%提升到88.67%）。同时使用更大的语料来训练，效果也会有一些提升。&lt;/p&gt;
 &lt;p&gt;Turian发表在ACL 2010上的实验对比了C&amp;amp;W向量与M&amp;amp;H向量用作辅助特征时的效果。在短语识别和命名实体识别两个任务中，C&amp;amp;W 向量的效果都有略微的优势。同时他也发现，如果将这两种向量融合起来，会有更好的效果。除了这两种词向量，Turian 还使用Brown Cluster作为辅助特征做了对比，效果最好的其实是Brown Cluster，不过这个已经超出本文的范围了。&lt;/p&gt;
-&lt;h2&gt;语言学评价&lt;/h2&gt;
+&lt;h2 id="_7"&gt;语言学评价&lt;/h2&gt;
 &lt;p&gt;Huang 2012的论文提出了一些创新，能提升词向量中的语义成分。他也做了一些实验对比了各种词向量的语义特性。实验方法大致就是将词向量的相似度与人工标注的相似度做比较。最后Huang的方法语义相似度最好，其次是C&amp;amp;W向量，再然后是Turian训练的HLBL向量与C&amp;amp;W向量。这里因为Turian训练词向量时使用的数据集（RCV1）与其他的对比实验（Wiki）并不相同，因此并不是非常有可比性。但从这里可以推测一下，可能更大更丰富的语料对于语义的挖掘是有帮助的。&lt;/p&gt;
 &lt;p&gt;还有一个有意思的分析是Mikolov在2013年刚刚发表的一项发现。他发现两个词向量之间的关系，可以直接从这两个向量的差里体现出来。向量的差就是数学上的定义，直接逐位相减。比如$C(king)−C(queen) \approx C(man)−C(woman)$。更强大的是，与$C(king)−C(man)+C(woman)$最接近的向量就是$C(queen)$。&lt;/p&gt;
 &lt;p&gt;为了分析词向量的这个特点， Mikolov使用类比&lt;strong&gt;（analogy）&lt;/strong&gt;的方式来评测。如已知$a$之于$b$犹如$c$之于$d$。现在给出 $a、b、c$，看$C(a)−C(b)+C(c)$最接近的词是否是$d$。&lt;/p&gt;
@@ -398,7 +398,7 @@ C&amp;amp;W的论文中有一些对比实验。实验的结果表明，使用词
 &lt;p&gt;在语义关系上，表现最好的还是$RNN$，然后是$Turian$的两个向量，差距没刚才的大。（RNN-80:0.211；C&amp;amp;W-100:0.154；HLBL-100:0.146）&lt;/p&gt;
 &lt;p&gt;但是这个对比实验用的训练语料是不同的，也不能特别说明优劣。&lt;/p&gt;
 &lt;p&gt;这些实验结果中最容易理解的是：&lt;strong&gt;语料越大，词向量就越好&lt;/strong&gt;。其它的实验由于缺乏严格控制条件进行对比，谈不上哪个更好哪个更差。不过这里的两个语言学分析都非常有意思，尤其是向量之间存在这种线性平移的关系，可能会是词向量发展的一个突破口。&lt;/p&gt;
-&lt;h1&gt;参考文献&lt;/h1&gt;
+&lt;h1 id="_8"&gt;参考文献&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;Yoshua Bengio, Rejean Ducharme, Pascal Vincent, and Christian Jauvin. &lt;strong&gt;A neural probabilistic language model&lt;/strong&gt;. Journal of Machine Learning Research (JMLR), 3:1137–1155, 2003. &lt;a href="http://www.jmlr.org/papers/volume3/bengio03a/bengio03a.pdf"&gt;PDF&lt;/a&gt;&lt;/li&gt;
@@ -441,7 +441,7 @@ C&amp;amp;W的论文中有一些对比实验。实验的结果表明，使用词
 &lt;/script&gt;
 </summary><category term="Deep Learning"></category><category term="NLP"></category></entry><entry><title>RSA是如何炼成的</title><link href="http://www.qingyuanxingsi.com/rsashi-ru-he-lian-cheng-de.html" rel="alternate"></link><updated>2014-05-09T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-09:rsashi-ru-he-lian-cheng-de.html</id><summary type="html">&lt;p&gt;最近为了研究某个极其无聊的问题，读了一些公钥加密的历史，意外地发现这段历史竟然非常有趣。尤其是&lt;strong&gt;RSA&lt;/strong&gt;算法的诞生过程，被很多书写得非常励志，看得人热血澎湃。果然比起算法本身，这些背后的故事更能吸引我的兴趣。&lt;/p&gt;
 &lt;p&gt;RSA算法具体是怎么回事，我就不在这瞎说了。简介可以看&lt;a href="http://en.wikipedia.org/wiki/RSA_(cryptosystem)"&gt;Wikipedia&lt;/a&gt;，如果想形象一点理解算法本身，这儿有个&lt;a href="http://v.youku.com/v_show/id_XNDQ0NTE3MDA0.html"&gt;不错的视频&lt;/a&gt;，可以通过它了解RSA的基本思想。我就直接从RSA这三个人说起了。参考的书籍资料列在文末。&lt;/p&gt;
-&lt;h1&gt;RSA背后的三个小伙&lt;/h1&gt;
+&lt;h1 id="rsa"&gt;RSA背后的三个小伙&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;RSA是由三个提出者Ron Rivest、Adi Shamir和Leonard Adleman的姓氏首字母组成的。这三个人风格迥异，组成了一个技能互补的完美团队。&lt;/p&gt;
 &lt;p&gt;Ron Rivest，RSA中的R。他在耶鲁读数学系，随后跑到斯坦福读计算机科学系研究人工智能。他所研究的课题——让机器人在没有人干预的情况下在停车场散步，在那个计算机科学系仅成立四年的年代明显太过乐观，但他依然乐此不疲。毕业后他接受MIT任教的工作机会。也许是因为多年积累的科研氛围，他对新技术非常兴奋，大量阅读前沿文献。与此同时，他认为迷人的理论应该与现实世界相结合，才能散发魅力，对世界有所改变，这也是他的理想。&lt;/p&gt;
@@ -450,7 +450,7 @@ C&amp;amp;W的论文中有一些对比实验。实验的结果表明，使用词
 &lt;p&gt;这三人当时都非常年轻，二十多、三十出头的样子。他们的办公室距离很近，可以经常串门。于是故事就从一次Adleman 的串门开始了。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="RSA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/RSA_zpsa58c4c16.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;[注:自左至右：&lt;em&gt;Adi Shamir, Ron Rivest, Leonard Adleman&lt;/em&gt;]&lt;/p&gt;
-&lt;h1&gt;42次的失败&lt;/h1&gt;
+&lt;h1 id="42"&gt;42次的失败&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;1976年底的某天，Adleman无意推开Rivest的房门。热爱新技术的Rivest果不其然正拿着份楼上的Whitfield Diffie与Martin Hellman合作发表的新论文研究。自认为对前沿理念无所不晓的Rivest，没料到这篇文章提出了一个前所未有的思路，这让他兴奋不已。正琢磨着，Adleman推门进来了，Rivest便忘我地向Adleman讲解了这篇论文中所述的思想，在Adleman听起来大约是这样的：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -461,15 +461,15 @@ C&amp;amp;W的论文中有一些对比实验。实验的结果表明，使用词
 &lt;p&gt;三人走火入魔一般，吃饭聊、喝酒聊，甚至去滑雪度假也不忘讨论这件事。Shamir就在滑雪的时候想到了一个绝妙的点子，以至于把滑雪板都落在了身后。当他意识到这一点回头去取时，却又不幸忘记了那个一闪而过的点子。相对来说给他们启发的Diffie要幸运一些，他在下楼买可乐的时候同样让灵感溜走，好在上楼的过程中他又想起来了，这个差点溜走的灵感正是Rivest那天手中所拿论文的核心思想，为RSA算法奠定了基础。&lt;/p&gt;
 &lt;p&gt;起初Rivest和Shamir构造出来的算法很快就能被Adleman破解，二人受到强烈的打击，以至于有一阶段他们走向了另一个极端，试图证明Diffie他们的想法根本就是不靠谱的。但慢慢的，破解变得没那么容易，特别是他们的第32号方案，Adleman用了一晚上才找出漏洞，这让他们感觉胜利就在眼前。&lt;/p&gt;
 &lt;p&gt;就这样，Rivest和Shamir先后抛出了42个方案，虽然这42个全部被Adleman击破，不过他们的努力并不算白费，至少指出了42条错误的路线。&lt;/p&gt;
-&lt;h1&gt;算法的诞生与命名&lt;/h1&gt;
+&lt;h1 id="_1"&gt;算法的诞生与命名&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;1977年4月，Rivest和其余两人参加了犹太逾越节的Party，喝了些酒。到家后Rivest睡不着，随手翻了翻数学书，随后一个灵感逐渐清晰起来。他大气不敢出一口，冷静下来连夜整理自己的思路，一气呵成写就了一篇论文。次日，Rivest把论文拿给Adleman，做好再一次徒劳的心理准备，但这一次Adleman认输了，认为这个方案应该是可行的。&lt;/p&gt;
 &lt;p&gt;按照惯例，Rivest按姓氏字母序将三人的名字署在论文上，也就是Adleman、Rivest、Shamir，但Adleman总觉得自己贡献微乎其微，不过是泼泼冷水，不至于还要署个名，便要求Rivest拿掉自己的名字。在Rivest的坚持下，他最终要求至少把自己的名字放到最后。也正因为如此，RSA叫做RSA没有被叫做ARS。虽然Adleman一开始认为这注定是他诸多论文中最不起眼的一篇，RSA 走红后他还是调侃说，越来越觉得 ARS 更顺口了。&lt;/p&gt;
-&lt;h1&gt;之后&lt;/h1&gt;
+&lt;h1 id="_2"&gt;之后&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;之后的历史我们就非常熟悉了，他们的论文受到各方赞赏。Rivest还把论文发给马丁加德纳一份，加德纳非常感兴趣，把Rivest请到家里面谈，进一步了解RSA算法。当然此前，加德纳还不忘先表演一个扑克魔术。这次会面也促成后来马丁加德纳在他著名的专栏刊登RSA算法及破解奖金的故事。至于R、S、A这三人，依然保持着友谊，还成立了RSA公司，赚了一大笔钱。&lt;/p&gt;
 &lt;p&gt;最后，既然RSA是根据提出者命名的，必然也逃不出&lt;a href="http://en.wikipedia.org/wiki/Stigler%27s_law_of_eponymy"&gt;Stigler’s law&lt;/a&gt;的魔爪。的确从时间上来说，RSA这三人并非最早提出这个算法的人。事实上早于这三人四年时间，RSA 算法的思想就被英国学者构造出来了。早在1969年，英国密码学家James Ellis 就想到了公钥密码的概念，但同样卡在寻找单向函数这个问题上。1973年9月，年仅26岁的数学家Clifford Cocks听说这个思想后，在完全不了解状况的心理状态下花不到半小时就找到了Rivest他们苦思冥想的方案。但是，他们效力于政府，这个绝妙的想法立刻被相关机构封锁，变为机密，谁也不能对外公开自己的发现，于是他们眼睁睁地看着 Diffie 及 RSA 等人重现了他们当时的研究并享有盛誉。直到1997年底，时隔二十余年，这件事情才被公之于众。遗憾的是那时候Ellis 已经过世一个月，直至逝世都是一个无名英雄。&lt;/p&gt;
-&lt;h1&gt;参考资料&lt;/h1&gt;
+&lt;h1 id="_3"&gt;参考资料&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.amazon.cn/Crypto-How-the-Code-Rebels-Beat-the-Government-Saving-Privacy-in-the-Digital-Age-Levy-Steven/dp/0140244328/ref=sr_1_1?ie=UTF8&amp;amp;qid=1388319023"&gt;Crypto: How the Code Rebels Beat the Government–Saving Privacy in the Digital Age&lt;/a&gt;;Steven Levy所著，大部分内容都是从这本书了解到的。书里从Whitfield Diffie的八卦（是真的八卦，和他老婆的相遇之类）说起，一直说到非常现实的NSA涉入等情节，写得很详细很有趣。中译本译作《隐私的终结》，但翻译水平非常有限，比如把爱伦坡译成艾伦坡和阿兰坡两种不同译法，把cutting-edge翻译成边缘，或者干脆把算法水平有待提高翻译成精通算法什么的…&lt;/li&gt;
@@ -587,9 +587,9 @@ k \leq (D/\gamma)^2
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;小编推荐&lt;/strong&gt;:本部分是我爱自然语言博客里写的最好的几篇文章了,墙裂推荐阅读;通过阅读本部分的文章,我对Metropolis Hastings算法以及Gibbs Sampling有了更为深入的了解。BTW,数学史真的很好玩啊！&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1&gt;MCMC 和 Gibbs Sampling&lt;/h1&gt;
+&lt;h1 id="mcmc-gibbs-sampling"&gt;MCMC 和 Gibbs Sampling&lt;/h1&gt;
 &lt;hr /&gt;
-&lt;h2&gt;随机模拟&lt;/h2&gt;
+&lt;h2 id="_1"&gt;随机模拟&lt;/h2&gt;
 &lt;p&gt;随机模拟(或者统计模拟)方法有一个很酷的别名是蒙特卡罗方法(Monte Carlo Simulation)。这个方法的发展始于20世纪40年代，和原子弹制造的曼哈顿计划密切相关，当时的几个大牛，包括乌拉姆、冯.诺依曼、费米、费曼、Nicholas Metropolis，在美国洛斯阿拉莫斯国家实验室研究裂变物质的中子连锁反应的时候，开始使用统计模拟的方法,并在最早的计算机上进行编程实现。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Simulation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/simulation_zpsfd333536.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;现代的统计模拟方法最早由数学家乌拉姆提出，被Metropolis命名为蒙特卡罗方法，蒙特卡罗是著名的赌场，赌博总是和统计密切关联的，所以这个命名风趣而贴切，很快被大家广泛接受。被不过据说费米之前就已经在实验中使用了，但是没有发表。说起蒙特卡罗方法的源头，可以追溯到18世纪，布丰当年用于计算π的著名的投针实验就是蒙特卡罗模拟实验。统计采样的方法其实数学家们很早就知道，但是在计算机出现以前，随机数生成的成本很高，所以该方法也没有实用价值。随着计算机技术在二十世纪后半叶的迅猛发展，随机模拟技术很快进入实用阶段。对那些用确定算法不可行或不可能解决的问题，蒙特卡罗方法常常为人们带来希望。&lt;/p&gt;
@@ -615,7 +615,7 @@ Z_1 &amp;amp; = \sqrt{-2\ln U_1} sin(2\pi U_2)
 &lt;li&gt;$p(x,y)$是一个二维的分布函数，这个函数本身计算很困难，但是条件分布$p(x|y),p(y|x)$的计算相对简单;如果$p(x)$是高维的，这种情形就更加明显。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;此时就需要使用一些更加复杂的随机模拟的方法来生成样本。而本节中将要重点介绍的 MCMC(Markov Chain Monte Carlo) 和 Gibbs Sampling算法就是最常用的一种，这两个方法在现代贝叶斯分析中被广泛使用。要了解这两个算法，我们首先要对马氏链的平稳分布的性质有基本的认识。&lt;/p&gt;
-&lt;h2&gt;马氏链及其平稳分布&lt;/h2&gt;
+&lt;h2 id="_2"&gt;马氏链及其平稳分布&lt;/h2&gt;
 &lt;p&gt;马氏链的数学定义很简单:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 P(X_{t+1}=x|X_t, X_{t-1}, \cdots) =P(X_{t+1}=x|X_t)
@@ -704,7 +704,7 @@ X_{n+2}&amp;amp; \sim \pi(x) \\
 \end{split}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;所以$X_n,X_{n+1},X_{n+2},\cdots \sim \pi(x)$都是同分布的随机变量，当然他们并不独立。如果我们从一个具体的初始状态$x_0$开始,沿着马氏链按照概率转移矩阵做跳转，那么我们得到一个转移序列$x_0,x_1,x_2,\cdots,x_n,x_{n+1},\cdots$, 由于马氏链的收敛行为，$x_n,x_{n+1},...$ 都将是平稳分布$\pi(x)$的样本。&lt;/p&gt;
-&lt;h2&gt;Markov Chain Monte Carlo&lt;/h2&gt;
+&lt;h2 id="markov-chain-monte-carlo"&gt;Markov Chain Monte Carlo&lt;/h2&gt;
 &lt;p&gt;对于给定的概率分布$p(x)$,我们希望能有便捷的方式生成它对应的样本。由于马氏链能收敛到平稳分布，于是一个很漂亮的想法是：如果我们能构造一个转移矩阵为$P$的马氏链，使得该马氏链的平稳分布恰好是$p(x)$,那么我们从任何一个初始状态$x_0$出发沿着马氏链转移, 得到一个转移序列$x_0,x_1,x_2,\cdots,x_n,x_{n+1}\cdots$，如果马氏链在第$n$步已经收敛了，于是我们就得到了$p(x)$的样本$x_n,x_{n+1},\cdots$。&lt;/p&gt;
 &lt;p&gt;这个绝妙的想法在1953年被Metropolis想到了，为了研究粒子系统的平稳性质，Metropolis考虑了物理学中常见的波尔兹曼分布的采样问题，首次提出了基于马氏链的蒙特卡罗方法，即Metropolis算法，并在最早的计算机上编程实现。Metropolis算法是首个普适的采样方法，并启发了一系列MCMC方法，所以人们把它视为随机模拟技术腾飞的起点。Metropolis的这篇论文被收录在《统计学中的重大突破》中，Metropolis算法也被遴选为二十世纪的十个最重要的算法之一。&lt;/p&gt;
 &lt;p&gt;我们接下来介绍的MCMC算法是Metropolis算法的一个改进变种，即常用的&lt;strong&gt;Metropolis-Hastings&lt;/strong&gt;算法。由上一节的例子和定理我们看到了，马氏链的收敛性质主要由转移矩阵$P$决定,所以基于马氏链做采样的关键问题是如何构造转移矩阵$P$,使得平稳分布恰好是我们要的分布$p(x)$。如何能做到这一点呢？我们主要使用如下的定理。&lt;/p&gt;
@@ -762,7 +762,7 @@ p(x)Q\prime (x→y)=p(y)Q\prime(y→x)
 p(\mathbf{x}) Q’(\mathbf{x}\rightarrow \mathbf{y}) = p(\mathbf{y}) Q’(\mathbf{y}\rightarrow \mathbf{x})
 \end{equation}&lt;/p&gt;
 &lt;p&gt;那么以上的Metropolis-Hastings算法一样有效。&lt;/p&gt;
-&lt;h2&gt;Gibbs Sampling&lt;/h2&gt;
+&lt;h2 id="gibbs-sampling"&gt;Gibbs Sampling&lt;/h2&gt;
 &lt;p&gt;对于高维的情形，由于接受率$\alpha$的存在(通常$\alpha$&amp;lt;1), 以上Metropolis-Hastings算法的效率不够高。能否找到一个转移矩阵$Q$使得接受率$\alpha=1$呢？我们先看看二维的情形，假设有一个概率分布 $p(x,y)$, 考察$x$坐标相同的两个点$A(x_1,y_1),B(x_1,y_2)$,我们发现:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \begin{split} 
@@ -811,9 +811,9 @@ p(\mathbf{x_1},y_1)p(y_2|\mathbf{x_1}) = p(\mathbf{x_1},y_2)p(y_1|\mathbf{x_1})
 &lt;p&gt;于是我们可以把Gibbs Smapling算法从采样二维的$p(\mathbf{x},\mathbf{y})$推广到采样$n$维的 $p(x_1,x_2,⋯,x_n)$.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="gibbs-algo-2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs-algo-2_zps69519b9b.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;以上算法收敛后，得到的就是概率分布$p(x_1,x_2,⋯,x_n)$的样本，当然这些样本并不独立，但是我们此处要求的是采样得到的样本符合给定的概率分布，并不要求独立。同样的，在以上算法中，坐标轴轮换采样不是必须的，可以在坐标轴轮换中引入随机性，这时候转移矩阵$Q$中任何两个点的转移概率中就会包含坐标轴选择的概率，而在通常的 Gibbs Sampling 算法中，坐标轴轮换是一个确定性的过程，也就是在给定刻$t$，在一根固定的坐标轴上转移的概率是1。&lt;/p&gt;
-&lt;h1&gt;文本建模&lt;/h1&gt;
+&lt;h1 id="_3"&gt;文本建模&lt;/h1&gt;
 &lt;hr /&gt;
-&lt;h2&gt;文本建模&lt;/h2&gt;
+&lt;h2 id="_4"&gt;文本建模&lt;/h2&gt;
 &lt;p&gt;我们日常生活中总是产生大量的文本，如果每一个文本存储为一篇文档，那每篇文档从人的观察来说就是有序的词的序列$d=(w_1,w_2,\cdots,w_n)$。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Corpus" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/corpus_zpsd5c55aaa.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;包含$M$篇文档的语料库统计文本建模的目的就是追问这些观察到语料库中的的词序列是如何生成的。统计学被人们描述为猜测上帝的游戏，人类产生的所有的语料文本我们都可以看成是一个伟大的上帝在天堂中抛掷骰子生成的，我们观察到的只是上帝玩这个游戏的结果 —— 词序列构成的语料，而上帝玩这个游戏的过程对我们是个黑盒子。所以在统计文本建模中，我们希望猜测出上帝是如何玩这个游戏的，具体一点，最核心的两个问题是:&lt;/p&gt;
@@ -822,7 +822,7 @@ p(\mathbf{x_1},y_1)p(y_2|\mathbf{x_1}) = p(\mathbf{x_1},y_2)p(y_1|\mathbf{x_1})
 &lt;li&gt;上帝是如何抛掷这些骰子的；&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;第一个问题就是表示模型中都有哪些参数，骰子的每一个面的概率都对应于模型中的参数；第二个问题就表示游戏规则是什么，上帝可能有各种不同类型的骰子，上帝可以按照一定的规则抛掷这些骰子从而产生词序列。 &lt;/p&gt;
-&lt;h3&gt;Unigram Model&lt;/h3&gt;
+&lt;h3 id="unigram-model"&gt;Unigram Model&lt;/h3&gt;
 &lt;p&gt;假设我们的词典中一共有$V$个词$v_1,v_2,⋯v_V$，那么最简单的Unigram Model就是认为上帝是按照如下的游戏规则产生文本的。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="game_unigram_model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/game-unigram-model_zpseddfb645.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;上帝的这个唯一的骰子各个面的概率记为$\vec{p} = (p_1, p_2, \cdots, p_V)$, 所以每次投掷骰子类似于一个抛钢镚时候的贝努利实验， 记为$w\sim Mult(w|\vec{p})$.&lt;/p&gt;
@@ -907,7 +907,7 @@ p(\mathcal{W}|\vec\alpha) &amp;amp; = \int p(\mathcal{W}|\vec{p}) p(\vec{p}|\vec
 &amp;amp; = \frac{\Delta( n+\vec\alpha)}{\Delta(\vec\alpha)} 
 \end{split}
 \end{equation}&lt;/p&gt;
-&lt;h3&gt;Topic Model 和 PLSA&lt;/h3&gt;
+&lt;h3 id="topic-model-plsa"&gt;Topic Model 和 PLSA&lt;/h3&gt;
 &lt;p&gt;以上 Unigram Model 是一个很简单的模型，模型中的假设看起来过于简单，和人类写文章产生每一个词的过程差距比较大，有没有更好的模型呢？&lt;/p&gt;
 &lt;p&gt;我们可以看看日常生活中人是如何构思文章的。如果我们要写一篇文章，往往是先确定要写哪几个主题。譬如构思一篇自然语言处理相关的文章，可能$40\%$会谈论语言学,$30\%$谈论概率统计,$20\%$谈论计算机、还有$10\%$谈论其它的主题：&lt;/p&gt;
 &lt;ul&gt;
@@ -932,9 +932,9 @@ p(\vec w|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) =
 \prod_{i=1}^n \sum_{z=1}^K \varphi_{zw_i} \theta_{mz}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;由于文档之间相互独立，我们也容易写出整个语料的生成概率。求解PLSA这个Topic Model的过程汇总，模型参数并容易求解，可以使用著名的EM算法进行求得局部最优解，由于该模型的求解并不是本文的介绍要点，有兴趣的同学参考Hoffman的原始论文，此处略去不讲。&lt;/p&gt;
-&lt;h1&gt;LDA文本建模&lt;/h1&gt;
+&lt;h1 id="lda"&gt;LDA文本建模&lt;/h1&gt;
 &lt;hr /&gt;
-&lt;h2&gt;游戏规则&lt;/h2&gt;
+&lt;h2 id="_5"&gt;游戏规则&lt;/h2&gt;
 &lt;p&gt;对于上述的 PLSA 模型，贝叶斯学派显然是有意见的，doc-topic 骰子$\vec{\theta}_m$和topic-word骰子$\vec\varphi_k$都是模型中的参数，参数都是随机变量，怎么能没有先验分布呢？于是，类似于对Unigram Model的贝叶斯改造， 我们也可以如下在两个骰子参数前加上先验分布从而把PLSA对应的游戏过程改造为一个贝叶斯的游戏过程。由于$\vec\varphi_k$和$\vec{\theta}_m$都对应到多项分布，所以先验分布的一个好的选择就是Drichlet分布，于是我们就得到了&lt;strong&gt;LDA(Latent Dirichlet Allocation)&lt;/strong&gt;模型。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="lda_dice" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-dice_zps843a7bb2.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;在 LDA 模型中, 上帝是按照如下的规则玩文档生成的游戏的.&lt;/p&gt;
@@ -948,7 +948,7 @@ p(\vec w|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) =
 \end{equation}&lt;/p&gt;
 &lt;p&gt;其中，$\vec w_m$表示第$m$篇文档中的词，$\vec z_m$表示这些词对应的topic编号。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="word_topic_example" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/word-topic-vector_zpsa89d3e3d.jpg" /&gt;&lt;/p&gt;
-&lt;h2&gt;物理过程分解&lt;/h2&gt;
+&lt;h2 id="_6"&gt;物理过程分解&lt;/h2&gt;
 &lt;p&gt;使用概率图模型表示， LDA模型的游戏过程如图所示。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="LDA概率图模型表示" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-graph-model_zps41d58402.jpg" /&gt;&lt;/p&gt;
 &lt;p&gt;这个概率图可以分解为两个主要的物理过程： &lt;/p&gt;
@@ -1003,7 +1003,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 \end{split}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;此处的符号表示稍微不够严谨, 向量$ n_k$, $ n_m$都用$n$表示， 主要通过下标进行区分， $k$下标为topic编号, $m$下标为文档编号。&lt;/p&gt;
-&lt;h2&gt;Gibbs Sampling&lt;/h2&gt;
+&lt;h2 id="gibbs-sampling_1"&gt;Gibbs Sampling&lt;/h2&gt;
 &lt;p&gt;有了联合分布$p(\vec{\mathbf{w}},\vec{\mathbf{z}})$, 万能的MCMC算法就可以发挥作用了！于是我们可以考虑使用Gibbs Sampling算法对这个分布进行采样。当然由于$\vec{\mathbf{w}}$是观测到的已知数据，只有$\vec{\mathbf{z}}$是隐含的变量，所以我们真正需要采样的是分布$p(\vec{\mathbf{z}}|\vec{\mathbf{w}})$。在Gregor Heinrich 那篇很有名的LDA 模型科普文章Parameter estimation for text analysis中，是基于(***) 式推导Gibbs Sampling 公式的。此小节中我们使用不同的方式，主要是基于Dirichlet-Multinomial共轭来推导 Gibbs Sampling 公式，这样对于理解采样中的概率物理过程有帮助。&lt;/p&gt;
 &lt;p&gt;语料库$\vec{\mathbf{z}}$中的第$i$个词我们记为$z_i$, 其中$i=(m,n)$是一个二维下标，对应于第$m$篇文档的第$n$个词，我们用$\neg i$表示去除下标为$i$的词。那么按照 Gibbs Sampling 算法的要求，我们要求得任一个坐标轴$i$对应的条件分布$p(z_i = k|\vec{\mathbf{z}}_{\neg i}, \vec{\mathbf{w}})$。假设已经观测到的词$w_i=t$, 则由贝叶斯法则，我们容易得到:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Gibbs_sampling_bayes" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_bayes_rule_zps2af0b023.png" /&gt;&lt;/p&gt;
@@ -1016,7 +1016,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 &lt;p&gt;&lt;img alt="Posterior_Dirichlet" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/posterior_dirichlet_zpsba59a8e5.png" /&gt;&lt;/p&gt;
 &lt;p&gt;使用上面两个式子，把以上想法综合一下，我们就得到了如下的Gibbs Sampling公式的推导:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Gibbs_sampling_formula_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_1_zps3d14e122.png" /&gt;&lt;/p&gt;
-&lt;p&gt;以上推导估计是整篇文章中最复杂的数学了，表面上看上去复杂，但是推导过程中的概率物理意义是简单明了的：$z_i=k,w_i=t$的概率只和两个Dirichlet-Multinomial共轭结构关联。而最终得到的$\hat{\theta}&lt;em kt="kt"&gt;{mk}, \hat{\varphi}&lt;/em&gt;$就是对应的两个Dirichlet后验分布在贝叶斯框架下的参数估计。借助于前面介绍的Dirichlet 参数估计的公式 ，我们有:&lt;/p&gt;
+&lt;p&gt;以上推导估计是整篇文章中最复杂的数学了，表面上看上去复杂，但是推导过程中的概率物理意义是简单明了的：$z_i=k,w_i=t$的概率只和两个Dirichlet-Multinomial共轭结构关联。而最终得到的$\hat{\theta}&lt;em&gt;{mk}, \hat{\varphi}&lt;/em&gt;{kt}$就是对应的两个Dirichlet后验分布在贝叶斯框架下的参数估计。借助于前面介绍的Dirichlet 参数估计的公式 ，我们有:&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \begin{split} 
 \hat\theta_{mk} &amp;amp;= \frac{n_{m,\neg i}^{(k)} + \alpha_k}{\sum_{k=1}^K (n_{m,\neg i}^{(k)} + \alpha_k)} \\ 
@@ -1027,7 +1027,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 &lt;p&gt;&lt;img alt="Gibbs_sampling_formula_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_2_zps3cc27196.png" /&gt;&lt;/p&gt;
 &lt;p&gt;这个公式是很漂亮的， 右边其实就是$p(topic|doc)⋅p(word|topic)$,这个概率其实是doc→topic→word的路径概率，由于topic 有$K$个，所以Gibbs Sampling 公式的物理意义其实就是在这$K$条路径中进行采样。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="doc-topic-word" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs-path-search_zpsb83099d8.jpg" /&gt;&lt;/p&gt;
-&lt;h2&gt;Training and Inference&lt;/h2&gt;
+&lt;h2 id="training-and-inference"&gt;Training and Inference&lt;/h2&gt;
 &lt;p&gt;有了LDA模型，当然我们的目标有两个:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;估计模型中的参数$\vec\varphi_1, \cdots, \vec\varphi_K$和$\vec{\theta}_1, \cdots, \vec{\theta}_M$；&lt;/li&gt;
@@ -1039,7 +1039,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 &lt;p&gt;由这个topic-word频率矩阵我们可以计算每一个$p(word|topic)$概率，从而算出模型参数$\vec\varphi_1, \cdots, \vec\varphi_K$, 这就是上帝用的$K$个topic-word骰子。当然，语料中的文档对应的骰子参数$\vec{\theta}_1, \cdots, \vec{\theta}_M$在以上训练过程中也是可以计算出来的，只要在Gibbs Sampling收敛之后，统计每篇文档中的topic的频率分布，我们就可以计算每一个$p(topic|doc)$概率，于是就可以计算出每一个$\vec{\theta}_m$。由于参数$\vec{\theta}_m$是和训练语料中的每篇文档相关的，对于我们理解新的文档并无用处，所以工程上最终存储LDA模型时候一般没有必要保留。通常，在LDA模型训练的过程中，我们是取Gibbs Sampling收敛之后的$n$个迭代的结果进行平均来做参数估计，这样模型质量更高。&lt;/p&gt;
 &lt;p&gt;有了LDA的模型，对于新来的文档 $doc_{new}$, 我们如何做该文档的topic语义分布的计算呢？基本上inference的过程和training的过程完全类似。对于新的文档， 我们只要认为Gibbs Sampling公式中的$\hat\varphi_{kt}$部分是稳定不变的，是由训练语料得到的模型提供的，所以采样过程中我们只要估计该文档的topic分布$\vec{\theta}_{new}$就好了。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="LDA Inference" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-inference_zpsaa5c9320.jpg" /&gt;&lt;/p&gt;
-&lt;h2&gt;后记LDA&lt;/h2&gt;
+&lt;h2 id="lda_1"&gt;后记LDA&lt;/h2&gt;
 &lt;p&gt;对于专业做机器学习的兄弟而言，只能算是一个简单的Topic Model。但是对于互联网中做数据挖掘、语义分析的工程师，LDA 的门槛并不低。 LDA 典型的属于这样一种机器学习模型：要想理解它，需要比较多的数学背景，要在工程上进行实现，却相对简单。 Gregor Heinrich 的LDA 模型科普文章 Parameter estimation for text analysis 写得非常的出色，这是学习 LDA 的必看文章。不过即便是这篇文章，对于工程师也是有门槛的。我写的这个科普最好对照 Gregor Heinrich 的这篇文章来看， 我用的数学符号也是尽可能和这篇文章保持一致。这份LDA 科普是基于给组内兄弟做报告的 ppt 整理而成的，说是科普其实也不简单，涉及到的数学还是太多。在工业界也混了几年，经常感觉到工程师对于学术界的玩的模型有很强的学习和尝试的欲望，只是学习成本往往太高。所以我写 LDA 的初衷就是写给工业界的工程师们看的，希望把学术界玩的一些模型用相对通俗的方式介绍给工程师；如果这个科普对于读研究生的一些兄弟姐妹也有所启发，只能说那是一个 side effect :-)。我个人很喜欢LDA ，它是在文本建模中一个非常优雅的模型，相比于很多其它的贝叶斯模型， LDA 在数学推导上简洁优美。学术界自 2003 年以来也输出了很多基于LDA 的 Topic Model 的变体，要想理解这些更加高级的 Topic Model, 首先需要很好的理解标准的 LDA 模型。在工业界， Topic Model 在 Google、Baidu 等大公司的产品的语义分析中都有着重要的应用；所以Topic Model 对于工程师而言，这是一个很有应用价值、值得学习的模型。我接触 Topic Model 的时间不长，主要是由于2年前和 PLDA 的作者 Wangyi 一起合作的过程中，从他身上学到了很多 Topic Model 方面的知识。关于 LDA 的相关知识，其实可以写的还有很多：如何提高 LDA Gibbs Sampling 的速度、如何优化超参数、如何做大规模并行化、LDA 的应用、LDA 的各种变体…… 不过我的主要目标还是科普如何理解标准的LDA模型。学习一个模型的时候我喜欢追根溯源，常常希望把模型中的每一个数学推导的细节搞明白，把公式的物理意义想清楚，不过数学推导本身并不是我想要的，把数学推导还原为物理过程才是我乐意做的事。最后引用一下物理学家费曼的名言结束 LDA 的数学科普：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;What I cannot create, I do not understand. — Richard Feynman&lt;/p&gt;
@@ -1074,7 +1074,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
     }
 &lt;/script&gt;
 </summary><category term="NLP"></category></entry><entry><title>自然语言处理(序章):我爱自然语言处理(I)</title><link href="http://www.qingyuanxingsi.com/zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html" rel="alternate"></link><updated>2014-05-05T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-05:zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i.html</id><summary type="html">&lt;p&gt;昨天浏览了一下&lt;a href="http://www.52nlp.cn"&gt;我爱自然语言处理&lt;/a&gt;站点上的全部文章,然后基本过滤下来自己感兴趣的90篇左右的文章,这一阵子就先把这90篇文章认认真真看完吧,总结看的过程中自己感兴趣而且重要的点,遂成此文。&lt;strong&gt;本文中所有资料属我爱自然语言处理及博客原文引用作者所有,特此声明&lt;/strong&gt;。&lt;/p&gt;
-&lt;h1&gt;齐夫定律(Zipf’s Law)&lt;/h1&gt;
+&lt;h1 id="zipfs-law"&gt;齐夫定律(Zipf’s Law)&lt;/h1&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Zipf's Law&lt;/strong&gt;:&lt;/p&gt;
@@ -1097,10 +1097,10 @@ f \times r =k
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;中文分词&lt;/h1&gt;
+&lt;h1 id="_1"&gt;中文分词&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;对于英文而言,由于词自然一般有非常自然的分隔符(空格或标点符号等),因此对于英文而言基本不涉及分词这个任务,而对于中文而言,因为中文没有非常明显的自然分隔符,而且很多自然语言处理任务很大程度上依赖于分词质量,因此中文分词是中文自然语言处理中非常基础且重要的一个任务,以下对中文分词中涉及的基本算法做一个简要的介绍:&lt;/p&gt;
-&lt;h2&gt;最长正向匹配算法&lt;/h2&gt;
+&lt;h2 id="_2"&gt;最长正向匹配算法&lt;/h2&gt;
 &lt;p&gt;最长正向匹配算法的基本流程如下图所示:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="MAX_SEGMENTATION" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/max_segmentation_zpsadc70b2d.png"&gt;&lt;/p&gt;
 &lt;p&gt;逆向匹配法思想与正向一样，只是从右向左切分，这里举一个例子：&lt;/p&gt;
@@ -1129,57 +1129,55 @@ f \times r =k
 &lt;/ol&gt;
 &lt;p&gt;至于怎么实现,&lt;a href="http://yangshangchuan.iteye.com/blog/2031813"&gt;中文分词算法之基于词典的正向最大匹配算法&lt;/a&gt;一文中对针对JAVA的实现有非常详尽的性能分析,其实吧,个人觉得算法无非是在时间和空间间的权衡,对Hash式存储结构而言,一般来讲,空间开销是很大的,而时间上可以做的很好;对于类似于Trie树的数据结构,在某种程度上能节省一定的空间,但肯定比Hash类数据结构慢点。这里我们就不纠结数据结构和性能的差异了,我们使用STL set&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1" title="STL中set的简单学习"&gt;1&lt;/a&gt;&lt;/sup&gt;实现上述功能。&lt;/p&gt;
 &lt;p&gt;以下给出逆向最长匹配算法C++源码(&lt;strong&gt;代码中词典的初始化只用了几个词,实际中可从词表文件中读取并构造一个词典,此处代码只是为了演示算法框架&lt;/strong&gt;):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;iostream&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
-&lt;span class="vi"&gt;#include&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;set&amp;gt;
 
-&lt;span class="nx"&gt;using&lt;/span&gt; &lt;span class="nx"&gt;namespace&lt;/span&gt; &lt;span class="nx"&gt;std&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+using namespace std;
 
-&lt;span class="cm"&gt;/**&lt;/span&gt;
-&lt;span class="cm"&gt; *A simple inverse match algorithm&lt;/span&gt;
-&lt;span class="cm"&gt; *@author:qingyuanxingsi&lt;/span&gt;
-&lt;span class="cm"&gt; *@date:2014-05-04&lt;/span&gt;
-&lt;span class="cm"&gt; *@version:1.0&lt;/span&gt;
-&lt;span class="cm"&gt; */&lt;/span&gt;
-&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;main&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="nx"&gt;argc&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nx"&gt;char&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="nx"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="c1"&gt;//Max word length&lt;/span&gt;
-    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;max_len&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;split_sequence&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"/"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="nx"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;to_split&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s2"&gt;"计算语言学真有意思啊"&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="nb"&gt;set&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="kt"&gt;string&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nx"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="c1"&gt;//Initialize the dict&lt;/span&gt;
-    &lt;span class="nx"&gt;dict.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"计算语言学"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="nx"&gt;dict.insert&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;"意思"&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="c1"&gt;//Split the Chinese Sequence&lt;/span&gt;
-    &lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;tail&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;to_split.length&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-    &lt;span class="nb"&gt;for&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="nx"&gt;max_len&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-      &lt;span class="kt"&gt;string&lt;/span&gt; &lt;span class="n"&gt;temp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;to_split.substr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="na"&gt;-i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-      &lt;span class="c1"&gt;//If single word&lt;/span&gt;
-      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;temp.length&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-        &lt;span class="nx"&gt;cout&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;split_sequence&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;temp&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="nx"&gt;tail&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;max_len&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-            &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;max_len&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-      &lt;span class="p"&gt;}&lt;/span&gt;
-      &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;dict.find&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;temp&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;!=&lt;/span&gt;&lt;span class="nx"&gt;dict.end&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt;
-        &lt;span class="nx"&gt;cout&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;split_sequence&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;temp&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;endl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="nx"&gt;tail&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;max_len&lt;/span&gt;&lt;span class="p"&gt;){&lt;/span&gt;
-            &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;tail&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-        &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;max_len&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-      &lt;span class="p"&gt;}&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;  
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+/**
+ *A simple inverse match algorithm
+ *@author:qingyuanxingsi
+ *@date:2014-05-04
+ *@version:1.0
+ */
+int main(int argc, char **argv) {
+    //Max word length
+    const int max_len = 5;
+    const string split_sequence = "/";
+    const string to_split = "计算语言学真有意思啊";
+    set&amp;lt;string&amp;gt; dict;
+    //Initialize the dict
+    dict.insert("计算语言学");
+    dict.insert("意思");
+    //Split the Chinese Sequence
+    int tail = to_split.length();
+    for(int i=max_len;i&amp;gt;0&amp;amp;&amp;amp;tail&amp;gt;0;i--){
+      string temp = to_split.substr(tail-i,i);
+      //If single word
+      if(temp.length()==1){
+        cout&amp;lt;&amp;lt;split_sequence&amp;lt;&amp;lt;temp&amp;lt;&amp;lt;endl;
+        tail -=1;
+        if(tail&amp;lt;max_len){
+            i = tail+1;
+        }
+        else{
+            i = max_len+1;
+        }
+      }
+      if(dict.find(temp)!=dict.end()){
+        cout&amp;lt;&amp;lt;split_sequence&amp;lt;&amp;lt;temp&amp;lt;&amp;lt;endl;
+        tail -=i;
+        if(tail&amp;lt;max_len){
+            i = tail+1;
+        }
+        else{
+            i = max_len+1;
+        }
+      }
+    }  
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:这种机械的分词方法实际上是远远满足不了我们的需要的,对于某些特定的句子不管采用正向最长匹配还是逆向最长匹配都会产生错误切分。比如说&lt;strong&gt;"结婚的和尚未结婚的"&lt;/strong&gt;,采用正向最长匹配就得不到正确的分词结果,逆向最长匹配也类同。类似的分词方法还有&lt;strong&gt;最小词数法&lt;/strong&gt;等。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -1189,7 +1187,7 @@ f \times r =k
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E6%9C%80%E5%A4%A7%E5%8C%B9%E9%85%8D%E6%B3%95%E6%89%A9%E5%B1%952"&gt;中文分词入门之最大匹配法扩展2&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/%E4%B8%AD%E6%96%87%E5%88%86%E8%AF%8D%E5%85%A5%E9%97%A8%E4%B9%8B%E7%AF%87%E5%A4%96"&gt;中文分词入门之篇外&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;基于字标注的中文分词&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2" title="本部分更多细节请参考我爱自然语言处理博客!"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;h2 id="refref"&gt;基于字标注的中文分词&lt;sup id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back"&gt;&lt;a class="simple-footnote" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2" title="本部分更多细节请参考我爱自然语言处理博客!"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
 &lt;p&gt;以往的分词方法，无论是基于规则的还是基于统计的，一般都依赖于一个事先编制的词表(词典)。自动分词过程就是通过词表和相关信息来做出词语切分的决策。与此相反，基于字标注的分词方法实际上是构词方法。即把分词过程视为字在字串中的标注问题。由于每个字在构造一个特定的词语时都占据着一个确定的构词位置(即词位)，假如规定每个字最多只有四个构词位置：即B(词首)，M (词中)，E(词尾)和S(单独成词)，那么下面句子(甲)的分词结果就可以直接表示成如(乙)所示的逐字标注形式：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;(甲)分词结果：／上海／计划／N／本／世纪／末／实现／人均／国内／生产／总值／五千美元／。&lt;/p&gt;
@@ -1200,15 +1198,11 @@ f \times r =k
 &lt;p&gt;在&lt;a href="http://www.52nlp.cn/two-innovative-ideas-in-natural-language-processing-area"&gt;《自然语言处理领域的两种创新观念》&lt;/a&gt;中，张俊林博士谈了两种创新模式：&lt;strong&gt;一种创新是研究模式的颠覆，另外一种创新是应用创新&lt;/strong&gt;，前者需要NLP领域出现爱因斯坦式的革新人物，后者则是强调用同样的核心技术做不一样的应用。&lt;/p&gt;
 &lt;p&gt;在自然语言处理领域，多数创新都属于后者，譬如统计机器翻译，Brown就是学习和借鉴了贾里尼克将语音识别看成通信问题的思想，将信源信道模型应用到了机器翻译之中，从而开辟了SMT这一全新领域。而Nianwen Xue将词性标注的思想应用到中文分词领域，成就了字标注的中文分词方法（Chinese Word Segmentation as Character Tagging），同样取得了巨大的成功。&lt;/p&gt;
 &lt;p&gt;既然基于字标注的中文分词方法是将中文分词当作词性标注的问题来对待，那么就必须有标注对象和标注集了。形象一点，从这个方法的命名上我们就可以推断出它的标注是基本的汉字（还包括一定数量的非汉字字符），而标注集则比较灵活，这些标注集都是依据汉字在汉语词中的位置设计的，最简单的是2-tag，譬如将词首标记设计为B，而将词的其他位置标记设计为I，那么“中国”就可以标记为“中/B 国/I”，“海南岛”则可以标记为“海/B 南/I 岛/I”，相应地，对于如下分好词的句子：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;瓦西里斯&lt;/span&gt; &lt;span class="err"&gt;的&lt;/span&gt; &lt;span class="err"&gt;船只&lt;/span&gt; &lt;span class="err"&gt;中&lt;/span&gt; &lt;span class="err"&gt;有&lt;/span&gt; &lt;span class="mi"&gt;40&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="err"&gt;驶&lt;/span&gt; &lt;span class="err"&gt;向&lt;/span&gt; &lt;span class="err"&gt;远东&lt;/span&gt; &lt;span class="err"&gt;，&lt;/span&gt; &lt;span class="err"&gt;每个&lt;/span&gt; &lt;span class="err"&gt;月&lt;/span&gt; &lt;span class="err"&gt;几乎&lt;/span&gt; &lt;span class="err"&gt;都&lt;/span&gt; &lt;span class="err"&gt;有&lt;/span&gt; &lt;span class="err"&gt;两三条&lt;/span&gt; &lt;span class="err"&gt;船&lt;/span&gt; &lt;span class="err"&gt;停靠&lt;/span&gt; &lt;span class="err"&gt;中国&lt;/span&gt; &lt;span class="err"&gt;港口&lt;/span&gt; &lt;span class="err"&gt;。&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;pre&gt;&lt;code&gt;瓦西里斯 的 船只 中 有 40% 驶 向 远东 ， 每个 月 几乎 都 有 两三条 船 停靠 中国 港口 。
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;基于2-tag(B,I)的标注就是：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="err"&gt;瓦&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;西&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;里&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;斯&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;的&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;船&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;只&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;中&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;有&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;４&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;０&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;％&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;驶&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;向&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;远&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;东&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;，&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;每&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;个&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;月&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;几&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;乎&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;都&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;有&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;两&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;三&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;条&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;船&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;停&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;靠&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;中&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;国&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;港&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt; &lt;span class="err"&gt;口&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;I&lt;/span&gt; &lt;span class="err"&gt;。&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="n"&gt;B&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;pre&gt;&lt;code&gt;瓦/B 西/I 里/I 斯/I 的/B 船/B 只/I 中/B 有/B ４/B ０/I ％/I 驶/B 向/B 远/B 东/I ，/B 每/B 个/I 月/B 几/B 乎/I 都/B 有/B 两/B 三/I 条/I 船/B 停/B 靠/I 中/B 国/I 港/B 口/I 。/B
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;除了2-tag，还有4-tag、6-tag等，都是依据字在词中的位置设计的，本文主要目的是从实践的角度介绍基于字标注的中文分词方法设计，以达到抛砖引玉的作用，因此我们仅选用2-tag（B，I）标注集进行实验说明。有了标注对象和标注集，那么又如何进行中文分词呢？因为字标注本质上是采用POS Tagging的思想,只不过要TAG的基本单元现在变成字了而已,因此我们可以这样做:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;获取已分词语料,将其转化为字的形式并采用某种标注集根据分词信息对其进行标注;&lt;/li&gt;
@@ -1218,7 +1212,7 @@ f \times r =k
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:利用现有开源工具时,如果能够构建适用于中文字标注的特征集合,然后再进行训练,可能会取得更好的结果。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1&gt;鲁棒性NLP系统(观点)&lt;/h1&gt;
+&lt;h1 id="nlp"&gt;鲁棒性NLP系统(观点)&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;一个 real life 自然语言处理系统，其质量和可用度除了传统的 data quality 的衡量指标查准度（precision）和查全度（recall）外，还有更为重要的三大指标：&lt;strong&gt;海量处理能力（scalability）, 深度（depth）和鲁棒性（robustness）&lt;/strong&gt;。本部分就简单谈一下鲁棒性。&lt;/p&gt;
 &lt;p&gt;为了取得语言处理的鲁棒性（robustness），一个行之有效的方法是实现四个形容词的所指：&lt;strong&gt;词汇主义（lexicalist）; 自底而上（bottom-up）; 调适性（adaptive）；和数据制导（data-driven）&lt;/strong&gt;。这四条是相互关联的，但各自重点和视角不同。系统设计和开发上贯彻这四项基本原则， 是取得坚固性的良好保证。有了坚固性，系统对于不同领域的语言，甚至对极不规范的社会媒体中的语言现象，都可以应对。这是很多实用系统的必要条件。&lt;/p&gt;
@@ -1226,7 +1220,7 @@ f \times r =k
 &lt;p&gt;&lt;strong&gt;自底而上的分析方法&lt;/strong&gt;。这种方法对于自浅而深的管式系统最自然。系统从单词出发，一步一步形成越来越大的句法单位，同时解析句法成分之间的关系。其结果是自动识别（构建）出来的句法结构树。很多人都知道社会媒体的混乱性，这些语言充满了错别字和行话，语法错误也随处可见。错别字和行话由词汇主义策略去对付，语法错误则可以借助自底而上的分析方法。其中的道理就是，即便是充满了语法错误的社会媒体语言，其实并不是说这些不规范的语言完全不受语法规则的束缚，无章可循。事实绝不是如此，否则人也不可理解，达不到语言交流的目的。完全没有语法的“语言”可以想象成一个随机发生器，随机抽取字典或词典的条目发射出来，这样的字串与我们见到的最糟糕的社会媒体用语也是截然不同的。事实上，社会媒体类的不规范语言（degraded text）就好比一个躁动不安的逆反期青年嬉皮士，他们在多数时候是守法的，不过情绪不够稳定，不时会”突破”一下规章法律。具体到语句，其对应的情形就是，每句话里面的多数短语或从句是合法的，可是短语（或从句）之间常常会断了链子。这种情形对于自底而上的系统，并不构成大的威胁。因为系统会尽其所能，一步一步组合可以预测（解构）的短语和从句，直到断链的所在。这样一来，一个句子可能形成几个小的句法子树（sub-tree），子树之内的关系是明确的。朋友会问：既然有断链，既然子树没有形成一个完整的句法树来涵盖所分析的语句，就不能说系统真正鲁棒了，自然语言理解就有缺陷。抽象地说，这话不错。但是在实际使用中，问题远远不是想象的那样严重。其道理就是，语言分析并非目标，语言分析只是实现目标的一个手段和基础。对于多数应用型自然语言系统来说，目标是信息抽取（Information Extraction），是这些预先定义的抽取目标在支持应用（app）。抽取模块的屁股通常坐在分析的结构之上，典型的抽取规则 by nature 是基于子树匹配的，这是因为语句可以是繁复的，但是抽取的目标相对单纯，对于与目标不相关的结构，匹配规则无需cover。这样的子树匹配分两种情形，其一是抽取子树（subtree1）的规则完全匹配在语句分析的子树（subtree2）之内（i.e. subtree2 &amp;gt; subtree1），这种匹配不受断链的任何影响，因此最终抽取目标的质量不受损失。只有第二种情形，即抽取子树恰好坐落在分析语句的断链上，抽取不能完成，因而印象了抽取质量。值得强调的是，一般来说，情形2的出现概率远低于情形1，因此自底而上的分析基本保证了语言结构分析的鲁棒性，从而保障了最终目标信息抽取的达成。其实，对于 worst case scenario 的情形2，我们也不是没有办法补救。补救的办法就是在分析的后期把断链 patch 起来，虽然系统无法确知断链的句法关系的性质，但是patched过的断链形成了一个完整的句法树，为抽取模块的补救创造了条件。此话怎讲？具体说来就是，只要系统的设计和开发者坚持&lt;strong&gt;调适性开发&lt;/strong&gt;抽取模块（adaptive extraction）的原则，部分抽取子树的规则完全可以建立在被patched的断链之上，从而在不规范的语句中达成抽取。其中的奥妙就是某样榜戏中所说的墙内损失墙外补，用到这里就是结构不足词汇补。展开来说就是，任何子树匹配不外乎check两种条件约束，一是节点之间的关系句法关系的条件（主谓，动宾，等等），另外就是节点本身的词汇条件（产品，组织，人，动物，等等）。这些抽取条件可以相互补充，句法关系的条件限制紧了，节点词汇的条件就可以放宽；反之亦然。即便对于完全合法规范的语句，由于语言分析器不可避免的缺陷而可能导致的断链（世界上除了上帝以外不存在完美的系统），以及词汇语义的模糊性，开发者为了兼顾查准率和查全率，也会在抽取子树的规则上有意平衡节点词汇的条件和句法关系的条件。如果预知系统要用于不规范的语言现象上，那么我们完全可以特制一些规则，利用强化词汇节点的条件来放宽对于节点句法关系的条件约束。其结果就是适调了patched的断链，依然达成抽取。说了一箩筐，总而言之，言而总之，对于语法不规范的语言现象，自底而上的分析策略是非常有效的，加上调适性开发，可以保证最终的抽取目标基本不受影响。&lt;/p&gt;
 &lt;p&gt;调适性上面已经提到，作为一个管式系统的开发原则，这一条很重要，它是克服错误放大（error propagation）的反制。理想化的系统，模块之间的接口是单纯明确的，铁路警察，各管一段，步步推进，天衣无缝。但是实际的系统，特别是自然语言系统，情况很不一样，良莠不齐，正误夹杂，后面的模块必须设计到有足够的容错能力，针对可能的偏差做调适才不至于一错再错，步步惊心。如果错误是consistent/predictable 的，后面的模块可以矫枉过正，以毒攻毒，错错为正。还有一点就是歧义的保存（keeping ambiguity untouched）策略。很多时候，前面的模块往往条件不成熟，这时候尽可能保持歧义，运用系统内部的调适性开发在后面的模块处理歧义，往往是有效的。&lt;/p&gt;
 &lt;p&gt;最后，&lt;strong&gt;数据制导&lt;/strong&gt;的开发原则，怎样强调都不过分。语言海洋无边无涯，多数语言学家好像一个爱玩水的孩子，跳进海洋往往坐井观天，乐不思蜀。见树木不见森林，一条路走到黑，是很多语言学家的天生缺陷。如果由着他们的性子来，系统的overhead越来越大，效果可能越来越小。数据制导是迫使语言学家回到现实，开发真正有现实和统计意义的系统的一个保证。这样的保证应该制度化，这牵涉到开发语料库（dev corpus）的选取，baseline 的建立和维护，unit testing 和regression testing 等开发操作规范的制定以及 data quality QA 的配合。理想的数据制导还应该包括引入机器学习的方法，来筛选制约具有统计意义的语言现象反馈给语言学家。从稍微长远一点看，自动分类用户的数据反馈，实现某种程度的粗颗粒度的自学习，建立半自动人际交互式开发环境，这是手工开发和机器学习以长补短的很有意义的思路。以上所述，每一条都是经验的总结，背后有成百上千的实例可以详加解说。不过，网文也不是科普投稿，没时间去细细具体解说了。做过的自然有同感和呼应，没做过的也许不明白，等做几年就自然明白了，又不是高精尖的火箭技术。&lt;/p&gt;
-&lt;h1&gt;无约束最优化&lt;/h1&gt;
+&lt;h1 id="_3"&gt;无约束最优化&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;看了一下我爱自然语言处理博客上关于无约束优化的几篇文章,可能是自己水平很烂的原因,感觉怪怪的,好像有点不对劲,还是自己查相关资料吧。以下给出那几篇的链接.&lt;/p&gt;
 &lt;ul&gt;
@@ -1236,7 +1230,7 @@ f \times r =k
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-four"&gt;无约束最优化四&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://www.52nlp.cn/unconstrained-optimization-five"&gt;无约束最优化五&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;资源集锦&lt;/h1&gt;
+&lt;h1 id="_4"&gt;资源集锦&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://clair.eecs.umich.edu/aan/index.php"&gt;ACL Anthology Network&lt;/a&gt;&lt;/li&gt;
@@ -1288,7 +1282,7 @@ f \times r =k
     }
 &lt;/script&gt;
 &lt;ol class="simple-footnotes"&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1"&gt;&lt;a href="http://www.cppblog.com/shongbee2/archive/2009/04/05/79011.html"&gt;STL中set的简单学习&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2"&gt;本部分更多细节请参考我爱自然语言处理博客! &lt;a class="simple-footnote-back" href="#sf-zi-ran-yu-yan-chu-li-xu-zhang-wo-ai-zi-ran-yu-yan-chu-li-i-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="NLP"></category></entry><entry><title>当最近邻遇到LSH</title><link href="http://www.qingyuanxingsi.com/dang-zui-jin-lin-yu-dao-lsh.html" rel="alternate"></link><updated>2014-05-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-01:dang-zui-jin-lin-yu-dao-lsh.html</id><summary type="html">&lt;p&gt;貌似感冒了,脑子昏昏沉沉的,啥都想不了,无意中发现这么一个高端大气上档次的算法---局部敏感哈希方法。于是Google了一下,发现这篇&lt;a href="http://www.strongczq.com/2012/04/locality-sensitive-hashinglsh%E4%B9%8B%E9%9A%8F%E6%9C%BA%E6%8A%95%E5%BD%B1%E6%B3%95.html"&gt;Locality Sensitive Hashing(LSH)之随机投影法&lt;/a&gt;关于局部敏感哈希算法的介绍还不错,于是摘录如下:&lt;/p&gt;
-&lt;h1&gt;概述&lt;/h1&gt;
+&lt;h1 id="_1"&gt;概述&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;&lt;strong&gt;LSH&lt;/strong&gt;是由文献[1]提出的一种用于高效求解最近邻搜索问题的Hash算法。LSH算法的基本思想是利用一个hash函数把集合中的元素映射成hash值，使得相似度越高的元素hash值相等的概率也越高。LSH算法使用的关键是针对某一种相似度计算方法，找到一个具有以上描述特性的hash函数。LSH所要求的hash函数的准确数学定义比较复杂，以下给出一种通俗的定义方式：&lt;/p&gt;
 &lt;blockquote&gt;
@@ -1296,7 +1290,7 @@ f \times r =k
 &lt;/blockquote&gt;
 &lt;p&gt;一般来说在最近邻搜索中，元素间的关系可以用相似度或者距离来衡量。如果用距离来衡量，那么距离一般与相似度之间存在单调递减的关系。以上描述如果使用距离来替代相似度需要在单调关系上做适当修改。&lt;/p&gt;
 &lt;p&gt;根据元素相似度计算方式的不同，LSH有许多不同的hash算法。两种比较常见的hash算法是&lt;strong&gt;随机投影法&lt;/strong&gt;和min-hash算法。本文即将介绍的随机投影法适用于集合元素可以表示成向量的形式，并且相似度计算是基于向量之间夹角的应用场景，如余弦相似度。min-hash法在参考文献[2]中有相关介绍。&lt;/p&gt;
-&lt;h1&gt;随机投影法(Random projection)&lt;/h1&gt;
+&lt;h1 id="random-projection"&gt;随机投影法(Random projection)&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;假设集合$S$中的每个元素都是一个$n$维的向量：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
@@ -1324,13 +1318,13 @@ H(\vec{v})=(h_b(\vec{v})h_{b-1}(\vec{v})\ldots h_1(\vec{v}))_2
 p(s)=(1-\frac{arccos(s)}{\pi})^b
 \end{equation}&lt;/p&gt;
 &lt;p&gt;hash值的个数为$2^b$。很容易看出$H()$函数同样也是符合LSH算法要求的。一般随机按投影算法选用的hash函数就是$H()$。其中参数$b$的取值会在后面小节中讨论。&lt;/p&gt;
-&lt;h1&gt;随机投影法在最近邻搜索中的应用&lt;/h1&gt;
+&lt;h1 id="_2"&gt;随机投影法在最近邻搜索中的应用&lt;/h1&gt;
 &lt;hr /&gt;
-&lt;h2&gt;最近邻搜索&lt;/h2&gt;
+&lt;h2 id="_3"&gt;最近邻搜索&lt;/h2&gt;
 &lt;p&gt;最近邻搜索可以简单的定义为：对于$m$个元素的集合$T$，为一个待查询元素$q$找到集合中相似度最高的$k$个元素。&lt;/p&gt;
 &lt;p&gt;最近邻搜索最简单的实现方法为：计算$q$与集合$T$中每一个元素的相似度，使用一个具有$k$个元素的大顶堆（优先队列）保存相似度计算结果（相似度值为key）。这种实现方法每一次查询都要遍历整个集合$T$来计算相似度，当$m$很大并且查询的频率很高的时候这种暴力搜索的方法无法满足性能要求。&lt;/p&gt;
 &lt;p&gt;当最近邻搜索的近邻要求并不是那么严格的时候，即允许top k近邻的召回率不一定为1（但是越高越好），那么可以考虑借助于LSH算法。&lt;/p&gt;
-&lt;h2&gt;随机投影法提高执行速度&lt;/h2&gt;
+&lt;h2 id="_4"&gt;随机投影法提高执行速度&lt;/h2&gt;
 &lt;p&gt;这里我们介绍当集合$T$的元素和查询元素$q$为同维度向量(维度为$n$)，并且元素相似度计算方法为余弦相似度时，使用随机投影法来提高最近邻搜索的执行速度。具体的实现方法为：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;预处理阶段&lt;/strong&gt;:使用hash函数$H(*)$计算集合$T$中所有元素的hash值，将集合$T$分成一个个分组，每个分组内的元素hash值均相等。用合适的数据结构保存这些hash值到分组的映射关系（如HashMap）。&lt;/li&gt;
@@ -1338,7 +1332,7 @@ p(s)=(1-\frac{arccos(s)}{\pi})^b
 &lt;/ul&gt;
 &lt;p&gt;该方法的执行效率取决于$H(*)$的hash值个数$2^b$，也就是分组的个数。理想情况下，如果集合$T$中的向量元素在空间中分布的足够均匀，那么每一个hash值对应的元素集合大小大致为$\frac{m} {2^b}$。当$m$远大于向量元素的维度时，每次查询的速度可以提高到$2^b$倍。&lt;/p&gt;
 &lt;p&gt;根据以上分析$H()$中$b$的取值越大算法的执行速度的提升越多，并且是指数级别的提升。但是，在这种情况下$H()$函数下的概率公式$p(s)$，&lt;strong&gt;实际上表示与查询元素$q$的相似度为$s$的元素的召回率&lt;/strong&gt;。当$b$的取值越大时，top k元素的召回率必然会下降。因此算法执行速度的提升需要召回率的下降作为代价。例如：当$b$等于10时，如果要保证某个元素的召回率不小于0.9，那么该元素与查询元素$q$的相似度必须不小于0.9999998。&lt;/p&gt;
-&lt;h2&gt;提高召回率改进&lt;/h2&gt;
+&lt;h2 id="_5"&gt;提高召回率改进&lt;/h2&gt;
 &lt;p&gt;为了在保证召回率的前提下尽可能提高算法的执行效率，一般可以进行如下改进：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;预处理阶段&lt;/strong&gt;:生成$t$个独立的hash函数$H_i(∗)$，根据这$t$个不同的hash函数，对集合$T$进行$t$种不同的分组，每一种分组方式下，同一个分组的元素在对应hash函数下具有相同的hash值。用合适的数据结构保存这些映射关系（如使用$t$个HashMap来保存）。&lt;/li&gt;
@@ -1351,11 +1345,11 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 &lt;p&gt;在执行效率上，预处理阶段由于需要计算$t$个hash函数的值，所以执行时间上升为$t$倍。查询阶段，如果单纯考虑候选集合大小对执行效率的影响，在最坏的情况下，$t$个hash值获得的列表均不相同，候选集集合大小的期望值为$\frac{t∗m}{2^b}$，查询速度下降至$1 \over t$，与简单近邻搜索相比查询速度提升为$\frac{2^b}{t}$倍。&lt;/p&gt;
 &lt;p&gt;下图是召回率公式$p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t$在不同的$b$和$t$取值下的$s-p$曲线。我们通过这些曲线来分析这里引入参数$t$的意义。4条蓝色的线以及最右边红色的线表示当$t$取值为1（相当于没有引入$t$），而$b$的取值从1变化到5的过程，从图中可以看出随着$b$的增大，不同相似度下的召回率都下降的非常厉害，特别的，当相似度接近1时曲线的斜率很大，也就说在高相似度的区域，召回率对相似度的变化非常敏感。10条红色的线从右到左表示$b$的取值为5不变，$t$的取值从1到10的过程，从图中可以看出，随着$t$的增大，曲线的形状发生了变化，高相似度区域的召回率变得下降的非常平缓，而最陡峭的地方渐渐的被移动到相对较低的相似度区域。因此，从以上曲线的变化特点可以看出，引入适当的参数$t$使得高相似度区域在一段较大的范围内仍然能够保持很高的召回率从而满足实际应用的需求。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="SP Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sp_curve_zpse1b5dbe6.png" /&gt;&lt;/p&gt;
-&lt;h2&gt;参数选取&lt;/h2&gt;
+&lt;h2 id="_6"&gt;参数选取&lt;/h2&gt;
 &lt;p&gt;根据以上分析，$H(*)$函数的参数$b$越大查询效率越高，但是召回率越低；参数$t$越大查询效率越低但是召回率越高。因此选择适当参数$b$和$t$来折中查询效率与召回率之间的矛盾是应用好随机投影法的关键。下面提供一种在实际应用中选取$b$和$t$的参考方法。&lt;/p&gt;
 &lt;p&gt;根据实际应用的需要确定一对$(s,p)$，表示相似度大于等于$s$的元素，召回率的最低要求为$p$。然后将召回率公式表示成$b-t$之间的函数关系$t=\log_{1-(1-\frac{acos(s)}{pi})^b}{(1-p)}$。根据$(s,p)$的取值，画出$b-t$的关系曲线。如$s=0.8,p=0.95$时的$b-t$曲线如下图所示。考虑具体应用中的实际情况，在该曲线上选取一组使得执行效率可以达到最优的$(b,t)$组合。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="BT_Curve" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bt_curve_zps5aba4948.png" /&gt;&lt;/p&gt;
-&lt;h2&gt;关于最近邻文本搜索&lt;/h2&gt;
+&lt;h2 id="_7"&gt;关于最近邻文本搜索&lt;/h2&gt;
 &lt;p&gt;在最近邻文本搜索中，一般待检索的文本或查询文本，都已被解析成一系列带有权重的关键词，然后通过余弦相似度公式计算两个文本之间的相似度。这种应用场景下的最近邻搜索与以上所提到的最近邻搜索问题相比存在以下两个特点：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;如果把每个文本的带权重关键词表都看作是一个向量元素的话，每个关键词都是向量的一个维度，关键词权重为该维度的值。理论上可能关键词的个数并不确定（所有单词的组合都可能是一个关键词），因此该向量元素的维数实际上是不确定的。&lt;/li&gt;
@@ -1366,7 +1360,7 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 &lt;blockquote&gt;
 &lt;p&gt;切割平面与第一象限空间不相交等价于其法向量的每一个维度值都有相同的符号（都为正或者负），否则总能在第一象限空间中找到两个向量与法向量的乘积符号不同，也就是在切割平面的两侧。那么，随机生成的n维向量所有维度值都同号的概率为$\frac{1}{2^{n−1}}$，当$n$的取值很大时，该概率可以忽略不计。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1&gt;参考文献&lt;/h1&gt;
+&lt;h1 id="_8"&gt;参考文献&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;p&gt;[1] P. Indyk and R. Motwani. Approximate Nearest Neighbor:Towards Removing the Curse of Dimensionality. In Proc. of the 30th Annual ACM Symposium on Theory of Computing, 1998, pp. 604–613.&lt;/p&gt;
 &lt;p&gt;[2] Google News Personalization: Scalable Online Collaborative Filtering.&lt;/p&gt;&lt;script type= "text/javascript"&gt;
@@ -1402,17 +1396,17 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 </summary><category term="算法"></category><category term="Algorithm"></category><category term="LSH"></category><category term="局部敏感哈希算法"></category></entry><entry><title>Play With Cardinality Estimation</title><link href="http://www.qingyuanxingsi.com/play-with-cardinality-estimation.html" rel="alternate"></link><updated>2014-04-14T00:00:00+08:00</updated><author><name>CodingLabs</name></author><id>tag:www.qingyuanxingsi.com,2014-04-14:play-with-cardinality-estimation.html</id><summary type="html">&lt;p&gt;记得之前某周例会的时候一个博士师兄抛出一个小问题:在大数据环境下,如何估计一个可能含有重复元素的集合中不同元素的数目,当时其实没有怎么在意。这两天因为看CNN的东西实在无法完全理解,所以到处逛了逛(&lt;code&gt;好吧,我每次逛了逛都能发现特别好玩的算法呀&lt;/code&gt;),于是不经意间发现了解决上述问题的一些现有算法,很是高兴呀。&lt;/p&gt;
 &lt;p&gt;在开始今天的相关介绍之前,咱们扯点闲话吧,个人不是特别喜欢纯科研的科研,如果一个算法或者一个数据结构以至于一个理论不能应用到实际生活中去,不能解决实际生活中的某个问题的话,个人认为这种理论或者算法/数据结构的研究就是无意义的。个人还是比较倾向于好玩的科研吧,一方面研究的东西自己觉得有意思,另一方面又能应用到实际项目或生活实际中去,成为一个研究好玩问题的研究人员估计就是我毕生最大的志向了吧,呵呵。好吧,其实说这么多只是为了说明基数估计这个东西真的很好玩呀。(&lt;strong&gt;以后只要在Pearls目录下的博文均收集自他人博客,原始链接见脚注,版权属于原作者所有,无意侵犯,特此说明,以后不再说明&lt;/strong&gt;)&lt;/p&gt;
 &lt;p&gt;言归正传,开始我们正式的介绍。&lt;/p&gt;
-&lt;h1&gt;基本概念&lt;sup id="sf-play-with-cardinality-estimation-1-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-1" title="解读Cardinality Estimation算法（第一部分：基本概念）"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1 id="refcardinality-estimationref"&gt;基本概念&lt;sup id="sf-play-with-cardinality-estimation-1-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-1" title="解读Cardinality Estimation算法（第一部分：基本概念）"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;基数计数(&lt;strong&gt;Cardinality Counting&lt;/strong&gt;）是实际应用中一种常见的计算场景，在数据分析、网络监控及数据库优化等领域都有相关需求。精确的基数计数算法由于种种原因，在面对大数据场景时往往力不从心，因此如何在误差可控的情况下对基数进行估计就显得十分重要。目前常见的基数估计算法有Linear Counting、LogLog Counting、HyperLogLog Counting及Adaptive Counting等。这几种算法都是基于概率统计理论所设计的概率算法，它们克服了精确基数计数算法的诸多弊端（如内存需求过大或难以合并等），同时可以通过一定手段将误差控制在所要求的范围内。&lt;/p&gt;
 &lt;p&gt;以下我们主要介绍一下基数估计(Cardinality Estimation)的基本概念。&lt;/p&gt;
-&lt;h2&gt;基数的定义&lt;/h2&gt;
+&lt;h2 id="_1"&gt;基数的定义&lt;/h2&gt;
 &lt;p&gt;简单来说，基数（Cardinality，也译作势），是指一个集合（这里的集合允许存在重复元素，与集合论对集合严格的定义略有不同，如不做特殊说明，本文中提到的集合均允许存在重复元素）中不同元素的个数。例如看下面的集合：&lt;/p&gt;
 &lt;p&gt;${1,2,3,4,5,2,3,9,7}$&lt;/p&gt;
 &lt;p&gt;这个集合有9个元素，但是2和3各出现了两次，因此不重复的元素为1,2,3,4,5,9,7，所以这个集合的基数是7。&lt;/p&gt;
 &lt;p&gt;如果两个集合具有相同的基数，我们说这两个集合等势。基数和等势的概念在有限集范畴内比较直观，但是如果扩展到无限集则会比较复杂，一个无限集可能会与其真子集等势（例如整数集和偶数集是等势的）。不过在这个系列文章中，我们仅讨论有限集的情况，关于无限集合基数的讨论，有兴趣的同学可以参考实变分析相关内容。&lt;/p&gt;
 &lt;p&gt;容易证明，如果一个集合是有限集，则其基数是一个自然数。&lt;/p&gt;
-&lt;h2&gt;基数的应用实例&lt;/h2&gt;
+&lt;h2 id="_2"&gt;基数的应用实例&lt;/h2&gt;
 &lt;p&gt;下面通过一个实例说明基数在电商数据分析中的应用。&lt;/p&gt;
 &lt;p&gt;假设一个淘宝网店在其店铺首页放置了10个宝贝链接，分别从Item01到Item10为这十个链接编号。店主希望可以在一天中随时查看从今天零点开始到目前这十个宝贝链接分别被多少个独立访客点击过。所谓独立访客（&lt;code&gt;Unique Visitor，简称UV&lt;/code&gt;）是指有多少个自然人，例如，即使我今天点了五次Item01，我对Item01的UV贡献也是1，而不是5。&lt;/p&gt;
 &lt;p&gt;用术语说这实际是一个实时数据流统计分析问题。&lt;/p&gt;
@@ -1423,45 +1417,43 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 &lt;li&gt;对每一个要统计的链接维护一个数据结构和一个当前UV值，当某个链接发生一次点击时，能迅速定位此用户在今天是否已经点过此链接，如果没有则此链接的UV增加1&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;下面分别介绍三个步骤的实现方案&lt;/p&gt;
-&lt;h3&gt;对独立访客做标识&lt;/h3&gt;
+&lt;h3 id="_3"&gt;对独立访客做标识&lt;/h3&gt;
 &lt;p&gt;客观来说，目前还没有能在互联网上准确对一个自然人进行标识的方法，通常采用的是近似方案。例如通过登录用户+cookie跟踪的方式：当某个用户已经登录，则采用会员ID标识；对于未登录用户，则采用跟踪cookie的方式进行标识。为了简单起见，我们假设完全采用跟踪cookie的方式对独立访客进行标识。&lt;/p&gt;
-&lt;h3&gt;记录链接编号及访客标记&lt;/h3&gt;
+&lt;h3 id="_4"&gt;记录链接编号及访客标记&lt;/h3&gt;
 &lt;p&gt;这一步可以通过Javascript埋点及记录accesslog完成，具体原理和实现方案可以参考博文&lt;a href="http://blog.codinglabs.org/articles/how-web-analytics-data-collection-system-work.html"&gt;网站统计中的数据收集原理及实现&lt;/a&gt;。&lt;/p&gt;
-&lt;h3&gt;实时UV计算&lt;/h3&gt;
+&lt;h3 id="uv"&gt;实时UV计算&lt;/h3&gt;
 &lt;p&gt;可以看到，如果将每个链接被点击的日志中访客标识字段看成一个集合，那么此链接当前的UV也就是这个集合的基数，因此UV计算本质上就是一个基数计数问题。&lt;/p&gt;
 &lt;p&gt;在实时计算流中，我们可以认为任何一次链接点击均触发如下逻辑（伪代码描述）：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;cand_counting&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;item_no&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;user_id&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;user_id&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;not&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;item_no&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="n"&gt;add&lt;/span&gt; &lt;span class="n"&gt;user_id&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;item_no&lt;/span&gt; &lt;span class="n"&gt;visitor&lt;/span&gt; &lt;span class="n"&gt;set&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="n"&gt;cand&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;item_no&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;pre&gt;&lt;code&gt;cand_counting(item_no, user_id) {
+    if (user_id is not in the item_no visitor set) {
+        add user_id to item_no visitor set;
+        cand[item_no]++;
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;逻辑非常简单，每当有一个点击事件发生，就去相应的链接被访集合中寻找此访客是否已经在里面，如果没有则将此用户标识加入集合，并将此链接的UV加1。&lt;/p&gt;
 &lt;p&gt;虽然逻辑非常简单，但是在实际实现中尤其面临大数据场景时还是会遇到诸多困难，下面一节我会介绍两种目前被业界普遍使用的精确算法实现方案，并通过分析说明当数据量增大时它们面临的问题。&lt;/p&gt;
-&lt;h2&gt;传统的基数计数实现&lt;/h2&gt;
+&lt;h2 id="_5"&gt;传统的基数计数实现&lt;/h2&gt;
 &lt;p&gt;接着上面的例子，我们看一下目前常用的基数计数的实现方法。&lt;/p&gt;
-&lt;h3&gt;基于B树的基数计数&lt;/h3&gt;
+&lt;h3 id="b"&gt;基于B树的基数计数&lt;/h3&gt;
 &lt;p&gt;对上面的伪代码做一个简单分析，会发现关键操作有两个：查找-迅速定位当前访客是否已经在集合中，插入-将新的访客标识插入到访客集合中。因此，需要为每一个需要统计UV的点（此处就是十个宝贝链接）维护一个查找效率较高的数据结构，又因为实时数据流的关系，这个数据结构需要尽量在内存中维护，因此这个数据结构在空间复杂度上也要比较适中。综合考虑一种传统的做法是在实时计算引擎采用了B树来组织这个集合。下图是一个示意图：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="B Tree" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/B_tree_zpsda8ce41d.png"&gt;&lt;/p&gt;
 &lt;p&gt;之所以选用B树是因为B树的查找和插入相关高效，同时空间复杂度也可以接受（关于B树具体的性能分析请参考&lt;a href="http://en.wikipedia.org/wiki/B-tree"&gt;B_Tree&lt;/a&gt;）。&lt;/p&gt;
 &lt;p&gt;这种实现方案为一个基数计数器维护一棵B树，由于B树在查找效率、插入效率和内存使用之间非常平衡，所以算是一种可以接受的解决方案。但是当数据量特别巨大时，例如要同时统计几万个链接的UV，如果要将几万个链接一天的访问记录全部维护在内存中，这个内存使用量也是相当可观的（假设每个B树占用1M内存，10万个B树就是100G！）。一种方案是在某个时间点将内存数据结构写入磁盘（双十一和双十二大促时一淘数据部的效果平台是每分钟将数据写入HBase）然后将内存中的计数器和数据结构清零，但是B树并不能高效的进行合并，这就使得内存数据落地成了非常大的难题。&lt;/p&gt;
 &lt;p&gt;另一个需要数据结构合并的场景是查看并集的基数，例如在上面的例子中，如果我想查看Item1和Item2的总UV，是没有办法通过这种B树的结构快速得到的。当然可以为每一种可能的组合维护一棵B树。不过通过简单的分析就可以知道这个方案基本不可行。N个元素集合的非空幂集数量为2N−1，因此要为10个链接维护1023棵B树，而随着链接的增加这个数量会以幂指级别增长。&lt;/p&gt;
-&lt;h3&gt;基于Bitmap的基数计数&lt;/h3&gt;
+&lt;h3 id="bitmap"&gt;基于Bitmap的基数计数&lt;/h3&gt;
 &lt;p&gt;为了克服B树不能高效合并的问题，一种替代方案是使用Bitmap表示集合。也就是使用一个很长的bit数组表示集合，将bit位顺序编号，bit为1表示此编号在集合中，为0表示不在集合中。例如“00100110”表示集合 {2，5，6}。bitmap中1的数量就是这个集合的基数。&lt;/p&gt;
 &lt;p&gt;显然，与B树不同Bitmap可以高效的进行合并，只需进行按位或（or）运算就可以，而位运算在计算机中的运算效率是很高的。但是Bitmap方式也有自己的问题，就是内存使用问题。&lt;/p&gt;
 &lt;p&gt;很容易发现，Bitmap的长度与集合中元素个数无关，而是与基数的上限有关。例如在上面的例子中，假如要计算上限为1亿的基数，则需要12.5M字节的Bitmap，十个链接就需要125M。关键在于，这个内存使用与集合元素数量无关，即使一个链接仅仅有一个1UV，也要为其分配12.5M字节。&lt;/p&gt;
 &lt;p&gt;由此可见，虽然Bitmap方式易于合并，却由于内存使用问题而无法广泛用于大数据场景。&lt;/p&gt;
-&lt;h1&gt;Linear Counting&lt;sup id="sf-play-with-cardinality-estimation-2-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-2" title="解读Cardinality Estimation算法（第二部分：Linear Counting）"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1 id="linear-countingrefcardinality-estimationlinear-countingref"&gt;Linear Counting&lt;sup id="sf-play-with-cardinality-estimation-2-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-2" title="解读Cardinality Estimation算法（第二部分：Linear Counting）"&gt;2&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;通过上面的介绍我们知道传统的精确基数计数算法在数据量大时会存在一定瓶颈，瓶颈主要来自于&lt;strong&gt;数据结构合并和内存使用&lt;/strong&gt;两个方面。因此出现了很多基数估计的概率算法，这些算法虽然计算出的结果不是精确的，但误差可控，重要的是这些算法所使用的数据结构易于合并，同时比传统方法大大节省内存。&lt;/p&gt;
 &lt;p&gt;作为本文的第二部分，我们讨论Linear Counting算法。&lt;/p&gt;
-&lt;h2&gt;简介&lt;/h2&gt;
+&lt;h2 id="_6"&gt;简介&lt;/h2&gt;
 &lt;p&gt;Linear Counting（以下简称LC）在1990年的一篇论文“A linear-time probabilistic counting algorithm for database applications”中被提出。作为一个早期的基数估计算法，LC在空间复杂度方面并不算优秀，实际上LC的空间复杂度与上文中简单Bitmap方法是一样的（但是有个常数项级别的降低），都是$O(N_{max})$，因此目前很少单独使用LC。不过作为Adaptive Counting等算法的基础，研究一下LC还是比较有价值的。&lt;/p&gt;
-&lt;h2&gt;基本算法&lt;/h2&gt;
-&lt;h3&gt;思路&lt;/h3&gt;
+&lt;h2 id="_7"&gt;基本算法&lt;/h2&gt;
+&lt;h3 id="_8"&gt;思路&lt;/h3&gt;
 &lt;p&gt;LC的基本思路是：设有一哈希函数$H$，其哈希结果空间有$m$个值（最小值$0$，最大值$m-1$），并且哈希结果服从均匀分布。使用一个长度为$m$的Bitmap，每个bit为一个桶，均初始化为0，设一个集合的基数为$n$，此集合所有元素通过$H$哈希到Bitmap中，如果某一个元素被哈希到第$k$个比特并且第$k$个比特为$0$，则将其置为$1$。当集合所有元素哈希完成后，设Bitmap中还有$u$个bit为$0$。则：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \hat{n}=−mlog_u m
@@ -1469,7 +1461,7 @@ p(s)=1-(1-(1-\frac{arccos(s)}{\pi})^b)^t
 &lt;p&gt;为$n$的一个估计，且为最大似然估计（MLE）。&lt;/p&gt;
 &lt;p&gt;示意图如下：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="LC Hash" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hash_lc_zpsad47853b.png"&gt;&lt;/p&gt;
-&lt;h3&gt;推导及证明&lt;/h3&gt;
+&lt;h3 id="_9"&gt;推导及证明&lt;/h3&gt;
 &lt;p&gt;由上文对$H$的定义已知$n$个不同元素的哈希值服从独立均匀分布。设$A_j$为事件“经过$n$个不同元素哈希后，第$j$个桶值为0”，则：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 P(A_j)=(1−{1 \over m})n
@@ -1496,7 +1488,7 @@ f(x) = {1 \over \sigma\sqrt{2\pi} }\,e^{- {{(x-\mu )^2 \over 2\sigma^2}}}
 &lt;p&gt;又由如下定理：&lt;/p&gt;
 &lt;p&gt;设$f(x)$是可逆函数,$\hat{x}$是$x$的最大似然估计，则$f(\hat{x})$是$f(x)$的最大似然估计。
 且$-mlog\frac{x}{m}$是可逆函数，则$\hat{n}=-mlog\frac{u}{m}$是$-mlog\frac{E(u)}{m}=n$的最大似然估计。&lt;/p&gt;
-&lt;h2&gt;偏差分析&lt;/h2&gt;
+&lt;h2 id="_10"&gt;偏差分析&lt;/h2&gt;
 &lt;p&gt;下面不加证明给出如下结论：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \begin{split}
@@ -1508,15 +1500,15 @@ StdError(\frac{\hat{n}}{n}) &amp;amp;=\frac{\sqrt{m}(e^t-t-1)^{1/2}}{n}
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:以上结论的推导在“A linear-time probabilistic counting algorithm for database applications”可以找到。&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;算法应用&lt;/h2&gt;
+&lt;h2 id="_11"&gt;算法应用&lt;/h2&gt;
 &lt;p&gt;在应用LC算法时，主要需要考虑的是Bitmap长度$m$的选择。这个选择主要受两个因素的影响：基数$n$的量级以及容许的误差。这里假设估计基数$n$的量级大约为$N$，允许的误差为$\epsilon$，则$m$的选择需要遵循如下约束。&lt;/p&gt;
-&lt;h3&gt;误差控制&lt;/h3&gt;
+&lt;h3 id="_12"&gt;误差控制&lt;/h3&gt;
 &lt;p&gt;这里以标准差作为误差。由上面标准差公式可以推出，当基数的量级为$N$，容许误差为$\epsilon$时，有如下限制：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 m &amp;gt; \frac{e^t-t-1}{(\epsilon t)^2}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;将量级和容许误差带入上式，就可以得出$m$的最小值。&lt;/p&gt;
-&lt;h3&gt;满桶控制&lt;/h3&gt;
+&lt;h3 id="_13"&gt;满桶控制&lt;/h3&gt;
 &lt;p&gt;由LC的描述可以看到，如果$m$比$n$小太多，则很有可能所有桶都被哈希到了，此时$u$的值为0，LC的估计公式就不起作用了（变成无穷大）。因此$m$的选择除了要满足上面误差控制的需求外，还要保证满桶的概率非常小。&lt;/p&gt;
 &lt;p&gt;上面已经说过，$u$满足二项分布，而当$n$非常大，$p$非常小时，可以用泊松分布近似逼近二项分布。因此这里我们可以认为$u$服从泊松分布（注意，上面我们说$u$也可以近似服从正态分布，这并不矛盾，实际上泊松分布和正态分布分别是二项分布的离散型和连续型概率逼近，且泊松分布以正态分布为极限）：&lt;/p&gt;
 &lt;p&gt;当$n、m$趋于无穷大时：&lt;/p&gt;
@@ -1542,16 +1534,16 @@ m &amp;gt; \beta(e^t-t-1)
 &lt;p&gt;下图是论文作者预先计算出的关于不同基数量级和误差情况下，$m$的选择表：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="m choice" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/m_choice_zpsb78fb0f8.png"&gt;&lt;/p&gt;
 &lt;p&gt;可以看出精度要求越高，则Bitmap的长度越大。随着$m$和$n$的增大，$m$大约为$n$的十分之一。因此LC所需要的空间只有传统的Bitmap直接映射方法的1/10，但是从渐进复杂性的角度看，空间复杂度仍为$O(N_{max})$。&lt;/p&gt;
-&lt;h3&gt;合并&lt;/h3&gt;
+&lt;h3 id="_14"&gt;合并&lt;/h3&gt;
 &lt;p&gt;LC非常方便于合并，合并方案与传统Bitmap映射方法无异，都是通过按位或的方式。&lt;/p&gt;
-&lt;h1&gt;LogLog Counting&lt;sup id="sf-play-with-cardinality-estimation-3-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-3" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1 id="loglog-countingrefcardinality-estimationloglog-countingref"&gt;LogLog Counting&lt;sup id="sf-play-with-cardinality-estimation-3-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-3" title="解读Cardinality Estimation算法（第三部分：LogLog Counting）"&gt;3&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;上一部分介绍的Linear Counting算法相较于直接映射Bitmap的方法能大大节省内存（大约只需后者1/10的内存），但毕竟只是一个常系数级的降低，空间复杂度仍然为$O(N_max)$。而本文要介绍的LogLog Counting却只有$O(log_2(log_2(N_{max})))$。例如，假设基数的上限为1亿，原始Bitmap方法需要12.5M内存，而LogLog Counting只需不到1K内存（640字节）就可以在标准误差不超过4%的精度下对基数进行估计，效果可谓十分惊人。&lt;/p&gt;
 &lt;p&gt;本部分将介绍LogLog Counting。&lt;/p&gt;
-&lt;h2&gt;简介&lt;/h2&gt;
+&lt;h2 id="_15"&gt;简介&lt;/h2&gt;
 &lt;p&gt;LogLog Counting（以下简称LLC）出自论文“Loglog Counting of Large Cardinalities”。LLC的空间复杂度仅有$O(log_2(log_2(N_{max})))$，使得通过KB级内存估计数亿级别的基数成为可能，因此目前在处理大数据的基数计算问题时，所采用算法基本为LLC或其几个变种。下面来具体看一下这个算法。&lt;/p&gt;
-&lt;h2&gt;基本算法&lt;/h2&gt;
-&lt;h3&gt;均匀随机化&lt;/h3&gt;
+&lt;h2 id="_16"&gt;基本算法&lt;/h2&gt;
+&lt;h3 id="_17"&gt;均匀随机化&lt;/h3&gt;
 &lt;p&gt;与LC一样，在使用LLC之前需要选取一个哈希函数$H$应用于所有元素，然后对哈希值进行基数估计。$H$必须满足如下条件（定性的）：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;$H$的结果具有很好的均匀性，也就是说无论原始集合元素的值分布如何，其哈希结果的值几乎服从均匀分布（完全服从均匀分布是不可能的，D.Knuth已经证明不可能通过一个哈希函数将一组不服从均匀分布的数据映射为绝对均匀分布，但是很多哈希函数可以生成几乎服从均匀分布的结果，这里我们忽略这种理论上的差异，认为哈希结果就是服从均匀分布）。&lt;/li&gt;
@@ -1559,7 +1551,7 @@ m &amp;gt; \beta(e^t-t-1)
 &lt;li&gt;$H$的哈希结果是固定长度的。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;以上对哈希函数的要求是随机化和后续概率分析的基础。后面的分析均认为是针对哈希后的均匀分布数据进行。&lt;/p&gt;
-&lt;h3&gt;思想来源&lt;/h3&gt;
+&lt;h3 id="_18"&gt;思想来源&lt;/h3&gt;
 &lt;p&gt;下面非正式的从直观角度描述LLC算法的思想来源。&lt;/p&gt;
 &lt;p&gt;设$a$为待估集合（哈希后）中的一个元素，由上面对$H$的定义可知，$a$可以看做一个长度固定的比特串（也就是$a$的二进制表示），设$H$哈希后的结果长度为$L$比特，我们将这$L$个比特位从左到右分别编号为$1、2、…、L$：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="LLC Structure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/llc_structure_zpsefad7ee9.png"&gt;&lt;/p&gt;
@@ -1596,7 +1588,7 @@ P_n(X \neq k)=1-(1-1/2^{k-1})^n
 &lt;p&gt;从以上分析可以看出，当$n \ll 2^k$，$P_n(X \neq k)$的概率几乎为0，同时，当$n \gg k$时，$P_n(X \leq k)$的概率也几乎为0。用自然语言概括上述结论就是：当伯努利过程次数远远小于$2^k$时，至少有一次过程投掷次数等于$k$的概率几乎为0；当伯努利过程次数远远大于$2^k$时，没有一次过程投掷次数大于$k$的概率也几乎为0。&lt;/p&gt;
 &lt;p&gt;如果将上面描述做一个对应：一次伯努利过程对应一个元素的比特串，反面对应0，正面对应1，投掷次数$k$对应第一个“1”出现的位置，我们就得到了下面结论：&lt;/p&gt;
 &lt;p&gt;设一个集合的基数为$n$，$\rho_{max}$为所有元素中首个“1”的位置最大的那个元素的“1”的位置，如果$n$远远小于$2^{\rho_{max}}$，则我们得到$\rho_{max}$为当前值的概率几乎为0（它应该更小），同样的，如果$n$远远大于$2^{\rho_{max}}$，则我们得到$\rho_{max}$为当前值的概率也几乎为0（它应该更大），因此$2^{\rho_{max}}$可以作为基数$n$的一个粗糙估计。&lt;/p&gt;
-&lt;h3&gt;分桶平均&lt;/h3&gt;
+&lt;h3 id="_19"&gt;分桶平均&lt;/h3&gt;
 &lt;p&gt;上述分析给出了LLC的基本思想，不过如果直接使用上面的单一估计量进行基数估计会由于偶然性而存在较大误差。因此，LLC采用了分桶平均的思想来消减误差。具体来说，就是将哈希空间平均分成$m$份，每份称之为一个桶（bucket）。对于每一个元素，其哈希值的前$k$比特作为桶编号，其中$2^k=m$，而后$L-k$个比特作为真正用于基数估计的比特串。桶编号相同的元素被分配到同一个桶，在进行基数估计时，首先计算每个桶内元素最大的第一个“1”的位置，设为$M[i]$，然后对这$m$个值取平均后再进行估计，即：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \hat{n}=2^{\frac{1}{m}\sum{M[i]}}
@@ -1604,7 +1596,7 @@ P_n(X \neq k)=1-(1-1/2^{k-1})^n
 &lt;p&gt;这相当于物理试验中经常使用的多次试验取平均的做法，可以有效消减因偶然性带来的误差。&lt;/p&gt;
 &lt;p&gt;下面举一个例子说明分桶平均怎么做。&lt;/p&gt;
 &lt;p&gt;假设$H$的哈希长度为16bit，分桶数$m$定为32。设一个元素哈希值的比特串为“0001001010001010”，由于$m$为32，因此前5个bit为桶编号，所以这个元素应该归入“00010”即2号桶（桶编号从0开始，最大编号为$m-1$），而剩下部分是“01010001010”且显然ρ(01010001010)=2，所以桶编号为“00010”的元素最大的$\rho$即为$M[2]$的值。&lt;/p&gt;
-&lt;h3&gt;偏差修正&lt;/h3&gt;
+&lt;h3 id="_20"&gt;偏差修正&lt;/h3&gt;
 &lt;p&gt;上述经过分桶平均后的估计量看似已经很不错了，不过通过数学分析可以知道这并不是基数n的无偏估计。因此需要修正成无偏估计。这部分的具体数学分析在“Loglog Counting of Large Cardinalities”中，过程过于艰涩这里不再具体详述，有兴趣的朋友可以参考原论文。这里只简要提一下分析框架：&lt;/p&gt;
 &lt;p&gt;首先上文已经得出：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
@@ -1629,7 +1621,7 @@ P_n(X = k)=(1-1/2^k)^n - (1-1/2^{k-1})^n
 &lt;p&gt;其中：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Equation_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/equation_one_zps76f405b2.png"&gt;&lt;/p&gt;
 &lt;p&gt;其中$m$是分桶数。这就是LLC最终使用的估计量。&lt;/p&gt;
-&lt;h3&gt;误差分析&lt;/h3&gt;
+&lt;h3 id="_21"&gt;误差分析&lt;/h3&gt;
 &lt;p&gt;不加证明给出如下结论：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 \begin{split}
@@ -1642,23 +1634,23 @@ E_n(\hat{n})/n &amp;amp;= 1 + \theta_{1,n} + o(1) \\
 &lt;p&gt;\begin{equation}
 StdError(\hat{n}/n) \approx \frac{1.30}{\sqrt{m}}
 \end{equation}&lt;/p&gt;
-&lt;h2&gt;算法应用&lt;/h2&gt;
-&lt;h3&gt;误差控制&lt;/h3&gt;
+&lt;h2 id="_22"&gt;算法应用&lt;/h2&gt;
+&lt;h3 id="_23"&gt;误差控制&lt;/h3&gt;
 &lt;p&gt;在应用LLC时，主要需要考虑的是分桶数$m$，而这个$m$主要取决于误差。根据上面的误差分析，如果要将误差控制在$\epsilon$之内，则：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 m &amp;gt; (\frac{1.30}{\epsilon})^2
 \end{equation}&lt;/p&gt;
-&lt;h3&gt;内存使用分析&lt;/h3&gt;
+&lt;h3 id="_24"&gt;内存使用分析&lt;/h3&gt;
 &lt;p&gt;内存使用与$m$的大小及哈希值得长度（或说基数上限）有关。假设$H$的值为32bit，由于$\rho_{max} \leq 32$，因此每个桶需要5bit空间存储这个桶的$\rho_{max}$，$m$个桶就是$5 \times m/8$字节。例如基数上限为一亿（约227），当分桶数$m$为1024时，每个桶的基数上限约为227/210=217，而$log_2(log_2(217))=4.09$，因此每个桶需要5bit，需要字节数就是$5×1024/8=640$，误差为$1.30 / \sqrt{1024} = 0.040625$，也就是约为$4%$。&lt;/p&gt;
-&lt;h3&gt;合并&lt;/h3&gt;
+&lt;h3 id="_25"&gt;合并&lt;/h3&gt;
 &lt;p&gt;与LC不同，LLC的合并是以桶为单位而不是bit为单位，由于LLC只需记录桶的$\rho_{max}$，因此合并时取相同桶编号数值最大者为合并后此桶的数值即可。&lt;/p&gt;
-&lt;h1&gt;HyperLogLog Counting及Adaptive Counting&lt;sup id="sf-play-with-cardinality-estimation-4-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-4" title="解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1 id="hyperloglog-countingadaptive-countingrefcardinality-estimationhyperloglog-countingadaptive-countingref"&gt;HyperLogLog Counting及Adaptive Counting&lt;sup id="sf-play-with-cardinality-estimation-4-back"&gt;&lt;a class="simple-footnote" href="#sf-play-with-cardinality-estimation-4" title="解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）"&gt;4&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;在前一部分，我们了解了LogLog Counting。LLC算法的空间复杂度为$O(log_2(log_2(N_{max})))$，并且具有较高的精度，因此非常适合用于大数据场景的基数估计。不过LLC也有自己的问题，就是当基数不太大时，估计值的误差会比较大。这主要是因为当基数不太大时，可能存在一些空桶，这些空桶的$\rho_{max}$为0。由于LLC的估计值依赖于各桶$\rho_{max}$的几何平均数，而几何平均数对于特殊值（这里就是指0）非常敏感，因此当存在一些空桶时，LLC的估计效果就变得较差。&lt;/p&gt;
 &lt;p&gt;本部分将要介绍的HyperLogLog Counting及Adaptive Counting算法均是对LLC算法的改进，可以有效克服LLC对于较小基数估计效果差的缺点。&lt;/p&gt;
-&lt;h2&gt;评价基数估计算法的精度&lt;/h2&gt;
+&lt;h2 id="_26"&gt;评价基数估计算法的精度&lt;/h2&gt;
 &lt;p&gt;首先我们来分析一下LLC的问题。一般来说LLC最大问题在于当基数不太大时，估计效果比较差。上文说过，LLC的渐近标准误差为$1.30/\sqrt{m}$，看起来貌似只和分桶数$m$有关，那么为什么基数的大小也会导致效果变差呢？这就需要重点研究一下如何评价基数估计算法的精度，以及“渐近标准误差”的意义是什么。&lt;/p&gt;
-&lt;h3&gt;标准误差&lt;/h3&gt;
+&lt;h3 id="_27"&gt;标准误差&lt;/h3&gt;
 &lt;p&gt;首先需要明确标准误差的意义。例如标准误差为0.02，到底表示什么意义。&lt;/p&gt;
 &lt;p&gt;标准误差是针对一个统计量（或估计量）而言。在分析基数估计算法的精度时，我们关心的统计量是$\hat{n}/n$。注意这个量分子分母均为一组抽样的统计量。下面正式描述一下这个问题。&lt;/p&gt;
 &lt;p&gt;设$S$是我们要估计基数的可重复有限集合。$S$中每个元素都是来自值服从均匀分布的样本空间的一个独立随机抽样样本。这个集合共有$C$个元素，但其基数不一定是$C$，因为其中可能存在重复元素。设$f_n$为定义在$S$上的函数：&lt;/p&gt;
@@ -1678,16 +1670,16 @@ f_\hat{n}(S)
 &lt;p&gt;&lt;img alt="Norm" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/norm_zps0655fdfe.png"&gt;&lt;/p&gt;
 &lt;p&gt;因此，假设标准误差是0.02（2%），它实际的意义是：假设真实基数为$n$，$n$与估计值之比落入(0.98, 1.02)的概率是68.2%，落入(0.96,1.04)的概率是95.4%，落入(0.94,1.06)的概率是99.6%。显然这个比值越大则估计值越不准，因此对于0.02的标准误差，这个比值大于1.06或小于0.94的概率不到0.004。&lt;/p&gt;
 &lt;p&gt;再直观一点，假设真实基数为10000，则一次估计值有99.6%的可能不大于10600且不小于9400。&lt;/p&gt;
-&lt;h3&gt;组合计数与渐近分析&lt;/h3&gt;
+&lt;h3 id="_28"&gt;组合计数与渐近分析&lt;/h3&gt;
 &lt;p&gt;如果LLC能够做到绝对服从$1.30/\sqrt{m}$，那么也算很好了，因为我们只要通过控制分桶数$m$就可以得到一个一致的标准误差。这里的一致是指标准误差与基数无关。不幸的是并不是这样，上面已经说过，这是一个“渐近”标注误差。下面解释一下什么叫渐近。&lt;/p&gt;
 &lt;p&gt;在计算数学中，有一个非常有用的分支就是组合计数。组合计数简单来说就是分析自然数的组合函数随着自然数的增长而增长的量级。可能很多人已经意识到这个听起来很像算法复杂度分析。没错，算法复杂度分析就是组合计数在算法领域的应用。&lt;/p&gt;
 &lt;p&gt;举个例子，设$A$是一个有$n$个元素的集合（这里$A$是严格的集合，不存在重复元素），则$A$的幂集（即由$A$的所有子集组成的集合）有$2^n$个元素。&lt;/p&gt;
 &lt;p&gt;上述关于幂集的组合计数是一个非常整齐一致的组合计数，也就是不管$n$多大，A的幂集总有$2^n$个元素。&lt;/p&gt;
 &lt;p&gt;可惜的是现实中一般的组合计数都不存在如此干净一致的解。LLC的偏差和标准差其实都是组合函数，但是论文中已经分析出，LLC的偏差和标准差都是渐近组合计数，也就是说，随着$n$趋向于无穷大，标准差趋向于$1.30/\sqrt{m}$，而不是说$n$多大时其值都一致为$1.30/\sqrt{m}$。另外，其无偏性也是渐近的，只有当$n$远远大于$m$时，其估计值才近似无偏。因此当$n$不太大时，LLC的效果并不好。&lt;/p&gt;
 &lt;p&gt;庆幸的是，同样通过统计分析方法，我们可以得到$n$具体小到什么程度我们就不可忍受了，另外就是当$n$太小时可不可以用别的估计方法替代LLC来弥补LLC这个缺陷。HyperLogLog Counting及Adaptive Counting都是基于这个思想实现的。&lt;/p&gt;
-&lt;h2&gt;Adaptive Counting&lt;/h2&gt;
+&lt;h2 id="adaptive-counting"&gt;Adaptive Counting&lt;/h2&gt;
 &lt;p&gt;Adaptive Counting（简称AC）在“Fast and accurate traffic matrix measurement using adaptive cardinality counting”一文中被提出。其思想也非常简单直观：实际上AC只是简单将LC和LLC组合使用，根据基数量级决定是使用LC还是LLC。具体是通过分析两者的标准差，给出一个阈值，根据阈值选择使用哪种估计。&lt;/p&gt;
-&lt;h3&gt;基本算法&lt;/h3&gt;
+&lt;h3 id="_29"&gt;基本算法&lt;/h3&gt;
 &lt;p&gt;如果分析一下LC和LLC的存储结构，可以发现两者是兼容的，区别仅仅在于LLC关心每个桶的$\rho_{max}$，而LC仅关心此桶是否为空。因此只要简单认为$\rho_{max}$值不为0的桶为非空，桶为空就可以使用LLC的数据结构做LC估计了。&lt;/p&gt;
 &lt;p&gt;而我们已经知道，LC在基数不太大时效果好，基数太大时会失效；LLC恰好相反，因此两者有很好的互补性。&lt;/p&gt;
 &lt;p&gt;回顾一下，LC的标准误差为：&lt;/p&gt;
@@ -1716,11 +1708,11 @@ SE_{llc}(\hat{n}/n)=1.30/\sqrt{m}
 -mlog(\beta) &amp;amp; if &amp;amp; 0.051 \leq \beta \leq 1 \end{array} 
 \right.
 \end{equation}&lt;/p&gt;
-&lt;h3&gt;误差分析&lt;/h3&gt;
+&lt;h3 id="_30"&gt;误差分析&lt;/h3&gt;
 &lt;p&gt;因为AC只是LC和LLC的简单组合，所以误差分析可以依照LC和LLC进行。值得注意的是，当β&amp;lt;0.051时，LLC最大的偏差不超过0.17%，因此可以近似认为是无偏的。&lt;/p&gt;
-&lt;h2&gt;HyperLogLog Counting&lt;/h2&gt;
+&lt;h2 id="hyperloglog-counting"&gt;HyperLogLog Counting&lt;/h2&gt;
 &lt;p&gt;HyperLogLog Counting（以下简称HLLC）的基本思想也是在LLC的基础上做改进，不过相对于AC来说改进的比较多，所以相对也要复杂一些。本文不做具体细节分析，具体细节请参考“HyperLogLog: the analysis of a near-optimal cardinality estimation algorithm”这篇论文。&lt;/p&gt;
-&lt;h3&gt;基本算法&lt;/h3&gt;
+&lt;h3 id="_31"&gt;基本算法&lt;/h3&gt;
 &lt;p&gt;HLLC的第一个改进是使用调和平均数替代几何平均数。注意LLC是对各个桶取算数平均数，而算数平均数最终被应用到2的指数上，所以总体来看LLC取得是几何平均数。由于几何平均数对于离群值（例如这里的0）特别敏感，因此当存在离群值时，LLC的偏差就会很大，这也从另一个角度解释了为什么n不太大时LLC的效果不太好。这是因为n较小时，可能存在较多空桶，而这些特殊的离群值强烈干扰了几何平均数的稳定性。&lt;/p&gt;
 &lt;p&gt;因此，HLLC使用调和平均数来代替几何平均数，调和平均数的定义如下：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
@@ -1734,19 +1726,19 @@ H = \frac{n}{\frac{1}{x_1} + \frac{1}{x_2} + ... + \frac{1}{x_n}} = \frac{n}{\su
 &lt;p&gt;\begin{equation}
 \alpha_m=(m\int _0^\infty (log_2(\frac{2+u}{1+u}))^m du)^{-1}
 \end{equation}&lt;/p&gt;
-&lt;h3&gt;偏差分析&lt;/h3&gt;
+&lt;h3 id="_32"&gt;偏差分析&lt;/h3&gt;
 &lt;p&gt;根据论文中的分析结论，与LLC一样HLLC是渐近无偏估计，且其渐近标准差为：&lt;/p&gt;
 &lt;p&gt;\begin{equation}
 SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 \end{equation}&lt;/p&gt;
 &lt;p&gt;因此在存储空间相同的情况下，HLLC比LLC具有更高的精度。例如，对于分桶数$m$为$2^13$（8k字节）时，LLC的标准误差为1.4%，而HLLC为1.1%。&lt;/p&gt;
-&lt;h3&gt;分段偏差修正&lt;/h3&gt;
+&lt;h3 id="_33"&gt;分段偏差修正&lt;/h3&gt;
 &lt;p&gt;在HLLC的论文中，作者在实现建议部分还给出了在$n$相对于$m$较小或较大时的偏差修正方案。具体来说，设$E$为估计值：&lt;/p&gt;
 &lt;p&gt;当$E≤{5 \over 2}m$时，使用LC进行估计。&lt;/p&gt;
 &lt;p&gt;当$\frac{5}{2}m &amp;lt; E \leq \frac{1}{30}2^{32}$时，使用上面给出的HLLC公式进行估计。&lt;/p&gt;
 &lt;p&gt;当$E&amp;gt;\frac{1}{30}2^{32}$时，估计公式则为$\hat{n}=-2^{32}log(1-E/2^{32})$。&lt;/p&gt;
 &lt;p&gt;关于分段偏差修正效果分析也可以在原论文中找到。&lt;/p&gt;
-&lt;h1&gt;写在后面&lt;/h1&gt;
+&lt;h1 id="_34"&gt;写在后面&lt;/h1&gt;
 &lt;hr&gt;
 &lt;p&gt;原博客中作者对这几种算法进行了实验比较,因为个人对实验不是很感兴趣,现只摘录作者的&lt;strong&gt;个人建议&lt;/strong&gt;(对实验结果有兴趣的同学请参考&lt;a href="http://blog.codinglabs.org/articles/cardinality-estimate-exper.html"&gt;五种常用基数估计算法效果实验及实践建议&lt;/a&gt;):&lt;/p&gt;
 &lt;ul&gt;
@@ -1788,11 +1780,11 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 &lt;ol class="simple-footnotes"&gt;&lt;li id="sf-play-with-cardinality-estimation-1"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-i.html"&gt;解读Cardinality Estimation算法（第一部分：基本概念）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-2"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-ii.html"&gt;解读Cardinality Estimation算法（第二部分：Linear Counting）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-2-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-3"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iii.html"&gt;解读Cardinality Estimation算法（第三部分：LogLog Counting）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-3-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;li id="sf-play-with-cardinality-estimation-4"&gt;&lt;a href="http://blog.codinglabs.org/articles/algorithms-for-cardinality-estimation-part-iv.html"&gt;解读Cardinality Estimation算法（第四部分：HyperLogLog Counting及Adaptive Counting）&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-play-with-cardinality-estimation-4-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="基数估计"></category><category term="Cardinality Estimation"></category><category term="Big Data"></category></entry><entry><title>也说2048:Minimax算法以及Alpha-Beta剪枝</title><link href="http://www.qingyuanxingsi.com/ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html" rel="alternate"></link><updated>2014-04-06T00:00:00+08:00</updated><author><name>CodingLabs</name></author><id>tag:www.qingyuanxingsi.com,2014-04-06:ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi.html</id><summary type="html">&lt;p&gt;今天看机器学习Logistic Regression,脑子实在转不过来了,于是到处游荡了一下,然后不经意间发现了这篇特别好玩的文章&lt;a href="http://blog.codinglabs.org/articles/2048-ai-analysis.html"&gt;2048-AI程序算法分析&lt;/a&gt;,于是摘录如下。(&lt;strong&gt;版权属原作者所有,特此声明&lt;/strong&gt;)&lt;/p&gt;
 &lt;p&gt;针对目前火爆的2048游戏，有人实现了一个AI程序，可以以较大概率（高于90%）赢得游戏，想一睹该AI程序的童鞋们请移步&lt;a href="http://ov3y.github.io/2048-AI/"&gt;2048AI实现&lt;/a&gt;,点击Auto-run按钮即可运行。此外作者在&lt;a href="http://stackoverflow.com/questions/22342854/what-is-the-optimal-algorithm-for-the-game-2048"&gt;stackoverflow上简要介绍了AI的算法框架和实现思路&lt;/a&gt;。但是这个回答主要集中在启发函数的选取上，对AI用到的核心算法并没有仔细说明。这篇文章将主要分为两个部分，第一部分介绍其中用到的基础算法，即Minimax和Alpha-beta剪枝；第二部分分析作者具体的实现。&lt;/p&gt;
 &lt;p&gt;&lt;img alt="2048" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/2048_zps4f3b681e.png"&gt;&lt;/p&gt;
-&lt;h1&gt;基础算法&lt;/h1&gt;
+&lt;h1 id="_1"&gt;基础算法&lt;/h1&gt;
 &lt;p&gt;2048本质上可以抽象成信息对称双人对弈模型（玩家向四个方向中的一个移动，然后计算机在某个空格中填入2或4）。这里“信息对称”是指在任一时刻对弈双方对格局的信息完全一致，移动策略仅依赖对接下来格局的推理。作者使用的核心算法为对弈模型中常用的带Alpha-beta剪枝的Minimax。这个算法也常被用于如国际象棋等信息对称对弈AI中。&lt;/p&gt;
-&lt;h2&gt;Minimax&lt;/h2&gt;
+&lt;h2 id="minimax"&gt;Minimax&lt;/h2&gt;
 &lt;p&gt;下面先介绍不带剪枝的Minimax。首先本文将通过一个简单的例子说明Minimax算法的思路和决策方式。&lt;/p&gt;
-&lt;h3&gt;问题&lt;/h3&gt;
+&lt;h3 id="_2"&gt;问题&lt;/h3&gt;
 &lt;p&gt;现在考虑这样一个游戏：有三个盘子A、B和C，每个盘子分别放有三张纸币。A放的是1、20、50；B放的是5、10、100；C放的是1、5、20。单位均为“元”。有甲、乙两人，两人均对三个盘子和上面放置的纸币有可以任意查看。游戏分三步：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;甲从三个盘子中选取一个。&lt;/li&gt;
@@ -1801,14 +1793,14 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 &lt;/ol&gt;
 &lt;p&gt;其中甲的目标是最后拿到的纸币面值尽量大，乙的目标是让甲最后拿到的纸币面值尽量小。&lt;/p&gt;
 &lt;p&gt;下面用Minimax算法解决这个问题。&lt;/p&gt;
-&lt;h3&gt;基本思路&lt;/h3&gt;
+&lt;h3 id="_3"&gt;基本思路&lt;/h3&gt;
 &lt;p&gt;一般解决博弈类问题的自然想法是将格局组织成一棵树，树的每一个节点表示一种格局，而父子关系表示由父格局经过一步可以到达子格局。Minimax也不例外，它通过对以当前格局为根的格局树搜索来确定下一步的选择。而一切格局树搜索算法的核心都是对每个格局价值的评价。Minimax算法基于以下朴素思想确定格局价值：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Minimax是一种悲观算法，即假设对手每一步都会将我方引入从当前看理论上价值最小的格局方向，即对手具有完美决策能力。因此我方的策略应该是选择那些对方所能达到的让我方最差情况中最好的，也就是让对方在完美决策下所对我造成的损失最小。&lt;/li&gt;
 &lt;li&gt;Minimax不找理论最优解，因为理论最优解往往依赖于对手是否足够愚蠢，Minimax中我方完全掌握主动，如果对方每一步决策都是完美的，则我方可以达到预计的最小损失格局，如果对方没有走出完美决策，则我方可能达到比预计的最悲观情况更好的结局。总之我方就是要在最坏情况中选择最好的。
 上面的表述有些抽象，下面看具体示例。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3&gt;解题&lt;/h3&gt;
+&lt;h3 id="_4"&gt;解题&lt;/h3&gt;
 &lt;p&gt;下图是上述示例问题的格局树：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Situation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/01_zps1cf40396.png"&gt;&lt;/p&gt;
 &lt;p&gt;注意，由于示例问题格局数非常少，我们可以给出完整的格局树。这种情况下我可以找到Minimax算法的全局最优解。而真实情况中，格局树非常庞大，即使是计算机也不可能给出完整的树，因此我们往往只搜索一定深度，这时只能找到局部最优解。&lt;/p&gt;
@@ -1834,7 +1826,7 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 &lt;li&gt;因为上述原因，Minimax一般是寻找一个局部最优解而不是全局最优解，搜索深度越大越可能找到更好的解，但计算耗时会呈指数级膨胀。&lt;/li&gt;
 &lt;li&gt;也是因为无法一次构造出完整的格局树，所以真实问题中Minimax一般是边对弈边计算局部格局树，而不是只计算一次，但已计算的中间结果可以缓存。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Alpha-beta剪枝&lt;sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
+&lt;h2 id="alpha-betarefstep-by-stepalpha-beta-cutting-exampleref"&gt;Alpha-beta剪枝&lt;sup id="sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1-back"&gt;&lt;a class="simple-footnote" href="#sf-ye-shuo-2048minimaxsuan-fa-yi-ji-alpha-betajian-zhi-1" title="以下描述看不懂可参考Step by Step:Alpha-Beta Cutting Example"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h2&gt;
 &lt;p&gt;简单的Minimax算法有一个很大的问题就是计算复杂性。由于所需搜索的节点数随最大深度呈指数膨胀，而算法的效果往往和深度相关，因此这极大限制了算法的效果。&lt;/p&gt;
 &lt;p&gt;Alpha-beta剪枝是对Minimax的补充和改进。采用Alpha-beta剪枝后，我们可不必构造和搜索最大深度D内的所有节点，在构造过程中，如果发现当前格局再往下不能找到更好的解，我们就停止在这个格局及以下的搜索，也就是剪枝。&lt;/p&gt;
 &lt;p&gt;Alpha-beta基于这样一种朴素的思想：&lt;strong&gt;时时刻刻记得当前已经知道的最好选择，如果从当前格局搜索下去，不可能找到比已知最优解更好的解，则停止这个格局分支的搜索（剪枝），回溯到父节点继续搜索&lt;/strong&gt;。&lt;/p&gt;
@@ -1875,9 +1867,9 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 &lt;blockquote&gt;
 &lt;p&gt;NOTE:在查找讲解Alpha-Beta剪枝算法的过程中看到了这样一种表述,我个人觉得这么理解可能更容易看懂这个算法:Alpha是对于Max节点而言从该节点到根节点路径上最好的Option,而Beta是对于Min节点而言从该节点到根节点路径上最好的Option;Max节点的目标是最大化所得收益,而Min节点目标则是最小化Max节点所得收益.(MORE SEE AT &lt;a href="http://www.youtube.com/watch?v=xBXHtz4Gbdo"&gt;Step by Step: Alpha Beta Pruning|GoAgent翻墙&lt;/a&gt;)&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h1&gt;针对2048游戏的实现&lt;/h1&gt;
+&lt;h1 id="2048"&gt;针对2048游戏的实现&lt;/h1&gt;
 &lt;p&gt;下面看一下ov3y同学针对2048实现的AI。原程序见于&lt;a href="https://github.com/ov3y/2048-AI"&gt;github&lt;/a&gt;，主要程序都在&lt;a href="https://github.com/ov3y/2048-AI/blob/master/js/ai.js"&gt;ai.js&lt;/a&gt;中。&lt;/p&gt;
-&lt;h2&gt;建模&lt;/h2&gt;
+&lt;h2 id="_5"&gt;建模&lt;/h2&gt;
 &lt;p&gt;上面说过Minimax和Alpha-beta都是针对信息对称的轮流对弈问题，这里作者是这样抽象游戏的：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;我方：游戏玩家。每次可以选择上、下、左、右四个行棋策略中的一种（某些格局会少于四种，因为有些方向不可走）。行棋后方块按照既定逻辑移动及合并，格局转换完成。&lt;/li&gt;
@@ -1885,100 +1877,94 @@ SE_{hllc}(\hat{n}/n)=1.04/\sqrt{m}
 &lt;li&gt;胜利条件：出现某个方块的数值为“2048”。&lt;/li&gt;
 &lt;li&gt;失败条件：格子全满，且无法向四个方向中任何一个方向移动（均不能触发合并）。如此2048游戏就被建模成一个信息对称的双人对弈问题。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;格局评价&lt;/h2&gt;
+&lt;h2 id="_6"&gt;格局评价&lt;/h2&gt;
 &lt;p&gt;作为算法的核心，如何评价当前格局的价值是重中之重。在2048中，除了终局外，中间格局并无非常明显的价值评价指标，因此需要用一些启发式的指标来评价格局。那些分数高的“好”格局是容易引向胜利的格局，而分低的“坏”格局是容易引向失败的格局。&lt;/p&gt;
 &lt;p&gt;作者采用了如下几个启发式指标。&lt;/p&gt;
-&lt;h3&gt;单调性&lt;/h3&gt;
+&lt;h3 id="_7"&gt;单调性&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;单调性&lt;/code&gt;指方块从左到右、从上到下均遵从递增或递减。一般来说，越单调的格局越好。下面是一个具有良好单调格局的例子：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="单调性" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/11_zps7ce37f15.png"&gt;&lt;/p&gt;
-&lt;h3&gt;平滑性&lt;/h3&gt;
+&lt;h3 id="_8"&gt;平滑性&lt;/h3&gt;
 &lt;p&gt;&lt;code&gt;平滑性&lt;/code&gt;是指每个方块与其直接相邻方块数值的差，其中差越小越平滑。例如2旁边是4就比2旁边是128平滑。一般认为越平滑的格局越好。下面是一个具有极端平滑性的例子：&lt;/p&gt;
 &lt;p&gt;&lt;img alt="平滑性" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/12_zpsb53c5ef7.png"&gt;&lt;/p&gt;
-&lt;h3&gt;空格数&lt;/h3&gt;
+&lt;h3 id="_9"&gt;空格数&lt;/h3&gt;
 &lt;p&gt;这个很好理解，因为一般来说，空格子越少对玩家越不利。所以我们认为空格越多的格局越好。&lt;/p&gt;
-&lt;h3&gt;孤立空格数&lt;/h3&gt;
+&lt;h3 id="_10"&gt;孤立空格数&lt;/h3&gt;
 &lt;p&gt;这个指标评价空格被分开的程度，空格越分散则格局越差。&lt;/p&gt;
 &lt;p&gt;具体来说，2048-AI在评价格局时，对这些启发指标采用了加权策略。具体代码如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// static evaluation function&lt;/span&gt;
-&lt;span class="no"&gt;AI&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prototype&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;eval&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;emptyCells&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;availableCells&lt;/span&gt;&lt;span class="p"&gt;().&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;// static evaluation function
+AI.prototype.eval = function() {
+    var emptyCells = this.grid.availableCells().length;
 
-    &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;smoothWeight&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="c1"&gt;//monoWeight   = 0.0,&lt;/span&gt;
-        &lt;span class="c1"&gt;//islandWeight = 0.0,&lt;/span&gt;
-        &lt;span class="n"&gt;mono2Weight&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;emptyWeight&lt;/span&gt;  &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;2.7&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
-        &lt;span class="n"&gt;maxWeight&lt;/span&gt;    &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    var smoothWeight = 0.1,
+        //monoWeight   = 0.0,
+        //islandWeight = 0.0,
+        mono2Weight  = 1.0,
+        emptyWeight  = 2.7,
+        maxWeight    = 1.0;
 
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;smoothness&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;smoothWeight&lt;/span&gt;
-        &lt;span class="c1"&gt;//+ this.grid.monotonicity() * monoWeight&lt;/span&gt;
-        &lt;span class="c1"&gt;//- this.grid.islands() * islandWeight&lt;/span&gt;
-        &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;monotonicity2&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;mono2Weight&lt;/span&gt;
-        &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;emptyCells&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;emptyWeight&lt;/span&gt;
-        &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;maxValue&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;maxWeight&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-&lt;span class="p"&gt;};&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+    return this.grid.smoothness() * smoothWeight
+        //+ this.grid.monotonicity() * monoWeight
+        //- this.grid.islands() * islandWeight
+        + this.grid.monotonicity2() * mono2Weight
+        + Math.log(emptyCells) * emptyWeight
+        + this.grid.maxValue() * maxWeight;
+};
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;有兴趣的同学可以调整一下权重看看有什么效果。&lt;/p&gt;
-&lt;h2&gt;对对方选择的剪枝&lt;/h2&gt;
+&lt;h2 id="_11"&gt;对对方选择的剪枝&lt;/h2&gt;
 &lt;p&gt;在这个程序中，除了采用Alpha-beta剪枝外，在min节点还采用了另一种剪枝，即只考虑对方走出让格局最差的那一步（而实际2048中计算机的选择是随机的），而不是搜索全部对方可能的走法。这是因为对方所有可能的选择为“空格数×2”，如果全部搜索的话会严重限制搜索深度。
 相关剪枝代码如下：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// try a 2 and 4 in each cell and measure how annoying it is&lt;/span&gt;
-&lt;span class="c1"&gt;// with metrics from eval&lt;/span&gt;
-&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;candidates&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[];&lt;/span&gt;
-&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;cells&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;availableCells&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="mh"&gt;2&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[],&lt;/span&gt; &lt;span class="mh"&gt;4&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt; &lt;span class="p"&gt;};&lt;/span&gt;
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;cells&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="n"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="k"&gt;cell&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cells&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
-        &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;tile&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Tile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;parseInt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mh"&gt;10&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
-        &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;insertTile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;tile&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;smoothness&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;islands&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-        &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;removeTile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;cell&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;pre&gt;&lt;code&gt;// try a 2 and 4 in each cell and measure how annoying it is
+// with metrics from eval
+var candidates = [];
+var cells = this.grid.availableCells();
+var scores = { 2: [], 4: [] };
+for (var value in scores) {
+    for (var i in cells) {
+        scores[value].push(null);
+        var cell = cells[i];
+        var tile = new Tile(cell, parseInt(value, 10));
+        this.grid.insertTile(tile);
+        scores[value][i] = -this.grid.smoothness() + this.grid.islands();
+        this.grid.removeTile(cell);
+    }
+}
 
-&lt;span class="c1"&gt;// now just pick out the most annoying moves&lt;/span&gt;
-&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;maxScore&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mh"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;Math&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;max&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;apply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;null&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mh"&gt;4&lt;/span&gt;&lt;span class="p"&gt;]));&lt;/span&gt;
-&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="n"&gt;in&lt;/span&gt; &lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// 2 and 4&lt;/span&gt;
-    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;].&lt;/span&gt;&lt;span class="n"&gt;length&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scores&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;maxScore&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="n"&gt;candidates&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;push&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="nl"&gt;position:&lt;/span&gt; &lt;span class="n"&gt;cells&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="nl"&gt;value:&lt;/span&gt; &lt;span class="n"&gt;parseInt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mh"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
-&lt;h2&gt;搜索深度&lt;/h2&gt;
+// now just pick out the most annoying moves
+var maxScore = Math.max(Math.max.apply(null, scores[2]), Math.max.apply(null, scores[4]));
+for (var value in scores) { // 2 and 4
+    for (var i=0; i&amp;lt;scores[value].length; i++) {
+        if (scores[value][i] == maxScore) {
+            candidates.push( { position: cells[i], value: parseInt(value, 10) } );
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id="_12"&gt;搜索深度&lt;/h2&gt;
 &lt;p&gt;在2048-AI的实现中，并没有限制搜索的最大深度，而是限制每次“思考”的时间。这里设定了一个超时时间，默认为100ms，在这个时间内，会从1开始，搜索到所能达到的深度。相关代码：&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="c1"&gt;// performs iterative deepening over the alpha-beta search&lt;/span&gt;
-&lt;span class="no"&gt;AI&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;prototype&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;iterativeDeep&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-    &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;()).&lt;/span&gt;&lt;span class="n"&gt;getTime&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-    &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;depth&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-        &lt;span class="k"&gt;var&lt;/span&gt; &lt;span class="n"&gt;newBest&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="k"&gt;this&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;depth&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mh"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mh"&gt;10000&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mh"&gt;0&lt;/span&gt; &lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mh"&gt;0&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;newBest&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;move&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mh"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="c1"&gt;//console.log('BREAKING EARLY');&lt;/span&gt;
-            &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-            &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;newBest&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-        &lt;span class="p"&gt;}&lt;/span&gt;
-        &lt;span class="n"&gt;depth&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="p"&gt;()).&lt;/span&gt;&lt;span class="n"&gt;getTime&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;start&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;minSearchTime&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-    &lt;span class="c1"&gt;//console.log('depth', --depth);&lt;/span&gt;
-    &lt;span class="c1"&gt;//console.log(this.translate(best.move));&lt;/span&gt;
-    &lt;span class="c1"&gt;//console.log(best);&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-
-
+&lt;pre&gt;&lt;code&gt;// performs iterative deepening over the alpha-beta search
+AI.prototype.iterativeDeep = function() {
+    var start = (new Date()).getTime();
+    var depth = 0;
+    var best;
+    do {
+        var newBest = this.search(depth, -10000, 10000, 0 ,0);
+        if (newBest.move == -1) {
+            //console.log('BREAKING EARLY');
+            break;
+        } else {
+            best = newBest;
+        }
+        depth++;
+    } while ( (new Date()).getTime() - start &amp;lt; minSearchTime);
+    //console.log('depth', --depth);
+    //console.log(this.translate(best.move));
+    //console.log(best);
+    return best
+}
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;因此这个算法实现的效果实际上依赖于执行javascript引擎机器的性能。当然可以通过增加超时时间来达到更好的效果，但此时每一步行走速度会相应变慢。&lt;/p&gt;
-&lt;h2&gt;算法的改进&lt;/h2&gt;
+&lt;h2 id="_13"&gt;算法的改进&lt;/h2&gt;
 &lt;p&gt;目前这个实现作者声称成功合成2048的概率超过90%，但是合成4096甚至8192的概率并不高。作者在&lt;a href="https://github.com/ov3y/2048-AI/blob/master/README.md"&gt;github项目的REAMDE&lt;/a&gt;中同时给出了一些优化建议，这些建议包括：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;缓存结果。目前这个实现并没有对已搜索的树做缓存，每一步都要重新开始搜索。&lt;/li&gt;

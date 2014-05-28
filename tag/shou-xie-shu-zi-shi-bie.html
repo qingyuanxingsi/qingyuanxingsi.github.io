@@ -88,7 +88,7 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 <p>总而言之,言而总之,婶婶地觉得我该实践实践了,真正针对实际问题,动手去实现一些机器学习算法,并检验它们的实际效果。</p>
 <p>作为机器学习实战系列的第一篇,本博文选取的问题来自<a href="https://www.kaggle.com/">Kaggle</a>,我选取了<a href="https://www.kaggle.com/c/digit-recognizer">Digit Recognizer</a>这个问题,于是牛刀霍霍,开始解剖这个问题。</p>
 <p>根据该问主页上的提示,我打算实现Random Forest以及Convolutional Network来检验这两个问题针对手写数字识别这个问题的实际应用效果,以下就记录一下整个过程吧。</p>
-<h1>随机森林</h1>
+<h1 id="_1">随机森林</h1>
 <hr />
 <p>随机森林算法是在决策树算法的基础上提出,关于决策树算法的相关知识可参考我之前写的一篇<a href="http://www.qingyuanxingsi.com/Decision%20Tree.html">机器学习系列(I):决策树算法</a>,它的核心思想是随机选取训练样本以及随机选取特征,从而针对这些训练样本以及随机选取的特征根据决策树算法构建多棵决策树,最后综合多棵决策树的结果得出须预测样本的分类。由于之前实现过决策树算法,于是这里我就不想实现这个算法了,具体采用<strong>scikit</strong>工具包中提供的随机森林分类器进行训练。</p>
 <p>具体实现时,由于Kaggle提供的测试集是以csv格式提供的,在一大通搜索之后,我最后采用了<a href="http://pandas.pydata.org/">pandas</a>库处理文件输入及输出问题,根据其官网上的说明:</p>
@@ -97,386 +97,382 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </blockquote>
 <p>可见<strong>pandas</strong>是针对python开发的一个高性能且易用的数据结构以及数据分析工具库。在处理Kaggle数据的时候用了一下,个人感觉还是挺好用的。</p>
 <p>另外需要说明的一点是,面对MNIST数据集的时候,最先想到的一个问题是如何提取特征以用于手写数字识别的问题中,大概查了一下,一种比较简单的方法是将整个图像分成很多不重叠的2*2的小区域,然后统计每个小区域中不为0的像素值的总数(另,可针对不同的区域设置不同的权重)。在查找的过程中也发现了很多其他方法,有兴趣的朋友可以自行Google之。因为Kaggle提供的训练集每张图片都是一个长度为784的长向量,个人觉得计算2*2小区域包含不为0像素的总数不是很方便(现在看来还是挺简单的昂),所以直接一股脑地把整个784位的向量作为特征扔给随机森林分类器了。(<strong>唉,现在觉得自己太不负责任了,怎么能够这样呢?</strong>).以下给出采用随机森林进行训练的源代码。</p>
-<div class="highlight"><pre><span class="cp">#-*- coding:utf-8 -*-</span>
-<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-<span class="n">import</span> <span class="n">pandas</span> <span class="n">as</span> <span class="n">pd</span>
-<span class="n">from</span> <span class="n">sklearn</span><span class="p">.</span><span class="n">ensemble</span> <span class="n">import</span> <span class="n">RandomForestClassifier</span>
+<pre><code>#-*- coding:utf-8 -*-
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
 
-<span class="err">&#39;&#39;&#39;</span>
-<span class="n">A</span> <span class="n">simple</span> <span class="n">random</span> <span class="n">forest</span> <span class="n">program</span> <span class="k">for</span> <span class="n">minist</span> <span class="n">digit</span> <span class="n">recognition</span>
-<span class="err">@</span><span class="n">author</span><span class="o">:</span><span class="n">qingyuanxingsi</span>
-<span class="err">@</span><span class="n">date</span><span class="o">:</span><span class="mi">2014</span><span class="o">/</span><span class="mo">05</span><span class="o">/</span><span class="mi">11</span>
-<span class="err">&#39;&#39;&#39;</span>
+'''
+A simple random forest program for minist digit recognition
+@author:qingyuanxingsi
+@date:2014/05/11
+'''
 
-<span class="n">csvPath</span> <span class="o">=</span> <span class="err">&#39;</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">qingyuanxingsi</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">digit_recognizer</span><span class="o">/</span><span class="n">train</span><span class="p">.</span><span class="n">csv</span><span class="err">&#39;</span>
-<span class="n">testPath</span> <span class="o">=</span> <span class="err">&#39;</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">qingyuanxingsi</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">digit_recognizer</span><span class="o">/</span><span class="n">test</span><span class="p">.</span><span class="n">csv</span><span class="err">&#39;</span>
-<span class="n">destPath</span> <span class="o">=</span> <span class="err">&#39;</span><span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">qingyuanxingsi</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">digit_recognizer</span><span class="o">/</span><span class="n">result</span><span class="p">.</span><span class="n">csv</span><span class="err">&#39;</span>
-<span class="n">n_samples</span> <span class="o">=</span> <span class="mi">42000</span>
+csvPath = '/home/qingyuanxingsi/data/digit_recognizer/train.csv'
+testPath = '/home/qingyuanxingsi/data/digit_recognizer/test.csv'
+destPath = '/home/qingyuanxingsi/data/digit_recognizer/result.csv'
+n_samples = 42000
 
-<span class="cp">#Loading the csv data</span>
-<span class="n">digitArray</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">csvPath</span><span class="p">).</span><span class="n">as_matrix</span><span class="p">()</span>
+#Loading the csv data
+digitArray = pd.read_csv(csvPath).as_matrix()
 
-<span class="cp">#Split the data into two parts:data and tag</span>
-<span class="n">dataArray</span> <span class="o">=</span> <span class="n">digitArray</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="o">:</span><span class="p">]</span>
-<span class="n">tagArray</span> <span class="o">=</span> <span class="n">digitArray</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="o">:</span><span class="mi">1</span><span class="p">].</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,)</span>
+#Split the data into two parts:data and tag
+dataArray = digitArray[:,1:]
+tagArray = digitArray[:,0:1].reshape(n_samples,)
 
-<span class="cp">#Feed the data and tag into the random forest classifier of the scikit toolkit</span>
+#Feed the data and tag into the random forest classifier of the scikit toolkit
 
-<span class="n">randomForestClassifier</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
-<span class="n">randomForestClassifier</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataArray</span><span class="p">,</span><span class="n">tagArray</span><span class="p">)</span>
+randomForestClassifier = RandomForestClassifier(n_estimators = 10)
+randomForestClassifier.fit(dataArray,tagArray)
 
-<span class="cp">#Read the test dat in</span>
-<span class="n">testDat</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">testPath</span><span class="p">).</span><span class="n">as_matrix</span><span class="p">()</span>
+#Read the test dat in
+testDat = pd.read_csv(testPath).as_matrix()
 
-<span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">range</span><span class="p">(</span><span class="n">testDat</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">:</span>
-    <span class="n">tags</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">randomForestClassifier</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">testDat</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+tags = []
+for i in range(testDat.shape[0]):
+    tags.append(randomForestClassifier.predict(testDat[i]))
 
-<span class="n">pd</span><span class="p">.</span><span class="n">Series</span><span class="p">(</span><span class="n">tags</span><span class="p">).</span><span class="n">to_csv</span><span class="p">(</span><span class="n">destPath</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-</pre></div>
-
-
+pd.Series(tags).to_csv(destPath,index=True)
+</code></pre>
 <p>得到分析结果并提交到Kaggle之后,最后的准确率没我想象的那么惨不忍睹,Kaggle选取部分测试集进行测试之后给的SCORE是94%左右,效果也不是灰常灰常差啦。</p>
 <p>当然,这个准确率个人实在不是很满意,所以打算拿Convolutional Neural Network试试。</p>
-<h1>卷积神经网络</h1>
+<h1 id="_2">卷积神经网络</h1>
 <hr />
-<h2>概述</h2>
+<h2 id="_3">概述</h2>
 <p>卷积神经网络是一种特殊的深层的神经网络模型，它的特殊性体现在两个方面，一方面它的神经元间的连接是<strong>非全连接</strong>的，另一方面同一层中某些神经元之间的连接的<strong>权重是共享的</strong>（即相同的）。它的非全连接和权值共享的网络结构使之更类似于生物神经网络，降低了网络模型的复杂度（对于很难学习的深层结构来说，这是非常重要的），减少了权值的数量。</p>
 <p>卷积网络最初是受视觉神经机制的启发而设计的，是为识别二维形状而设计的一个多层感知器，这种网络结构对平移、比例缩放、倾斜或者其他形式的变形具有高度不变性。1962年Hubel和Wiesel通过对猫视觉皮层细胞的研究，提出了<strong>感受野(receptive field)</strong>的概念，1984年日本学者Fukushima基于感受野概念提出的神经认知机(neocognitron)模型，它可以看作是卷积神经网络的第一个实现网络，也是感受野概念在人工神经网络领域的首次应用。</p>
 <p>神经认知机将一个视觉模式分解成许多子模式(特征)，然后进入分层递阶式相连的特征平面进行处理，它试图将视觉系统模型化，使其能够在即使物体有位移或轻微变形的时候，也能完成识别。神经认知机能够利用位移恒定能力从激励模式中学习，并且可识别这些模式的变化形。在其后的应用研究中，Fukushima将神经认知机主要用于手写数字的识别。随后，国内外的研究人员提出多种卷积神经网络形式，在邮政编码识别（Y. LeCun etc）、车牌识别和人脸识别等方面得到了广泛的应用。</p>
-<h2>CNN的结构</h2>
+<h2 id="cnn">CNN的结构</h2>
 <p>卷积网络是为识别二维形状而特殊设计的一个多层感知器，这种网络结构对平移、比例缩放、倾斜或者共他形式的变形具有高度不变性。 这些良好的性能是网络在有监督方式下学会的，网络的结构主要有稀疏连接和权值共享两个特点，包括如下形式的约束：</p>
 <ul>
 <li>特征提取。每一个神经元从上一层的局部接受域得到突触输人，因而迫使它提取局部特征。一旦一个特征被提取出来，只要它相对于其他特征的位置被近似地保留下来，它的精确位置就变得没有那么重要了。</li>
 <li>特征映射。网络的每一个计算层都是由多个特征映射组成的，每个特征映射都是平面形式的。平面中单独的神经元在约束下共享相同的突触权值集，这种结构形式具有如下的有益效果：a.平移不变性。b.自由参数数量的缩减(通过权值共享实现)。</li>
 <li>子抽样。每个卷积层跟着一个实现局部平均和子抽样的计算层，由此特征映射的分辨率降低。这种操作具有使特征映射的输出对平移和其他形式的变形的敏感度下降的作用。</li>
 </ul>
-<h3>稀疏连接(Sparse Connectivity)</h3>
+<h3 id="sparse-connectivity">稀疏连接(Sparse Connectivity)</h3>
 <p>卷积网络通过在相邻两层之间强制使用局部连接模式来利用图像的空间局部特性，在第$m$层的隐层单元只与第$m-1$层的输入单元的局部区域有连接，第$m-1$层的这些局部区域被称为空间连续的接受域。我们可以将这种结构描述如下：设第$m-1$层为视网膜输入层，第$m$层的接受域的宽度为3，也就是说该层的每个单元与且仅与输入层的3个相邻的神经元相连，第$m$层与第$m+1$层具有类似的链接规则，如下图所示。</p>
 <p><img alt="CNN_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cnn_1_zpsa4a2fbd1.jpg" /></p>
 <p>可以看到$m+1$层的神经元相对于第$m$层的接受域的宽度也为3，但相对于输入层的接受域为5，这种结构将学习到的过滤器（对应于输入信号中被最大激活的单元)限制在局部空间模式（因为每个单元对它接受域外的variation不做反应）。从上图也可以看出，多个这样的层堆叠起来后，会使得过滤器（不再是线性的）逐渐成为全局的（也就是覆盖到了更大的视觉区域）。例如上图中第$m+1$层的神经元可以对宽度为5的输入进行一个非线性的特征编码。</p>
-<h3>权值共享(Shared Weights)</h3>
+<h3 id="shared-weights">权值共享(Shared Weights)</h3>
 <p>在卷积网络中，每个稀疏过滤器$h_i$通过共享权值都会覆盖整个可视域，这些共享权值的单元构成一个特征映射，如下图所示:</p>
 <p><img alt="CNN_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cnn_2_zps12bba757.jpg" /></p>
 <p>在图中，有3个隐层单元，他们属于同一个特征映射。同种颜色的链接的权值是相同的，我们仍然可以使用梯度下降的方法来学习这些权值，只需要对原始算法做一些小的改动，这里共享权值的梯度是所有共享参数的梯度的总和。我们不禁会问为什么要权重共享呢？一方面，重复单元能够对特征进行识别，而不考虑它在可视域中的位置。另一方面，权值共享使得我们能更有效的进行特征抽取，因为它极大的减少了需要学习的自由变量的个数。通过控制模型的规模，卷积网络对视觉问题可以具有很好的泛化能力。</p>
-<h3>The Full Model</h3>
+<h3 id="the-full-model">The Full Model</h3>
 <p>卷积神经网络是一个多层的神经网络，每层由多个二维平面组成，而每个平面由多个独立神经元组成。网络中包含一些简单元和复杂元，分别记为S-元和C-元。S-元聚合在一起组成S-面，S-面聚合在一起组成S-层，用Us表示。C-元、C-面和C-层($U_s$)之间存在类似的关系。网络的任一中间级由S-层与C-层串接而成，而输入级只含一层，它直接接受二维视觉模式，样本特征提取步骤已嵌入到卷积神经网络模型的互联结构中。</p>
 <p>一般地，$U_s$为特征提取层，每个神经元的输入与前一层的局部感受野相连，并提取该局部的特征，一旦该局部特征被提取后，它与其他特征间的位置关系 也随之确定下来；$U_c$是特征映射层，网络的每个计算层由多个特征映射组成，每个特征映射为一个平面，平面上所有神经元的权值相等。特征映射结构采用影响函数核小的sigmoid函数作为卷积网络的激活函数，使得特征映射具有位移不变性(这一句表示没看懂，那位如果看懂了，请给我讲解一下)。此外，由于一个映射面上的神经元共享权值，因而减少了网络自由参数的个数，降低了网络参数选择的复杂度。卷积神经网络中的每一个特征提取层(S-层)都紧跟着一个用来求局部平均与二次提取的计算层(C-层)，这种特有的两次特征提取结构使网络在识别时对输入样本有较高的畸变容忍能力。</p>
 <p>下图是一个卷积网络的实例:</p>
 <p><img alt="CNN_3" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cnn_3_zps8de51bda.jpg" /></p>
 <p>图中的卷积网络工作流程如下，输入层由32×32个感知节点组成，接收原始图像。然后，计算流程在卷积和子抽样之间交替进行，如下所 述：第一隐藏层进行卷积，它由8个特征映射组成，每个特征映射由28×28个神经元组成，每个神经元指定一个5×5的接受域；第二隐藏层实现子 抽样和局部平均，它同样由8个特征映射组成，但其每个特征映射由14×14个神经元组成。每个神经元具有一个 2×2 的接受域，一个可训练系数，一个可训练偏置和一个sigmoid激活函数。可训练系数和偏置控制神经元的操作点。第三隐藏层进行第二次卷积，它由20个特征映射组成每个特征映射由10×10个神经元组成。该隐藏层中的每个神经元可能具有和下一个隐藏层几个特征映射相连的突触连接，它以与第一个卷积层相似的方式操作。第四个隐藏层进行第二次子抽样和局部平均汁算。它由20个特征映射组成，但每个特征映射由5×5个神经元组成，它以与第一次抽样相似的方式操作。第五个隐藏层实现卷积的最后阶段，它由 120 个神经元组成，每个神经元指定一个5×5的接受域。最后是个全连接层，得到输出向量。相继的计算层在卷积和抽样之间的连续交替，我们得到一个“双尖塔”的效果，也就是在每个卷积或抽样层，随着空间分辨率下降，与相应的前一层相比特征映射的数量增加。卷积之后进行子抽样的思想是受到动物视觉系统中的“简单的”细胞后面跟着“复杂的”细胞的想法的启发而产生的。图中所示的多层感知器包含近似100000个突触连接，但只有大约2600个自由参数。自由参数在数量上显著地减少是通过权值共享获得 的，学习机器的能力（以VC维的形式度量）因而下降，这又提高它的泛化能力。而且它对自由参数的调整通过反向传播学习的随机形式来实 现。另一个显著的特点是使用权值共享使得以并行形式实现卷积网络变得可能。这是卷积网络对全连接的多层感知器而言的另一个优点。</p>
 <p>以上我们简要介绍了一下卷积神经网络的基本概念和基本架构,如何对每个部分进行简单的代码实现可参考<a href="http://www.deeplearning.net/tutorial/lenet.html">Convolutional Neural Networks (LeNet)</a>,里面对如何对卷积以及Pooling进行代码实现做了粗略的介绍。实际上,我构建的用于识别手写数字的程序也是在以上代码的基础上理解之后稍加修改后形成的。以下给出具体代码(以下代码中<a href="http://deeplearning.net/tutorial/code/mlp.py">mlp</a>以及<a href="http://deeplearning.net/tutorial/code/logistic_sgd.py">logistic_sgd</a>模块可从文字上给出的链接处下载):</p>
-<div class="highlight"><pre><span class="kr">import</span> <span class="nx">cPickle</span>
-<span class="kr">import</span> <span class="nx">gzip</span>
-<span class="kr">import</span> <span class="nx">os</span>
-<span class="kr">import</span> <span class="nx">sys</span>
-<span class="kr">import</span> <span class="nx">time</span>
-
-<span class="kr">import</span> <span class="nx">numpy</span>
+<pre><code>import cPickle
+import gzip
+import os
+import sys
+import time
+
+import numpy
 
-<span class="kr">import</span> <span class="nx">theano</span>
-<span class="kr">import</span> <span class="nx">theano</span><span class="p">.</span><span class="nx">tensor</span> <span class="nx">as</span> <span class="nx">T</span>
-<span class="nx">from</span> <span class="nx">theano</span><span class="p">.</span><span class="nx">tensor</span><span class="p">.</span><span class="nx">signal</span> <span class="kr">import</span> <span class="nx">downsample</span>
-<span class="nx">from</span> <span class="nx">theano</span><span class="p">.</span><span class="nx">tensor</span><span class="p">.</span><span class="nx">nnet</span> <span class="kr">import</span> <span class="nx">conv</span>
+import theano
+import theano.tensor as T
+from theano.tensor.signal import downsample
+from theano.tensor.nnet import conv
 
-<span class="nx">from</span> <span class="nx">logistic_sgd</span> <span class="kr">import</span> <span class="nx">LogisticRegression</span><span class="p">,</span> <span class="nx">load_data</span>
-<span class="nx">from</span> <span class="nx">mlp</span> <span class="kr">import</span> <span class="nx">HiddenLayer</span>
-<span class="kr">import</span> <span class="nx">pandas</span> <span class="nx">as</span> <span class="nx">pd</span>
-
-
-<span class="kr">class</span> <span class="nx">LeNetConvPoolLayer</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span><span class="o">:</span>
-    <span class="s2">&quot;&quot;&quot;Pool Layer of a convolutional network &quot;&quot;&quot;</span>
-
-    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">rng</span><span class="p">,</span> <span class="nx">input</span><span class="p">,</span> <span class="nx">filter_shape</span><span class="p">,</span> <span class="nx">image_shape</span><span class="p">,</span> <span class="nx">poolsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span><span class="o">:</span>
-        <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">        Allocate a LeNetConvPoolLayer with shared variable internal parameters.</span>
-
-<span class="s2">        :type rng: numpy.random.RandomState</span>
-<span class="s2">        :param rng: a random number generator used to initialize weights</span>
-
-<span class="s2">        :type input: theano.tensor.dtensor4</span>
-<span class="s2">        :param input: symbolic image tensor, of shape image_shape</span>
-
-<span class="s2">        :type filter_shape: tuple or list of length 4</span>
-<span class="s2">        :param filter_shape: (number of filters, num input feature maps,</span>
-<span class="s2">                              filter height,filter width)</span>
-
-<span class="s2">        :type image_shape: tuple or list of length 4</span>
-<span class="s2">        :param image_shape: (batch size, num input feature maps,</span>
-<span class="s2">                             image height, image width)</span>
-
-<span class="s2">        :type poolsize: tuple or list of length 2</span>
-<span class="s2">        :param poolsize: the downsampling (pooling) factor (#rows,#cols)</span>
-<span class="s2">        &quot;&quot;&quot;</span>
-
-        <span class="nx">assert</span> <span class="nx">image_shape</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span> <span class="o">==</span> <span class="nx">filter_shape</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span>
-        <span class="nx">self</span><span class="p">.</span><span class="nx">input</span> <span class="o">=</span> <span class="nx">input</span>
-
-        <span class="err">#</span> <span class="nx">there</span> <span class="nx">are</span> <span class="s2">&quot;num input feature maps * filter height * filter width&quot;</span>
-        <span class="err">#</span> <span class="nx">inputs</span> <span class="nx">to</span> <span class="nx">each</span> <span class="nx">hidden</span> <span class="nx">unit</span>
-        <span class="nx">fan_in</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">prod</span><span class="p">(</span><span class="nx">filter_shape</span><span class="cp">[</span><span class="mi">1</span><span class="p">:</span><span class="cp">]</span><span class="p">)</span>
-        <span class="err">#</span> <span class="nx">each</span> <span class="nx">unit</span> <span class="k">in</span> <span class="nx">the</span> <span class="nx">lower</span> <span class="nx">layer</span> <span class="nx">receives</span> <span class="nx">a</span> <span class="nx">gradient</span> <span class="nx">from</span><span class="o">:</span>
-        <span class="err">#</span> <span class="s2">&quot;num output feature maps * filter height * filter width&quot;</span> <span class="o">/</span>
-        <span class="err">#</span>   <span class="nx">pooling</span> <span class="nx">size</span>
-        <span class="nx">fan_out</span> <span class="o">=</span> <span class="p">(</span><span class="nx">filter_shape</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span> <span class="o">*</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">prod</span><span class="p">(</span><span class="nx">filter_shape</span><span class="cp">[</span><span class="mi">2</span><span class="p">:</span><span class="cp">]</span><span class="p">)</span> <span class="o">/</span>
-                   <span class="nx">numpy</span><span class="p">.</span><span class="nx">prod</span><span class="p">(</span><span class="nx">poolsize</span><span class="p">))</span>
-        <span class="err">#</span> <span class="nx">initialize</span> <span class="nx">weights</span> <span class="kd">with</span> <span class="nx">random</span> <span class="nx">weights</span>
-        <span class="nx">W_bound</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">(</span><span class="mi">6</span><span class="p">.</span> <span class="o">/</span> <span class="p">(</span><span class="nx">fan_in</span> <span class="o">+</span> <span class="nx">fan_out</span><span class="p">))</span>
-        <span class="nx">self</span><span class="p">.</span><span class="nx">W</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="nx">shared</span><span class="p">(</span><span class="nx">numpy</span><span class="p">.</span><span class="nx">asarray</span><span class="p">(</span>
-            <span class="nx">rng</span><span class="p">.</span><span class="nx">uniform</span><span class="p">(</span><span class="nx">low</span><span class="o">=-</span><span class="nx">W_bound</span><span class="p">,</span> <span class="nx">high</span><span class="o">=</span><span class="nx">W_bound</span><span class="p">,</span> <span class="nx">size</span><span class="o">=</span><span class="nx">filter_shape</span><span class="p">),</span>
-            <span class="nx">dtype</span><span class="o">=</span><span class="nx">theano</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">floatX</span><span class="p">),</span>
-                               <span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">)</span>
-
-        <span class="err">#</span> <span class="nx">the</span> <span class="nx">bias</span> <span class="nx">is</span> <span class="nx">a</span> <span class="mi">1</span><span class="nx">D</span> <span class="nx">tensor</span> <span class="o">--</span> <span class="nx">one</span> <span class="nx">bias</span> <span class="nx">per</span> <span class="nx">output</span> <span class="nx">feature</span> <span class="nx">map</span>
-        <span class="nx">b_values</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">zeros</span><span class="p">((</span><span class="nx">filter_shape</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,),</span> <span class="nx">dtype</span><span class="o">=</span><span class="nx">theano</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">floatX</span><span class="p">)</span>
-        <span class="nx">self</span><span class="p">.</span><span class="nx">b</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="nx">shared</span><span class="p">(</span><span class="nx">value</span><span class="o">=</span><span class="nx">b_values</span><span class="p">,</span> <span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">)</span>
-
-        <span class="err">#</span> <span class="nx">convolve</span> <span class="nx">input</span> <span class="nx">feature</span> <span class="nx">maps</span> <span class="kd">with</span> <span class="nx">filters</span>
-        <span class="nx">conv_out</span> <span class="o">=</span> <span class="nx">conv</span><span class="p">.</span><span class="nx">conv2d</span><span class="p">(</span><span class="nx">input</span><span class="o">=</span><span class="nx">input</span><span class="p">,</span> <span class="nx">filters</span><span class="o">=</span><span class="nx">self</span><span class="p">.</span><span class="nx">W</span><span class="p">,</span>
-                <span class="nx">filter_shape</span><span class="o">=</span><span class="nx">filter_shape</span><span class="p">,</span> <span class="nx">image_shape</span><span class="o">=</span><span class="nx">image_shape</span><span class="p">)</span>
-
-        <span class="err">#</span> <span class="nx">downsample</span> <span class="nx">each</span> <span class="nx">feature</span> <span class="nx">map</span> <span class="nx">individually</span><span class="p">,</span> <span class="nx">using</span> <span class="nx">maxpooling</span>
-        <span class="nx">pooled_out</span> <span class="o">=</span> <span class="nx">downsample</span><span class="p">.</span><span class="nx">max_pool_2d</span><span class="p">(</span><span class="nx">input</span><span class="o">=</span><span class="nx">conv_out</span><span class="p">,</span>
-                                            <span class="nx">ds</span><span class="o">=</span><span class="nx">poolsize</span><span class="p">,</span> <span class="nx">ignore_border</span><span class="o">=</span><span class="nx">True</span><span class="p">)</span>
-
-        <span class="err">#</span> <span class="nx">add</span> <span class="nx">the</span> <span class="nx">bias</span> <span class="nx">term</span><span class="p">.</span> <span class="nx">Since</span> <span class="nx">the</span> <span class="nx">bias</span> <span class="nx">is</span> <span class="nx">a</span> <span class="nx">vector</span> <span class="p">(</span><span class="mi">1</span><span class="nx">D</span> <span class="nx">array</span><span class="p">),</span> <span class="nx">we</span> <span class="nx">first</span>
-        <span class="err">#</span> <span class="nx">reshape</span> <span class="nx">it</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">tensor</span> <span class="nx">of</span> <span class="nx">shape</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="nx">n_filters</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">).</span> <span class="nx">Each</span> <span class="nx">bias</span> <span class="nx">will</span>
-        <span class="err">#</span> <span class="nx">thus</span> <span class="nx">be</span> <span class="nx">broadcasted</span> <span class="nx">across</span> <span class="nx">mini</span><span class="o">-</span><span class="nx">batches</span> <span class="nx">and</span> <span class="nx">feature</span> <span class="nx">map</span>
-        <span class="err">#</span> <span class="nx">width</span> <span class="o">&amp;</span> <span class="nx">height</span>
-        <span class="nx">self</span><span class="p">.</span><span class="nx">output</span> <span class="o">=</span> <span class="nx">T</span><span class="p">.</span><span class="nx">tanh</span><span class="p">(</span><span class="nx">pooled_out</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">b</span><span class="p">.</span><span class="nx">dimshuffle</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">))</span>
-
-        <span class="err">#</span> <span class="nx">store</span> <span class="nx">parameters</span> <span class="nx">of</span> <span class="k">this</span> <span class="nx">layer</span>
-        <span class="nx">self</span><span class="p">.</span><span class="nx">params</span> <span class="o">=</span> <span class="cp">[</span><span class="bp">self.</span><span class="nx">W</span><span class="p">,</span> <span class="bp">self.</span><span class="nx">b</span><span class="cp">]</span>
-
-
-<span class="nx">def</span> <span class="nx">evaluate_lenet5</span><span class="p">(</span><span class="nx">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="nx">n_epochs</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
-                    <span class="nx">dataset</span><span class="o">=</span><span class="s1">&#39;/home/qingyuanxingsi/data/digit_recognizer/mnist.pkl.gz&#39;</span><span class="p">,</span>
-                    <span class="nx">nkerns</span><span class="o">=</span><span class="cp">[</span><span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="cp">]</span><span class="p">,</span> <span class="nx">batch_size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span><span class="o">:</span>
-    <span class="s2">&quot;&quot;&quot; Demonstrates lenet on MNIST dataset</span>
-
-<span class="s2">    :type learning_rate: float</span>
-<span class="s2">    :param learning_rate: learning rate used (factor for the stochastic</span>
-<span class="s2">                          gradient)</span>
-
-<span class="s2">    :type n_epochs: int</span>
-<span class="s2">    :param n_epochs: maximal number of epochs to run the optimizer</span>
-
-<span class="s2">    :type dataset: string</span>
-<span class="s2">    :param dataset: path to the dataset used for training /testing (MNIST here)</span>
-
-<span class="s2">    :type nkerns: list of ints</span>
-<span class="s2">    :param nkerns: number of kernels on each layer</span>
-<span class="s2">    &quot;&quot;&quot;</span>
-
-    <span class="nx">rng</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">random</span><span class="p">.</span><span class="nx">RandomState</span><span class="p">(</span><span class="mi">23455</span><span class="p">)</span>
-
-    <span class="nx">datasets</span> <span class="o">=</span> <span class="nx">load_data</span><span class="p">(</span><span class="nx">dataset</span><span class="p">)</span>
-
-    <span class="nx">train_set_x</span><span class="p">,</span> <span class="nx">train_set_y</span> <span class="o">=</span> <span class="nx">datasets</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>
-    <span class="nx">valid_set_x</span><span class="p">,</span> <span class="nx">valid_set_y</span> <span class="o">=</span> <span class="nx">datasets</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span>
-    <span class="nx">test_set_x</span><span class="p">,</span> <span class="nx">test_set_y</span> <span class="o">=</span> <span class="nx">datasets</span><span class="cp">[</span><span class="mi">2</span><span class="cp">]</span>
-
-    <span class="err">#</span><span class="kr">import</span> <span class="nx">my</span> <span class="nx">own</span> <span class="nx">dataset</span>
-    <span class="nx">predict_set</span> <span class="o">=</span> <span class="nx">pd</span><span class="p">.</span><span class="nx">read_csv</span><span class="p">(</span><span class="s1">&#39;/home/qingyuanxingsi/data/digit_recognizer/test.csv&#39;</span><span class="p">).</span><span class="nx">as_matrix</span><span class="p">()</span>
-    <span class="nx">predict_set</span> <span class="o">=</span> <span class="nx">predict_set</span><span class="o">/</span><span class="mf">256.0</span>
-    <span class="nx">predict_set_x</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="nx">shared</span><span class="p">(</span><span class="nx">numpy</span><span class="p">.</span><span class="nx">asarray</span><span class="p">(</span><span class="nx">predict_set</span><span class="p">,</span>
-                                               <span class="nx">dtype</span><span class="o">=</span><span class="nx">theano</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">floatX</span><span class="p">),</span>
-                                 <span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">)</span>
-    <span class="nx">predict_set_tag</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">zeros</span><span class="p">(</span><span class="cp">[</span><span class="nx">predict_set.shape</span><span class="err">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,])</span>
-
-    <span class="err">#</span> <span class="nx">compute</span> <span class="nx">number</span> <span class="nx">of</span> <span class="nx">minibatches</span> <span class="k">for</span> <span class="nx">training</span><span class="p">,</span> <span class="nx">validation</span> <span class="nx">and</span> <span class="nx">testing</span>
-    <span class="nx">n_train_batches</span> <span class="o">=</span> <span class="nx">train_set_x</span><span class="p">.</span><span class="nx">get_value</span><span class="p">(</span><span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">).</span><span class="nx">shape</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>
-    <span class="nx">n_valid_batches</span> <span class="o">=</span> <span class="nx">valid_set_x</span><span class="p">.</span><span class="nx">get_value</span><span class="p">(</span><span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">).</span><span class="nx">shape</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>
-    <span class="nx">n_test_batches</span> <span class="o">=</span> <span class="nx">test_set_x</span><span class="p">.</span><span class="nx">get_value</span><span class="p">(</span><span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">).</span><span class="nx">shape</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>
-    <span class="nx">n_predict_batches</span> <span class="o">=</span> <span class="nx">predict_set_x</span><span class="p">.</span><span class="nx">get_value</span><span class="p">(</span><span class="nx">borrow</span><span class="o">=</span><span class="nx">True</span><span class="p">).</span><span class="nx">shape</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span>
-    <span class="nx">n_train_batches</span> <span class="o">/=</span> <span class="nx">batch_size</span>
-    <span class="nx">n_valid_batches</span> <span class="o">/=</span> <span class="nx">batch_size</span>
-    <span class="nx">n_test_batches</span> <span class="o">/=</span> <span class="nx">batch_size</span>
-    <span class="nx">n_predict_batches</span> <span class="o">/=</span> <span class="nx">batch_size</span>
-
-    <span class="err">#</span> <span class="nx">allocate</span> <span class="nx">symbolic</span> <span class="nx">variables</span> <span class="k">for</span> <span class="nx">the</span> <span class="nx">data</span>
-    <span class="nx">index</span> <span class="o">=</span> <span class="nx">T</span><span class="p">.</span><span class="nx">lscalar</span><span class="p">()</span>  <span class="err">#</span> <span class="nx">index</span> <span class="nx">to</span> <span class="nx">a</span> <span class="cp">[</span><span class="nx">mini</span><span class="cp">]</span><span class="nx">batch</span>
-    <span class="nx">x</span> <span class="o">=</span> <span class="nx">T</span><span class="p">.</span><span class="nx">matrix</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>   <span class="err">#</span> <span class="nx">the</span> <span class="nx">data</span> <span class="nx">is</span> <span class="nx">presented</span> <span class="nx">as</span> <span class="nx">rasterized</span> <span class="nx">images</span>
-    <span class="nx">y</span> <span class="o">=</span> <span class="nx">T</span><span class="p">.</span><span class="nx">ivector</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>  <span class="err">#</span> <span class="nx">the</span> <span class="nx">labels</span> <span class="nx">are</span> <span class="nx">presented</span> <span class="nx">as</span> <span class="mi">1</span><span class="nx">D</span> <span class="nx">vector</span> <span class="nx">of</span>
-                        <span class="err">#</span> <span class="cp">[</span><span class="nx">int</span><span class="cp">]</span> <span class="nx">labels</span>
-
-    <span class="nx">ishape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>  <span class="err">#</span> <span class="k">this</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">size</span> <span class="nx">of</span> <span class="nx">MNIST</span> <span class="nx">images</span>
-
-    <span class="err">######################</span>
-    <span class="err">#</span> <span class="nx">BUILD</span> <span class="nx">ACTUAL</span> <span class="nx">MODEL</span> <span class="err">#</span>
-    <span class="err">######################</span>
-    <span class="nx">print</span> <span class="s1">&#39;... building the model&#39;</span>
-
-    <span class="err">#</span> <span class="nx">Reshape</span> <span class="nx">matrix</span> <span class="nx">of</span> <span class="nx">rasterized</span> <span class="nx">images</span> <span class="nx">of</span> <span class="nx">shape</span> <span class="p">(</span><span class="nx">batch_size</span><span class="p">,</span><span class="mi">28</span><span class="o">*</span><span class="mi">28</span><span class="p">)</span>
-    <span class="err">#</span> <span class="nx">to</span> <span class="nx">a</span> <span class="mi">4</span><span class="nx">D</span> <span class="nx">tensor</span><span class="p">,</span> <span class="nx">compatible</span> <span class="kd">with</span> <span class="nx">our</span> <span class="nx">LeNetConvPoolLayer</span>
-    <span class="nx">layer0_input</span> <span class="o">=</span> <span class="nx">x</span><span class="p">.</span><span class="nx">reshape</span><span class="p">((</span><span class="nx">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">))</span>
-
-    <span class="err">#</span> <span class="nx">Construct</span> <span class="nx">the</span> <span class="nx">first</span> <span class="nx">convolutional</span> <span class="nx">pooling</span> <span class="nx">layer</span><span class="o">:</span>
-    <span class="err">#</span> <span class="nx">filtering</span> <span class="nx">reduces</span> <span class="nx">the</span> <span class="nx">image</span> <span class="nx">size</span> <span class="nx">to</span> <span class="p">(</span><span class="mi">28</span><span class="o">-</span><span class="mi">5</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">28</span><span class="o">-</span><span class="mi">5</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="p">(</span><span class="mi">24</span><span class="p">,</span><span class="mi">24</span><span class="p">)</span>
-    <span class="err">#</span> <span class="nx">maxpooling</span> <span class="nx">reduces</span> <span class="k">this</span> <span class="nx">further</span> <span class="nx">to</span> <span class="p">(</span><span class="mi">24</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">24</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-    <span class="err">#</span> <span class="mi">4</span><span class="nx">D</span> <span class="nx">output</span> <span class="nx">tensor</span> <span class="nx">is</span> <span class="nx">thus</span> <span class="nx">of</span> <span class="nx">shape</span> <span class="p">(</span><span class="nx">batch_size</span><span class="p">,</span><span class="nx">nkerns</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span>
-    <span class="nx">layer0</span> <span class="o">=</span> <span class="nx">LeNetConvPoolLayer</span><span class="p">(</span><span class="nx">rng</span><span class="p">,</span> <span class="nx">input</span><span class="o">=</span><span class="nx">layer0_input</span><span class="p">,</span>
-            <span class="nx">image_shape</span><span class="o">=</span><span class="p">(</span><span class="nx">batch_size</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span>
-            <span class="nx">filter_shape</span><span class="o">=</span><span class="p">(</span><span class="nx">nkerns</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="nx">poolsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
-    <span class="err">#</span> <span class="nx">Construct</span> <span class="nx">the</span> <span class="nx">second</span> <span class="nx">convolutional</span> <span class="nx">pooling</span> <span class="nx">layer</span>
-    <span class="err">#</span> <span class="nx">filtering</span> <span class="nx">reduces</span> <span class="nx">the</span> <span class="nx">image</span> <span class="nx">size</span> <span class="nx">to</span> <span class="p">(</span><span class="mi">12</span><span class="o">-</span><span class="mi">5</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="o">-</span><span class="mi">5</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">)</span>
-    <span class="err">#</span> <span class="nx">maxpooling</span> <span class="nx">reduces</span> <span class="k">this</span> <span class="nx">further</span> <span class="nx">to</span> <span class="p">(</span><span class="mi">8</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-    <span class="err">#</span> <span class="mi">4</span><span class="nx">D</span> <span class="nx">output</span> <span class="nx">tensor</span> <span class="nx">is</span> <span class="nx">thus</span> <span class="nx">of</span> <span class="nx">shape</span> <span class="p">(</span><span class="nx">nkerns</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,</span><span class="nx">nkerns</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
-    <span class="nx">layer1</span> <span class="o">=</span> <span class="nx">LeNetConvPoolLayer</span><span class="p">(</span><span class="nx">rng</span><span class="p">,</span> <span class="nx">input</span><span class="o">=</span><span class="nx">layer0</span><span class="p">.</span><span class="nx">output</span><span class="p">,</span>
-            <span class="nx">image_shape</span><span class="o">=</span><span class="p">(</span><span class="nx">batch_size</span><span class="p">,</span> <span class="nx">nkerns</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span>
-            <span class="nx">filter_shape</span><span class="o">=</span><span class="p">(</span><span class="nx">nkerns</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span><span class="p">,</span> <span class="nx">nkerns</span><span class="cp">[</span><span class="mi">0</span><span class="cp">]</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="nx">poolsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-
-    <span class="err">#</span> <span class="nx">the</span> <span class="nx">HiddenLayer</span> <span class="nx">being</span> <span class="nx">fully</span><span class="o">-</span><span class="nx">connected</span><span class="p">,</span> <span class="nx">it</span> <span class="nx">operates</span> <span class="nx">on</span> <span class="mi">2</span><span class="nx">D</span> <span class="nx">matrices</span> <span class="nx">of</span>
-    <span class="err">#</span> <span class="nx">shape</span> <span class="p">(</span><span class="nx">batch_size</span><span class="p">,</span><span class="nx">num_pixels</span><span class="p">)</span> <span class="p">(</span><span class="nx">i</span><span class="p">.</span><span class="nx">e</span> <span class="nx">matrix</span> <span class="nx">of</span> <span class="nx">rasterized</span> <span class="nx">images</span><span class="p">).</span>
-    <span class="err">#</span> <span class="nx">This</span> <span class="nx">will</span> <span class="nx">generate</span> <span class="nx">a</span> <span class="nx">matrix</span> <span class="nx">of</span> <span class="nx">shape</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">32</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">512</span><span class="p">)</span>
-    <span class="nx">layer2_input</span> <span class="o">=</span> <span class="nx">layer1</span><span class="p">.</span><span class="nx">output</span><span class="p">.</span><span class="nx">flatten</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-
-    <span class="err">#</span> <span class="nx">construct</span> <span class="nx">a</span> <span class="nx">fully</span><span class="o">-</span><span class="nx">connected</span> <span class="nx">sigmoidal</span> <span class="nx">layer</span>
-    <span class="nx">layer2</span> <span class="o">=</span> <span class="nx">HiddenLayer</span><span class="p">(</span><span class="nx">rng</span><span class="p">,</span> <span class="nx">input</span><span class="o">=</span><span class="nx">layer2_input</span><span class="p">,</span> <span class="nx">n_in</span><span class="o">=</span><span class="nx">nkerns</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
-                         <span class="nx">n_out</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="nx">activation</span><span class="o">=</span><span class="nx">T</span><span class="p">.</span><span class="nx">tanh</span><span class="p">)</span>
-
-    <span class="err">#</span> <span class="nx">classify</span> <span class="nx">the</span> <span class="nx">values</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">fully</span><span class="o">-</span><span class="nx">connected</span> <span class="nx">sigmoidal</span> <span class="nx">layer</span>
-    <span class="nx">layer3</span> <span class="o">=</span> <span class="nx">LogisticRegression</span><span class="p">(</span><span class="nx">input</span><span class="o">=</span><span class="nx">layer2</span><span class="p">.</span><span class="nx">output</span><span class="p">,</span> <span class="nx">n_in</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="nx">n_out</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-
-    <span class="err">#</span> <span class="nx">the</span> <span class="nx">cost</span> <span class="nx">we</span> <span class="nx">minimize</span> <span class="nx">during</span> <span class="nx">training</span> <span class="nx">is</span> <span class="nx">the</span> <span class="nx">NLL</span> <span class="nx">of</span> <span class="nx">the</span> <span class="nx">model</span>
-    <span class="nx">cost</span> <span class="o">=</span> <span class="nx">layer3</span><span class="p">.</span><span class="nx">negative_log_likelihood</span><span class="p">(</span><span class="nx">y</span><span class="p">)</span>
-
-    <span class="err">#</span> <span class="nx">create</span> <span class="nx">a</span> <span class="kd">function</span> <span class="nx">to</span> <span class="nx">compute</span> <span class="nx">the</span> <span class="nx">mistakes</span> <span class="nx">that</span> <span class="nx">are</span> <span class="nx">made</span> <span class="nx">by</span> <span class="nx">the</span> <span class="nx">model</span>
-    <span class="nx">test_model</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="kd">function</span><span class="p">(</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="p">,</span> <span class="nx">layer3</span><span class="p">.</span><span class="nx">errors</span><span class="p">(</span><span class="nx">y</span><span class="p">),</span>
-             <span class="nx">givens</span><span class="o">=</span><span class="p">{</span>
-                <span class="nx">x</span><span class="o">:</span> <span class="nx">test_set_x</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">,</span>
-                <span class="nx">y</span><span class="o">:</span> <span class="nx">test_set_y</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">})</span>
-
-    <span class="nx">validate_model</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="kd">function</span><span class="p">(</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="p">,</span> <span class="nx">layer3</span><span class="p">.</span><span class="nx">errors</span><span class="p">(</span><span class="nx">y</span><span class="p">),</span>
-            <span class="nx">givens</span><span class="o">=</span><span class="p">{</span>
-                <span class="nx">x</span><span class="o">:</span> <span class="nx">valid_set_x</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">,</span>
-                <span class="nx">y</span><span class="o">:</span> <span class="nx">valid_set_y</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">})</span>
-
-    <span class="err">#</span> <span class="nx">create</span> <span class="nx">a</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">all</span> <span class="nx">model</span> <span class="nx">parameters</span> <span class="nx">to</span> <span class="nx">be</span> <span class="nx">fit</span> <span class="nx">by</span> <span class="nx">gradient</span> <span class="nx">descent</span>
-    <span class="nx">params</span> <span class="o">=</span> <span class="nx">layer3</span><span class="p">.</span><span class="nx">params</span> <span class="o">+</span> <span class="nx">layer2</span><span class="p">.</span><span class="nx">params</span> <span class="o">+</span> <span class="nx">layer1</span><span class="p">.</span><span class="nx">params</span> <span class="o">+</span> <span class="nx">layer0</span><span class="p">.</span><span class="nx">params</span>
-
-    <span class="err">#</span> <span class="nx">create</span> <span class="nx">a</span> <span class="nx">list</span> <span class="nx">of</span> <span class="nx">gradients</span> <span class="k">for</span> <span class="nx">all</span> <span class="nx">model</span> <span class="nx">parameters</span>
-    <span class="nx">grads</span> <span class="o">=</span> <span class="nx">T</span><span class="p">.</span><span class="nx">grad</span><span class="p">(</span><span class="nx">cost</span><span class="p">,</span> <span class="nx">params</span><span class="p">)</span>
-
-    <span class="err">#</span> <span class="nx">train_model</span> <span class="nx">is</span> <span class="nx">a</span> <span class="kd">function</span> <span class="nx">that</span> <span class="nx">updates</span> <span class="nx">the</span> <span class="nx">model</span> <span class="nx">parameters</span> <span class="nx">by</span>
-    <span class="err">#</span> <span class="nx">SGD</span> <span class="nx">Since</span> <span class="k">this</span> <span class="nx">model</span> <span class="nx">has</span> <span class="nx">many</span> <span class="nx">parameters</span><span class="p">,</span> <span class="nx">it</span> <span class="nx">would</span> <span class="nx">be</span> <span class="nx">tedious</span> <span class="nx">to</span>
-    <span class="err">#</span> <span class="nx">manually</span> <span class="nx">create</span> <span class="nx">an</span> <span class="nx">update</span> <span class="nx">rule</span> <span class="k">for</span> <span class="nx">each</span> <span class="nx">model</span> <span class="nx">parameter</span><span class="p">.</span> <span class="nx">We</span> <span class="nx">thus</span>
-    <span class="err">#</span> <span class="nx">create</span> <span class="nx">the</span> <span class="nx">updates</span> <span class="nx">list</span> <span class="nx">by</span> <span class="nx">automatically</span> <span class="nx">looping</span> <span class="nx">over</span> <span class="nx">all</span>
-    <span class="err">#</span> <span class="p">(</span><span class="nx">params</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">,</span><span class="nx">grads</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">)</span> <span class="nx">pairs</span><span class="p">.</span>
-    <span class="nx">updates</span> <span class="o">=</span> <span class="cp">[]</span>
-    <span class="k">for</span> <span class="nx">param_i</span><span class="p">,</span> <span class="nx">grad_i</span> <span class="k">in</span> <span class="nx">zip</span><span class="p">(</span><span class="nx">params</span><span class="p">,</span> <span class="nx">grads</span><span class="p">)</span><span class="o">:</span>
-        <span class="nx">updates</span><span class="p">.</span><span class="nx">append</span><span class="p">((</span><span class="nx">param_i</span><span class="p">,</span> <span class="nx">param_i</span> <span class="o">-</span> <span class="nx">learning_rate</span> <span class="o">*</span> <span class="nx">grad_i</span><span class="p">))</span>
-
-    <span class="nx">train_model</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="kd">function</span><span class="p">(</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="p">,</span> <span class="nx">cost</span><span class="p">,</span> <span class="nx">updates</span><span class="o">=</span><span class="nx">updates</span><span class="p">,</span>
-          <span class="nx">givens</span><span class="o">=</span><span class="p">{</span>
-            <span class="nx">x</span><span class="o">:</span> <span class="nx">train_set_x</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">,</span>
-            <span class="nx">y</span><span class="o">:</span> <span class="nx">train_set_y</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">})</span>
-
-    <span class="err">###############</span>
-    <span class="err">#</span> <span class="nx">TRAIN</span> <span class="nx">MODEL</span> <span class="err">#</span>
-    <span class="err">###############</span>
-    <span class="nx">print</span> <span class="s1">&#39;... training&#39;</span>
-    <span class="err">#</span> <span class="nx">early</span><span class="o">-</span><span class="nx">stopping</span> <span class="nx">parameters</span>
-    <span class="nx">patience</span> <span class="o">=</span> <span class="mi">10000</span>  <span class="err">#</span> <span class="nx">look</span> <span class="nx">as</span> <span class="k">this</span> <span class="nx">many</span> <span class="nx">examples</span> <span class="nx">regardless</span>
-    <span class="nx">patience_increase</span> <span class="o">=</span> <span class="mi">2</span>  <span class="err">#</span> <span class="nx">wait</span> <span class="k">this</span> <span class="nx">much</span> <span class="nx">longer</span> <span class="nx">when</span> <span class="nx">a</span> <span class="k">new</span> <span class="nx">best</span> <span class="nx">is</span>
-                           <span class="err">#</span> <span class="nx">found</span>
-    <span class="nx">improvement_threshold</span> <span class="o">=</span> <span class="mf">0.995</span>  <span class="err">#</span> <span class="nx">a</span> <span class="nx">relative</span> <span class="nx">improvement</span> <span class="nx">of</span> <span class="k">this</span> <span class="nx">much</span> <span class="nx">is</span>
-                                   <span class="err">#</span> <span class="nx">considered</span> <span class="nx">significant</span>
-    <span class="nx">validation_frequency</span> <span class="o">=</span> <span class="nx">min</span><span class="p">(</span><span class="nx">n_train_batches</span><span class="p">,</span> <span class="nx">patience</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
-                                  <span class="err">#</span> <span class="nx">go</span> <span class="nx">through</span> <span class="k">this</span> <span class="nx">many</span>
-                                  <span class="err">#</span> <span class="nx">minibatche</span> <span class="nx">before</span> <span class="nx">checking</span> <span class="nx">the</span> <span class="nx">network</span>
-                                  <span class="err">#</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">validation</span> <span class="nx">set</span><span class="p">;</span> <span class="k">in</span> <span class="k">this</span> <span class="k">case</span> <span class="nx">we</span>
-                                  <span class="err">#</span> <span class="nx">check</span> <span class="nx">every</span> <span class="nx">epoch</span>
-
-    <span class="nx">best_params</span> <span class="o">=</span> <span class="nx">None</span>
-    <span class="nx">best_validation_loss</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">inf</span>
-    <span class="nx">best_iter</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="nx">test_score</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span>
-    <span class="nx">start_time</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">clock</span><span class="p">()</span>
-
-    <span class="nx">epoch</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="nx">done_looping</span> <span class="o">=</span> <span class="nx">False</span>
-
-    <span class="k">while</span> <span class="p">(</span><span class="nx">epoch</span> <span class="o">&lt;</span> <span class="nx">n_epochs</span><span class="p">)</span> <span class="nx">and</span> <span class="p">(</span><span class="nx">not</span> <span class="nx">done_looping</span><span class="p">)</span><span class="o">:</span>
-        <span class="nx">epoch</span> <span class="o">=</span> <span class="nx">epoch</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="nx">minibatch_index</span> <span class="k">in</span> <span class="nx">xrange</span><span class="p">(</span><span class="nx">n_train_batches</span><span class="p">)</span><span class="o">:</span>
-
-            <span class="nx">iter</span> <span class="o">=</span> <span class="p">(</span><span class="nx">epoch</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">n_train_batches</span> <span class="o">+</span> <span class="nx">minibatch_index</span>
-
-            <span class="k">if</span> <span class="nx">iter</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="o">:</span>
-                <span class="nx">print</span> <span class="s1">&#39;training @ iter = &#39;</span><span class="p">,</span> <span class="nx">iter</span>
-            <span class="nx">cost_ij</span> <span class="o">=</span> <span class="nx">train_model</span><span class="p">(</span><span class="nx">minibatch_index</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="p">(</span><span class="nx">iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="nx">validation_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="o">:</span>
-
-                <span class="err">#</span> <span class="nx">compute</span> <span class="nx">zero</span><span class="o">-</span><span class="nx">one</span> <span class="nx">loss</span> <span class="nx">on</span> <span class="nx">validation</span> <span class="nx">set</span>
-                <span class="nx">validation_losses</span> <span class="o">=</span> <span class="cp">[</span><span class="nx">validate_model</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="nb">for</span> <span class="n">i</span>
-                                     <span class="k">in</span> <span class="nx">xrange</span><span class="p">(</span><span class="nx">n_valid_batches</span><span class="p">)</span><span class="cp">]</span>
-                <span class="nx">this_validation_loss</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">mean</span><span class="p">(</span><span class="nx">validation_losses</span><span class="p">)</span>
-                <span class="nx">print</span><span class="p">(</span><span class="s1">&#39;epoch %i, minibatch %i/%i, validation error %f %%&#39;</span> <span class="o">%</span> <span class="o">\</span>
-                      <span class="p">(</span><span class="nx">epoch</span><span class="p">,</span> <span class="nx">minibatch_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">n_train_batches</span><span class="p">,</span> <span class="o">\</span>
-                       <span class="nx">this_validation_loss</span> <span class="o">*</span> <span class="mi">100</span><span class="p">.))</span>
-
-                <span class="err">#</span> <span class="k">if</span> <span class="nx">we</span> <span class="nx">got</span> <span class="nx">the</span> <span class="nx">best</span> <span class="nx">validation</span> <span class="nx">score</span> <span class="nx">until</span> <span class="nx">now</span>
-                <span class="k">if</span> <span class="nx">this_validation_loss</span> <span class="o">&lt;</span> <span class="nx">best_validation_loss</span><span class="o">:</span>
-
-                    <span class="err">#</span><span class="nx">improve</span> <span class="nx">patience</span> <span class="k">if</span> <span class="nx">loss</span> <span class="nx">improvement</span> <span class="nx">is</span> <span class="nx">good</span> <span class="nx">enough</span>
-                    <span class="k">if</span> <span class="nx">this_validation_loss</span> <span class="o">&lt;</span> <span class="nx">best_validation_loss</span> <span class="o">*</span>  <span class="o">\</span>
-                       <span class="nx">improvement_threshold</span><span class="o">:</span>
-                        <span class="nx">patience</span> <span class="o">=</span> <span class="nx">max</span><span class="p">(</span><span class="nx">patience</span><span class="p">,</span> <span class="nx">iter</span> <span class="o">*</span> <span class="nx">patience_increase</span><span class="p">)</span>
-
-                    <span class="err">#</span> <span class="nx">save</span> <span class="nx">best</span> <span class="nx">validation</span> <span class="nx">score</span> <span class="nx">and</span> <span class="nx">iteration</span> <span class="nx">number</span>
-                    <span class="nx">best_validation_loss</span> <span class="o">=</span> <span class="nx">this_validation_loss</span>
-                    <span class="nx">best_iter</span> <span class="o">=</span> <span class="nx">iter</span>
-
-                    <span class="err">#</span> <span class="nx">test</span> <span class="nx">it</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">test</span> <span class="nx">set</span>
-                    <span class="nx">test_losses</span> <span class="o">=</span> <span class="cp">[</span><span class="nx">test_model</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="nb">for</span> <span class="n">i</span> <span class="k">in</span> <span class="nx">xrange</span><span class="p">(</span><span class="nx">n_test_batches</span><span class="p">)</span><span class="cp">]</span>
-                    <span class="nx">test_score</span> <span class="o">=</span> <span class="nx">numpy</span><span class="p">.</span><span class="nx">mean</span><span class="p">(</span><span class="nx">test_losses</span><span class="p">)</span>
-                    <span class="nx">print</span><span class="p">((</span><span class="s1">&#39;     epoch %i, minibatch %i/%i, test error of best &#39;</span>
-                           <span class="s1">&#39;model %f %%&#39;</span><span class="p">)</span> <span class="o">%</span>
-                          <span class="p">(</span><span class="nx">epoch</span><span class="p">,</span> <span class="nx">minibatch_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">n_train_batches</span><span class="p">,</span>
-                           <span class="nx">test_score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">.))</span>
-
-            <span class="k">if</span> <span class="nx">patience</span> <span class="o">&lt;=</span> <span class="nx">iter</span><span class="o">:</span>
-                <span class="nx">done_looping</span> <span class="o">=</span> <span class="nx">True</span>
-                <span class="k">break</span>
-
-    <span class="nx">end_time</span> <span class="o">=</span> <span class="nx">time</span><span class="p">.</span><span class="nx">clock</span><span class="p">()</span>
-    <span class="nx">print</span><span class="p">(</span><span class="s1">&#39;Optimization complete.&#39;</span><span class="p">)</span>
-    <span class="nx">print</span><span class="p">(</span><span class="s1">&#39;Best validation score of %f %% obtained at iteration %i,&#39;</span><span class="o">\</span>
-          <span class="s1">&#39;with test performance %f %%&#39;</span> <span class="o">%</span>
-          <span class="p">(</span><span class="nx">best_validation_loss</span> <span class="o">*</span> <span class="mi">100</span><span class="p">.,</span> <span class="nx">best_iter</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nx">test_score</span> <span class="o">*</span> <span class="mi">100</span><span class="p">.))</span>
-    <span class="nx">print</span> <span class="o">&gt;&gt;</span> <span class="nx">sys</span><span class="p">.</span><span class="nx">stderr</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;The code for file &#39;</span> <span class="o">+</span>
-                          <span class="nx">os</span><span class="p">.</span><span class="nx">path</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="nx">__file__</span><span class="p">)</span><span class="cp">[</span><span class="mi">1</span><span class="cp">]</span> <span class="o">+</span>
-                          <span class="s1">&#39; ran for %.2fm&#39;</span> <span class="o">%</span> <span class="p">((</span><span class="nx">end_time</span> <span class="o">-</span> <span class="nx">start_time</span><span class="p">)</span> <span class="o">/</span> <span class="mi">60</span><span class="p">.))</span>
-
-    <span class="err">###############</span>
-    <span class="err">#</span> <span class="nx">PREDICT</span> <span class="nx">MODEL</span> <span class="err">#</span>
-    <span class="err">###############</span>
-    <span class="nx">print</span> <span class="s1">&#39;... predicting&#39;</span>
-    <span class="nx">predict_model</span> <span class="o">=</span> <span class="nx">theano</span><span class="p">.</span><span class="kd">function</span><span class="p">(</span><span class="cp">[</span><span class="nb">index</span><span class="cp">]</span><span class="p">,</span> <span class="nx">layer3</span><span class="p">.</span><span class="nx">y_pred</span><span class="p">,</span>
-            <span class="nx">givens</span><span class="o">=</span><span class="p">{</span>
-                <span class="nx">x</span><span class="o">:</span> <span class="nx">predict_set_x</span><span class="cp">[</span><span class="nb">index</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="nb">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="nx">batch_size</span><span class="cp">]</span><span class="p">})</span>
-    <span class="nx">predict_set_y</span> <span class="o">=</span> <span class="cp">[</span><span class="nx">predict_model</span><span class="p">(</span><span class="nx">i</span><span class="p">)</span> <span class="nb">for</span> <span class="n">i</span>
-                                     <span class="k">in</span> <span class="nx">xrange</span><span class="p">(</span><span class="nx">n_predict_batches</span><span class="p">)</span><span class="cp">]</span>
-    <span class="nx">pd</span><span class="p">.</span><span class="nx">DataFrame</span><span class="p">(</span><span class="nx">predict_set_y</span><span class="p">).</span><span class="nx">to_csv</span><span class="p">(</span><span class="s1">&#39;/home/qingyuanxingsi/data/digit_recognizer/result_cnn.csv&#39;</span><span class="p">)</span>
-
-
-<span class="k">if</span> <span class="nx">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="o">:</span>
-    <span class="nx">evaluate_lenet5</span><span class="p">()</span>
-
-
-<span class="nx">def</span> <span class="nx">experiment</span><span class="p">(</span><span class="nx">state</span><span class="p">,</span> <span class="nx">channel</span><span class="p">)</span><span class="o">:</span>
-    <span class="nx">evaluate_lenet5</span><span class="p">(</span><span class="nx">state</span><span class="p">.</span><span class="nx">learning_rate</span><span class="p">,</span> <span class="nx">dataset</span><span class="o">=</span><span class="nx">state</span><span class="p">.</span><span class="nx">dataset</span><span class="p">)</span>
-</pre></div>
-
-
+from logistic_sgd import LogisticRegression, load_data
+from mlp import HiddenLayer
+import pandas as pd
+
+
+class LeNetConvPoolLayer(object):
+    """Pool Layer of a convolutional network """
+
+    def __init__(self, rng, input, filter_shape, image_shape, poolsize=(2, 2)):
+        """
+        Allocate a LeNetConvPoolLayer with shared variable internal parameters.
+
+        :type rng: numpy.random.RandomState
+        :param rng: a random number generator used to initialize weights
+
+        :type input: theano.tensor.dtensor4
+        :param input: symbolic image tensor, of shape image_shape
+
+        :type filter_shape: tuple or list of length 4
+        :param filter_shape: (number of filters, num input feature maps,
+                              filter height,filter width)
+
+        :type image_shape: tuple or list of length 4
+        :param image_shape: (batch size, num input feature maps,
+                             image height, image width)
+
+        :type poolsize: tuple or list of length 2
+        :param poolsize: the downsampling (pooling) factor (#rows,#cols)
+        """
+
+        assert image_shape[1] == filter_shape[1]
+        self.input = input
+
+        # there are "num input feature maps * filter height * filter width"
+        # inputs to each hidden unit
+        fan_in = numpy.prod(filter_shape[1:])
+        # each unit in the lower layer receives a gradient from:
+        # "num output feature maps * filter height * filter width" /
+        #   pooling size
+        fan_out = (filter_shape[0] * numpy.prod(filter_shape[2:]) /
+                   numpy.prod(poolsize))
+        # initialize weights with random weights
+        W_bound = numpy.sqrt(6. / (fan_in + fan_out))
+        self.W = theano.shared(numpy.asarray(
+            rng.uniform(low=-W_bound, high=W_bound, size=filter_shape),
+            dtype=theano.config.floatX),
+                               borrow=True)
+
+        # the bias is a 1D tensor -- one bias per output feature map
+        b_values = numpy.zeros((filter_shape[0],), dtype=theano.config.floatX)
+        self.b = theano.shared(value=b_values, borrow=True)
+
+        # convolve input feature maps with filters
+        conv_out = conv.conv2d(input=input, filters=self.W,
+                filter_shape=filter_shape, image_shape=image_shape)
+
+        # downsample each feature map individually, using maxpooling
+        pooled_out = downsample.max_pool_2d(input=conv_out,
+                                            ds=poolsize, ignore_border=True)
+
+        # add the bias term. Since the bias is a vector (1D array), we first
+        # reshape it to a tensor of shape (1,n_filters,1,1). Each bias will
+        # thus be broadcasted across mini-batches and feature map
+        # width &amp; height
+        self.output = T.tanh(pooled_out + self.b.dimshuffle('x', 0, 'x', 'x'))
+
+        # store parameters of this layer
+        self.params = [self.W, self.b]
+
+
+def evaluate_lenet5(learning_rate=0.1, n_epochs=200,
+                    dataset='/home/qingyuanxingsi/data/digit_recognizer/mnist.pkl.gz',
+                    nkerns=[20, 50], batch_size=500):
+    """ Demonstrates lenet on MNIST dataset
+
+    :type learning_rate: float
+    :param learning_rate: learning rate used (factor for the stochastic
+                          gradient)
+
+    :type n_epochs: int
+    :param n_epochs: maximal number of epochs to run the optimizer
+
+    :type dataset: string
+    :param dataset: path to the dataset used for training /testing (MNIST here)
+
+    :type nkerns: list of ints
+    :param nkerns: number of kernels on each layer
+    """
+
+    rng = numpy.random.RandomState(23455)
+
+    datasets = load_data(dataset)
+
+    train_set_x, train_set_y = datasets[0]
+    valid_set_x, valid_set_y = datasets[1]
+    test_set_x, test_set_y = datasets[2]
+
+    #import my own dataset
+    predict_set = pd.read_csv('/home/qingyuanxingsi/data/digit_recognizer/test.csv').as_matrix()
+    predict_set = predict_set/256.0
+    predict_set_x = theano.shared(numpy.asarray(predict_set,
+                                               dtype=theano.config.floatX),
+                                 borrow=True)
+    predict_set_tag = numpy.zeros([predict_set.shape[0],])
+
+    # compute number of minibatches for training, validation and testing
+    n_train_batches = train_set_x.get_value(borrow=True).shape[0]
+    n_valid_batches = valid_set_x.get_value(borrow=True).shape[0]
+    n_test_batches = test_set_x.get_value(borrow=True).shape[0]
+    n_predict_batches = predict_set_x.get_value(borrow=True).shape[0]
+    n_train_batches /= batch_size
+    n_valid_batches /= batch_size
+    n_test_batches /= batch_size
+    n_predict_batches /= batch_size
+
+    # allocate symbolic variables for the data
+    index = T.lscalar()  # index to a [mini]batch
+    x = T.matrix('x')   # the data is presented as rasterized images
+    y = T.ivector('y')  # the labels are presented as 1D vector of
+                        # [int] labels
+
+    ishape = (28, 28)  # this is the size of MNIST images
+
+    ######################
+    # BUILD ACTUAL MODEL #
+    ######################
+    print '... building the model'
+
+    # Reshape matrix of rasterized images of shape (batch_size,28*28)
+    # to a 4D tensor, compatible with our LeNetConvPoolLayer
+    layer0_input = x.reshape((batch_size, 1, 28, 28))
+
+    # Construct the first convolutional pooling layer:
+    # filtering reduces the image size to (28-5+1,28-5+1)=(24,24)
+    # maxpooling reduces this further to (24/2,24/2) = (12,12)
+    # 4D output tensor is thus of shape (batch_size,nkerns[0],12,12)
+    layer0 = LeNetConvPoolLayer(rng, input=layer0_input,
+            image_shape=(batch_size, 1, 28, 28),
+            filter_shape=(nkerns[0], 1, 5, 5), poolsize=(2, 2))
+
+    # Construct the second convolutional pooling layer
+    # filtering reduces the image size to (12-5+1,12-5+1)=(8,8)
+    # maxpooling reduces this further to (8/2,8/2) = (4,4)
+    # 4D output tensor is thus of shape (nkerns[0],nkerns[1],4,4)
+    layer1 = LeNetConvPoolLayer(rng, input=layer0.output,
+            image_shape=(batch_size, nkerns[0], 12, 12),
+            filter_shape=(nkerns[1], nkerns[0], 5, 5), poolsize=(2, 2))
+
+    # the HiddenLayer being fully-connected, it operates on 2D matrices of
+    # shape (batch_size,num_pixels) (i.e matrix of rasterized images).
+    # This will generate a matrix of shape (20,32*4*4) = (20,512)
+    layer2_input = layer1.output.flatten(2)
+
+    # construct a fully-connected sigmoidal layer
+    layer2 = HiddenLayer(rng, input=layer2_input, n_in=nkerns[1] * 4 * 4,
+                         n_out=500, activation=T.tanh)
+
+    # classify the values of the fully-connected sigmoidal layer
+    layer3 = LogisticRegression(input=layer2.output, n_in=500, n_out=10)
+
+    # the cost we minimize during training is the NLL of the model
+    cost = layer3.negative_log_likelihood(y)
+
+    # create a function to compute the mistakes that are made by the model
+    test_model = theano.function([index], layer3.errors(y),
+             givens={
+                x: test_set_x[index * batch_size: (index + 1) * batch_size],
+                y: test_set_y[index * batch_size: (index + 1) * batch_size]})
+
+    validate_model = theano.function([index], layer3.errors(y),
+            givens={
+                x: valid_set_x[index * batch_size: (index + 1) * batch_size],
+                y: valid_set_y[index * batch_size: (index + 1) * batch_size]})
+
+    # create a list of all model parameters to be fit by gradient descent
+    params = layer3.params + layer2.params + layer1.params + layer0.params
+
+    # create a list of gradients for all model parameters
+    grads = T.grad(cost, params)
+
+    # train_model is a function that updates the model parameters by
+    # SGD Since this model has many parameters, it would be tedious to
+    # manually create an update rule for each model parameter. We thus
+    # create the updates list by automatically looping over all
+    # (params[i],grads[i]) pairs.
+    updates = []
+    for param_i, grad_i in zip(params, grads):
+        updates.append((param_i, param_i - learning_rate * grad_i))
+
+    train_model = theano.function([index], cost, updates=updates,
+          givens={
+            x: train_set_x[index * batch_size: (index + 1) * batch_size],
+            y: train_set_y[index * batch_size: (index + 1) * batch_size]})
+
+    ###############
+    # TRAIN MODEL #
+    ###############
+    print '... training'
+    # early-stopping parameters
+    patience = 10000  # look as this many examples regardless
+    patience_increase = 2  # wait this much longer when a new best is
+                           # found
+    improvement_threshold = 0.995  # a relative improvement of this much is
+                                   # considered significant
+    validation_frequency = min(n_train_batches, patience / 2)
+                                  # go through this many
+                                  # minibatche before checking the network
+                                  # on the validation set; in this case we
+                                  # check every epoch
+
+    best_params = None
+    best_validation_loss = numpy.inf
+    best_iter = 0
+    test_score = 0.
+    start_time = time.clock()
+
+    epoch = 0
+    done_looping = False
+
+    while (epoch &lt; n_epochs) and (not done_looping):
+        epoch = epoch + 1
+        for minibatch_index in xrange(n_train_batches):
+
+            iter = (epoch - 1) * n_train_batches + minibatch_index
+
+            if iter % 100 == 0:
+                print 'training @ iter = ', iter
+            cost_ij = train_model(minibatch_index)
+
+            if (iter + 1) % validation_frequency == 0:
+
+                # compute zero-one loss on validation set
+                validation_losses = [validate_model(i) for i
+                                     in xrange(n_valid_batches)]
+                this_validation_loss = numpy.mean(validation_losses)
+                print('epoch %i, minibatch %i/%i, validation error %f %%' % \
+                      (epoch, minibatch_index + 1, n_train_batches, \
+                       this_validation_loss * 100.))
+
+                # if we got the best validation score until now
+                if this_validation_loss &lt; best_validation_loss:
+
+                    #improve patience if loss improvement is good enough
+                    if this_validation_loss &lt; best_validation_loss *  \
+                       improvement_threshold:
+                        patience = max(patience, iter * patience_increase)
+
+                    # save best validation score and iteration number
+                    best_validation_loss = this_validation_loss
+                    best_iter = iter
+
+                    # test it on the test set
+                    test_losses = [test_model(i) for i in xrange(n_test_batches)]
+                    test_score = numpy.mean(test_losses)
+                    print(('     epoch %i, minibatch %i/%i, test error of best '
+                           'model %f %%') %
+                          (epoch, minibatch_index + 1, n_train_batches,
+                           test_score * 100.))
+
+            if patience &lt;= iter:
+                done_looping = True
+                break
+
+    end_time = time.clock()
+    print('Optimization complete.')
+    print('Best validation score of %f %% obtained at iteration %i,'\
+          'with test performance %f %%' %
+          (best_validation_loss * 100., best_iter + 1, test_score * 100.))
+    print &gt;&gt; sys.stderr, ('The code for file ' +
+                          os.path.split(__file__)[1] +
+                          ' ran for %.2fm' % ((end_time - start_time) / 60.))
+
+    ###############
+    # PREDICT MODEL #
+    ###############
+    print '... predicting'
+    predict_model = theano.function([index], layer3.y_pred,
+            givens={
+                x: predict_set_x[index * batch_size: (index + 1) * batch_size]})
+    predict_set_y = [predict_model(i) for i
+                                     in xrange(n_predict_batches)]
+    pd.DataFrame(predict_set_y).to_csv('/home/qingyuanxingsi/data/digit_recognizer/result_cnn.csv')
+
+
+if __name__ == '__main__':
+    evaluate_lenet5()
+
+
+def experiment(state, channel):
+    evaluate_lenet5(state.learning_rate, dataset=state.dataset)
+</code></pre>
 <p>由于昨天晚上将n_epoches设置成200的时候,程序迭代到一定次数我的渣机就直接崩掉了,所以今天把它直接设置成60了,跑了大概4-5个小时后,最后终于拿到了结果,截图如下:</p>
 <p><img alt="CNN_PERFORMANCE" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cnn_performance_zps05d5f2b6.png" /></p>
 <p>把预测结果提交给Kaggle之后,Score攀升至99.6%。由此可以看出,卷积神经网络相比随机森林而言还是强太多啊(好吧,另外一个因素是对于随机森林我根本没有做特征提取的工作)。此外,如果我的渣机强大一点的话,我们就能做更多次迭代,由此得到的准确率也可能更高吧。</p>
 <p><strong>如果大家对于手写数字识别这个TASK有更好的模型或者有一些其他的想法,欢迎交流昂!</strong></p>
-<h1>参考文献</h1>
+<h1 id="_4">参考文献</h1>
 <hr />
 <ul>
 <li><a href="http://ibillxia.github.io/blog/2013/04/06/Convolutional-Neural-Networks/">卷积神经网络（CNN）</a></li>

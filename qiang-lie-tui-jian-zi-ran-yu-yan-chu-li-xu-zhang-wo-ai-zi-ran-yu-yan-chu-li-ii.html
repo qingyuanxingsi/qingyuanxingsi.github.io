@@ -78,9 +78,9 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <blockquote>
 <p><strong>小编推荐</strong>:本部分是我爱自然语言博客里写的最好的几篇文章了,墙裂推荐阅读;通过阅读本部分的文章,我对Metropolis Hastings算法以及Gibbs Sampling有了更为深入的了解。BTW,数学史真的很好玩啊！</p>
 </blockquote>
-<h1>MCMC 和 Gibbs Sampling</h1>
+<h1 id="mcmc-gibbs-sampling">MCMC 和 Gibbs Sampling</h1>
 <hr />
-<h2>随机模拟</h2>
+<h2 id="_1">随机模拟</h2>
 <p>随机模拟(或者统计模拟)方法有一个很酷的别名是蒙特卡罗方法(Monte Carlo Simulation)。这个方法的发展始于20世纪40年代，和原子弹制造的曼哈顿计划密切相关，当时的几个大牛，包括乌拉姆、冯.诺依曼、费米、费曼、Nicholas Metropolis，在美国洛斯阿拉莫斯国家实验室研究裂变物质的中子连锁反应的时候，开始使用统计模拟的方法,并在最早的计算机上进行编程实现。</p>
 <p><img alt="Simulation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/simulation_zpsfd333536.jpg" /></p>
 <p>现代的统计模拟方法最早由数学家乌拉姆提出，被Metropolis命名为蒙特卡罗方法，蒙特卡罗是著名的赌场，赌博总是和统计密切关联的，所以这个命名风趣而贴切，很快被大家广泛接受。被不过据说费米之前就已经在实验中使用了，但是没有发表。说起蒙特卡罗方法的源头，可以追溯到18世纪，布丰当年用于计算π的著名的投针实验就是蒙特卡罗模拟实验。统计采样的方法其实数学家们很早就知道，但是在计算机出现以前，随机数生成的成本很高，所以该方法也没有实用价值。随着计算机技术在二十世纪后半叶的迅猛发展，随机模拟技术很快进入实用阶段。对那些用确定算法不可行或不可能解决的问题，蒙特卡罗方法常常为人们带来希望。</p>
@@ -106,7 +106,7 @@ Z_1 &amp; = \sqrt{-2\ln U_1} sin(2\pi U_2)
 <li>$p(x,y)$是一个二维的分布函数，这个函数本身计算很困难，但是条件分布$p(x|y),p(y|x)$的计算相对简单;如果$p(x)$是高维的，这种情形就更加明显。</li>
 </ul>
 <p>此时就需要使用一些更加复杂的随机模拟的方法来生成样本。而本节中将要重点介绍的 MCMC(Markov Chain Monte Carlo) 和 Gibbs Sampling算法就是最常用的一种，这两个方法在现代贝叶斯分析中被广泛使用。要了解这两个算法，我们首先要对马氏链的平稳分布的性质有基本的认识。</p>
-<h2>马氏链及其平稳分布</h2>
+<h2 id="_2">马氏链及其平稳分布</h2>
 <p>马氏链的数学定义很简单:</p>
 <p>\begin{equation}
 P(X_{t+1}=x|X_t, X_{t-1}, \cdots) =P(X_{t+1}=x|X_t)
@@ -195,7 +195,7 @@ X_{n+2}&amp; \sim \pi(x) \\
 \end{split}
 \end{equation}</p>
 <p>所以$X_n,X_{n+1},X_{n+2},\cdots \sim \pi(x)$都是同分布的随机变量，当然他们并不独立。如果我们从一个具体的初始状态$x_0$开始,沿着马氏链按照概率转移矩阵做跳转，那么我们得到一个转移序列$x_0,x_1,x_2,\cdots,x_n,x_{n+1},\cdots$, 由于马氏链的收敛行为，$x_n,x_{n+1},...$ 都将是平稳分布$\pi(x)$的样本。</p>
-<h2>Markov Chain Monte Carlo</h2>
+<h2 id="markov-chain-monte-carlo">Markov Chain Monte Carlo</h2>
 <p>对于给定的概率分布$p(x)$,我们希望能有便捷的方式生成它对应的样本。由于马氏链能收敛到平稳分布，于是一个很漂亮的想法是：如果我们能构造一个转移矩阵为$P$的马氏链，使得该马氏链的平稳分布恰好是$p(x)$,那么我们从任何一个初始状态$x_0$出发沿着马氏链转移, 得到一个转移序列$x_0,x_1,x_2,\cdots,x_n,x_{n+1}\cdots$，如果马氏链在第$n$步已经收敛了，于是我们就得到了$p(x)$的样本$x_n,x_{n+1},\cdots$。</p>
 <p>这个绝妙的想法在1953年被Metropolis想到了，为了研究粒子系统的平稳性质，Metropolis考虑了物理学中常见的波尔兹曼分布的采样问题，首次提出了基于马氏链的蒙特卡罗方法，即Metropolis算法，并在最早的计算机上编程实现。Metropolis算法是首个普适的采样方法，并启发了一系列MCMC方法，所以人们把它视为随机模拟技术腾飞的起点。Metropolis的这篇论文被收录在《统计学中的重大突破》中，Metropolis算法也被遴选为二十世纪的十个最重要的算法之一。</p>
 <p>我们接下来介绍的MCMC算法是Metropolis算法的一个改进变种，即常用的<strong>Metropolis-Hastings</strong>算法。由上一节的例子和定理我们看到了，马氏链的收敛性质主要由转移矩阵$P$决定,所以基于马氏链做采样的关键问题是如何构造转移矩阵$P$,使得平稳分布恰好是我们要的分布$p(x)$。如何能做到这一点呢？我们主要使用如下的定理。</p>
@@ -253,7 +253,7 @@ p(x)Q\prime (x→y)=p(y)Q\prime(y→x)
 p(\mathbf{x}) Q’(\mathbf{x}\rightarrow \mathbf{y}) = p(\mathbf{y}) Q’(\mathbf{y}\rightarrow \mathbf{x})
 \end{equation}</p>
 <p>那么以上的Metropolis-Hastings算法一样有效。</p>
-<h2>Gibbs Sampling</h2>
+<h2 id="gibbs-sampling">Gibbs Sampling</h2>
 <p>对于高维的情形，由于接受率$\alpha$的存在(通常$\alpha$&lt;1), 以上Metropolis-Hastings算法的效率不够高。能否找到一个转移矩阵$Q$使得接受率$\alpha=1$呢？我们先看看二维的情形，假设有一个概率分布 $p(x,y)$, 考察$x$坐标相同的两个点$A(x_1,y_1),B(x_1,y_2)$,我们发现:</p>
 <p>\begin{equation}
 \begin{split} 
@@ -302,9 +302,9 @@ p(\mathbf{x_1},y_1)p(y_2|\mathbf{x_1}) = p(\mathbf{x_1},y_2)p(y_1|\mathbf{x_1})
 <p>于是我们可以把Gibbs Smapling算法从采样二维的$p(\mathbf{x},\mathbf{y})$推广到采样$n$维的 $p(x_1,x_2,⋯,x_n)$.</p>
 <p><img alt="gibbs-algo-2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs-algo-2_zps69519b9b.jpg" /></p>
 <p>以上算法收敛后，得到的就是概率分布$p(x_1,x_2,⋯,x_n)$的样本，当然这些样本并不独立，但是我们此处要求的是采样得到的样本符合给定的概率分布，并不要求独立。同样的，在以上算法中，坐标轴轮换采样不是必须的，可以在坐标轴轮换中引入随机性，这时候转移矩阵$Q$中任何两个点的转移概率中就会包含坐标轴选择的概率，而在通常的 Gibbs Sampling 算法中，坐标轴轮换是一个确定性的过程，也就是在给定刻$t$，在一根固定的坐标轴上转移的概率是1。</p>
-<h1>文本建模</h1>
+<h1 id="_3">文本建模</h1>
 <hr />
-<h2>文本建模</h2>
+<h2 id="_4">文本建模</h2>
 <p>我们日常生活中总是产生大量的文本，如果每一个文本存储为一篇文档，那每篇文档从人的观察来说就是有序的词的序列$d=(w_1,w_2,\cdots,w_n)$。</p>
 <p><img alt="Corpus" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/corpus_zpsd5c55aaa.jpg" /></p>
 <p>包含$M$篇文档的语料库统计文本建模的目的就是追问这些观察到语料库中的的词序列是如何生成的。统计学被人们描述为猜测上帝的游戏，人类产生的所有的语料文本我们都可以看成是一个伟大的上帝在天堂中抛掷骰子生成的，我们观察到的只是上帝玩这个游戏的结果 —— 词序列构成的语料，而上帝玩这个游戏的过程对我们是个黑盒子。所以在统计文本建模中，我们希望猜测出上帝是如何玩这个游戏的，具体一点，最核心的两个问题是:</p>
@@ -313,7 +313,7 @@ p(\mathbf{x_1},y_1)p(y_2|\mathbf{x_1}) = p(\mathbf{x_1},y_2)p(y_1|\mathbf{x_1})
 <li>上帝是如何抛掷这些骰子的；</li>
 </ul>
 <p>第一个问题就是表示模型中都有哪些参数，骰子的每一个面的概率都对应于模型中的参数；第二个问题就表示游戏规则是什么，上帝可能有各种不同类型的骰子，上帝可以按照一定的规则抛掷这些骰子从而产生词序列。 </p>
-<h3>Unigram Model</h3>
+<h3 id="unigram-model">Unigram Model</h3>
 <p>假设我们的词典中一共有$V$个词$v_1,v_2,⋯v_V$，那么最简单的Unigram Model就是认为上帝是按照如下的游戏规则产生文本的。</p>
 <p><img alt="game_unigram_model" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/game-unigram-model_zpseddfb645.jpg" /></p>
 <p>上帝的这个唯一的骰子各个面的概率记为$\vec{p} = (p_1, p_2, \cdots, p_V)$, 所以每次投掷骰子类似于一个抛钢镚时候的贝努利实验， 记为$w\sim Mult(w|\vec{p})$.</p>
@@ -398,7 +398,7 @@ p(\mathcal{W}|\vec\alpha) &amp; = \int p(\mathcal{W}|\vec{p}) p(\vec{p}|\vec\alp
 &amp; = \frac{\Delta( n+\vec\alpha)}{\Delta(\vec\alpha)} 
 \end{split}
 \end{equation}</p>
-<h3>Topic Model 和 PLSA</h3>
+<h3 id="topic-model-plsa">Topic Model 和 PLSA</h3>
 <p>以上 Unigram Model 是一个很简单的模型，模型中的假设看起来过于简单，和人类写文章产生每一个词的过程差距比较大，有没有更好的模型呢？</p>
 <p>我们可以看看日常生活中人是如何构思文章的。如果我们要写一篇文章，往往是先确定要写哪几个主题。譬如构思一篇自然语言处理相关的文章，可能$40\%$会谈论语言学,$30\%$谈论概率统计,$20\%$谈论计算机、还有$10\%$谈论其它的主题：</p>
 <ul>
@@ -423,9 +423,9 @@ p(\vec w|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) =
 \prod_{i=1}^n \sum_{z=1}^K \varphi_{zw_i} \theta_{mz}
 \end{equation}</p>
 <p>由于文档之间相互独立，我们也容易写出整个语料的生成概率。求解PLSA这个Topic Model的过程汇总，模型参数并容易求解，可以使用著名的EM算法进行求得局部最优解，由于该模型的求解并不是本文的介绍要点，有兴趣的同学参考Hoffman的原始论文，此处略去不讲。</p>
-<h1>LDA文本建模</h1>
+<h1 id="lda">LDA文本建模</h1>
 <hr />
-<h2>游戏规则</h2>
+<h2 id="_5">游戏规则</h2>
 <p>对于上述的 PLSA 模型，贝叶斯学派显然是有意见的，doc-topic 骰子$\vec{\theta}_m$和topic-word骰子$\vec\varphi_k$都是模型中的参数，参数都是随机变量，怎么能没有先验分布呢？于是，类似于对Unigram Model的贝叶斯改造， 我们也可以如下在两个骰子参数前加上先验分布从而把PLSA对应的游戏过程改造为一个贝叶斯的游戏过程。由于$\vec\varphi_k$和$\vec{\theta}_m$都对应到多项分布，所以先验分布的一个好的选择就是Drichlet分布，于是我们就得到了<strong>LDA(Latent Dirichlet Allocation)</strong>模型。</p>
 <p><img alt="lda_dice" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-dice_zps843a7bb2.jpg" /></p>
 <p>在 LDA 模型中, 上帝是按照如下的规则玩文档生成的游戏的.</p>
@@ -439,7 +439,7 @@ p(\vec w|d_m) = \prod_{i=1}^n \sum_{z=1}^K p(w_i|z)p(z|d_m) =
 \end{equation}</p>
 <p>其中，$\vec w_m$表示第$m$篇文档中的词，$\vec z_m$表示这些词对应的topic编号。</p>
 <p><img alt="word_topic_example" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/word-topic-vector_zpsa89d3e3d.jpg" /></p>
-<h2>物理过程分解</h2>
+<h2 id="_6">物理过程分解</h2>
 <p>使用概率图模型表示， LDA模型的游戏过程如图所示。</p>
 <p><img alt="LDA概率图模型表示" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-graph-model_zps41d58402.jpg" /></p>
 <p>这个概率图可以分解为两个主要的物理过程： </p>
@@ -494,7 +494,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 \end{split}
 \end{equation}</p>
 <p>此处的符号表示稍微不够严谨, 向量$ n_k$, $ n_m$都用$n$表示， 主要通过下标进行区分， $k$下标为topic编号, $m$下标为文档编号。</p>
-<h2>Gibbs Sampling</h2>
+<h2 id="gibbs-sampling_1">Gibbs Sampling</h2>
 <p>有了联合分布$p(\vec{\mathbf{w}},\vec{\mathbf{z}})$, 万能的MCMC算法就可以发挥作用了！于是我们可以考虑使用Gibbs Sampling算法对这个分布进行采样。当然由于$\vec{\mathbf{w}}$是观测到的已知数据，只有$\vec{\mathbf{z}}$是隐含的变量，所以我们真正需要采样的是分布$p(\vec{\mathbf{z}}|\vec{\mathbf{w}})$。在Gregor Heinrich 那篇很有名的LDA 模型科普文章Parameter estimation for text analysis中，是基于(***) 式推导Gibbs Sampling 公式的。此小节中我们使用不同的方式，主要是基于Dirichlet-Multinomial共轭来推导 Gibbs Sampling 公式，这样对于理解采样中的概率物理过程有帮助。</p>
 <p>语料库$\vec{\mathbf{z}}$中的第$i$个词我们记为$z_i$, 其中$i=(m,n)$是一个二维下标，对应于第$m$篇文档的第$n$个词，我们用$\neg i$表示去除下标为$i$的词。那么按照 Gibbs Sampling 算法的要求，我们要求得任一个坐标轴$i$对应的条件分布$p(z_i = k|\vec{\mathbf{z}}_{\neg i}, \vec{\mathbf{w}})$。假设已经观测到的词$w_i=t$, 则由贝叶斯法则，我们容易得到:</p>
 <p><img alt="Gibbs_sampling_bayes" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_bayes_rule_zps2af0b023.png" /></p>
@@ -507,7 +507,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 <p><img alt="Posterior_Dirichlet" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/posterior_dirichlet_zpsba59a8e5.png" /></p>
 <p>使用上面两个式子，把以上想法综合一下，我们就得到了如下的Gibbs Sampling公式的推导:</p>
 <p><img alt="Gibbs_sampling_formula_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_1_zps3d14e122.png" /></p>
-<p>以上推导估计是整篇文章中最复杂的数学了，表面上看上去复杂，但是推导过程中的概率物理意义是简单明了的：$z_i=k,w_i=t$的概率只和两个Dirichlet-Multinomial共轭结构关联。而最终得到的$\hat{\theta}<em kt="kt">{mk}, \hat{\varphi}</em>$就是对应的两个Dirichlet后验分布在贝叶斯框架下的参数估计。借助于前面介绍的Dirichlet 参数估计的公式 ，我们有:</p>
+<p>以上推导估计是整篇文章中最复杂的数学了，表面上看上去复杂，但是推导过程中的概率物理意义是简单明了的：$z_i=k,w_i=t$的概率只和两个Dirichlet-Multinomial共轭结构关联。而最终得到的$\hat{\theta}<em>{mk}, \hat{\varphi}</em>{kt}$就是对应的两个Dirichlet后验分布在贝叶斯框架下的参数估计。借助于前面介绍的Dirichlet 参数估计的公式 ，我们有:</p>
 <p>\begin{equation}
 \begin{split} 
 \hat\theta_{mk} &amp;= \frac{n_{m,\neg i}^{(k)} + \alpha_k}{\sum_{k=1}^K (n_{m,\neg i}^{(k)} + \alpha_k)} \\ 
@@ -518,7 +518,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 <p><img alt="Gibbs_sampling_formula_2" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs_sampling_formula_2_zps3cc27196.png" /></p>
 <p>这个公式是很漂亮的， 右边其实就是$p(topic|doc)⋅p(word|topic)$,这个概率其实是doc→topic→word的路径概率，由于topic 有$K$个，所以Gibbs Sampling 公式的物理意义其实就是在这$K$条路径中进行采样。</p>
 <p><img alt="doc-topic-word" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/gibbs-path-search_zpsb83099d8.jpg" /></p>
-<h2>Training and Inference</h2>
+<h2 id="training-and-inference">Training and Inference</h2>
 <p>有了LDA模型，当然我们的目标有两个:</p>
 <ul>
 <li>估计模型中的参数$\vec\varphi_1, \cdots, \vec\varphi_K$和$\vec{\theta}_1, \cdots, \vec{\theta}_M$；</li>
@@ -530,7 +530,7 @@ p(\vec{\mathbf{w}} |\vec{\mathbf{z}}, \vec\beta) p(\vec{\mathbf{z}} |\vec\alpha)
 <p>由这个topic-word频率矩阵我们可以计算每一个$p(word|topic)$概率，从而算出模型参数$\vec\varphi_1, \cdots, \vec\varphi_K$, 这就是上帝用的$K$个topic-word骰子。当然，语料中的文档对应的骰子参数$\vec{\theta}_1, \cdots, \vec{\theta}_M$在以上训练过程中也是可以计算出来的，只要在Gibbs Sampling收敛之后，统计每篇文档中的topic的频率分布，我们就可以计算每一个$p(topic|doc)$概率，于是就可以计算出每一个$\vec{\theta}_m$。由于参数$\vec{\theta}_m$是和训练语料中的每篇文档相关的，对于我们理解新的文档并无用处，所以工程上最终存储LDA模型时候一般没有必要保留。通常，在LDA模型训练的过程中，我们是取Gibbs Sampling收敛之后的$n$个迭代的结果进行平均来做参数估计，这样模型质量更高。</p>
 <p>有了LDA的模型，对于新来的文档 $doc_{new}$, 我们如何做该文档的topic语义分布的计算呢？基本上inference的过程和training的过程完全类似。对于新的文档， 我们只要认为Gibbs Sampling公式中的$\hat\varphi_{kt}$部分是稳定不变的，是由训练语料得到的模型提供的，所以采样过程中我们只要估计该文档的topic分布$\vec{\theta}_{new}$就好了。</p>
 <p><img alt="LDA Inference" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lda-inference_zpsaa5c9320.jpg" /></p>
-<h2>后记LDA</h2>
+<h2 id="lda_1">后记LDA</h2>
 <p>对于专业做机器学习的兄弟而言，只能算是一个简单的Topic Model。但是对于互联网中做数据挖掘、语义分析的工程师，LDA 的门槛并不低。 LDA 典型的属于这样一种机器学习模型：要想理解它，需要比较多的数学背景，要在工程上进行实现，却相对简单。 Gregor Heinrich 的LDA 模型科普文章 Parameter estimation for text analysis 写得非常的出色，这是学习 LDA 的必看文章。不过即便是这篇文章，对于工程师也是有门槛的。我写的这个科普最好对照 Gregor Heinrich 的这篇文章来看， 我用的数学符号也是尽可能和这篇文章保持一致。这份LDA 科普是基于给组内兄弟做报告的 ppt 整理而成的，说是科普其实也不简单，涉及到的数学还是太多。在工业界也混了几年，经常感觉到工程师对于学术界的玩的模型有很强的学习和尝试的欲望，只是学习成本往往太高。所以我写 LDA 的初衷就是写给工业界的工程师们看的，希望把学术界玩的一些模型用相对通俗的方式介绍给工程师；如果这个科普对于读研究生的一些兄弟姐妹也有所启发，只能说那是一个 side effect :-)。我个人很喜欢LDA ，它是在文本建模中一个非常优雅的模型，相比于很多其它的贝叶斯模型， LDA 在数学推导上简洁优美。学术界自 2003 年以来也输出了很多基于LDA 的 Topic Model 的变体，要想理解这些更加高级的 Topic Model, 首先需要很好的理解标准的 LDA 模型。在工业界， Topic Model 在 Google、Baidu 等大公司的产品的语义分析中都有着重要的应用；所以Topic Model 对于工程师而言，这是一个很有应用价值、值得学习的模型。我接触 Topic Model 的时间不长，主要是由于2年前和 PLDA 的作者 Wangyi 一起合作的过程中，从他身上学到了很多 Topic Model 方面的知识。关于 LDA 的相关知识，其实可以写的还有很多：如何提高 LDA Gibbs Sampling 的速度、如何优化超参数、如何做大规模并行化、LDA 的应用、LDA 的各种变体…… 不过我的主要目标还是科普如何理解标准的LDA模型。学习一个模型的时候我喜欢追根溯源，常常希望把模型中的每一个数学推导的细节搞明白，把公式的物理意义想清楚，不过数学推导本身并不是我想要的，把数学推导还原为物理过程才是我乐意做的事。最后引用一下物理学家费曼的名言结束 LDA 的数学科普：</p>
 <blockquote>
 <p>What I cannot create, I do not understand. — Richard Feynman</p>

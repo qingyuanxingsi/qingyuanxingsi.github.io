@@ -82,9 +82,9 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <li>好奇心害死人啊！！！！！！</li>
 </ul>
 <p>言归正传,作为Deep Learning系列的第一篇,我们首先还是说明一下两件事:Deep Learning是什么?Deep Learning是用来干什么的?</p>
-<h1>A Brief Introduction to Deep Learning</h1>
+<h1 id="a-brief-introduction-to-deep-learning">A Brief Introduction to Deep Learning</h1>
 <hr />
-<h2>背景</h2>
+<h2 id="_1">背景</h2>
 <p>机器学习（Machine Learning)是一门专门研究计算机怎样模拟或实现人类的学习行为，以获取新的知识或技能，重新组织已有的知识结构使之不断改善自身的性能的学科。机器能否像人类一样能具有学习能力呢？1959年美国的塞缪尔(Samuel)设计了一个下棋程序，这个程序具有学习能力，它可以在不断的对弈中改善自己的棋艺。4年后，这个程序战胜了设计者本人。又过了3年，这个程序战胜了美国一个保持8年之久的常胜不败的冠军。这个程序向人们展示了机器学习的能力，提出了许多令人深思的社会问题与哲学问题（呵呵，人工智能正常的轨道没有很大的发展，这些什么哲学伦理啊倒发展的挺快。什么未来机器越来越像人，人越来越像机器啊。什么机器会反人类啊，ATM是开第一枪的啊等等。人类的思维无穷啊）。</p>
 <p>机器学习虽然发展了几十年，但还是存在很多没有良好解决的问题：</p>
 <p><img alt="Problems to be solved" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/problems_to_be_solved_zps19ee52eb.jpg" /></p>
@@ -98,7 +98,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p>然而，手工地选取特征是一件非常费力、启发式（需要专业知识）的方法，能不能选取好很大程度上靠经验和运气，而且它的调节需要大量的时间。既然手工选取特征不太好，那么能不能自动地学习一些特征呢？答案是能！Deep Learning就是用来干这个事情的，看它的一个别名<code>Unsupervised Feature Learning</code>,就可以顾名思义了，Unsupervised的意思就是不要人参与特征的选取过程。</p>
 <p>那它是怎么学习的呢？怎么知道哪些特征好哪些不好呢？我们说机器学习是一门专门研究计算机怎样模拟或实现人类的学习行为的学科。好，那我们人的视觉系统是怎么工作的呢？为什么在茫茫人海，芸芸众生，滚滚红尘中我们都可以找到另一个她（因为，你存在我深深的脑海里，我的梦里 我的心里 我的歌声里……）。人脑那么NB，我们能不能参考人脑，模拟人脑呢？（好像和人脑扯上点关系的特征啊，算法啊，都不错，但不知道是不是人为强加的，为了使自己的作品变得神圣和高雅。）</p>
 <p>近几十年以来，认知神经科学、生物学等等学科的发展，让我们对自己这个神秘的而又神奇的大脑不再那么的陌生。也给人工智能的发展推波助澜。</p>
-<h2>人脑视觉机理</h2>
+<h2 id="_2">人脑视觉机理</h2>
 <p>1981 年的诺贝尔医学奖，颁发给了David Hubel（出生于加拿大的美国神经生物学家)和TorstenWiesel，以及Roger Sperry。前两位的主要贡献，是发现了视觉系统的信息处理过程是分级的：</p>
 <p><img alt="Brain Activity" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/brain_activity_zps40cf5595.jpg" /></p>
 <p>我们看看他们做了什么。1958 年，DavidHubel 和Torsten Wiesel在JohnHopkins University，研究瞳孔区域与大脑皮层神经元的对应关系。他们在猫的后脑头骨上，开了一个3毫米的小洞，向洞里插入电极，测量神经元的活跃程度。</p>
@@ -112,12 +112,12 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p>总的来说，人的视觉系统的信息处理是分级的。从低级的V1区提取边缘特征，再到V2区的形状或者目标的部分等，再到更高层，整个目标、目标的行为等。也就是说高层的特征是低层特征的组合，从低层到高层的特征表示越来越抽象，越来越能表现语义或者意图。而抽象层面越高，存在的可能猜测就越少，就越利于分类。例如，单词集合和句子的对应是多对一的，句子和语义的对应又是多对一的，语义和意图的对应还是多对一的，这是个层级体系。</p>
 <p>敏感的人注意到关键词了：<strong>分层</strong>。而Deep learning的Deep是不是就表示存在多少层，也就是多深呢？没错。那Deep Learning是如何借鉴这个过程的呢？毕竟是归于计算机来处理，面对的一个问题就是怎么对这个过程建模？</p>
 <p>因为我们要学习的是特征的表达，那么关于特征，或者说关于这个层级特征，我们需要了解地更深入点。所以在说Deep Learning之前，我们有必要再啰嗦下特征。</p>
-<h2>特征</h2>
+<h2 id="_3">特征</h2>
 <p>特征是机器学习系统的原材料，对最终模型的影响是毋庸置疑的。如果数据被很好的表达成了特征，通常线性模型就能达到满意的精度。那对于特征，我们需要考虑什么呢？</p>
-<h3>特征表示的粒度</h3>
+<h3 id="_4">特征表示的粒度</h3>
 <p>学习算法在一个什么粒度上的特征表示，才有能发挥作用？就一个图片来说，像素级的特征根本没有价值。例如下面的摩托车，从像素级别，根本得不到任何信息，其无法进行摩托车和非摩托车的区分。而如果特征是一个具有结构性（或者说有含义）的时候，比如是否具有车把手（handle），是否具有车轮（wheel），就很容易把摩托车和非摩托车区分，学习算法才能发挥作用。</p>
 <p><img alt="Feature Motor" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/feature_motor_zps687d7adf.jpg" /></p>
-<h3>初级(浅层)特征表示</h3>
+<h3 id="_5">初级(浅层)特征表示</h3>
 <p>既然像素级的特征表示方法没有作用，那怎样的表示才有用呢？</p>
 <p>1995 年前后，Bruno Olshausen和 David Field 两位学者任职Cornell University，他们试图同时用生理学和计算机的手段，双管齐下，研究视觉问题。</p>
 <p>他们收集了很多黑白风景照片，从这些照片中，提取出400个小碎片，每个照片碎片的尺寸均为16x16像素，不妨把这400个碎片标记为$S[i]$,$i= 0,.. 399$。接下来，再从这些黑白风景照片中，随机提取另一个碎片，尺寸也是 16x16 像素，不妨把这个碎片标记为$T$。</p>
@@ -138,7 +138,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p><img alt="Sparse Coding" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sparse_coding_zps5aa4b3d3.jpg" /></p>
 <p>另外，大牛们还发现，不仅图像存在这个规律，声音也存在。他们从未标注的声音中发现了20种基本的声音结构，其余的声音可以由这20种基本结构合成。</p>
 <p><img alt="Sound Sparse Structure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sound_sparse_coding_zpsaddf2fb2.jpg" /></p>
-<h3>结构性特征表示</h3>
+<h3 id="_6">结构性特征表示</h3>
 <p>小块的图形可以由基本edge构成，更结构化，更复杂的，具有概念性的图形如何表示呢？这就需要更高层次的特征表示，比如V2，V4。因此V1看像素级是像素级。V2看V1是像素级，这个是层次递进的，高层表达由底层表达的组合而成。专业点说就是基basis。V1提取出的basis是边缘，然后V2层是V1层这些basis的组合，这时候V2区得到的又是高一层的basis。即上一层的basis组合的结果，上上层又是上一层的组合basis(所以有大牛说Deep learning就是“搞基”，因为难听，所以美其名曰Deep learning或者Unsupervised Feature Learning）。</p>
 <p><img alt="NN Structure" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/nn_structure_zps5884685c.jpg" /></p>
 <p>直观上说，就是找到make sense的小patch再将其进行combine，就得到了上一层的feature，递归地向上learning feature。</p>
@@ -146,23 +146,23 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p><img alt="Object Classification" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/object_classification_zps81877999.jpg" /></p>
 <p>从文本来说，一个doc表示什么意思？我们描述一件事情，用什么来表示比较合适？用一个一个字嘛，我看不是，字就是像素级别了，起码应该是term，换句话说每个doc都由term构成，但这样表示概念的能力就够了嘛，可能也不够，需要再上一步，达到topic级，有了topic，再到doc就合理。但每个层次的数量差距很大，比如doc表示的概念-&gt;topic（千-万量级)-&gt;term（10万量级)-&gt;word（百万量级）。</p>
 <p>一个人在看一个doc的时候，眼睛看到的是word，由这些word在大脑里自动切词形成term，在按照概念组织的方式，先验的学习，得到topic，然后再进行高层次的learning。</p>
-<h3>需要有多少个特征？</h3>
+<h3 id="_7">需要有多少个特征？</h3>
 <p>我们知道需要层次的特征构建，由浅入深，但每一层该有多少个特征呢？</p>
 <p>任何一种方法，特征越多，给出的参考信息就越多，准确性会得到提升。但特征多意味着计算复杂，探索的空间大，可以用来训练的数据在每个特征上就会稀疏，都会带来各种问题，并不一定特征越多越好。</p>
 <p><img alt="Feature Number" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/feature_number_zps90f6b4a2.jpg" /></p>
 <p>好了，到了这一步，终于可以聊到Deep Learning了。上面我们聊到为什么会有Deep Learning（让机器自动学习良好的特征，而免去人工选取过程。还有参考人的分层视觉处理系统），我们得到一个结论就是Deep Learning需要多层来获得更抽象的特征表达。那么多少层才合适呢？用什么架构来建模呢？怎么进行非监督训练呢？以下我们给出Deep Learning的基本思想。</p>
-<h2>Deep Learning的基本思想</h2>
+<h2 id="deep-learning">Deep Learning的基本思想</h2>
 <p>假设我们有一个系统$S$，它有$n$层$(S_1,…S_n)$，它的输入是$I$，输出是$O$，形象地表示为:$I \rightarrow S_1 \rightarrow S_2 \rightarrow ….\rightarrow S_n \rightarrow O$，如果输出$O$等于输入$I$，即输入$I$经过这个系统变化之后没有任何的信息损失(呵呵，大牛说，这是不可能的。信息论中有个“信息逐层丢失”的说法（信息处理不等式):设处理$a$信息得到$b$，再对$b$处理得到$c$，那么可以证明：$a$和$c$的互信息不会超过$a$和$b$的互信息。这表明信息处理不会增加信息，大部分处理会丢失信息。当然了，如果丢掉的是没用的信息那多好啊），保持了不变，这意味着输入$I$经过每一层$S_i$都没有任何的信息损失，即在任何一层$S_i$，它都是原有信息（即输入$I$）的另外一种表示。现在回到我们的主题Deep Learning，我们需要自动地学习特征，假设我们有一堆输入$I$(如一堆图像或者文本),假设我们设计了一个系统$S$（有$n$层），我们通过调整系统中参数，使得它的输出仍然是输入$I$，那么我们就可以自动地获取得到输入$I$的一系列层次特征，即$S_1，…, S_n$。</p>
 <p>对于深度学习来说，其思想就是对堆叠多个层，也就是说这一层的输出作为下一层的输入。通过这种方式，就可以实现对输入信息进行分级表达了。</p>
 <p>另外，前面是假设输出严格地等于输入，这个限制太严格，我们可以略微地放松这个限制，例如我们只要使得输入与输出的差别尽可能地小即可，这个放松会导致另外一类不同的Deep Learning方法。上述就是Deep Learning的基本思想。</p>
-<h1>BP Neural Network</h1>
+<h1 id="bp-neural-network">BP Neural Network</h1>
 <hr />
 <p>上述我们主要意在建立关于Deep Learning一点直观的印象,下面我们就开始介绍Deep Learning所涉及的模型了。首先第一个要介绍的就是Sparse AutoEncoder(稀疏自编码器)。为了更好的理解Sparse AutoEncoder,我们首先介绍一下Back Propagation Algorithm,而采用Back Propagation算法的一个典型的代表就是BP神经网络(<code>想了解神经网络基础知识的童鞋请自行Google之</code>)。以下我们便主要介绍BP神经网络。</p>
-<h2>概述</h2>
+<h2 id="_8">概述</h2>
 <p>BP(Back Propagation)神经网络是1986年由Rumelhart和McCelland为首的科研小组提出，参见他们发表在Nature上的论文<a href="http://www.cs.toronto.edu/~hinton/absps/naturebp.pdf">Learning representations by back-propagating errors</a>.值得一提的是，该文的第三作者Geoffrey E. Hinton就是在深度学习邻域率先取得突破的神犇。</p>
 <p>BP神经网络是一种<strong>按误差逆向传播算法训练的多层前馈网络</strong>，是目前应用最广泛的神经网络模型之一。BP网络能学习和存贮大量的 输入-输出模式映射关系，而无需事前揭示描述这种映射关系的数学方程。它的学习规则是使用最速下降法，通过反向传播来不断 调整网络的权值和阈值，使网络的误差平方和最小。</p>
 <p>其中,<strong>前馈</strong>是指输入从输入层到隐含层到输出层前向传播,而误差则由输出层反向经隐含层传到输入层,而在误差反向传播的过程中动态更新神经网络连接权值,以使得网络的误差平方和最小。</p>
-<h2>BP网络模型</h2>
+<h2 id="bp">BP网络模型</h2>
 <p>一个典型的BP神经网络模型如下图所示。</p>
 <p><img alt="BP Neural Network" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/bp_nn_zps5c17c098.jpg" /></p>
 <p>BP神经网络与其他神经网络模型类似，不同的是，BP神经元的传输函数为非线性函数(而在感知机中为阶跃函数，在线性神经网络中为线性函数)，最常用的是log-sigmoid函数或tan-sigmoid函数。BP神经网络(BPNN)一般为多层神经网络，上图中所示的BP神经网络的隐层的传输函数即为非线性函数，隐层可以有多层，而输出层的传输函数为线性函数，当然也可以是非线性函数，只不过线性函数的输出结果取值范围较大，而非线性函数则限制在较小范围（如logsig函数输出 取值在(0,1)区间）。上图所示的神经网络的输入输出关系如下：</p>
@@ -179,7 +179,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p>\begin{equation}
 \boldsymbol{y} = \mathit{f_{2}} (\boldsymbol{W^{(2)}h}+\boldsymbol{b^{(2)}})
 \end{equation}</p>
-<h2>BP网络的学习方法</h2>
+<h2 id="bp_1">BP网络的学习方法</h2>
 <p>神经网络的关键之一是权值的确定，也即神经网络的学习，下面主要讨论一下BP神经网络的学习方法，它是一种监督学习的方法。</p>
 <p>假定我们有$q$个带label的样本(即输入)$p_1,p_2,…,p_q$，对应的label(即期望输出Target)为$T_1,T_2,…,T_q$，神经网络的实际输出为$a2_1,a2_2,…,a2_q$，隐层的输出为$a1[.]$.那么可以定义误差函数：</p>
 <p>\begin{equation}
@@ -214,7 +214,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 \end{equation}</p>
 <p>其中，$\delta_{ij} = e_{i}f_{1}’, e_{i} = \sum_{k=1}^{n}\delta_{ki}w2_{ki}$。同理可得，$\Delta b1_{i} = \eta \delta_{ij}$。</p>
 <p>这里我们注意到，输出层的误差为$e_j,j=1..n$，隐层的误差为$e_i,i=1..m$，其中$e_i$可以认为是$e_j$的加权组合，由于作用函数的 存在，$e_j$的等效作用为$\delta_{ji} = e_{j}f’()$。</p>
-<h2>BP网络的设计</h2>
+<h2 id="bp_2">BP网络的设计</h2>
 <p>在进行BP网络的设计是，一般应从网络的层数、每层中的神经元个数和激活函数、初始值以及学习速率等几个方面来进行考虑，下面是一些选取的原则。</p>
 <ul>
 <li>网络的层数</li>
@@ -243,16 +243,16 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 在设计网络的过程中，期望误差值也应当通过对比训练后确定一个合适的值，这个合适的值是相对于所需要的隐层节点数来确定的。一般情况下，可以同时对两个不同 的期望误差值的网络进行训练，最后通过综合因素来确定其中一个网络。</p>
 </li>
 </ol>
-<h2>BP网络的局限性</h2>
+<h2 id="bp_3">BP网络的局限性</h2>
 <p>BP网络具有以下的几个问题：</p>
 <ol>
 <li>需要较长的训练时间：这主要是由于学习速率太小所造成的，可采用变化的或自适应的学习速率来加以改进。</li>
 <li>完全不能训练：这主要表现在网络的麻痹上，通常为了避免这种情况的产生，一是选取较小的初始权值，而是采用较小的学习速率。</li>
 <li>局部最小值：这里采用的梯度下降法可能收敛到局部最小值，采用多层网络或较多的神经元，有可能得到更好的结果。</li>
 </ol>
-<h2>BP网络的改进</h2>
+<h2 id="bp_4">BP网络的改进</h2>
 <p>BP算法改进的主要目标是加快训练速度，避免陷入局部极小值等，常见的改进方法有带动量因子算法、自适应学习速率、变化的学习速率以及作用函数后缩法等。 动量因子法的基本思想是在反向传播的基础上，在每一个权值的变化上加上一项正比于前次权值变化的值，并根据反向传播法来产生新的权值变化。而自适应学习速率的方法则是针对一些特定的问题的。改变学习速率的方法的原则是，若连续几次迭代中，若目标函数对某个权倒数的符号相同，则这个权的学习速率增加，反之若符号相反则减小它的学习速率。而作用函数后缩法则是将作用函数进行平移，即加上一个常数。</p>
-<h1>Sparse AutoEncoder</h1>
+<h1 id="sparse-autoencoder">Sparse AutoEncoder</h1>
 <hr />
 <p>有了以上基础知识,我们以下介绍一下Sparse AutoEncoder(稀疏自编码器)。</p>
 <p>目前为止，我们已经介绍了BP神经网络,而它采用的是有监督学习(使用带标签数据)。现在假设我们只有一个没有带类别标签的训练样本集合 ${x^{(1)}, x^{(2)}, x^{(3)}, \ldots}$，其中$x^{(i)} \in \Re^{n}$.自编码神经网络是一种无监督学习算法，它使用了反向传播算法，并让目标值等于输入值，比如 $y^{(i)} = x^{(i)}$ 。下图是一个自编码神经网络的示例。</p>
@@ -286,7 +286,7 @@ J_{\rm sparse}(W,b) = J(W,b) + \beta \sum_{j=1}^{s_2} {\rm KL}(\rho || \hat\rho_
 \end{equation}
 其中$J(W,b)$如之前所定义，而$\beta$控制稀疏性惩罚因子的权重。$\hat\rho_j$项则也（间接地）取决于$W,b$,因为它是隐藏神经元$j$的平均激活度，而隐藏层神经元的激活度取决于$W,b$。</p>
 <p><strong>总而言之,通过控制隐含层神经元的数量或对它们施加稀疏性限制,我们就能得到关于原始数据的一种有效的特征表示</strong>。具体而言,当我们采用我们上面提到的2D图像作为输入时,不同的隐藏单元学会了在图像的不同位置和方向进行边缘检测。显而易见，这些特征对物体识别等计算机视觉任务是十分有用的。若将其用于其他输入域（如音频），该算法也可学到对这些输入域有用的表示或特征。</p>
-<h1>参考文献</h1>
+<h1 id="_9">参考文献</h1>
 <hr />
 <ol>
 <li><a href="http://blog.csdn.net/zouxy09/article/details/8775360">Deep Learning（深度学习）学习笔记整理系列之（一)</a></li>

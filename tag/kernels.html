@@ -79,10 +79,10 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 	<p>这一篇作为机器学习系列的第七篇,主要介绍核方法,关于<strong>SVM</strong>的部分Pluskid已经写的很通俗易懂了,具体请参考<a href="http://www.qingyuanxingsi.com/category/pearls.html">小小收藏夹[持续更新中]</a>中SVM部分的链接,本文主要补充关于核方法的一些其他知识吧。</p>
 <p>我们之前介绍的所有方法均假定Object可被恰当地表示为一定长的特征向量$x_i \in R^D$.然而,对于某些情况而言,我们也许并不知道如何将它们表示成定长的特征向量。如,我们如何表示可变长的文本文档或者蛋白质序列?如何表示具有复杂3D结构的分子结构?如何表示具有可变大小和形状的进化树?</p>
 <p>解决以上问题的方法之一是为数据定义一生成模型，并使用推断得到的隐含表示作为特征输入到标准的方法中,如<em>Deep Learning</em>.另一方法则是我们假定我们有某种方法能够衡量Objects之间的相似度,因此我们并不需要将数据预处理为特征向量的形式。如当我们比较字符串时,我们可以计算它们之间的编辑距离。令$k(x,x\prime) \geq 0$作为衡量$x$和$x\prime$之间差异性的某种标准($k$被称为核函数<strong>Kernel Function</strong>).以下我们介绍几种常见的核函数。</p>
-<h1>核函数</h1>
+<h1 id="_1">核函数</h1>
 <hr />
 <p>我们将核函数定义为:$k(x,x\prime) \in R$,即将两参数$x,x\prime \in X$($X$为某抽象空间)映射为一实数值。一般而言,它具有对称性,即$k(x,x\prime) = k(x\prime,x)$和非负性,即$k(x,x\prime) \geq 0$.以下我们给出几个例子:</p>
-<h2>RBF Kernels</h2>
+<h2 id="rbf-kernels">RBF Kernels</h2>
 <p>Squared exponential kernel(SE kernel）或高斯核(Gaussian kernel)定义如下:</p>
 <p>\begin{equation}
 k(x,x\prime) = exp(-{1 \over 2}(x-x\prime)^T\Sigma^{-1}(x-x\prime))
@@ -96,7 +96,7 @@ k(x,x\prime) = exp(-{1 \over 2}\sum_{j=1}^D \frac{1}{\sigma_j^2}(x_j-x_j\prime)^
 k(x,x\prime) = exp(-\frac{||x-x\prime||^2}{2\sigma^2})
 \end{equation}</p>
 <p>其中,$\sigma^2$被称为带宽(<strong>Bandwith</strong>).上式为径向基核的一个例子(它只是$||x-x\prime||$的函数)。</p>
-<h2>文档核</h2>
+<h2 id="_2">文档核</h2>
 <p>当我们想要进行文档分类时,如果有一种方法能够比较文档$x_i$和$x_i\prime$想必是极好的。如果我们采用bag-of-words表示且令$x_{ij}$表示词$j$在文档$i$中出现的次数,我们可以采用余弦距离,定义为:</p>
 <p>\begin{equation}
 k(x_i,x_i\prime) = \frac{x_i^T x_i \prime}{||x_i||_2 ||x_i \prime||_2}
@@ -125,7 +125,7 @@ tf-idf(x_i) \triangleq [tf(x_{ij} \times idf(j)]_{j=1}^V
 k(x_i,x_i\prime) = \frac{\phi(x_i)^T\phi(x_i\prime)}{||\phi(x_i)||_2||\phi(x_i\prime)||_2}
 \end{equation}</p>
 <p>其中,$\phi(x) = tf-idf(x)$.</p>
-<h2>Mercer(positive definite) kernels</h2>
+<h2 id="mercerpositive-definite-kernels">Mercer(positive definite) kernels</h2>
 <p>某些方法要求<em>Gram matrix</em>对于任意输入集合${x_i}_{i=1}^N$均是正定的,这样的核称为Mercer kercel或正定核。我们1可以证明以上提到的高斯核以及文档核均是Mercel kernel.<em>Gram matrix</em>定义为：</p>
 <p>\begin{equation}
 K = \left(
@@ -167,7 +167,7 @@ k(x,x\prime) = \phi(x)^T \phi(x\prime)
 \phi(x) = [1,\sqrt{2}x_1,\sqrt{2}x_2,x_1^2,x_2^2,\sqrt{2}x_1x_2]^T
 \end{equation}</p>
 <p>因此采用该kernel等同于在6维空间内进行计算。对于Gaussian核而言，映射后则是在无穷维空间内。在这种情形下，显式表示特征向量显然是不可行的。</p>
-<h2>Linear Kernels</h2>
+<h2 id="linear-kernels">Linear Kernels</h2>
 <p>根据Kernel推导出特征向量是非常困难的一件事(仅当Kernel为Ｍercer时才可行),然而有特征向量推导出Kernel则容易的多。</p>
 <p>\begin{equation}
 k(x,x\prime) = \phi(x)^T \phi(x\prime) = &lt;\phi(x),\phi(x\prime)&gt;
@@ -177,7 +177,7 @@ k(x,x\prime) = \phi(x)^T \phi(x\prime) = &lt;\phi(x),\phi(x\prime)&gt;
 k(x,x\prime) = x^Tx\prime
 \end{equation}</p>
 <p>其实也就是在原空间内进行计算。</p>
-<h2>Matern kernels</h2>
+<h2 id="matern-kernels">Matern kernels</h2>
 <p>Matern Kernels通常被用于高斯过程回归,并被定位为:</p>
 <p>\begin{equation}
 k(r) = \frac{2^{1-\nu}}{\Gamma(\nu)}(\frac{\sqrt{2\nu}r}{\ell})^{\nu}K_{\nu}(\frac{\sqrt{2\nu}r}{\ell})
@@ -187,7 +187,7 @@ k(r) = \frac{2^{1-\nu}}{\Gamma(\nu)}(\frac{\sqrt{2\nu}r}{\ell})^{\nu}K_{\nu}(\fr
 k(r) = exp(-r/\ell)
 \end{equation}</p>
 <p>若$D=1$,我们可以使用该核定义一高斯过程,我们得到<em>Ornstein-Uhlenbeck process</em>,它刻画了一个正在做布朗运动的例子的速度.</p>
-<h2>字符串核</h2>
+<h2 id="_3">字符串核</h2>
 <p>当输入项为结构化数据时,核方法才能真正发挥其威力。以下我们举一个例子简要说明一下多项式核。考察两个字符串长度分别为$D$和$D\prime的定义在符号表${A,R,N,D,C,E,Q,G,H,I,L,K,M,F,P,S,T,W,Y,V}$上的字符串$$x$和$x\prime$.令$x$为一长度为110的字符串,如下图所示:</p>
 <p><img alt="String_Data_1" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/string_data_1_zps0cae832f.png" /></p>
 <p>$x\prime$为长度为153的字符串。</p>
@@ -201,9 +201,9 @@ k(x,x\prime) = \sum_{s \in A*} w_s \phi_s(x) \phi_s(x\prime)
 <p>NOTE:Why $O(|x|+|x\prime|)$,求大神解答。</p>
 </blockquote>
 <p>有了上式之后,我们就能"为所欲为"了。若当$|s|&gt;1$时我们令$w_s = 0$,那么我们得到一bag-of-characters核,此时$\phi(x)$表示$A$中每个字符在$x$中出现的次数;如果我们采用空格分隔$s$,我们得到一bag-of-words核,其中$\phi(x)$表示每个词在$x$中出现的次数。</p>
-<h2>Kernels derived from probabilistic models</h2>
+<h2 id="kernels-derived-from-probabilistic-models">Kernels derived from probabilistic models</h2>
 <p>假定我们有一生成概率模型$p(x|\theta)$.那么我们有多种方法可以通过它构造核函数,以使模型更适用于判别类人物。以下我们简要介绍两种方法:</p>
-<h3>Probability product models</h3>
+<h3 id="probability-product-models">Probability product models</h3>
 <p>方法之一是定义如下Kernel:</p>
 <p>\begin{equation}
 k(x_i,x_j) = \int p(x|x_i)^{\rho}p(x|x_j)^{\rho} dx
@@ -214,7 +214,7 @@ k(x_i,x_j) = \int p(x|x_i)^{\rho}p(x|x_j)^{\rho} dx
 k(x_i,x_j) = \frac{1}{(4\pi\sigma^2)^{D/2}}exp(-\frac{1}{4\sigma^2}||x_i-x_j||^2)
 \end{equation}</p>
 <p>即RBF Kernel.</p>
-<h3>Fisher kernels</h3>
+<h3 id="fisher-kernels">Fisher kernels</h3>
 <p>另一更为有效的通过生成模型定义Kernel的方法是采用Fisher kernel.定义如下:</p>
 <p>\begin{equation}
 k(x,x\prime) = g(x)^T F^{-1} g(x\prime)

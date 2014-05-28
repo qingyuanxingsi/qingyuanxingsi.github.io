@@ -104,10 +104,10 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 \Delta(x_i,x_{i\prime}) = \sum_{j=1}^D 1_{x_{ij} \neq x_{x\prime j}}
 \end{equation}</p>
 <p>有了衡量Objects之间差异性的尺度,我们就能采用合适的算法将Objects分到不同的Group当中去。在正式介绍相关算法之间,我们还是简要说明一下如何衡量不同的聚类方法的好坏。</p>
-<h1>聚类方法评价</h1>
+<h1 id="_1">聚类方法评价</h1>
 <hr />
 <p>总体而言,聚类算法的核心目的即在于将相似的Objects分到同一类中去,并保证不同类之间的Objects之间的差异性。目前针对聚类算法广泛使用的评价指标有如下三种:</p>
-<h2>Purity</h2>
+<h2 id="purity">Purity</h2>
 <p><img alt="Cluster Objects" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cluster_objects_zps871f5eb1.png" /></p>
 <p>如上图所示,每一个圆圈代表一个Cluster,每个圆圈内的物体均已被标注为<em>{A,B,C}</em>中的一种。令$N_{ij}$表示Cluster i中label为j的物体的数目,$N_i$表示Cluster i中物体的总数。另一个cluster的纯度(purity)被定义为$p_i \triangleq max_j p_{ij}$,因此整个聚类结果的纯度为:</p>
 <p>\begin{equation}
@@ -116,7 +116,7 @@ purity \triangleq \sum_{i} \frac{N_i}{N}p_i
 <p>根据上述定义,上图中聚类结果的纯度为:</p>
 <p>${6 \over 17}{5 \over 6}+{6 \over 17}{4 \over 6}+{5 \over 17}{3 \over 5} = 0.71$ </p>
 <p>不难看出,聚类的纯度越高，则表明该聚类算法越好。</p>
-<h2>Rand index</h2>
+<h2 id="rand-index">Rand index</h2>
 <p>令$U={u_1,...,u_R}$和$V={v_1,...,v_C}$分别表示对于$N$个数据点的两种不同的划分方式。例如,$U$可能是我们估计的聚类结果，而$V$则是根据物体的Label得到的参考聚类结果。现我们定义如下四个值:</p>
 <ul>
 <li>TP(True Positives):同时属于$U$和$V$中同一集合的物体对的数目,即不管对于$U$还是$V$而言,这些物体对均被分配到同一集合中;</li>
@@ -139,12 +139,12 @@ TP+FP = C_6^2+C_6^2+C_5^2 = 40
 TP = C_5^2+C_4^2+C_2^2+C_3^2 = 20
 \end{equation}</p>
 <p>同理我们可以得到$FN=24,TN=72$.因此我们有$R = \frac{20+72}{40+24+72} = 0.68$.</p>
-<h2>Mutual Information</h2>
+<h2 id="mutual-information">Mutual Information</h2>
 <p>另外一种衡量聚类质量的方法是计算$U$和$V$之间的互信息。关于互信息的内容请参考<a href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-xi-lie-iigenerative-models-for-discrete-data.html">机器学习系列(II):Generative models for discrete data</a>,此处不再赘述。</p>
-<h1>基本聚类算法</h1>
+<h1 id="_2">基本聚类算法</h1>
 <hr />
 <p>本部分会着重介绍三种聚类算法,包括K-means,Spectral Clustering以及Hierarchical Clustering,且容我一一道来。</p>
-<h2>K-Means &amp; K-Medoids</h2>
+<h2 id="k-means-k-medoids">K-Means &amp; K-Medoids</h2>
 <p><img alt="Cluster Points" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cluster_01_zps3c7151b4.png" /></p>
 <p>如上图所示,对于二维空间上的若干个点,我们要将它们分成若干类。我们直观上来看,上图中数据点大致可以分为3类,如果我们将每一类用不同的颜色标注，则可得到下图:</p>
 <p><img alt="Cluster Color" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/cluster_color_zps7de900bf.png" /></p>
@@ -182,12 +182,12 @@ J = \sum_{n=1}^N\sum_{k=1}^K r_{nk} \|x_n-\mu_k\|^2
 <ul>
 <li>中心点的选取不再取同一Cluster数据的均值,<strong>而是从在已有的数据点里面选取的</strong>,具体而言,选一个到该Cluster中其他点距离之和最小的点。这使得K-Medoids算法不容易受到那些由于误差之类的原因产生的Outlier的影响，更加robust一些。</li>
 </ul>
-<h2>Spectral Clustering</h2>
+<h2 id="spectral-clustering">Spectral Clustering</h2>
 <p>Spectral Clustering(谱聚类)是一种基于图论的聚类方法，它能够识别任意形状的样本空间且收敛于全局最优解，其基本思想是利用样本数据的相似矩阵进行特征分解后得到的特征向量进行聚类，可见，它与样本feature无关而只与样本个数有关。</p>
-<h3>图的划分</h3>
+<h3 id="_3">图的划分</h3>
 <p>图划分的目的是将有权无向图划分为两个或以上子图，使得子图规模差不多而割边权重之和最小。图的划分可以看做是有约束的最优化问题，它的目的是看怎么把每个点划分到某个子图中，比较不幸的是当你选择各种目标函数后发现该优化问题往往是NP-hard的。</p>
 <p>怎么解决这个问题呢？松弛方法往往是一种利器(比如SVM中的松弛变量),对于图的划分可以认为能够将某个点的一部分划分在子图1中，另一部分划分在子图2中,而不是非此即彼,使用松弛方法的目的是将组合优化问题转化为数值优化问题，从而可以在多项式时间内解决之，最后在还原划分时可以通过阈值来还原，或者使用类似K-Means这样的方法，之后会有相关说明。</p>
-<h3>相关定义</h3>
+<h3 id="_4">相关定义</h3>
 <ol>
 <li>用$G=(V,E)$表示无向图，其中$V$和$E$分别为其顶点集和边集；</li>
 <li>说某条边属于某个子图是指该边的两个顶点都包含在子图中；</li>
@@ -197,7 +197,7 @@ J = \sum_{n=1}^N\sum_{k=1}^K r_{nk} \|x_n-\mu_k\|^2
 <p>\begin{equation}
 Cut(G_1,G_2) = \sum_{i \in G_1,j \in G_2} \omega_{i,j}
 \end{equation}</p>
-<h3>Laplacian矩阵</h3>
+<h3 id="laplacian">Laplacian矩阵</h3>
 <p>假设无向图$G$被划分为$G_1$和$G_2$两个子图，该图的顶点数为:n=|V|，用$q$表示维指示向量，表明该划分方案，每个分量定义如下:</p>
 <p>\begin{equation}
 q_i = 
@@ -298,8 +298,8 @@ L =
 <li>为对称半正定矩阵，保证所有特征值都大于等于0;</li>
 <li>矩阵有唯一的0特征值，其对应的特征向量为$[1,1,1...1]^T$，它反映了图的一种划分方式：一个子图包含原图所有端点，另一个子图为空。</li>
 </ol>
-<h3>划分方法</h3>
-<h4>Minimum Cut方法</h4>
+<h3 id="_5">划分方法</h3>
+<h4 id="minimum-cut">Minimum Cut方法</h4>
 <p>考虑最简单情况，另$C_1=1=-C_2$,无向图划分指示向量定义为:</p>
 <p>\begin{equation}
 q_i = 
@@ -326,7 +326,7 @@ Lq = \lambda q
 \end{equation}</p>
 <p>这里需要注意约束条件$[1,1,...1]^Tq=0$，显然的最小特征值为0,此时对应特征向量为[1,1,...1]^T,不满足这个约束条件(剔除了无意义划分)，于是最优解应该在第二小特征值对应的特征向量处取得。</p>
 <p>当然，求得特征向量后还要考虑如何恢复划分，比如可以这样：特征向量分量值为正所对应的端点划分为$G_1$，反之划分为$G_2$；也可以这样：将特征向量分量值从小到大排列，以中位数为界划分$G_1$和$G_2$；还可以用K-Means算法聚类。</p>
-<h4>Ratio Cut方法</h4>
+<h4 id="ratio-cut">Ratio Cut方法</h4>
 <p>实际当中，划分图时除了要考虑最小化$Cut$外还要考虑划分的平衡性，为缓解出现类似一个子图包含非常多端点而另一个只包含很少端点的情况，出现了Ratio Cut，它衡量子图大小的标准是子图包含的端点个数。</p>
 <p>定义$n_1$为子图1包含端点数，$n_2$为子图2包含端点数，$n_2=n-n_1$，则优化目标函数为：</p>
 <p>\begin{equation}
@@ -365,7 +365,7 @@ q^Tq = 1
 <blockquote>
 <p>NOTE:关于原问题为什么能松弛为上述形式,没看懂,望高人指点(Normalized Cut这部分也没完全懂)</p>
 </blockquote>
-<h4>Normalized Cut方法</h4>
+<h4 id="normalized-cut">Normalized Cut方法</h4>
 <p>与Ratio Cut类似，不同之处是，它衡量子图大小的标准是:子图各个端点的Degree之和。
 定义:$d_1$为子图1Degree之和:</p>
 <p>\begin{equation}
@@ -413,7 +413,7 @@ Lq &amp;= \lambda Dq \\
 <p>其中,$L\prime = D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$,$q\prime=D^{1 \over 2}q$
                                                                                                 显然，上式中最上面式子和最下面式子有相同的特征值，但是对应特征值的特征向量关系为:$q\prime=D^{1 \over 2}q$，因此我们可以先求最下面式子的特征值及其特征向量，然后为每个特征向量乘以$D^{-\frac{1}{2}}$就得到最上面式子的特征向量。</p>
 <p>哦,对了,矩阵$L\prime = D^{-\frac{1}{2}}LD^{-\frac{1}{2}}$叫做Normalized Laplacian，因为它对角线元素值都为1。</p>
-<h3>Spectral Clustering</h3>
+<h3 id="spectral-clustering_1">Spectral Clustering</h3>
 <p>上边说了这么多，其实就是想将图的划分应用于聚类，而且这种聚类只需要样本的相似矩阵即可，把每个样本看成图中的一个顶点，样本之间的相似度看成由这两点组成的边的权重值，那么相似矩阵就是一幅有权无向图。对照图的划分方法，有下列两类Spectral Clustering算法，他们的区别在于Laplacian矩阵是否是规范化的:</p>
 <p><img alt="SC_Classify" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/sc_classify_zpse5f47df7.png" /></p>
 <ul>
@@ -441,190 +441,188 @@ Lq &amp;= \lambda Dq \\
 <li>以这$K$组特征向量组成新的矩阵，其行数为样本数$N$，列数为$K$；</li>
 <li>使用K-Means算法进行聚类，得到$K$个Cluster。</li>
 </ol>
-<h3>源码实现</h3>
+<h3 id="_6">源码实现</h3>
 <p>以下我们给出Unnormalized Spectral Clustering的Python源码实现:</p>
-<div class="highlight"><pre><span class="n">import</span> <span class="n">sys</span>
+<pre><code>import sys
 
-<span class="n">import</span> <span class="n">numpy</span> <span class="n">as</span> <span class="n">np</span>
-<span class="n">import</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">pyplot</span> <span class="n">as</span> <span class="n">plt</span>
+import numpy as np
+import matplotlib.pyplot as plt
 
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">linalg</span> <span class="n">import</span> <span class="n">eig</span>
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">cluster</span><span class="p">.</span><span class="n">vq</span> <span class="n">import</span> <span class="n">kmeans2</span>
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">sparse</span><span class="p">.</span><span class="n">linalg</span> <span class="n">import</span> <span class="n">eigen</span>
-<span class="n">from</span> <span class="n">scipy</span><span class="p">.</span><span class="n">spatial</span><span class="p">.</span><span class="n">kdtree</span> <span class="n">import</span> <span class="n">KDTree</span>
+from scipy.linalg import eig
+from scipy.cluster.vq import kmeans2
+from scipy.sparse.linalg import eigen
+from scipy.spatial.kdtree import KDTree
 
-<span class="n">def</span> <span class="n">get_noise</span><span class="p">(</span><span class="n">stddev</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="mi">2</span><span class="n">d</span> <span class="n">gaussian</span> <span class="n">random</span> <span class="n">noise</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">numpoints</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stddev</span><span class="p">,</span> <span class="n">numpoints</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+def get_noise(stddev=0.25, numpoints=150):
+    # 2d gaussian random noise
+    x = np.random.normal(0, stddev, numpoints)
+    y = np.random.normal(0, stddev, numpoints)
+    return np.column_stack((x, y))
 
-<span class="n">def</span> <span class="n">get_circle</span><span class="p">(</span><span class="n">center</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span> <span class="n">r</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">numpoints</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">use</span> <span class="n">polar</span> <span class="n">coordinates</span> <span class="n">to</span> <span class="n">get</span> <span class="n">uniformly</span> <span class="n">distributed</span> <span class="n">points</span>
-    <span class="n">step</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">2.0</span> <span class="o">/</span> <span class="n">numpoints</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">r</span> <span class="o">*</span> <span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+def get_circle(center=(0.0, 0.0), r=1.0, numpoints=150):
+    # use polar coordinates to get uniformly distributed points
+    step = np.pi * 2.0 / numpoints
+    t = np.arange(0, np.pi * 2.0, step)
+    x = center[0] + r * np.cos(t)
+    y = center[1] + r * np.sin(t)
+    return np.column_stack((x, y))
 
-<span class="n">def</span> <span class="n">radial_kernel</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">def</span> <span class="n">inner</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
-        <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">d</span><span class="p">.</span><span class="n">conj</span><span class="p">()))</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">c</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">inner</span>
+def radial_kernel(c=1.5):
+    def inner(a, b):
+        d = a - b
+        return np.exp((-1 * (np.sqrt(np.dot(d, d.conj()))**2)) / c)
+    return inner
 
-<span class="n">def</span> <span class="n">circle_samples</span><span class="p">()</span><span class="o">:</span>
-    <span class="s">&quot;Generate noisy circle points&quot;</span>
-    <span class="n">circles</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">radius</span> <span class="n">in</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">)</span><span class="o">:</span>
-        <span class="n">circles</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_circle</span><span class="p">(</span><span class="n">r</span><span class="o">=</span><span class="n">radius</span><span class="p">)</span> <span class="o">+</span> <span class="n">get_noise</span><span class="p">())</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">circles</span><span class="p">)</span>
+def circle_samples():
+    "Generate noisy circle points"
+    circles = []
+    for radius in (1.0, 2.8, 5.0):
+        circles.append(get_circle(r=radius) + get_noise())
+    return np.vstack(circles)
 
-<span class="n">def</span> <span class="n">mutual_knn</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">distance</span><span class="o">=</span><span class="n">radial_kernel</span><span class="p">())</span><span class="o">:</span>
-    <span class="n">knn</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">kt</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">point</span> <span class="n">in</span> <span class="n">enumerate</span><span class="p">(</span><span class="n">points</span><span class="p">)</span><span class="o">:</span>
-        <span class="err">#</span> <span class="n">cannot</span> <span class="n">use</span> <span class="n">euclidean</span> <span class="n">distance</span> <span class="n">directly</span>
-        <span class="k">for</span> <span class="n">neighbour</span> <span class="n">in</span> <span class="n">kt</span><span class="p">.</span><span class="n">query</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">:</span>
-            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">neighbour</span><span class="o">:</span>
-                <span class="n">knn</span><span class="p">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[]).</span><span class="n">append</span><span class="p">(</span>
-                    <span class="p">(</span><span class="n">distance</span><span class="p">(</span><span class="n">point</span><span class="p">,</span> <span class="n">points</span><span class="p">[</span><span class="n">neighbour</span><span class="p">]),</span> <span class="n">neighbour</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">knn</span>
+def mutual_knn(points, n=10, distance=radial_kernel()):
+    knn = {}
+    kt = KDTree(points)
+    for i, point in enumerate(points):
+        # cannot use euclidean distance directly
+        for neighbour in kt.query(point, n + 1)[1]:
+            if i != neighbour:
+                knn.setdefault(i, []).append(
+                    (distance(point, points[neighbour]), neighbour))
+    return knn
 
-<span class="n">def</span> <span class="n">get_distance_matrix</span><span class="p">(</span><span class="n">knn</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="n">len</span><span class="p">(</span><span class="n">knn</span><span class="p">)</span>
-    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">point</span><span class="p">,</span> <span class="n">nearest_neighbours</span> <span class="n">in</span> <span class="n">knn</span><span class="p">.</span><span class="n">iteritems</span><span class="p">()</span><span class="o">:</span>
-        <span class="k">for</span> <span class="n">distance</span><span class="p">,</span> <span class="n">neighbour</span> <span class="n">in</span> <span class="n">nearest_neighbours</span><span class="o">:</span>
-            <span class="n">W</span><span class="p">[</span><span class="n">point</span><span class="p">][</span><span class="n">neighbour</span><span class="p">]</span> <span class="o">=</span> <span class="n">distance</span>
-    <span class="k">return</span> <span class="n">W</span>
+def get_distance_matrix(knn):
+    n = len(knn)
+    W = np.zeros((n, n))
+    for point, nearest_neighbours in knn.iteritems():
+        for distance, neighbour in nearest_neighbours:
+            W[point][neighbour] = distance
+    return W
 
-<span class="n">def</span> <span class="n">rename_clusters</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">so</span> <span class="n">that</span> <span class="n">first</span> <span class="n">cluster</span> <span class="n">has</span> <span class="n">index</span> <span class="mi">0</span>
-    <span class="n">num</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-    <span class="n">seen</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="n">newidx</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">id</span> <span class="n">in</span> <span class="n">idx</span><span class="o">:</span>
-        <span class="k">if</span> <span class="n">id</span> <span class="n">not</span> <span class="n">in</span> <span class="n">seen</span><span class="o">:</span>
-            <span class="n">num</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">seen</span><span class="p">[</span><span class="n">id</span><span class="p">]</span> <span class="o">=</span> <span class="n">num</span>
-        <span class="n">newidx</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">seen</span><span class="p">[</span><span class="n">id</span><span class="p">])</span>
-    <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">newidx</span><span class="p">)</span>
+def rename_clusters(idx):
+    # so that first cluster has index 0
+    num = -1
+    seen = {}
+    newidx = []
+    for id in idx:
+        if id not in seen:
+            num += 1
+            seen[id] = num
+        newidx.append(seen[id])
+    return np.array(newidx)
 
-<span class="n">def</span> <span class="n">cluster_points</span><span class="p">(</span><span class="n">L</span><span class="p">)</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">sparse</span> <span class="n">eigen</span> <span class="n">is</span> <span class="n">a</span> <span class="n">little</span> <span class="n">bit</span> <span class="n">faster</span> <span class="n">than</span> <span class="n">eig</span>
-    <span class="err">#</span><span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span> <span class="o">=</span> <span class="n">eigen</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s">&quot;SM&quot;</span><span class="p">)</span>
-    <span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span> <span class="o">=</span> <span class="n">eig</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
-    <span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span> <span class="o">=</span> <span class="n">evals</span><span class="p">.</span><span class="n">real</span><span class="p">,</span> <span class="n">evcts</span><span class="p">.</span><span class="n">real</span>
-    <span class="n">edict</span> <span class="o">=</span> <span class="n">dict</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">evals</span><span class="p">,</span> <span class="n">evcts</span><span class="p">.</span><span class="n">transpose</span><span class="p">()))</span>
-    <span class="n">evals</span> <span class="o">=</span> <span class="n">sorted</span><span class="p">(</span><span class="n">edict</span><span class="p">.</span><span class="n">keys</span><span class="p">())</span>
-    <span class="err">#</span> <span class="n">second</span> <span class="n">and</span> <span class="n">third</span> <span class="n">smallest</span> <span class="n">eigenvalue</span> <span class="o">+</span> <span class="n">vector</span>
-    <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="n">edict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="n">in</span> <span class="n">evals</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]]).</span><span class="n">transpose</span><span class="p">()</span>
-    <span class="n">res</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">kmeans2</span><span class="p">(</span><span class="n">Y</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">minit</span><span class="o">=</span><span class="err">&#39;</span><span class="n">random</span><span class="err">&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">evals</span><span class="p">[</span><span class="o">:</span><span class="mi">15</span><span class="p">],</span> <span class="n">Y</span><span class="p">,</span> <span class="n">rename_clusters</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+def cluster_points(L):
+    # sparse eigen is a little bit faster than eig
+    #evals, evcts = eigen(L, k=15, which="SM")
+    evals, evcts = eig(L)
+    evals, evcts = evals.real, evcts.real
+    edict = dict(zip(evals, evcts.transpose()))
+    evals = sorted(edict.keys())
+    # second and third smallest eigenvalue + vector
+    Y = np.array([edict[k] for k in evals[1:3]]).transpose()
+    res, idx = kmeans2(Y, 3, minit='random')
+    return evals[:15], Y, rename_clusters(idx)
 
-<span class="n">def</span> <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span><span class="o">:</span>
-    <span class="k">for</span> <span class="n">tl</span> <span class="n">in</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_xticklabels</span><span class="p">()</span><span class="o">:</span>
-        <span class="n">tl</span><span class="p">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">tl</span> <span class="n">in</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_yticklabels</span><span class="p">()</span><span class="o">:</span>
-        <span class="n">tl</span><span class="p">.</span><span class="n">set_fontsize</span><span class="p">(</span><span class="n">size</span><span class="p">)</span>
+def change_tick_fontsize(ax, size):
+    for tl in ax.get_xticklabels():
+        tl.set_fontsize(size)
+    for tl in ax.get_yticklabels():
+        tl.set_fontsize(size)
 
-<span class="n">def</span> <span class="n">get_colormap</span><span class="p">()</span><span class="o">:</span>
-    <span class="err">#</span> <span class="n">map</span> <span class="n">cluster</span> <span class="n">label</span> <span class="n">to</span> <span class="n">color</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">(</span><span class="n">orange</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="n">green</span><span class="p">)</span>
-    <span class="n">from</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">colors</span> <span class="n">import</span> <span class="n">ListedColormap</span>
-    <span class="n">orange</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.918</span><span class="p">,</span> <span class="mf">0.545</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-    <span class="n">blue</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.169</span><span class="p">,</span> <span class="mf">0.651</span><span class="p">,</span> <span class="mf">0.914</span><span class="p">)</span>
-    <span class="n">green</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="mf">0.365</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">ListedColormap</span><span class="p">([</span><span class="n">orange</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span> <span class="n">green</span><span class="p">])</span>
+def get_colormap():
+    # map cluster label to color (0, 1, 2) -&gt; (orange, blue, green)
+    from matplotlib.colors import ListedColormap
+    orange = (0.918, 0.545, 0.0)
+    blue = (0.169, 0.651, 0.914)
+    green = (0.0, 0.58, 0.365)
+    return ListedColormap([orange, blue, green])
 
-<span class="n">def</span> <span class="n">plot_circles</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">points</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;x2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+def plot_circles(ax, points, idx, colormap):
+    plt.scatter(points[:,0], points[:,1], s=10, c=idx, cmap=colormap,
+        alpha=0.9, facecolors="none")
+    plt.xlabel("x1", fontsize=8)
+    plt.ylabel("x2", fontsize=8)
+    change_tick_fontsize(ax, 8 )
+    plt.ylim(-6, 6)
+    plt.xlim(-6, 6)
 
-<span class="n">def</span> <span class="n">plot_eigenvalues</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">evals</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">evals</span><span class="p">)),</span> <span class="n">evals</span><span class="p">,</span>
-        <span class="n">c</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.58</span><span class="p">,</span> <span class="mf">0.365</span><span class="p">),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Number&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Eigenvalue&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
+def plot_eigenvalues(ax, evals):
+    plt.scatter(np.arange(0, len(evals)), evals,
+        c=(0.0, 0.58, 0.365), linewidth=0)
+    plt.xlabel("Number", fontsize=8)
+    plt.ylabel("Eigenvalue", fontsize=8)
+    plt.axhline(0, ls="--", c="k")
+    change_tick_fontsize(ax, 8 )
 
-<span class="n">def</span> <span class="n">plot_eigenvectors</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">from</span> <span class="n">matplotlib</span><span class="p">.</span><span class="n">ticker</span> <span class="n">import</span> <span class="n">MaxNLocator</span>
-    <span class="n">from</span> <span class="n">mpl_toolkits</span><span class="p">.</span><span class="n">axes_grid</span> <span class="n">import</span> <span class="n">make_axes_locatable</span>
-    <span class="n">divider</span> <span class="o">=</span> <span class="n">make_axes_locatable</span><span class="p">(</span><span class="n">ax</span><span class="p">)</span>
-    <span class="n">ax2</span> <span class="o">=</span> <span class="n">divider</span><span class="p">.</span><span class="n">new_vertical</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s">&quot;100%&quot;</span><span class="p">,</span> <span class="n">pad</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">fig1</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_figure</span><span class="p">()</span>
-    <span class="n">fig1</span><span class="p">.</span><span class="n">add_axes</span><span class="p">(</span><span class="n">ax2</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">&quot;Eigenvectors&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)),</span> <span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">yaxis</span><span class="p">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">yaxis</span><span class="p">.</span><span class="n">set_major_locator</span><span class="p">(</span><span class="n">MaxNLocator</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">len</span><span class="p">(</span><span class="n">Y</span><span class="p">)),</span> <span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span>
-        <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">&quot;index&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">ax2</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;2nd Smallest&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">&quot;3nd Smallest&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax2</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
-    <span class="k">for</span> <span class="n">tl</span> <span class="n">in</span> <span class="n">ax2</span><span class="p">.</span><span class="n">get_xticklabels</span><span class="p">()</span><span class="o">:</span>
-        <span class="n">tl</span><span class="p">.</span><span class="n">set_visible</span><span class="p">(</span><span class="n">False</span><span class="p">)</span>
+def plot_eigenvectors(ax, Y, idx, colormap):
+    from matplotlib.ticker import MaxNLocator
+    from mpl_toolkits.axes_grid import make_axes_locatable
+    divider = make_axes_locatable(ax)
+    ax2 = divider.new_vertical(size="100%", pad=0.05)
+    fig1 = ax.get_figure()
+    fig1.add_axes(ax2)
+    ax2.set_title("Eigenvectors", fontsize=10)
+    ax2.scatter(np.arange(0, len(Y)), Y[:,0], s=10, c=idx, cmap=colormap,
+        alpha=0.9, facecolors="none")
+    ax2.axhline(0, ls="--", c="k")
+    ax2.yaxis.set_major_locator(MaxNLocator(4))
+    ax.yaxis.set_major_locator(MaxNLocator(4))
+    ax.axhline(0, ls="--", c="k")
+    ax.scatter(np.arange(0, len(Y)), Y[:,1], s=10, c=idx, cmap=colormap,
+        alpha=0.9, facecolors="none")
+    ax.set_xlabel("index", fontsize=8)
+    ax2.set_ylabel("2nd Smallest", fontsize=8)
+    ax.set_ylabel("3nd Smallest", fontsize=8)
+    change_tick_fontsize(ax, 8 )
+    change_tick_fontsize(ax2, 8 )
+    for tl in ax2.get_xticklabels():
+        tl.set_visible(False)
 
-<span class="n">def</span> <span class="n">plot_spec_clustering</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">title</span><span class="p">(</span><span class="s">&quot;Spectral Clustering&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">Y</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">idx</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">colormap</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
-        <span class="n">facecolors</span><span class="o">=</span><span class="s">&quot;none&quot;</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Second Smallest Eigenvector&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">plt</span><span class="p">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Third Smallest Eigenvector&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-    <span class="n">change_tick_fontsize</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="mi">8</span> <span class="p">)</span>
+def plot_spec_clustering(ax, Y, idx, colormap):
+    plt.title("Spectral Clustering", fontsize=10)
+    plt.scatter(Y[:,0], Y[:,1], c=idx, cmap=colormap, s=10, alpha=0.9,
+        facecolors="none")
+    plt.xlabel("Second Smallest Eigenvector", fontsize=8)
+    plt.ylabel("Third Smallest Eigenvector", fontsize=8)
+    change_tick_fontsize(ax, 8 )
 
-<span class="n">def</span> <span class="n">plot_figure</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">evals</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">colormap</span> <span class="o">=</span> <span class="n">get_colormap</span><span class="p">()</span>
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">))</span>
+def plot_figure(points, evals, Y, idx):
+    colormap = get_colormap()
+    fig = plt.figure(figsize=(6, 5.5))
 
-    <span class="n">fig</span><span class="p">.</span><span class="n">subplots_adjust</span><span class="p">(</span><span class="n">wspace</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span> <span class="n">hspace</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">plot_circles</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
+    fig.subplots_adjust(wspace=0.4, hspace=0.3)
+    ax = fig.add_subplot(2, 2, 1)
+    plot_circles(ax, points, idx, colormap)
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-    <span class="n">plot_eigenvalues</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">evals</span><span class="p">)</span>
+    ax = fig.add_subplot(2, 2, 2)
+    plot_eigenvalues(ax, evals)
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="n">plot_eigenvectors</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
+    ax = fig.add_subplot(2, 2, 3)
+    plot_eigenvectors(ax, Y, idx, colormap)
 
-    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">plot_spec_clustering</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">colormap</span><span class="p">)</span>
+    ax = fig.add_subplot(2, 2, 4)
+    plot_spec_clustering(ax, Y, idx, colormap)
 
-    <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+    plt.show()
 
-<span class="n">def</span> <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="p">)</span><span class="o">:</span>
-    <span class="n">points</span> <span class="o">=</span> <span class="n">circle_samples</span><span class="p">()</span>
-    <span class="n">knn_points</span> <span class="o">=</span> <span class="n">mutual_knn</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
-    <span class="n">W</span> <span class="o">=</span> <span class="n">get_distance_matrix</span><span class="p">(</span><span class="n">knn_points</span><span class="p">)</span>
-    <span class="n">G</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diag</span><span class="p">([</span><span class="n">sum</span><span class="p">(</span><span class="n">Wi</span><span class="p">)</span> <span class="k">for</span> <span class="n">Wi</span> <span class="n">in</span> <span class="n">W</span><span class="p">])</span>
+def main(args):
+    points = circle_samples()
+    knn_points = mutual_knn(points)
+    W = get_distance_matrix(knn_points)
+    G = np.diag([sum(Wi) for Wi in W])
 
-    <span class="err">#</span> <span class="n">unnormalized</span> <span class="n">graph</span> <span class="n">Laplacian</span>
-    <span class="n">L</span> <span class="o">=</span> <span class="n">G</span> <span class="o">-</span> <span class="n">W</span>
-    <span class="n">evals</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span> <span class="o">=</span> <span class="n">cluster_points</span><span class="p">(</span><span class="n">L</span><span class="p">)</span>
+    # unnormalized graph Laplacian
+    L = G - W
+    evals, Y, idx = cluster_points(L)
 
-    <span class="n">plot_figure</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">evals</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">idx</span><span class="p">)</span>
+    plot_figure(points, evals, Y, idx)
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="o">:</span>
-    <span class="n">main</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">)</span>
-</pre></div>
-
-
+if __name__ == "__main__":
+    main(sys.argv)
+</code></pre>
 <p>运行源码得到下图:</p>
 <p><img alt="Spectral Clustering" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/SpectralClustering_zpsb5f59a0e.png" /></p>
-<h3>总结</h3>
+<h3 id="_7">总结</h3>
 <ul>
 <li>图划分问题中的关键点在于选择合适的指示向量并将其进行松弛化处理，从而将最小化划分的问题转变为最小化二次函数，进而转化为求Rayleigh quotient极值的问题;</li>
 <li>
@@ -638,7 +636,7 @@ Lq &amp;= \lambda Dq \\
 </ol>
 </li>
 </ul>
-<h2>Hierarchical Clustering</h2>
+<h2 id="hierarchical-clustering">Hierarchical Clustering</h2>
 <p><img alt="Hierarchical_Clustering" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hierarchical_clustering_zps8134ae3b.png" /></p>
 <p>Hierarchical Clustering正如它字面上的意思那样，是层次化的聚类，得出来的结构是一棵树，如上图所示。在前面我们介绍过不少聚类方法，但是都是“平坦”型的聚类，然而他们还有一个更大的共同点，或者说是弱点，就是难以确定类别数。我们这里要说的Hierarchical Clustering则从某种意义上来说也算是解决了这个问题，因为在做Clustering的时候并不需要知道类别数，而得到的结果是一棵树，事后可以在任意的地方横切一刀，得到指定数目的cluster,按需取即可。</p>
 <p>听上去很诱人，不过其实Hierarchical Clustering的想法很简单，主要分为两大类：Agglomerative(自底向上)和Divisive(自顶向下)。首先说前者，自底向上，一开始，每个数据点各自为一个类别，然后每一次迭代选取距离最近的两个类别，把他们合并，直到最后只剩下一个类别为止，至此一棵树构造完成。</p>
@@ -664,7 +662,7 @@ Lq &amp;= \lambda Dq \\
 <li>重复上一个步骤，直到差值为负。</li>
 </ol>
 <p>到此为止，关于Hierarchical clustering介绍就结束了。总的来说，Hierarchical clustering算法似乎都是描述起来很简单，计算起来很困难（计算量很大）。并且，不管是Agglomerative还是 Divisive 实际上都是贪心算法了，也并不能保证能得到全局最优的。而得到的结果，虽然说可以从直观上来得到一个比较形象的大局观，但是似乎实际用处并不如众多Flat clustering 算法那么广泛。</p>
-<h1>参考文献</h1>
+<h1 id="_8">参考文献</h1>
 <hr />
 <ol>
 <li><a href="http://en.wikipedia.org/wiki/Adjusted_rand_index#Adjusted_Rand_index">Rand Index</a></li>

@@ -77,7 +77,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 	<blockquote>
 <p>本文中的介绍相对粗浅，自己实现一遍这些算法可能会有更为深入的了解，理论部分也不是很充分，没有那种"边缘检测不过如此"的感觉，以后可能就这个问题进行更为深入的挖掘(如果时间允许的话).此外，本文中对Canny边缘的<strong>非极大值抑制</strong>也没有给出解释，有机会我们会详细讨论。</p>
 </blockquote>
-<h1>边缘</h1>
+<h1 id="_1">边缘</h1>
 <p><strong>边缘(edge)</strong>是指图像局部强度变化最显著的部分。主要存在于目标与目标、目标与背景、区域与区域(包括不同色彩)之间，是图像分割、纹理特征和形状特征等图像分析的重要基础。</p>
 <p>图像强度的显著变化可分为：</p>
 <ul>
@@ -87,10 +87,10 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p>图像的边缘有方向和幅度两个属性,沿边缘方向像素变化平缓,垂直于边缘方向像素变化剧烈.边缘上的这种变化可以用微分算子检测出来,通常用一阶或二阶导数来检测边缘。</p>
 <p><img alt="Edge_Detection_I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_1_zps4e28524a.png" /></p>
 <p><strong>注:(a)(b)分别是阶跃函数和屋顶函数的二维图像；(c)(d)是阶跃和屋顶函数的函数图象；(e)(f)对应一阶导数；（g)(h)是二阶导数</strong>。</p>
-<h1>一阶导数法：梯度算子</h1>
+<h1 id="_2">一阶导数法：梯度算子</h1>
 <p>对于左图，左侧的边是正的（由暗到亮），右侧的边是负的（由亮到暗）。对于右图，结论相反。常数部分为零。用来检测边是否存在。</p>
 <p><img alt="Edge_Detection_II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_2_zpsb552892a.png" /></p>
-<h2>梯度算子 Gradient operators</h2>
+<h2 id="gradient-operators">梯度算子 Gradient operators</h2>
 <p>函数$f(x,y)$在$(x,y)$处的梯度为一个向量：</p>
 <p>\begin{equation}
 \bigtriangledown f = [\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}]^T
@@ -107,7 +107,7 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 <p>\begin{equation}
 a(x,y) = arctan(\frac{G_y}{G_x})
 \end{equation}</p>
-<h2>Sobel算子</h2>
+<h2 id="sobel">Sobel算子</h2>
 <p><strong>Sobel算子</strong>的表示：</p>
 <p>\begin{equation}
 \begin{split}
@@ -121,10 +121,10 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 \end{equation}</p>
 <p>用卷积模板来实现：</p>
 <p><img alt="Conv Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_3_zps392719ee.png" /></p>
-<h1>二阶微分法：拉普拉斯</h1>
+<h1 id="_3">二阶微分法：拉普拉斯</h1>
 <p>二阶微分在亮的一边是负的，在暗的一边是正的。常数部分为零。可以用来确定边的准确位置，以及像素在亮的一侧还是暗的一侧。</p>
 <p><img alt="Edge Detection IV" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_4_zpsfcf520a3.png" /></p>
-<h2>LapLace 拉普拉斯算子</h2>
+<h2 id="laplace">LapLace 拉普拉斯算子</h2>
 <p>二维函数$f(x,y)$的拉普拉斯是一个二阶的微分，定义为：</p>
 <p>\begin{equation}
 \bigtriangledown^2 f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}
@@ -143,68 +143,66 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 <p>定义数字形式的拉普拉斯要求系数之和必为0</p>
 <p><img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png" /></p>
 <p>以下给出两种边缘检测算子的代码示例:</p>
-<div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="s2">&quot;opencv2/core/core.hpp&quot;</span>
-<span class="vi">#include</span> <span class="s2">&quot;opencv2/highgui/highgui.hpp&quot;</span>
-<span class="vi">#include</span> <span class="s2">&quot;opencv2/imgproc/imgproc.hpp&quot;</span>
+<pre><code>#include &lt;iostream&gt;
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
-<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
-<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">cv</span><span class="p">;</span>
+using namespace std;
+using namespace cv;
 
-<span class="nx">int</span> <span class="nx">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="nx">Mat</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">;</span>
-    <span class="nx">Mat</span> <span class="nx">grad</span><span class="p">;</span>
+int main()
+{
+    Mat src, src_gray;
+    Mat grad;
 
-    <span class="nx">int</span> <span class="n">scale</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="nx">int</span> <span class="n">delta</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="nx">int</span> <span class="n">ddepth</span> <span class="o">=</span> <span class="nx">CV_16S</span><span class="p">;</span>
-    <span class="nx">int</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    int scale = 1;
+    int delta = 0;
+    int ddepth = CV_16S;
+    int kernel_size = 3;
 
-    <span class="c1">/// Load an image</span>
-    <span class="n">src</span> <span class="o">=</span> <span class="nx">imread</span><span class="p">(</span><span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg&quot;</span><span class="p">);</span>
+    /// Load an image
+    src = imread("/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg");
 
-    <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">src.data</span> <span class="p">)</span>
-    <span class="p">{</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+    if( !src.data )
+    { return -1; }
 
-    <span class="nx">GaussianBlur</span><span class="p">(</span> <span class="nb">src</span><span class="p">,</span> <span class="nb">src</span><span class="p">,</span> <span class="nb">Size</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
-    <span class="nx">cvtColor</span><span class="p">(</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">CV_RGB2GRAY</span> <span class="p">);</span>
-
-
-    <span class="c1">/////////////////////////// Sobe l////////////////////////////////////</span>
-    <span class="c1">/// Generate grad_x and grad_y</span>
-    <span class="nx">Mat</span> <span class="nx">grad_x</span><span class="p">,</span> <span class="nx">grad_y</span><span class="p">;</span>
-    <span class="nx">Mat</span> <span class="nx">abs_grad_x</span><span class="p">,</span> <span class="nx">abs_grad_y</span><span class="p">;</span>
-    <span class="c1">/// Gradient X</span>
-    <span class="c1">//Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );</span>
-    <span class="c1">//Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.</span>
-    <span class="nx">Sobel</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">grad_x</span><span class="p">,</span> <span class="nx">ddepth</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">scale</span><span class="p">,</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
-    <span class="nx">convertScaleAbs</span><span class="p">(</span> <span class="nx">grad_x</span><span class="p">,</span> <span class="nx">abs_grad_x</span> <span class="p">);</span>
-    <span class="c1">/// Gradient Y</span>
-    <span class="c1">//Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );</span>
-    <span class="nx">Sobel</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">grad_y</span><span class="p">,</span> <span class="nx">ddepth</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">scale</span><span class="p">,</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
-    <span class="nx">convertScaleAbs</span><span class="p">(</span> <span class="nx">grad_y</span><span class="p">,</span> <span class="nx">abs_grad_y</span> <span class="p">);</span>
-     <span class="c1">/// Total Gradient (approximate)</span>
-    <span class="nx">addWeighted</span><span class="p">(</span> <span class="nx">abs_grad_x</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="nx">abs_grad_y</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">grad</span> <span class="p">);</span>
-
-    <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Sobel&quot;</span><span class="p">,</span> <span class="nx">CV_WINDOW_AUTOSIZE</span> <span class="p">);</span>
-    <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Sobel&quot;</span><span class="p">,</span> <span class="nx">grad</span> <span class="p">);</span>
-    <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;Sobel.png&quot;</span><span class="p">,</span><span class="nx">grad</span><span class="p">);</span>
-
-    <span class="c1">/////////////////////////////////// Laplace ///////////////////////////////</span>
-    <span class="nx">Mat</span> <span class="nx">abs_dst</span><span class="p">,</span><span class="nb">dst</span><span class="p">;</span>
-    <span class="nx">Laplacian</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">ddepth</span><span class="p">,</span> <span class="nx">kernel_size</span><span class="p">,</span> <span class="nb">scale</span><span class="p">,</span> <span class="nx">delta</span><span class="p">,</span> <span class="nx">BORDER_DEFAULT</span> <span class="p">);</span>
-    <span class="nx">convertScaleAbs</span><span class="p">(</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">abs_dst</span> <span class="p">);</span>
-    <span class="nx">namedWindow</span><span class="p">(</span><span class="s2">&quot;Laplacian&quot;</span><span class="p">,</span> <span class="nx">CV_WINDOW_AUTOSIZE</span> <span class="p">);</span>
-    <span class="nx">imshow</span><span class="p">(</span><span class="s2">&quot;Laplacian&quot;</span><span class="p">,</span> <span class="nx">abs_dst</span> <span class="p">);</span>
-    <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;Laplace.png&quot;</span><span class="p">,</span><span class="nx">grad</span><span class="p">);</span>
-
-    <span class="nx">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
+    GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );
+    cvtColor( src, src_gray, CV_RGB2GRAY );
 
 
+    /////////////////////////// Sobe l////////////////////////////////////
+    /// Generate grad_x and grad_y
+    Mat grad_x, grad_y;
+    Mat abs_grad_x, abs_grad_y;
+    /// Gradient X
+    //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
+    //Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.
+    Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
+    convertScaleAbs( grad_x, abs_grad_x );
+    /// Gradient Y
+    //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
+    Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
+    convertScaleAbs( grad_y, abs_grad_y );
+     /// Total Gradient (approximate)
+    addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
+
+    namedWindow("Sobel", CV_WINDOW_AUTOSIZE );
+    imshow("Sobel", grad );
+    imwrite("Sobel.png",grad);
+
+    /////////////////////////////////// Laplace ///////////////////////////////
+    Mat abs_dst,dst;
+    Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
+    convertScaleAbs( dst, abs_dst );
+    namedWindow("Laplacian", CV_WINDOW_AUTOSIZE );
+    imshow("Laplacian", abs_dst );
+    imwrite("Laplace.png",grad);
+
+    waitKey(0);
+    return 0;
+}
+</code></pre>
 <p>源图我们采用海贼王路飞图像:</p>
 <p><img alt="Lufei" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lufei_zps83311ff7.jpg" /></p>
 <p>Sobel算子处理后得到如下边缘:</p>
@@ -213,7 +211,7 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 <p>Laplacian算子则得到如下边缘:</p>
 <p><img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png" /></p>
 <p>拉普拉斯对噪声敏感，会产生双边效果。不能检测出边的方向。<strong>通常不直接用于边的检测，只起辅助的角色</strong>，检测一个像素是在边的亮的一边还是暗的一边利用零跨越，确定边的位置。</p>
-<h1>Canny边缘检测</h1>
+<h1 id="canny">Canny边缘检测</h1>
 <hr />
 <p>在计算机视觉边缘检测算法实现时，实际上就是将图像与某边缘检测模板做卷积的过程。针对Canny而言，其卷积模板相对来说比较简单：</p>
 <p><img alt="Canny Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_template_zps34034b29.png" /></p>
@@ -226,64 +224,62 @@ M[i,j] &amp;= \sqrt{P]i,j]^2+Q[i,j]^2} \\
 \theta[i,j] &amp;= arctan(\frac{Q[i,j]}{P[i,j]})
 \end{split}
 \end{equation}</p>
-<h2>对梯度幅值进行非极大值抑制[TODO]</h2>
-<h2>用双阈值算法检测和连接边缘</h2>
+<h2 id="todo">对梯度幅值进行非极大值抑制[TODO]</h2>
+<h2 id="_4">用双阈值算法检测和连接边缘</h2>
 <p>Canny算法中减少假边缘数量的方法是采用双阈值法。选择两个阈值，根据高阈值得到一个边缘图像，这样一个图像含有很少的假边缘，但是由于阈值较高，产生的图像边缘可能不闭合，为解决这样一个问题采用了另外一个低阈值。</p>
 <p>在高阈值图像中把边缘链接成轮廓，当到达轮廓的端点时，该算法会在断点的8邻域点中寻找满足低阈值的点，再根据此点收集新的边缘，直到整个图像边缘闭合。</p>
 <p>以上即为Canny边缘检测算法的原理分析，接下来我们给出一个OpenCV代码示例。</p>
-<div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
-<span class="vi">#include</span> <span class="s2">&quot;opencv2/core/core.hpp&quot;</span>
-<span class="vi">#include</span> <span class="s2">&quot;opencv2/imgproc/imgproc.hpp&quot;</span>
-<span class="vi">#include</span> <span class="s2">&quot;opencv2/highgui/highgui.hpp&quot;</span>
+<pre><code>#include &lt;iostream&gt;
+#include "opencv2/core/core.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui/highgui.hpp"
 
-<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
-<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">cv</span><span class="p">;</span>
+using namespace std;
+using namespace cv;
 
-<span class="nx">Mat</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">;</span>
-<span class="nx">Mat</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">;</span>
-<span class="nx">int</span> <span class="n">edgeThresh</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="nx">int</span> <span class="nx">lowThreshold</span><span class="p">;</span>
-<span class="nx">int</span> <span class="nx">const</span> <span class="n">max_lowThreshold</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-<span class="nx">int</span> <span class="n">ratio</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="nx">int</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
-<span class="nx">char</span><span class="o">*</span> <span class="n">window_name</span> <span class="o">=</span> <span class="s2">&quot;Canny&quot;</span><span class="p">;</span>
+Mat src, src_gray;
+Mat dst, detected_edges;
+int edgeThresh = 1;
+int lowThreshold;
+int const max_lowThreshold = 100;
+int ratio = 3;
+int kernel_size = 3;
+char* window_name = "Canny";
 
-<span class="bp">void</span> <span class="nx">CannyThreshold</span><span class="p">(</span><span class="nx">int</span><span class="p">,</span> <span class="bp">void</span><span class="o">*</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">/// Reduce noise with a kernel 3x3</span>
-    <span class="nb">blur</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">,</span> <span class="nb">Size</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="p">);</span>
-    <span class="c1">/// Canny detector</span>
-    <span class="nx">Canny</span><span class="p">(</span> <span class="nx">detected_edges</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">,</span> <span class="nx">lowThreshold</span><span class="p">,</span> <span class="nx">lowThreshold</span><span class="o">*</span><span class="nx">ratio</span><span class="p">,</span> <span class="nx">kernel_size</span> <span class="p">);</span>
-    <span class="n">dst</span> <span class="o">=</span> <span class="nx">Scalar</span><span class="p">::</span><span class="nl">all</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-    <span class="nx">src.copyTo</span><span class="p">(</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">);</span>
-    <span class="nx">imshow</span><span class="p">(</span> <span class="nx">window_name</span><span class="p">,</span> <span class="nb">dst</span> <span class="p">);</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">lowThreshold</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
-        <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;canny_0.png&quot;</span><span class="p">,</span><span class="nb">dst</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">lowThreshold</span><span class="o">==</span><span class="mi">50</span><span class="p">){</span>
-        <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;canny_50.png&quot;</span><span class="p">,</span><span class="nb">dst</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">if</span><span class="p">(</span><span class="nx">lowThreshold</span><span class="o">==</span><span class="mi">100</span><span class="p">){</span>
-        <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;canny_100.png&quot;</span><span class="p">,</span><span class="nb">dst</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+void CannyThreshold(int, void*)
+{
+    /// Reduce noise with a kernel 3x3
+    blur( src_gray, detected_edges, Size(3,3) );
+    /// Canny detector
+    Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
+    dst = Scalar::all(0);
+    src.copyTo( dst, detected_edges);
+    imshow( window_name, dst );
+    if(lowThreshold == 0){
+        imwrite("canny_0.png",dst);
+    }
+    if(lowThreshold==50){
+        imwrite("canny_50.png",dst);
+    }
+    if(lowThreshold==100){
+        imwrite("canny_100.png",dst);
+    }
+}
 
-<span class="nx">int</span> <span class="nx">main</span><span class="p">(</span> <span class="p">)</span>
-<span class="p">{</span>
-  <span class="n">src</span> <span class="o">=</span> <span class="nx">imread</span><span class="p">(</span> <span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg&quot;</span> <span class="p">);</span>
-  <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">src.data</span> <span class="p">)</span>
-    <span class="p">{</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
-  <span class="nx">dst.create</span><span class="p">(</span> <span class="nx">src.size</span><span class="p">(),</span> <span class="nx">src.type</span><span class="p">()</span> <span class="p">);</span>
-  <span class="nx">cvtColor</span><span class="p">(</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">CV_BGR2GRAY</span> <span class="p">);</span>
-  <span class="nx">namedWindow</span><span class="p">(</span> <span class="nx">window_name</span><span class="p">,</span> <span class="nx">CV_WINDOW_AUTOSIZE</span> <span class="p">);</span>
-  <span class="nx">createTrackbar</span><span class="p">(</span> <span class="s2">&quot;Min Threshold:&quot;</span><span class="p">,</span> <span class="nx">window_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">lowThreshold</span><span class="p">,</span> <span class="nx">max_lowThreshold</span><span class="p">,</span> <span class="nx">CannyThreshold</span> <span class="p">);</span>
-  <span class="nx">CannyThreshold</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-  <span class="nx">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</pre></div>
-
-
+int main( )
+{
+  src = imread( "/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg" );
+  if( !src.data )
+    { return -1; }
+  dst.create( src.size(), src.type() );
+  cvtColor( src, src_gray, CV_BGR2GRAY );
+  namedWindow( window_name, CV_WINDOW_AUTOSIZE );
+  createTrackbar( "Min Threshold:", window_name, &amp;lowThreshold, max_lowThreshold, CannyThreshold );
+  CannyThreshold(0, 0);
+  waitKey(0);
+  return 0;
+}
+</code></pre>
 <p>通过设定不同的阈值，我们分别得到不同的边缘检测结果：</p>
 <p><img alt="threshold_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_0_zps09475230.png" /></p>
 <p>当我们把阈值均设置为0时,我们得到的是原图像的边缘阵列；</p>
@@ -296,7 +292,7 @@ M[i,j] &amp;= \sqrt{P]i,j]^2+Q[i,j]^2} \\
 <li>Sobel算子$G_x$,$G_y$定义确认;</li>
 </ul>
 </blockquote>
-<h1>参考文献</h1>
+<h1 id="_5">参考文献</h1>
 <hr />
 <ul>
 <li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7829481">【OpenCV】边缘检测：Sobel、拉普拉斯算子</a></li>
