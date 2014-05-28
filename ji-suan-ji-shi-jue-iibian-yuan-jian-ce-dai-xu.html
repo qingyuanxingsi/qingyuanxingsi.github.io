@@ -210,6 +210,83 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 <p>Laplacian算子则得到如下边缘:</p>
 <p><img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png" /></p>
 <p>拉普拉斯对噪声敏感，会产生双边效果。不能检测出边的方向。<strong>通常不直接用于边的检测，只起辅助的角色</strong>，检测一个像素是在边的亮的一边还是暗的一边利用零跨越，确定边的位置。</p>
+<h1>Canny边缘检测</h1>
+<hr />
+<p>在计算机视觉边缘检测算法实现时，实际上就是将图像与某边缘检测模板做卷积的过程。针对Canny而言，其卷积模板相对来说比较简单：</p>
+<p><img alt="Canny Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_template_zps34034b29.png" /></p>
+<p>我们将左上角视为$f[i,j]$,则其$x$,$y$方向的偏导数矩阵,梯度幅值以及方向的表达式分别为:</p>
+<p>\begin{equation}
+\begin{split}
+P[i,j] &amp;= (f[i,j+1]+f[i+1,j+1)-f[i][j]-f[i+1,j])/2 \\
+Q[i,j] &amp;= (f[i,j]+f[i][j+1]-f[i+1,j]-f[i+1,j+1])/2 \\
+M[i,j] &amp;= \sqrt{P]i,j]^2+Q[i,j]^2} \\
+\theta[i,j] &amp;= arctan(\frac{Q[i,j]}{P[i,j]})
+\end{split}
+\end{equation}</p>
+<h2>对梯度幅值进行非极大值抑制[TODO]</h2>
+<h2>用双阈值算法检测和连接边缘</h2>
+<p>Canny算法中减少假边缘数量的方法是采用双阈值法。选择两个阈值，根据高阈值得到一个边缘图像，这样一个图像含有很少的假边缘，但是由于阈值较高，产生的图像边缘可能不闭合，为解决这样一个问题采用了另外一个低阈值。</p>
+<p>在高阈值图像中把边缘链接成轮廓，当到达轮廓的端点时，该算法会在断点的8邻域点中寻找满足低阈值的点，再根据此点收集新的边缘，直到整个图像边缘闭合。</p>
+<p>以上即为Canny边缘检测算法的原理分析，接下来我们给出一个OpenCV代码示例。</p>
+<div class="highlight"><pre><span class="vi">#include</span> <span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
+<span class="vi">#include</span> <span class="s2">&quot;opencv2/core/core.hpp&quot;</span>
+<span class="vi">#include</span> <span class="s2">&quot;opencv2/imgproc/imgproc.hpp&quot;</span>
+<span class="vi">#include</span> <span class="s2">&quot;opencv2/highgui/highgui.hpp&quot;</span>
+
+<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
+<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">cv</span><span class="p">;</span>
+
+<span class="nx">Mat</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">;</span>
+<span class="nx">Mat</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">;</span>
+<span class="nx">int</span> <span class="n">edgeThresh</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="nx">int</span> <span class="nx">lowThreshold</span><span class="p">;</span>
+<span class="nx">int</span> <span class="nx">const</span> <span class="n">max_lowThreshold</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="nx">int</span> <span class="n">ratio</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="nx">int</span> <span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+<span class="nx">char</span><span class="o">*</span> <span class="n">window_name</span> <span class="o">=</span> <span class="s2">&quot;Canny&quot;</span><span class="p">;</span>
+
+<span class="bp">void</span> <span class="nx">CannyThreshold</span><span class="p">(</span><span class="nx">int</span><span class="p">,</span> <span class="bp">void</span><span class="o">*</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">/// Reduce noise with a kernel 3x3</span>
+    <span class="nb">blur</span><span class="p">(</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">,</span> <span class="nb">Size</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="p">);</span>
+    <span class="c1">/// Canny detector</span>
+    <span class="nx">Canny</span><span class="p">(</span> <span class="nx">detected_edges</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">,</span> <span class="nx">lowThreshold</span><span class="p">,</span> <span class="nx">lowThreshold</span><span class="o">*</span><span class="nx">ratio</span><span class="p">,</span> <span class="nx">kernel_size</span> <span class="p">);</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="nx">Scalar</span><span class="p">::</span><span class="nl">all</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+    <span class="nx">src.copyTo</span><span class="p">(</span> <span class="nb">dst</span><span class="p">,</span> <span class="nx">detected_edges</span><span class="p">);</span>
+    <span class="nx">imshow</span><span class="p">(</span> <span class="nx">window_name</span><span class="p">,</span> <span class="nb">dst</span> <span class="p">);</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">lowThreshold</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;canny_0.png&quot;</span><span class="p">,</span><span class="nb">dst</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">lowThreshold</span><span class="o">==</span><span class="mi">50</span><span class="p">){</span>
+        <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;canny_50.png&quot;</span><span class="p">,</span><span class="nb">dst</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">lowThreshold</span><span class="o">==</span><span class="mi">100</span><span class="p">){</span>
+        <span class="nx">imwrite</span><span class="p">(</span><span class="s2">&quot;canny_100.png&quot;</span><span class="p">,</span><span class="nb">dst</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">int</span> <span class="nx">main</span><span class="p">(</span> <span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">src</span> <span class="o">=</span> <span class="nx">imread</span><span class="p">(</span> <span class="s2">&quot;/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg&quot;</span> <span class="p">);</span>
+  <span class="k">if</span><span class="p">(</span> <span class="o">!</span><span class="nx">src.data</span> <span class="p">)</span>
+    <span class="p">{</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="p">}</span>
+  <span class="nx">dst.create</span><span class="p">(</span> <span class="nx">src.size</span><span class="p">(),</span> <span class="nx">src.type</span><span class="p">()</span> <span class="p">);</span>
+  <span class="nx">cvtColor</span><span class="p">(</span> <span class="nb">src</span><span class="p">,</span> <span class="nx">src_gray</span><span class="p">,</span> <span class="nx">CV_BGR2GRAY</span> <span class="p">);</span>
+  <span class="nx">namedWindow</span><span class="p">(</span> <span class="nx">window_name</span><span class="p">,</span> <span class="nx">CV_WINDOW_AUTOSIZE</span> <span class="p">);</span>
+  <span class="nx">createTrackbar</span><span class="p">(</span> <span class="s2">&quot;Min Threshold:&quot;</span><span class="p">,</span> <span class="nx">window_name</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">lowThreshold</span><span class="p">,</span> <span class="nx">max_lowThreshold</span><span class="p">,</span> <span class="nx">CannyThreshold</span> <span class="p">);</span>
+  <span class="nx">CannyThreshold</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+  <span class="nx">waitKey</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>通过设定不同的阈值，我们分别得到不同的边缘检测结果：</p>
+<p><img alt="threshold_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_0_zps09475230.png" /></p>
+<p>当我们把阈值均设置为0时,我们得到的是原图像的边缘阵列；</p>
+<p>以下分别当低阈值分别设置为50和100时的结果:</p>
+<p><img alt="threshold_50" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_50_zpsa24f5b6c.png" /></p>
+<p><img alt="threshold_100" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_100_zps8dff2e1d.png" /></p>
 <blockquote>
 <p>TODO BOARD:</p>
 <ul>
@@ -220,6 +297,8 @@ G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 <hr />
 <ul>
 <li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7829481">【OpenCV】边缘检测：Sobel、拉普拉斯算子</a></li>
+<li><a href="http://blog.csdn.net/likezhaobin/article/details/6892176">Canny边缘检测算法原理及其VC实现详解(一)</a></li>
+<li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7839140">【OpenCV】Canny 边缘检测</a></li>
 </ul><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
