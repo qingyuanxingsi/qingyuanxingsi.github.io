@@ -323,7 +323,8 @@ G_y &amp;amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
 &lt;p&gt;定义数字形式的拉普拉斯要求系数之和必为0&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png" /&gt;&lt;/p&gt;
 &lt;p&gt;以下给出两种边缘检测算子的代码示例:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+&lt;pre&gt;&lt;code&gt;::C++
+#include &amp;lt;iostream&amp;gt;
 #include "opencv2/core/core.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
