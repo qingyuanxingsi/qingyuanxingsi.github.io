@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-25T00:00:00+08:00</updated><entry><title>计算机视觉(II):边缘检测【待续】</title><link href="http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html" rel="alternate"></link><updated>2014-05-25T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-25:ji-suan-ji-shi-jue-iibian-yuan-jian-ce-dai-xu.html</id><summary type="html">&lt;h1&gt;边缘&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-27T00:00:00+08:00</updated><entry><title>计算机视觉(II):边缘检测</title><link href="http://www.qingyuanxingsi.com/ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html" rel="alternate"></link><updated>2014-05-27T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-27:ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html</id><summary type="html">&lt;blockquote&gt;
+&lt;p&gt;本文中的介绍相对粗浅，自己实现一遍这些算法可能会有更为深入的了解，理论部分也不是很充分，没有那种"边缘检测不过如此的感觉，以后可能就这个问题进行更为深入的挖掘(如果时间允许的话).此外，本文中对Canny边缘的&lt;strong&gt;非极大值抑制&lt;/strong&gt;也没有给出解释，有机会我们会详细讨论。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1&gt;边缘&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;边缘(edge)&lt;/strong&gt;是指图像局部强度变化最显著的部分。主要存在于目标与目标、目标与背景、区域与区域(包括不同色彩)之间，是图像分割、纹理特征和形状特征等图像分析的重要基础。&lt;/p&gt;
 &lt;p&gt;图像强度的显著变化可分为：&lt;/p&gt;
 &lt;ul&gt;
