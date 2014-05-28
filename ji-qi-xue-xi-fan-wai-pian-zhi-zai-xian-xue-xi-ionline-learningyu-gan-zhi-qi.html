@@ -31,7 +31,11 @@
 	<ul class="nav nav-pills pull-right">
             <li><a href="./pages/about.html">About</a></li>
 	    <li >
+	      <a href="./category/distributed-system.html ">Distributed System</a>
+	    <li >
 	      <a href="./category/life.html ">Life</a>
+	    <li >
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
 	    <li >
 	      <a href="./category/notes.html ">Notes</a>
 	    <li  class="active" >
@@ -70,7 +74,7 @@ Filed under <a href="./category/pearls.html">Pearls</a>
       </div>
       
       <div class="span8">
-	<html><body><p>我们以前讨论的都是批量学习的方法(batch learning),即给定一堆训练样本,我们一次对样本进行训练,然后得到对于模型参数的估计,用得到的模型预测未知样本。而<strong>在线学习</strong>就是要根据新来的样例，边学习，边给出结果。</p>
+	<p>我们以前讨论的都是批量学习的方法(batch learning),即给定一堆训练样本,我们一次对样本进行训练,然后得到对于模型参数的估计,用得到的模型预测未知样本。而<strong>在线学习</strong>就是要根据新来的样例，边学习，边给出结果。</p>
 <p>假设样例按照到来的先后顺序依次定义为$((x^{(1)},y^{(1)}),(x^{(2)},y^{(2)}),\cdots,(x^{(m)},y^{(m)}))$。$X$为样本特征，$y$为类别标签。我们的任务是到来一个样例$x$，给出其类别结果$y$的预测值，之后我们会看到$y$的真实值，然后根据真实值来重新调整模型参数，整个过程是重复迭代的过程，直到所有的样例完成。这么看来，我们也可以将原来用于批量学习的样例拿来作为在线学习的样例。在在线学习中我们主要关注在整个预测过程中预测错误的样例数。</p>
 <p>拿二值分类来讲，我们用$y=1$表示正例，$y=-1$表示负例。假设我们采用感知器算法<strong>（Perception algorithm）</strong>进行学习。我们的假设函数为:</p>
 <p>\begin{equation}
@@ -148,7 +152,37 @@ z^Tu = ||z||||u||cos \phi \leq ||z||||u||
 k \leq (D/\gamma)^2
 \end{equation}</p>
 <p>也就是预测错误的数目不会超过样本特征向量$x$的最长长度除以几何间隔的平方。实际上整个调整过程中$\theta$就是$x$的线性组合。</p>
-<p><strong>Original Link</strong>:<a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020173.html">在线学习（Online Learning）</a></p></body></html>
+<p><strong>Original Link</strong>:<a href="http://www.cnblogs.com/jerrylead/archive/2011/04/18/2020173.html">在线学习（Online Learning）</a></p><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+
 	<hr />
       </div>
     </div>
