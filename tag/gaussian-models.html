@@ -1,89 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>苹果的味道 - Gaussian Models</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8">
+    <title>苹果的味道</title>
+    <meta name="description" content="">
     <meta name="author" content="qingyuanxingsi">
-	<link rel="stylesheet" href="../theme/css/franticworld.css" type="text/css" />
-	<link href="../theme/css/pygments.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+    <link href="../theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
-<body background="../theme/img/pattern.png">
-		<div class="nav-banner">
-		<a href="..">苹果的味道</a>
-		</div>
-		
-		<div class="content">
 
-<div class="summarycontainer">
-	<div class="metabox">
-		<p class="metaday">122</p>
-		<p class="metayear">2014</p>
-		<p class="metacategory">Notes</p>
-	</div>
-	<div class="summarybox">
-		<a class="summarytitle" href="/ji-qi-xue-xi-shi-yi-iida-za-hui.html " >机器学习拾遗(II):大杂烩</a>
-		<p>阅读<em>Machine Learning:A Probabilistic Perspective</em>一书关于上述部分的若干章节并对之前未理解的部分内容进行梳理。</p>
-		<a class="btnmore" href="/ji-qi-xue-xi-shi-yi-iida-za-hui.html">more ...</a>
-	</div>
-</div>
-<div class="summarycontainer">
-	<div class="metabox">
-		<p class="metaday">074</p>
-		<p class="metayear">2014</p>
-		<p class="metacategory">Machine Learning</p>
-	</div>
-	<div class="summarybox">
-		<a class="summarytitle" href="/ji-qi-xue-xi-xi-lie-iiigaussian-models.html " >机器学习系列(III):Gaussian Models</a>
-		<p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Discriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p>
-		<a class="btnmore" href="/ji-qi-xue-xi-xi-lie-iiigaussian-models.html">more ...</a>
-	</div>
-</div>
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href=".." class="brand">苹果的味道</a>
+      </div>
 
-<p class="paginator">
-    Page 1 / 1
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="../pages/about.html">About</a></li>
+	    <li >
+	      <a href="../category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="../category/life.html ">Life</a>
+	    <li >
+	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="../category/notes.html ">Notes</a>
+	    <li >
+	      <a href="../category/pearls.html ">Pearls</a>
+	    <li >
+	      <a href="../category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+        
+
+        
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html"><h1>机器学习拾遗(II):大杂烩</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>五 02 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/notes.html">Notes</a>
 </p>
-		</div>
-		
-		<div class="sidebar">
-<div class="sidebarcategory">
-<h4>Categories</h4>
-	<li><a href="../category/distributed-system.html">Distributed System</a></li>
-	<li><a href="../category/life.html">Life</a></li>
-	<li><a href="../category/machine-learning.html">Machine Learning</a></li>
-	<li><a href="../category/notes.html">Notes</a></li>
-	<li><a href="../category/pearls.html">Pearls</a></li>
-	<li><a href="../category/viewpoint.html">Viewpoint</a></li>
-</div>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/linear-models.html">Linear Models</a> <a href="../tag/notes.html">Notes</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<p>本文主要对之前看过的<em>Machine Learning:A Probabilistic Perspective</em>一书中有关离散数据生成模型、高斯模型以及线性模型的相关部分进行梳理。</p>
+<h1 id="closed-formrefclosed-form-expressionref">Closed Form<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1" title="Closed-form expression">1</a></sup></h1>
+<hr>
+<p>在阅读<em>Machine Learning:A Probabilistic Perspective</em>这本书的时候经常看到<strong>Closed Form</strong>这个词。以下给出一简单说明:</p>
+<p>如果一个表达式可以表示成<strong>有限的</strong>某些特定的<strong>Ｗell-known</strong>函数的形式，那么我们说这个表达式是一个<strong>Closed Form</strong>表达式。一般而言,这些<strong>Well-known</strong>函数包括基本的函数，如常数、单个变量$x$、基本的算术操作、开方、指数对数函数、三角反三角函数等。如果一个问题可以得到一<strong>Closed Form</strong>的解,我们通常就说这个问题是可解的。</p>
+<p><strong>Closed–form</strong>表达式是解析表达式的一个非常重要的子类,解析表达式可包含有限或无限个<strong>Well-known</strong>函数。和更为广泛的解析表达式不同,<strong>Closed–form</strong>表达式并不包含无限级数和递归分数(<em>Continued Fractions</em>)形式，也不能包含积分和极限。</p>
+<p>一个方程或方程组当且仅当它的一个解可写成<strong>Closed-Form</strong>形式时,我们才说该方程或方程组具有一<strong>Closed-form solution</strong>.类似地,一个方程或方程组当且仅当它的一个解可写成解析形式时,我们才说该方程或方程组具有一解析解。</p>
+<h1 id="gaussian-modelsrefmachine-learninga-probabilistic-perspective-chapter-4ref">Gaussian Models<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2" title="Machine Learning:A Probabilistic Perspective Chapter 4">2</a></sup></h1>
+<hr>
+<h2 id="diagonal-lda">Diagonal LDA</h2>
+<p>在GLA中,如果我们限定不同类间共享$\Sigma$,并对每类使用一对角协方差矩阵，我们得到的模型则称为<strong>Diagonal LDA Model</strong>.对应的判别函数如下所示:</p>
+<p>\begin{equation}
+\delta_c(x) = log\ p(x,y=c|\theta) = -\sum_{j=1}^D \frac{(x_j-\mu_{cj})^2}{2\sigma_j^2}+log\ \pi_c
+\end{equation}</p>
+<p>一般我们令$\hat\mu_{cj} = \bar{x}_{cj}$且$\hat\sigma_j^2=s_j^2$,$s_j^2$称为<em>Pooled empirical variance</em>,定义如下:</p>
+<p>\begin{equation}
+s_j^2 = \frac{\sum_{c=1}^C \sum_{i:y_i=c} (x_{ij} - \bar{x}_{cj})^2}{N-C}
+\end{equation}</p>
+<p>在高维情形下,该模型比LDA和RDA效果都要好。</p>
+<h2 id="map">方差MAP估计</h2>
+<p><em>ML</em>(指Machine Learning:A Probabilistic Perspective,以后如果不作说明,也指该书)一书中关于$\Sigma$的估计写的很复杂,于是基本上没看那部分,关于$\Sigma$的MAP估计可参考以下链接:</p>
+<p><a href="http://freemind.pluskid.org/machine-learning/regularized-gaussian-covariance-estimation/">Regularized Gaussian Covariance Estimation</a></p>
+<h1 id="linear-regressionrefmachine-learninga-probabilistic-perspective-chapter-7ref">Linear Regression<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3" title="Machine Learning:A Probabilistic Perspective Chapter 7">3</a></sup></h1>
+<hr>
+<h2 id="bayesian-linear-regression">Bayesian Linear Regression</h2>
+<p>给定训练集$D={(x_i,y_i)|i=1,\cdots,n}$,我们有:</p>
+<p><img alt="Design_Matrix" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/design_matrix_zpse58dd2c8.png"></p>
+<p>对于Linear Regression,我们有:</p>
+<p>\begin{equation}
+\begin{split}
+f(x) &amp; = x^Tw \in R,x,w \in R^D   \\
+y &amp;= f(x) + \epsilon = x^Tw+\epsilon \in R \\
+\epsilon &amp;\sim\ N(0,\sigma^2) \in R
+\end{split}
+\end{equation}</p>
+<p>我们首先计算Likelihood:</p>
+<p>\begin{equation}
+\begin{split}
+P(y|X,w) &amp;= \prod_{i=1}^n P(y_i|x_i^Tw) \\
+&amp;= \prod_{i=1}^n N_{yi}(x_i^Tw,\sigma^2) \\
+&amp;= \prod_{i=1}^n \frac{1}{\sqrt{2\pi\sigma^2}}exp[\frac{-(y_i-x_i^Tw)^2}{2\sigma^2}] \\
+&amp;= \frac{1}{(2\pi\sigma^2)^{n/2}}exp[\frac{-1}{2\sigma^2}||y-X^Tw||^2] \\
+&amp;= N_y(X^Tw,\sigma^2I_n)
+\end{split}
+\end{equation}</p>
+<p>另我们假定Prior服从$w \sim\ N_w(0,\Sigma_p)$</p>
+<p>则我们可得Posterior:</p>
+<p>\begin{equation}
+\begin{split}
+P(w|X,y) &amp;= \frac{P(y|X,w)P(w)}{P(y|X)}  \\
+&amp;= \frac{P(y|X,w)P(w)}{\int P(y|X,w)dw}  \\
+&amp;= \frac{N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)}{\int N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)dw} \\
+&amp;\sim\ N_y(X^Tw,\sigma^2I_n)N_w(0,\Sigma_p)
+\end{split}
+\end{equation}</p>
+<p>更进一步地,我们有:</p>
+<p><img alt="MAP_Estimation" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/map_weight_zps49ddf4b7.png"></p>
+<blockquote>
+<p>NOTE:Posterior协方差矩阵并不依赖观察值$y$.</p>
+</blockquote>
+<p>我们希望使用以上得到的Posterior计算$f$在点$x_{*}$处的值,我们有:</p>
+<p><img alt="Posterior Predicative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/predicative_weight_zps31d23a10.png"></p>
+<h1 id="logistic-regressionrefmachine-learninga-probabilistic-perspective-chapter-8ref">Logistic Regression<sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4" title="Machine Learning:A Probabilistic Perspective Chapter 8">4</a></sup></h1>
+<hr>
+<p><em>ML</em>一书中给出的形式并不便于计算Gradient以及Hessian,以下根据李航<strong>统计学习方法</strong>中的相关内容给出以下较易计算的形式。</p>
+<p>对于给定的训练集$T={(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)}$,其中,$x_i \in R^n,y_i \in {0,1}$,我们令:</p>
+<p>\begin{equation}
+P(Y=1|x) = \mu(x),P(Y=0|x) = 1-\mu(x)
+\end{equation}</p>
+<p>对数似然函数为:
+\begin{equation}
+\begin{split}
+\ell(w) &amp;= \sum_{i=1}^N [y_i log \mu(x_i)+(1-y_i)log(1-\mu(x_i))] \\
+&amp;= \sum_{i=1}^N [y_i log \frac{\mu(x_i)}{1-\mu(x_i)}+log(1-\mu(x_i))] \\
+&amp;= \sum_{i=1}^N [y_i(w^Tx_i)-log(1+exp(w^Tx_i)]
+\end{split}
+\end{equation}</p>
+<p>为了使用最小值,在<em>ML</em>一书中用到的是Negetive Log Likelihood(NLL),特此说明。</p>
+<p>由此我们得到:</p>
+<p>\begin{equation}
+\begin{split}
+g &amp;= \frac{df(w)}{dw} = \sum_i (\mu_i-y_i)x_i = X^T(\mu-y) \\
+H &amp;= \frac{dg(w)^T}{dw} = \sum_i (\bigtriangledown_w \mu_i)x_i^T \\
+&amp;= \sum_i \mu_i(1-\mu_i)x_ix_i^T \\
+&amp;= X^TSX
+\end{split}
+\end{equation}</p>
+<p>其中,$S \triangleq diag(\mu_i(1-\mu_i))$.得到梯度和Hessian矩阵之后,以下我们就能使用最速下降、牛顿法、BFGS等方法对Logistic Regression进行求解了。</p>
+<h1 id="em">EM</h1>
+<hr>
+<p>本部分与<em>ML</em>一书第十一章无关,只是为了更清楚地了解<strong>EM算法</strong>。以下给出一个挺不错的PPT:</p>
+<p><a href="http://people.csail.mit.edu/fergus/research/tutorial_em.ppt">Tutorial EM</a></p>
+<blockquote>
+<p><em>TODO Board</em></p>
+<ul>
+<li><em>Posterior Predicative for Multinomial-Dirichlet Models</em><sup id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back"><a class="simple-footnote" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5" title="Machine Learning:A Probabilistic Perspective Chapter 3">5</a></sup></li>
+<li><em>Regularized LDA</em></li>
+<li><em>Nearest shrunken centroids classifier</em></li>
+<li><em>Numerically stable computation[7.5.2]</em></li>
+<li><em>Connection with PCA[7.5.3]</em></li>
+<li><em>Estimating $\sigma^2$[7.6.3]</em></li>
+<li><em>Evidence Procedure[7.6.4]</em></li>
+<li><em>Conjugate Gradient(CG)</em></li>
+<li><em>BFGS(LBFGS)</em></li>
+<li><em>Multi-class Logistic Regression and Maximum Entropy Classfier</em></li>
+<li><em>Bayesian Logistic Regression[8.4]</em></li>
+<li><em>Online Learning[8.5]</em></li>
+<li><em>Generative vs Discriminative Classfiers[8.6]</em></li>
+</ul>
+</blockquote><script type="text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+<ol class="simple-footnotes"><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1"><a href="http://en.wikipedia.org/wiki/Closed-form_expression">Closed-form expression</a> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-1-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2"><em>Machine Learning:A Probabilistic Perspective Chapter 4</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-2-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3"><em>Machine Learning:A Probabilistic Perspective Chapter 7</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-3-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4"><em>Machine Learning:A Probabilistic Perspective Chapter 8</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-4-back">↩</a></li><li id="sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5"><em>Machine Learning:A Probabilistic Perspective Chapter 3</em> <a class="simple-footnote-back" href="#sf-ji-qi-xue-xi-shi-yi-iida-za-hui-5-back">↩</a></li></ol> 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-shi-yi-iida-za-hui.html">
+          <i class="icon-comment"></i> Comment </a>
+	<hr />
+      </div>
+      
+    </div>
+    
 
-<div class="sidebarpages">
-	<h4>Pages</h4>
-		<li><a href="../pages/about.html">About</a></li>
-</div>
+ 
+        
 
-<div class="sidebarblogroll">
-<h4>Blogroll</h4>
-    <li><a href="http://freemind.pluskid.org" target="_blank">Pluskid</a></li>
-    <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July" target="_blank">结构之法 算法之道</a></li>
-    <li><a href="http://www.nosqlnotes.net/" target="_blank">NOSQL Notes</a></li>
-    <li><a href="http://diaorui.net/" target="_blank">数学之美</a></li>
-    <li><a href="http://licstar.net/" target="_blank">让博客飞(A BLOG WITH FUN)</a></li>
-    <li><a href="http://www.xperseverance.net/blogs/" target="_blank">持之以恒</a></li>
-    <li><a href="http://ibillxia.github.io/" target="_blank">Bill's Blog</a></li>
-    <li><a href="http://malagis.com/" target="_blank">麻辣GIS</a></li>
-    <li><a href="http://skyoung.github.io" target="_blank">Skyoung</a></li>
-</div>
 
-<div class="sidebarsocial">
-<h4>Social</h4>
-    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-</div>		</div>
-		
-		<footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                which takes great advantage of <a href="http://python.org">Python</a>,
-				Theme by <a href="http://frantic1048.com/">Frantic1048</a>.
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html"><h1>机器学习系列(III):Gaussian Models</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>六 15 三月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/machine-learning.html">Machine Learning</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/gaussian-models.html">Gaussian Models</a> <a href="../tag/generative-models.html">Generative Models</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>本文继上篇介绍离散数据的生成模型之后,介绍针对连续数据的生成模型。本篇博文主要介绍五点:首先我们会介绍一下Gaussian Distribution的基础知识以及对于Gaussian分布的MLE估计,第二部分我们则会着重介绍Gaussian Discriminant Analysis,紧接该部分之后，第三部分我们会介绍基于Gaussian联合分布的Inference;第四部分我们介绍Linear Gaussian Systems,最后一部分我们给出针对高斯分布参数的估计方法。</p> 
+	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-iiigaussian-models.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="../tag/gaussian-models.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
+            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+            <li><a href="http://diaorui.net/">数学之美</a></li>
+            <li><a href="http://licstar.net/">让博客飞(A BLOG WITH FUN)</a></li>
+            <li><a href="http://www.xperseverance.net/blogs/">持之以恒</a></li>
+            <li><a href="http://ibillxia.github.io/">Bill's Blog</a></li>
+            <li><a href="http://malagis.com/">麻辣GIS</a></li>
+            <li><a href="http://skyoung.github.io">Skyoung</a></li>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href=".."><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="../" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="..">苹果的味道</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
 </body>
 </html>

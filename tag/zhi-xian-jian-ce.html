@@ -1,77 +1,270 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>苹果的味道 - 直线检测</title>
-	<meta charset="utf-8" />
+    <meta charset="utf-8">
+    <title>苹果的味道</title>
+    <meta name="description" content="">
     <meta name="author" content="qingyuanxingsi">
-	<link rel="stylesheet" href="../theme/css/franticworld.css" type="text/css" />
-	<link href="../theme/css/pygments.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+    <script src="../theme/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le styles -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
+    <link href="../theme/local.css" rel="stylesheet">
+    <link href="../theme/pygments.css" rel="stylesheet">
+    <link href="../theme/font-awesome.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
-<body background="../theme/img/pattern.png">
-		<div class="nav-banner">
-		<a href="..">苹果的味道</a>
-		</div>
-		
-		<div class="content">
 
-<div class="summarycontainer">
-	<div class="metabox">
-		<p class="metaday">151</p>
-		<p class="metayear">2014</p>
-		<p class="metacategory">Machine Learning</p>
-	</div>
-	<div class="summarybox">
-		<a class="summarytitle" href="/ji-suan-ji-shi-jue-iiihuo-fu-bian-huan-zhi-xian-jian-ce.html " >计算机视觉(III):霍夫变换直线检测</a>
-		<p>主要介绍Hough变换检测直线的基本原理并给出OpenCV代码示例。</p>
-		<a class="btnmore" href="/ji-suan-ji-shi-jue-iiihuo-fu-bian-huan-zhi-xian-jian-ce.html">more ...</a>
-	</div>
-</div>
+<body>
+<header class="blog-header">
+  <div class="container">
+    <div class="row-fluid">
+      <div class="span9">
+	<a href=".." class="brand">苹果的味道</a>
+      </div>
 
-<p class="paginator">
-    Page 1 / 1
+      <div class="span3" id="blog-nav">
+	<ul class="nav nav-pills pull-right">
+            <li><a href="../pages/about.html">About</a></li>
+	    <li >
+	      <a href="../category/distributed-system.html ">Distributed System</a>
+	    <li >
+	      <a href="../category/life.html ">Life</a>
+	    <li >
+	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	    <li >
+	      <a href="../category/notes.html ">Notes</a>
+	    <li >
+	      <a href="../category/pearls.html ">Pearls</a>
+	    <li >
+	      <a href="../category/viewpoint.html ">Viewpoint</a>
+	</ul>
+      </div>
+    </div> <!-- End of fluid row-->
+  </div>   <!-- End of Container-->
+</header>
+    
+<div class="container">
+    <div class="content">
+    <div class="row-fluid">
+
+        <div class="span10">
+        
+
+        
+
+    <div class='row-fluid''>
+        <div class="article-title span9">
+            <a href="../ji-suan-ji-shi-jue-iiihuo-fu-bian-huan-zhi-xian-jian-ce.html"><h1>计算机视觉(III):霍夫变换直线检测</h1></a>
+        </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>六 31 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="../category/machine-learning.html">Machine Learning</a>
 </p>
-		</div>
-		
-		<div class="sidebar">
-<div class="sidebarcategory">
-<h4>Categories</h4>
-	<li><a href="../category/distributed-system.html">Distributed System</a></li>
-	<li><a href="../category/life.html">Life</a></li>
-	<li><a href="../category/machine-learning.html">Machine Learning</a></li>
-	<li><a href="../category/notes.html">Notes</a></li>
-	<li><a href="../category/pearls.html">Pearls</a></li>
-	<li><a href="../category/viewpoint.html">Viewpoint</a></li>
-</div>
+<p style="text-align: left;">
+ 
+    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/zhi-xian-jian-ce.html">直线检测</a> </p>
+<p>
+</p>
+      </div>
+      <div class="article-content span8">
+	<h1 id="_1">霍夫变换直线检测基本原理</h1>
+<hr />
+<p>Hough变换是图像处理中从图像中识别几何形状的基本方法之一，即它可以检测已知形状的目标，而且受噪声和曲线间断的影响小。
+Hough变换的基本思想是利用点-线的对偶性。如下图所示：</p>
+<p><img alt="电线对偶性" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/70B97EBF5BF950766027_zpsa30da4aa.jpg" /></p>
+<p>从上图中可看出，$x-y$坐标和$k-b$坐标有点-线的对偶性。$x-y$坐标中的点$P_1$、$P_2$对应于$k-b$坐标中的$L_1、L_2$；而$k-b$坐标中的点$P_0$对应于$x-y$坐标中的线$L_0$。</p>
+<p>由于$x-y$坐标中的垂直线的$k$值为无穷大，给计算带来不便，故使用极坐标变换解决这一问题。直角坐标$X-Y$中的一点$(x,y)$，经过极坐标变换为:</p>
+<p>\begin{equation}
+\rho = x * cos \theta + y * sin \theta
+\end{equation}</p>
+<p>在极坐标$\theta-\rho$中变为一条正弦曲线，$\theta$取(0-180°)。可以证明，直角坐标$X-Y$中直线上的点经过Hough变换后，它们的正弦曲线在极坐标$\theta-\rho$有一个公共交点，如下图所示。</p>
+<p><img alt="极坐标系" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/hough_curve_zps8378d511.jpg" /></p>
+<p>也就是说，极坐标$\theta-\rho$上的一点$(\theta,\rho)$，对应于直角坐标$X-Y$中的一条直线，而且它们是一一对应的。为了检测出直角坐标$X-Y$中由点所构成的直线，可以将极坐标$\theta-\rho$量化成许多小格。根据直角坐标中每个点的坐标$(x,y)$，在$\theta = 0-180°$内以小格的步长计算各个$\rho$值，所得值落在某个小格内，便使该小格的累加记数器加1。当直角坐标中全部的点都变换后，对小格进行检验，计数值最大的小格，其$(\theta,\rho)$值对应于直角坐标中所求直线。</p>
+<h1 id="_2">代码示例</h1>
+<hr />
+<p>以下我们给出一个使用OpenCV检测直线的代码示例:</p>
+<pre><code>#include &lt;iostream&gt;
+#include "opencv2/core/core.hpp"
+#include "opencv2/highgui/highgui.hpp"
+#include "opencv2/imgproc/imgproc.hpp"
 
-<div class="sidebarpages">
-	<h4>Pages</h4>
-		<li><a href="../pages/about.html">About</a></li>
-</div>
+using namespace std;
+using namespace cv;
 
-<div class="sidebarblogroll">
-<h4>Blogroll</h4>
-    <li><a href="http://freemind.pluskid.org" target="_blank">Pluskid</a></li>
-    <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July" target="_blank">结构之法 算法之道</a></li>
-    <li><a href="http://www.nosqlnotes.net/" target="_blank">NOSQL Notes</a></li>
-    <li><a href="http://diaorui.net/" target="_blank">数学之美</a></li>
-    <li><a href="http://licstar.net/" target="_blank">让博客飞(A BLOG WITH FUN)</a></li>
-    <li><a href="http://www.xperseverance.net/blogs/" target="_blank">持之以恒</a></li>
-    <li><a href="http://ibillxia.github.io/" target="_blank">Bill's Blog</a></li>
-    <li><a href="http://malagis.com/" target="_blank">麻辣GIS</a></li>
-    <li><a href="http://skyoung.github.io" target="_blank">Skyoung</a></li>
-</div>
+int main(int argc, char** argv)
+{
+     Mat src = imread("/home/qingyuanxingsi/workspace/C++/contents/jinmen.jpg");
+     if(src.empty())
+     {
+         cout &lt;&lt; "can not open the image" &lt;&lt; endl;
+         return -1;
+     }
 
-<div class="sidebarsocial">
-<h4>Social</h4>
-    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
-</div>		</div>
-		
-		<footer id="contentinfo" class="body">
-                <address id="about" class="vcard body">
-                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
-                which takes great advantage of <a href="http://python.org">Python</a>,
-				Theme by <a href="http://frantic1048.com/">Frantic1048</a>.
-                </address><!-- /#about -->
-        </footer><!-- /#contentinfo -->
+     Mat dst, cdst;
+     //Canny operator retrieve edges
+     Canny(src, dst, 50, 200, 3);
+     cvtColor(dst, cdst, CV_GRAY2BGR);
+
+
+
+     vector&lt;Vec4i&gt; lines;
+     //Probablistic Hough Transformation
+     HoughLinesP(dst, lines, 1, CV_PI/180, 50, 50, 10 );
+      for( size_t i = 0; i &lt; lines.size(); i++ )
+      {
+        Vec4i l = lines[i];
+        line(cdst, Point(l[0], l[1]), Point(l[2], l[3]), Scalar(255,0,0), 2, CV_AA);
+      }
+     imshow("source", src);
+     imshow("detected lines", cdst);
+     imwrite("line.jpg",cdst);
+
+     waitKey();
+
+     return 0;
+}
+</code></pre>
+<p>原图使用金门大桥图片，如下:</p>
+<p><img alt="金门大桥" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/jinmen_zpsfd6d69ea.jpg" /></p>
+<p>检测到的直线图像如下图所示:</p>
+<p><img alt="霍夫变换直线检测" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/line_zpsc5550ab6.jpg" /></p>
+<h1 id="_3">参考文献</h1>
+<hr />
+<ol>
+<li><a href="http://hi.baidu.com/tangsu2009/item/88475289bb40035a840fabda">Hough变换的基本原理</a></li>
+</ol><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+ 
+	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-iiihuo-fu-bian-huan-zhi-xian-jian-ce.html">
+          <i class="icon-comment"></i> Comment </a>
+	<hr />
+      </div>
+      
+    </div>
+    
+<div class="pagination">
+<ul>
+    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
+
+    <li class="active"><a href="../tag/zhi-xian-jian-ce.html">1</a></li>
+
+    <li class="next disabled"><a href="#">&rarr; Next</a></li>
+
+</ul>
+</div>
+ 
+  
+        </div>
+        
+        
+    </div>     </div> </div>
+
+<!--footer-->
+<div class="container">
+  <div class="well" style="background-color: #E9EFF6">
+    <div id="blog-footer">
+      <div class="row-fluid">
+	<div class="social span2" align="center" id="socialist">
+	  <ul class="nav nav-list">
+	    <li class="nav-header">
+	      Social
+	    </li>
+	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
+
+	  </ul>
+	</div>
+        <div class="links span2" align="center">
+          <ul class="nav nav-list">
+            <li class="nav-header"> 
+              Links
+            </li>
+            
+            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
+            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
+            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
+            <li><a href="http://diaorui.net/">数学之美</a></li>
+            <li><a href="http://licstar.net/">让博客飞(A BLOG WITH FUN)</a></li>
+            <li><a href="http://www.xperseverance.net/blogs/">持之以恒</a></li>
+            <li><a href="http://ibillxia.github.io/">Bill's Blog</a></li>
+            <li><a href="http://malagis.com/">麻辣GIS</a></li>
+            <li><a href="http://skyoung.github.io">Skyoung</a></li>
+          </ul>
+        </div>
+	<div class="site-nav span2" align="center">
+          <ul class="nav nav-list" id="site-links">
+            <li class="nav-header"> 
+              Site
+            </li>
+            <li><a href=".."><i class="icon-home" style="color: #1f334b">
+                </i>Home</a></li>
+            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
+                </i>Archives</a></li>
+	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
+                </i>Tags</a></li>
+	    
+            <li><a href="../" rel="alternate">
+                <i class="icon-rss-sign" style="color: #1f334b"></i>
+                Atom Feed</a></li>
+	  </ul>
+
+        </div>
+
+      </div> <!--end of fluid row-->
+    </div> <!--end of blog-footer-->
+    <hr />
+    <p align="center"><a href="..">苹果的味道</a>
+      &copy; qingyuanxingsi
+    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
+        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
+        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
+        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+
+  </div> <!--end of well -->
+</div> <!--end of container -->
+
+<!--/footer-->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
+
+
+<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
+
 </body>
 </html>
