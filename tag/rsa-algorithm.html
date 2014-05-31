@@ -1,211 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>苹果的味道</title>
-    <meta name="description" content="">
+	<title>苹果的味道 - RSA Algorithm</title>
+	<meta charset="utf-8" />
     <meta name="author" content="qingyuanxingsi">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="../theme/html5.js"></script>
-    <![endif]-->
-
-    <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="../theme/local.css" rel="stylesheet">
-    <link href="../theme/pygments.css" rel="stylesheet">
-    <link href="../theme/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../theme/css/franticworld.css" type="text/css" />
+	<link href="../theme/css/pygments.css" rel="stylesheet">
 </head>
+<body background="../theme/img/pattern.png">
+		<div class="nav-banner">
+		<a href="..">苹果的味道</a>
+		</div>
+		
+		<div class="content">
 
-<body>
-<header class="blog-header">
-  <div class="container">
-    <div class="row-fluid">
-      <div class="span9">
-	<a href=".." class="brand">苹果的味道</a>
-      </div>
-
-      <div class="span3" id="blog-nav">
-	<ul class="nav nav-pills pull-right">
-            <li><a href="../pages/about.html">About</a></li>
-	    <li >
-	      <a href="../category/distributed-system.html ">Distributed System</a>
-	    <li >
-	      <a href="../category/life.html ">Life</a>
-	    <li >
-	      <a href="../category/machine-learning.html ">Machine Learning</a>
-	    <li >
-	      <a href="../category/notes.html ">Notes</a>
-	    <li >
-	      <a href="../category/pearls.html ">Pearls</a>
-	    <li >
-	      <a href="../category/viewpoint.html ">Viewpoint</a>
-	</ul>
-      </div>
-    </div> <!-- End of fluid row-->
-  </div>   <!-- End of Container-->
-</header>
-    
-<div class="container">
-    <div class="content">
-    <div class="row-fluid">
-
-        <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="../rsashi-ru-he-lian-cheng-de.html"><h1>RSA是如何炼成的</h1></a>
-        </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>五 09 五月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/pearls.html">Pearls</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/rsa-algorithm.html">RSA Algorithm</a> <a href="../tag/li-shi-gou-chen.html">历史钩沉</a> </p>
-<p>
-</p>
-      </div>
-      <div class="article-content span8">
-	<p>最近为了研究某个极其无聊的问题，读了一些公钥加密的历史，意外地发现这段历史竟然非常有趣。尤其是<strong>RSA</strong>算法的诞生过程，被很多书写得非常励志，看得人热血澎湃。果然比起算法本身，这些背后的故事更能吸引我的兴趣。</p>
-<p>RSA算法具体是怎么回事，我就不在这瞎说了。简介可以看<a href="http://en.wikipedia.org/wiki/RSA_(cryptosystem)">Wikipedia</a>，如果想形象一点理解算法本身，这儿有个<a href="http://v.youku.com/v_show/id_XNDQ0NTE3MDA0.html">不错的视频</a>，可以通过它了解RSA的基本思想。我就直接从RSA这三个人说起了。参考的书籍资料列在文末。</p>
-<h1 id="rsa">RSA背后的三个小伙</h1>
-<hr />
-<p>RSA是由三个提出者Ron Rivest、Adi Shamir和Leonard Adleman的姓氏首字母组成的。这三个人风格迥异，组成了一个技能互补的完美团队。</p>
-<p>Ron Rivest，RSA中的R。他在耶鲁读数学系，随后跑到斯坦福读计算机科学系研究人工智能。他所研究的课题——让机器人在没有人干预的情况下在停车场散步，在那个计算机科学系仅成立四年的年代明显太过乐观，但他依然乐此不疲。毕业后他接受MIT任教的工作机会。也许是因为多年积累的科研氛围，他对新技术非常兴奋，大量阅读前沿文献。与此同时，他认为迷人的理论应该与现实世界相结合，才能散发魅力，对世界有所改变，这也是他的理想。</p>
-<p>Adi Shamir，RSA中的S。他是以色列人，和Rivest一样，学数学后转计算机科学进一步深造，毕业后以访问学者的身份来到 MIT。他很聪明，学习能力超强。虽然他在数学上的造诣颇深，但起初他在算法方面的知识十分匮乏，当他接到Rivest关于算法高级课程讲授的邀请信时连连叫苦，教算法已经够呛了，还什么高级课程？给博士生讲的么？虽然如此，他还是硬着头皮前往 MIT，之后很快投入到学习中，整天泡在图书馆，读了一书架关于算法的书籍，最终仅用两周便掌握了所需的知识。</p>
-<p>Leonard Adleman，RSA中的A。自幼胸无大志，从未想过做什么数学家。读大学时受各方面影响，甚至包括电视节目的影响，在专业选择上犹豫不决，最终因为学数学会有大量时间做别的而选择就读数学系。毕业后在美国银行做程序员，之后想去学医，被录取了却又改变主意想研究物理，上了几堂课又觉得没意思。最后他怕挂科对找工作有影响，跑去图书馆借了本计算机科学的书，一直没还，学校就会因此扣留成绩单。辗转几次后，他最终选择读计算机科学 PhD。毕业后同样在 MIT 任教。</p>
-<p>这三人当时都非常年轻，二十多、三十出头的样子。他们的办公室距离很近，可以经常串门。于是故事就从一次Adleman 的串门开始了。</p>
-<p><img alt="RSA" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/RSA_zpsa58c4c16.jpg" /></p>
-<p>[注:自左至右：<em>Adi Shamir, Ron Rivest, Leonard Adleman</em>]</p>
-<h1 id="42">42次的失败</h1>
-<hr />
-<p>1976年底的某天，Adleman无意推开Rivest的房门。热爱新技术的Rivest果不其然正拿着份楼上的Whitfield Diffie与Martin Hellman合作发表的新论文研究。自认为对前沿理念无所不晓的Rivest，没料到这篇文章提出了一个前所未有的思路，这让他兴奋不已。正琢磨着，Adleman推门进来了，Rivest便忘我地向Adleman讲解了这篇论文中所述的思想，在Adleman听起来大约是这样的：</p>
-<blockquote>
-<p>公钥密码 blah blah blah…不对称密码 blah blah blah…单向函数 blah blah blah…但是符合条件的单向函数目前没找到。我有信心找到这样的单向函数，你看你要不要和我一起试试？</p>
-</blockquote>
-<p>这些显然不足以让早已下决心走纯理论路线的Adleman动心，对此他只是报以一个“礼貌的哈欠”。想当初选择读计算机科学，除了方便找工作，Adleman还深受马丁加德纳专栏的影响。专栏中写到的哥德尔定理让他感到惊艳，深深体会到数学之美，如今只有高斯之流方能入他的眼，眼下Rivest滔滔不绝的什么加密解密，在他看来既不高级也不好玩。</p>
-<p>好在Rivest拉到了另一个同盟，也就是隔壁的Shamir。Shamir一听说这篇文章就立刻意识到它的价值，二人一拍即合，开始了他们昼夜不休的单向函数寻找之旅。因为两人都头脑灵活，很快就想到了一些方案。尽管Adleman不情愿参与其中，他们还是会把结果拿给 Adleman，Adleman的角色就是逐个击破这些方案，找出各种漏洞，给那两个头脑发热的人泼点冷水，免得他们走弯路。</p>
-<p>三人走火入魔一般，吃饭聊、喝酒聊，甚至去滑雪度假也不忘讨论这件事。Shamir就在滑雪的时候想到了一个绝妙的点子，以至于把滑雪板都落在了身后。当他意识到这一点回头去取时，却又不幸忘记了那个一闪而过的点子。相对来说给他们启发的Diffie要幸运一些，他在下楼买可乐的时候同样让灵感溜走，好在上楼的过程中他又想起来了，这个差点溜走的灵感正是Rivest那天手中所拿论文的核心思想，为RSA算法奠定了基础。</p>
-<p>起初Rivest和Shamir构造出来的算法很快就能被Adleman破解，二人受到强烈的打击，以至于有一阶段他们走向了另一个极端，试图证明Diffie他们的想法根本就是不靠谱的。但慢慢的，破解变得没那么容易，特别是他们的第32号方案，Adleman用了一晚上才找出漏洞，这让他们感觉胜利就在眼前。</p>
-<p>就这样，Rivest和Shamir先后抛出了42个方案，虽然这42个全部被Adleman击破，不过他们的努力并不算白费，至少指出了42条错误的路线。</p>
-<h1 id="_1">算法的诞生与命名</h1>
-<hr />
-<p>1977年4月，Rivest和其余两人参加了犹太逾越节的Party，喝了些酒。到家后Rivest睡不着，随手翻了翻数学书，随后一个灵感逐渐清晰起来。他大气不敢出一口，冷静下来连夜整理自己的思路，一气呵成写就了一篇论文。次日，Rivest把论文拿给Adleman，做好再一次徒劳的心理准备，但这一次Adleman认输了，认为这个方案应该是可行的。</p>
-<p>按照惯例，Rivest按姓氏字母序将三人的名字署在论文上，也就是Adleman、Rivest、Shamir，但Adleman总觉得自己贡献微乎其微，不过是泼泼冷水，不至于还要署个名，便要求Rivest拿掉自己的名字。在Rivest的坚持下，他最终要求至少把自己的名字放到最后。也正因为如此，RSA叫做RSA没有被叫做ARS。虽然Adleman一开始认为这注定是他诸多论文中最不起眼的一篇，RSA 走红后他还是调侃说，越来越觉得 ARS 更顺口了。</p>
-<h1 id="_2">之后</h1>
-<hr />
-<p>之后的历史我们就非常熟悉了，他们的论文受到各方赞赏。Rivest还把论文发给马丁加德纳一份，加德纳非常感兴趣，把Rivest请到家里面谈，进一步了解RSA算法。当然此前，加德纳还不忘先表演一个扑克魔术。这次会面也促成后来马丁加德纳在他著名的专栏刊登RSA算法及破解奖金的故事。至于R、S、A这三人，依然保持着友谊，还成立了RSA公司，赚了一大笔钱。</p>
-<p>最后，既然RSA是根据提出者命名的，必然也逃不出<a href="http://en.wikipedia.org/wiki/Stigler%27s_law_of_eponymy">Stigler’s law</a>的魔爪。的确从时间上来说，RSA这三人并非最早提出这个算法的人。事实上早于这三人四年时间，RSA 算法的思想就被英国学者构造出来了。早在1969年，英国密码学家James Ellis 就想到了公钥密码的概念，但同样卡在寻找单向函数这个问题上。1973年9月，年仅26岁的数学家Clifford Cocks听说这个思想后，在完全不了解状况的心理状态下花不到半小时就找到了Rivest他们苦思冥想的方案。但是，他们效力于政府，这个绝妙的想法立刻被相关机构封锁，变为机密，谁也不能对外公开自己的发现，于是他们眼睁睁地看着 Diffie 及 RSA 等人重现了他们当时的研究并享有盛誉。直到1997年底，时隔二十余年，这件事情才被公之于众。遗憾的是那时候Ellis 已经过世一个月，直至逝世都是一个无名英雄。</p>
-<h1 id="_3">参考资料</h1>
-<hr />
-<ul>
-<li><a href="http://www.amazon.cn/Crypto-How-the-Code-Rebels-Beat-the-Government-Saving-Privacy-in-the-Digital-Age-Levy-Steven/dp/0140244328/ref=sr_1_1?ie=UTF8&amp;qid=1388319023">Crypto: How the Code Rebels Beat the Government–Saving Privacy in the Digital Age</a>;Steven Levy所著，大部分内容都是从这本书了解到的。书里从Whitfield Diffie的八卦（是真的八卦，和他老婆的相遇之类）说起，一直说到非常现实的NSA涉入等情节，写得很详细很有趣。中译本译作《隐私的终结》，但翻译水平非常有限，比如把爱伦坡译成艾伦坡和阿兰坡两种不同译法，把cutting-edge翻译成边缘，或者干脆把算法水平有待提高翻译成精通算法什么的…</li>
-<li><a href="http://www.amazon.cn/The-Code-Book-The-Science-of-Secrecy-from-Ancient-Egypt-to-Quantum-Cryptography-Singh-Simon/dp/0385495323/ref=sr_1_1">The Code Book: The Science of Secrecy from Ancient Egypt to Quantum Cryptography</a>;中译本《密码故事》，除了密码从古至今的演变，书里还单独对Ellis和Cocks等人的工作做了详细的讲述。我还没看完这本书，但感觉会很有意思。关于Adleman的更多八卦可以看<a href="http://www.nytimes.com/1994/12/13/science/scientist-at-work-leonard-adleman-hitting-the-high-spots-of-computer-theory.html">这篇采访</a>，总觉得他的气场和其余两人很不搭，各种变卦和无所谓。啊对了，Adleman也是将计算机病毒命名为Computer virus的人。</li>
-</ul>
-<p><strong>Original Link</strong>:<a href="http://localhost-8080.com/2013/12/history-of-rsa/">RSA 算法是如何诞生的</a>.</p> 
-	<a class="btn btn-mini xsmall" href="../rsashi-ru-he-lian-cheng-de.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="../tag/rsa-algorithm.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
-</div>
- 
-  
-        </div>
-        
-        
-    </div>     </div> </div>
-
-<!--footer-->
-<div class="container">
-  <div class="well" style="background-color: #E9EFF6">
-    <div id="blog-footer">
-      <div class="row-fluid">
-	<div class="social span2" align="center" id="socialist">
-	  <ul class="nav nav-list">
-	    <li class="nav-header">
-	      Social
-	    </li>
-	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
-
-	  </ul>
+<div class="summarycontainer">
+	<div class="metabox">
+		<p class="metaday">129</p>
+		<p class="metayear">2014</p>
+		<p class="metacategory">Pearls</p>
 	</div>
-        <div class="links span2" align="center">
-          <ul class="nav nav-list">
-            <li class="nav-header"> 
-              Links
-            </li>
-            
-            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-            <li><a href="http://diaorui.net/">数学之美</a></li>
-            <li><a href="http://licstar.net/">让博客飞(A BLOG WITH FUN)</a></li>
-            <li><a href="http://www.xperseverance.net/blogs/">持之以恒</a></li>
-            <li><a href="http://ibillxia.github.io/">Bill's Blog</a></li>
-            <li><a href="http://malagis.com/">麻辣GIS</a></li>
-            <li><a href="http://skyoung.github.io">Skyoung</a></li>
-          </ul>
-        </div>
-	<div class="site-nav span2" align="center">
-          <ul class="nav nav-list" id="site-links">
-            <li class="nav-header"> 
-              Site
-            </li>
-            <li><a href=".."><i class="icon-home" style="color: #1f334b">
-                </i>Home</a></li>
-            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
-                </i>Archives</a></li>
-	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
-                </i>Tags</a></li>
-	    
-            <li><a href="../" rel="alternate">
-                <i class="icon-rss-sign" style="color: #1f334b"></i>
-                Atom Feed</a></li>
-	  </ul>
+	<div class="summarybox">
+		<a class="summarytitle" href="/rsashi-ru-he-lian-cheng-de.html " >RSA是如何炼成的</a>
+		<p>八卦一下RSA算法发明过程中的一些轶事。</p>
+		<a class="btnmore" href="/rsashi-ru-he-lian-cheng-de.html">more ...</a>
+	</div>
+</div>
 
-        </div>
+<p class="paginator">
+    Page 1 / 1
+</p>
+		</div>
+		
+		<div class="sidebar">
+<div class="sidebarcategory">
+<h4>Categories</h4>
+	<li><a href="../category/distributed-system.html">Distributed System</a></li>
+	<li><a href="../category/life.html">Life</a></li>
+	<li><a href="../category/machine-learning.html">Machine Learning</a></li>
+	<li><a href="../category/notes.html">Notes</a></li>
+	<li><a href="../category/pearls.html">Pearls</a></li>
+	<li><a href="../category/viewpoint.html">Viewpoint</a></li>
+</div>
 
-      </div> <!--end of fluid row-->
-    </div> <!--end of blog-footer-->
-    <hr />
-    <p align="center"><a href="..">苹果的味道</a>
-      &copy; qingyuanxingsi
-    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
-        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
-        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
-        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+<div class="sidebarpages">
+	<h4>Pages</h4>
+		<li><a href="../pages/about.html">About</a></li>
+</div>
 
-  </div> <!--end of well -->
-</div> <!--end of container -->
+<div class="sidebarblogroll">
+<h4>Blogroll</h4>
+    <li><a href="http://freemind.pluskid.org" target="_blank">Pluskid</a></li>
+    <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July" target="_blank">结构之法 算法之道</a></li>
+    <li><a href="http://www.nosqlnotes.net/" target="_blank">NOSQL Notes</a></li>
+    <li><a href="http://diaorui.net/" target="_blank">数学之美</a></li>
+    <li><a href="http://licstar.net/" target="_blank">让博客飞(A BLOG WITH FUN)</a></li>
+    <li><a href="http://www.xperseverance.net/blogs/" target="_blank">持之以恒</a></li>
+    <li><a href="http://ibillxia.github.io/" target="_blank">Bill's Blog</a></li>
+    <li><a href="http://malagis.com/" target="_blank">麻辣GIS</a></li>
+    <li><a href="http://skyoung.github.io" target="_blank">Skyoung</a></li>
+</div>
 
-<!--/footer-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-
-
-<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
-
+<div class="sidebarsocial">
+<h4>Social</h4>
+    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+</div>		</div>
+		
+		<footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>,
+				Theme by <a href="http://frantic1048.com/">Frantic1048</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
 </body>
 </html>

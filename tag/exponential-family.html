@@ -1,403 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>苹果的味道</title>
-    <meta name="description" content="">
+	<title>苹果的味道 - Exponential Family</title>
+	<meta charset="utf-8" />
     <meta name="author" content="qingyuanxingsi">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="../theme/html5.js"></script>
-    <![endif]-->
-
-    <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="../theme/local.css" rel="stylesheet">
-    <link href="../theme/pygments.css" rel="stylesheet">
-    <link href="../theme/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../theme/css/franticworld.css" type="text/css" />
+	<link href="../theme/css/pygments.css" rel="stylesheet">
 </head>
+<body background="../theme/img/pattern.png">
+		<div class="nav-banner">
+		<a href="..">苹果的味道</a>
+		</div>
+		
+		<div class="content">
 
-<body>
-<header class="blog-header">
-  <div class="container">
-    <div class="row-fluid">
-      <div class="span9">
-	<a href=".." class="brand">苹果的味道</a>
-      </div>
-
-      <div class="span3" id="blog-nav">
-	<ul class="nav nav-pills pull-right">
-            <li><a href="../pages/about.html">About</a></li>
-	    <li >
-	      <a href="../category/distributed-system.html ">Distributed System</a>
-	    <li >
-	      <a href="../category/life.html ">Life</a>
-	    <li >
-	      <a href="../category/machine-learning.html ">Machine Learning</a>
-	    <li >
-	      <a href="../category/notes.html ">Notes</a>
-	    <li >
-	      <a href="../category/pearls.html ">Pearls</a>
-	    <li >
-	      <a href="../category/viewpoint.html ">Viewpoint</a>
-	</ul>
-      </div>
-    </div> <!-- End of fluid row-->
-  </div>   <!-- End of Container-->
-</header>
-    
-<div class="container">
-    <div class="content">
-    <div class="row-fluid">
-
-        <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html"><h1>机器学习系列(V): Generalized linear models and the exponential family</h1></a>
-        </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>三 23 四月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/machine-learning.html">Machine Learning</a> <a href="../tag/exponential-family.html">Exponential Family</a> <a href="../tag/generalized-linear-models.html">Generalized Linear Models</a> </p>
-<p>
-</p>
-      </div>
-      <div class="article-content span8">
-	<h1 id="_1">指数分布族</h1>
-<hr />
-<p>一件特别神奇的事是实际上我们学过或者用到的很多分布函数均可以写成一种一致的形式,事实上，属于这个家族的分布函数还是很多的，例如高斯分布、Bernoulli分布、二项分布、多项分布、指数分布、泊松分布、Dirichlet分布等,作为一个庞大家族的一员，这些分布函数具有一个它们引以为豪的共同的名字------<strong>指数分布族</strong>。以下我们就介绍一下指数分布族的基础知识吧。</p>
-<h2 id="_2">定义</h2>
-<p>传说中的这个神奇的家族中的分一个分布函数均可写成如下形式:</p>
-<p>\begin{equation}
-p(x) = h(x)e^{\theta^T T(x)-A(\theta)}
-\end{equation}</p>
-<p>其中,$\theta$为参数向量,$T(x)$为"Sufficient statistics"向量,$A(\theta)$为cumulate generating function.</p>
-<blockquote>
-<p>上式中我们不难注意到$\theta$和$x$仅在$\theta^T T(x)$一项中<code>耦合</code>在一起。另,指数分布族函数之积仍是指数分布族函数,只是可能不再具有良好的参数形式。</p>
-</blockquote>
-<p>为了得到一个归一化的分布，我们有:对于任一$\theta$,</p>
-<p>\begin{equation}
-\int p(x)dx = e^{-A(\theta)}\int h(x) e^{\theta^T T(x)} dx = 1
-\end{equation}</p>
-<p>即:</p>
-<p>\begin{equation}
-e^{A(\theta)} = \int h(x) e^{\theta^T T(x)} dx
-\end{equation}</p>
-<blockquote>
-<p>当$T(x)=x$时,$A(\theta)$是对于$h(x)$做<strong>拉普拉斯变换</strong>之后的$log$值。</p>
-</blockquote>
-<p>以下我们举几个实例以使我们对其有一个更为清晰的认识:</p>
-<h3 id="bernoulli-distribution">Bernoulli Distribution</h3>
-<p>对于Bernoulli分布,我们有:</p>
-<p>\begin{equation}
-\begin{split}
-p(x) &amp;= \alpha^x (1-\alpha)^{1-x}   \\
-     &amp;= exp[log(\alpha^x (1-\alpha)^{1-x})]  \\
-     &amp;= exp[xlog \alpha + (1-x) log(1-\alpha)] \\
-     &amp;= exp[xlog \frac{\alpha}{1-\alpha}+log(1-\alpha)]  \\
-     &amp;= exp[x\theta - log(1+e^{\theta})]
-\end{split}
-\end{equation}</p>
-<p>于是我们有:</p>
-<p>\begin{equation}
-\begin{split}
-T(x) &amp;= x \\
-\theta &amp;= log \frac{\alpha}{1-\alpha} \\
-A(\theta) &amp;= log(1+e^{\theta})
-\end{split}
-\end{equation}</p>
-<h3 id="univariate-gaussian">Univariate Gaussian</h3>
-<p>对于单变量高斯分布,我们有:</p>
-<p><img alt="Univariate Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_zps8407f3a0.png" /></p>
-<p>其中:</p>
-<p><img alt="Univariate Gaussian Params" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/univariate_gaussian_params_zps58c5d9d3.png" /></p>
-<h3 id="multivariate-gaussian">Multivariate Gaussian</h3>
-<p>对于形如下式的多变量高斯分布:</p>
-<p>\begin{equation}
-p(x) = \frac{1}{(2\pi)^{D/2}|\Sigma|^{1/2}} e^{(x-\mu)^T \Sigma^{-1} (x-\mu)/2}
-\end{equation}</p>
-<p>我们有:(下式我并未真正推导)</p>
-<p>\begin{equation}
-\begin{split}
-h(x) &amp;= (2\pi)^{-D/2} \\
-T(x) &amp;= \left(
-\begin{array}{cc}
-x \\
-xx^T
-\end{array}
-\right) \\
-\theta &amp;= \left(
-\begin{array}{cc}
-\Sigma^{-1}\mu \\
--{1 \over 2}\Sigma^{-1}
-\end{array}
-\right)
-\end{split}
-\end{equation}</p>
-<h2 id="_3">一阶导数</h2>
-<p><img alt="First Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/first_derivative_zps6152bd77.png" /></p>
-<h2 id="_4">二阶导数</h2>
-<p><img alt="Second Derivative" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/second_deriative_zps8d444606.png" /></p>
-<p>即$A(\theta)$是凸的($\succeq$表示正定positive definite)</p>
-<h2 id="maximum-likelihood">Maximum Likelihood</h2>
-<p>根据$p(x)$的定义,我们有:</p>
-<p>\begin{equation}
-l(\theta) = \sum_{i=1}^{N} log p(x_i|\theta) = \sum_{i=1}^{N} [log h(x_i) + \theta^T T(x_i) - A(\theta)]
-\end{equation}</p>
-<p>为了求得极大似然解,我们对$\theta$求偏导有:</p>
-<p>\begin{equation}
-l \prime(\theta) = [\sum_{i=1}^N T(x_i)] - NA\prime(\theta) = 0
-\end{equation}</p>
-<p>于是我们有:</p>
-<p>\begin{equation}
-A\prime(\hat\theta_{ML})=\frac{1}{N} \sum_{i=1}^N T(x_i)
-\end{equation}</p>
-<h2 id="conjugate-priors-in-bayesian-statistics">Conjugate Priors in Bayesian Statistics</h2>
-<p>根据Bayes Rule,我们有:</p>
-<p>\begin{equation}
-p(\theta|x) = \frac{p(x|\theta)p(\theta)}{\int p(x|\theta)p(\theta) d\theta}
-\end{equation}</p>
-<blockquote>
-<p>NOTE:分母项只是一归一化项,其值与$\theta$无关。于是我们有$p(\theta|x) \propto p(x|\theta)p(\theta)$.</p>
-</blockquote>
-<p>正如我们之前提到的那样，为了简化计算,我们最好使得先验分布$p(\theta)$与Marginal Likelihood $p(x|\theta)$具有相似的形式(此时它们成为共轭分布)。如当先验分布是Dirichlet分布时,当我们取Marginal Likelihood为多项式分布时,后验分布为Dirichlet分布。由于Dirichlet分布与多项式分布具有相似的形式,在一定程度上可以简化我们的计算。</p>
-<blockquote>
-<p>NOTE:关于Dirichlet与Multinomial之间的关系我们会在之后的<em>Dirichlet Process</em>一篇中详细展开,敬请期待,此处不再赘述。</p>
-</blockquote>
-<p>常见的共轭分布如下表所示:</p>
-<p><img alt="Conjugate Prior" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/conjugate_priors_zps0d694b87.png" /></p>
-<h1 id="_5">广义线性模型</h1>
-<hr />
-<p>从软件工程的视角来看,如果我们把广义线性模型(Generalized Linear Models,GLM)看作一个类,线性回归与Logistic回归只不过是该类的两个实例而已,由此可见GLM是一个较为高大上的东东啊!以下对其进行一个较为简单的介绍:</p>
-<h2 id="_6">基础知识</h2>
-<p>为了理解GLM,我们首先引入:</p>
-<p>\begin{equation}
-p(y_i|\theta,\sigma^2) = exp[\frac{y_i\theta-A(\theta)}{\sigma^2}+c(y_i,\sigma^2)]
-\end{equation}</p>
-<p>其中,$\sigma^2$为<em>dispersion parameter</em>(一般设置为1),$\theta$为自然参数,$A$为partition function,$c$为归一化常数.如对于Logistic Regression而言,$\theta$为log-odds ratio,$\theta = log(\frac{\mu}{1-\mu})$,其中$\mu = E[y] = p(y=1)$为mean.为了将mean转化为自然参数,我们引入函数$\psi$,有:$\theta = \mathbf \Psi(\mu)$.实际上,如果存在逆向映射,我们则有:$\mu = \mathbf \Psi^{-1}(\theta)$.此外,根据我们以上推导的$A(\theta)$的一阶导数知:</p>
-<p>\begin{equation}
-\mu = \Psi^{-1}(\theta) = A\prime(\theta)
-\end{equation}</p>
-<p>若我们令:</p>
-<p>\begin{equation}
-\eta_i = w^T x_i
-\end{equation}</p>
-<p>我们可以定义如下mean function,记为$g^{-1}$,使得:</p>
-<p>\begin{equation}
-\mu_i = g^{-1}(\eta_i) = g^{-1}(w^T x_i)
-\end{equation}</p>
-<p>Mean function的逆函数,即$g()$,则称为<em>Link function</em>.我们可以选取任意函数作为$g()$,只要它是可逆的,且使得逆函数具有合适的取值范围。如针对Logistic Regression而言,我们有:$\mu_i = g^{-1}(\eta_i) = sigm(\eta_i)$</p>
-<p>一种最为简单的Link function的函数是取$g=\psi$,称为Canonical Link Function.上面我们定义$\theta_i = \eta_i = w^Tx_i$,于是模型变为:</p>
-<p>\begin{equation}
-p(y_i|x_i,w,\sigma^2) = exp[\frac{y_iw^Tx_i-A(w^Tx_i)}{\sigma^2}+c(y_i,\sigma^2)]
-\end{equation}</p>
-<p>下表中,我们给出一些常见分布函数及其对应的Canonical Link Functions.我们可以看到对于Bernoulli和二项分布而言,Canonical Link Function为logit函数,$g(\mu)=log(\frac{\eta}{1-\eta})$,其逆函数为logistic函数,$\mu = sigm(\eta)$.</p>
-<p>根据我们第一部分对一阶导数以及二阶导数的推导我们有:</p>
-<p>\begin{equation}
-\begin{split}
-E[y|x_i,w,\sigma^2] &amp;= \mu_i = A\prime(\theta_i) \\
-var[y|x_i,w,\sigma^2] &amp;= \sigma_i^2 = A\prime\prime(\theta_i)\sigma^2
-\end{split}
-\end{equation}</p>
-<p>为了更便于理解,我们举几个具体的例子:</p>
-<ul>
-<li>对于线性回归而言,我们有:</li>
-</ul>
-<p>\begin{equation}
-log p(y_i|x_i,w,\sigma^2) = \frac{y_i\mu_i-\frac{\mu_i^2}{2}}{\sigma^2} - {1 \over 2}(\frac{y_i^2}{\sigma_i^2}+log(2\pi \sigma^2))
-\end{equation}</p>
-<p>其中,$y_i \in R$,且$\theta_i = \mu_i = w^T x_i$,这里我们取$A(\theta) = \theta^2/2$,因此$E[y_i] = \mu_i$,且$var[y_i]=\sigma^2$.</p>
-<ul>
-<li>对于二项分布而言,我们有:(<strong>后面这两个未证明结论的正确性</strong>)</li>
-</ul>
-<p>\begin{equation}
-log p(y_i|x_i,w) = y_i log(\frac{\pi_i}{1-\pi_i}) +N_ilog(1-\pi_i)+log 
-\left(
-\begin{array}{cc}
-N_i \\
-y_i
-\end{array}
-\right)
-\end{equation}</p>
-<p>其中,$y_i \in {0,1,...,N_i}$,$\pi_i = sigm(w^Tx_i)$,$\theta_i = log(\pi_i/(1-\pi_i))=w^Tx_i$，且$\sigma^2=1$.这里我们取$A(\theta) = N_ilog(1+e^{\theta})$.于是我们有$E[y_i] = N_i \pi_i=\mu_i$,$var[y_i] = N_i \pi_i (1-\pi_i)$.</p>
-<ul>
-<li>对于Poisson Regression而言,我们有:</li>
-</ul>
-<p>\begin{equation}
-log p(y_i|x_i,w) = y_i log \mu_i - \mu_i - log(y_i!)
-\end{equation}</p>
-<p>其中,$y_i \in {0,1,2,...}$,$\mu_i = exp(w^Tx_i)$,$\theta_i = log(\mu_i) = w^Tx_i$且$\sigma^2=1$.这里我们取$A(\theta) = e^{\theta}$,于是我们有$E[y_i] = var[y_i] = \mu_i$.</p>
-<h2 id="mle-estimation">MLE Estimation</h2>
-<p>其极大似然函数具有如下形式:</p>
-<p>\begin{equation}
-\begin{split}
-\ell(w) = log p(D|w) &amp;= \frac{1}{\sigma^2}\sum_{i=1}^N \ell_i \\
-\ell_i &amp;\triangleq \theta_iy_i-A(\theta_i)
-\end{split}
-\end{equation}</p>
-<p>我们可通过下式计算其梯度向量:</p>
-<p>\begin{equation}
-\begin{split}
-\frac{\ell_i}{w_j} &amp;= \frac{\ell_i}{\theta_i}\frac{\theta_i}{\mu_i}\frac{\mu_i}{\eta_i}\frac{\eta_i}{w_j} \\
-&amp;= (y_i - A\prime(\theta_i))\frac{\theta_i}{\mu_i}\frac{\mu_i}{\eta_i}x_{ij} \\
-&amp;= (y_i-\mu_i)\frac{\theta_i}{\mu_i}\frac{\mu_i}{\eta_i}x_{ij}
-\end{split}
-\end{equation}</p>
-<p>如果我们采用Canonical Link Function,$\theta_i = \eta_i$,上式可简化为:</p>
-<p>\begin{equation}
-\bigtriangledown_w \ell(w) = \frac{1}{\sigma^2}[\sum_{i=1}^N (y_i-\mu_i)x_i]
-\end{equation}</p>
-<p>利用该结果执行梯度下降即可得到ML估计值。</p>
-<blockquote>
-<p><em>TODO Board</em>:</p>
-<ul>
-<li>Probit Regression</li>
-<li>Multi-task Learning(<em>Transfer Learning</em>)</li>
-<li>Generalized Linear Mixture Models</li>
-<li>Learning to rank</li>
-</ul>
-</blockquote>
-<h1 id="_7">参考文献</h1>
-<hr />
-<ol>
-<li><a href="http://www.cs.columbia.edu/~jebara/4771/tutorials/lecture12.pdf">Exponential Family</a></li>
-</ol><script type= "text/javascript">
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-    }
-</script>
- 
-	<a class="btn btn-mini xsmall" href="../ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="../tag/exponential-family.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
-</div>
- 
-  
-        </div>
-        
-        
-    </div>     </div> </div>
-
-<!--footer-->
-<div class="container">
-  <div class="well" style="background-color: #E9EFF6">
-    <div id="blog-footer">
-      <div class="row-fluid">
-	<div class="social span2" align="center" id="socialist">
-	  <ul class="nav nav-list">
-	    <li class="nav-header">
-	      Social
-	    </li>
-	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
-
-	  </ul>
+<div class="summarycontainer">
+	<div class="metabox">
+		<p class="metaday">113</p>
+		<p class="metayear">2014</p>
+		<p class="metacategory">Machine Learning</p>
 	</div>
-        <div class="links span2" align="center">
-          <ul class="nav nav-list">
-            <li class="nav-header"> 
-              Links
-            </li>
-            
-            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-            <li><a href="http://diaorui.net/">数学之美</a></li>
-            <li><a href="http://licstar.net/">让博客飞(A BLOG WITH FUN)</a></li>
-            <li><a href="http://www.xperseverance.net/blogs/">持之以恒</a></li>
-            <li><a href="http://ibillxia.github.io/">Bill's Blog</a></li>
-            <li><a href="http://malagis.com/">麻辣GIS</a></li>
-            <li><a href="http://skyoung.github.io">Skyoung</a></li>
-          </ul>
-        </div>
-	<div class="site-nav span2" align="center">
-          <ul class="nav nav-list" id="site-links">
-            <li class="nav-header"> 
-              Site
-            </li>
-            <li><a href=".."><i class="icon-home" style="color: #1f334b">
-                </i>Home</a></li>
-            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
-                </i>Archives</a></li>
-	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
-                </i>Tags</a></li>
-	    
-            <li><a href="../" rel="alternate">
-                <i class="icon-rss-sign" style="color: #1f334b"></i>
-                Atom Feed</a></li>
-	  </ul>
+	<div class="summarybox">
+		<a class="summarytitle" href="/ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html " >机器学习系列(V): Generalized linear models and the exponential family</a>
+		<p>本文主要介绍广义线性模型以及指数分布族。</p>
+		<a class="btnmore" href="/ji-qi-xue-xi-xi-lie-v-generalized-linear-models-and-the-exponential-family.html">more ...</a>
+	</div>
+</div>
 
-        </div>
+<p class="paginator">
+    Page 1 / 1
+</p>
+		</div>
+		
+		<div class="sidebar">
+<div class="sidebarcategory">
+<h4>Categories</h4>
+	<li><a href="../category/distributed-system.html">Distributed System</a></li>
+	<li><a href="../category/life.html">Life</a></li>
+	<li><a href="../category/machine-learning.html">Machine Learning</a></li>
+	<li><a href="../category/notes.html">Notes</a></li>
+	<li><a href="../category/pearls.html">Pearls</a></li>
+	<li><a href="../category/viewpoint.html">Viewpoint</a></li>
+</div>
 
-      </div> <!--end of fluid row-->
-    </div> <!--end of blog-footer-->
-    <hr />
-    <p align="center"><a href="..">苹果的味道</a>
-      &copy; qingyuanxingsi
-    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
-        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
-        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
-        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+<div class="sidebarpages">
+	<h4>Pages</h4>
+		<li><a href="../pages/about.html">About</a></li>
+</div>
 
-  </div> <!--end of well -->
-</div> <!--end of container -->
+<div class="sidebarblogroll">
+<h4>Blogroll</h4>
+    <li><a href="http://freemind.pluskid.org" target="_blank">Pluskid</a></li>
+    <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July" target="_blank">结构之法 算法之道</a></li>
+    <li><a href="http://www.nosqlnotes.net/" target="_blank">NOSQL Notes</a></li>
+    <li><a href="http://diaorui.net/" target="_blank">数学之美</a></li>
+    <li><a href="http://licstar.net/" target="_blank">让博客飞(A BLOG WITH FUN)</a></li>
+    <li><a href="http://www.xperseverance.net/blogs/" target="_blank">持之以恒</a></li>
+    <li><a href="http://ibillxia.github.io/" target="_blank">Bill's Blog</a></li>
+    <li><a href="http://malagis.com/" target="_blank">麻辣GIS</a></li>
+    <li><a href="http://skyoung.github.io" target="_blank">Skyoung</a></li>
+</div>
 
-<!--/footer-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-
-
-<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
-
+<div class="sidebarsocial">
+<h4>Social</h4>
+    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+</div>		</div>
+		
+		<footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>,
+				Theme by <a href="http://frantic1048.com/">Frantic1048</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
 </body>
 </html>

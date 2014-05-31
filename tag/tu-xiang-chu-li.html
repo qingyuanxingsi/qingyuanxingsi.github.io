@@ -1,462 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>苹果的味道</title>
-    <meta name="description" content="">
+	<title>苹果的味道 - 图像处理</title>
+	<meta charset="utf-8" />
     <meta name="author" content="qingyuanxingsi">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-    <script src="../theme/html5.js"></script>
-    <![endif]-->
-
-    <!-- Le styles -->
-    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="../theme/local.css" rel="stylesheet">
-    <link href="../theme/pygments.css" rel="stylesheet">
-    <link href="../theme/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="../theme/css/franticworld.css" type="text/css" />
+	<link href="../theme/css/pygments.css" rel="stylesheet">
 </head>
+<body background="../theme/img/pattern.png">
+		<div class="nav-banner">
+		<a href="..">苹果的味道</a>
+		</div>
+		
+		<div class="content">
 
-<body>
-<header class="blog-header">
-  <div class="container">
-    <div class="row-fluid">
-      <div class="span9">
-	<a href=".." class="brand">苹果的味道</a>
-      </div>
-
-      <div class="span3" id="blog-nav">
-	<ul class="nav nav-pills pull-right">
-            <li><a href="../pages/about.html">About</a></li>
-	    <li >
-	      <a href="../category/distributed-system.html ">Distributed System</a>
-	    <li >
-	      <a href="../category/life.html ">Life</a>
-	    <li >
-	      <a href="../category/machine-learning.html ">Machine Learning</a>
-	    <li >
-	      <a href="../category/notes.html ">Notes</a>
-	    <li >
-	      <a href="../category/pearls.html ">Pearls</a>
-	    <li >
-	      <a href="../category/viewpoint.html ">Viewpoint</a>
-	</ul>
-      </div>
-    </div> <!-- End of fluid row-->
-  </div>   <!-- End of Container-->
-</header>
-    
-<div class="container">
-    <div class="content">
-    <div class="row-fluid">
-
-        <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="../ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html"><h1>计算机视觉(II):边缘检测</h1></a>
-        </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 27 五月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/tu-xiang-chu-li.html">图像处理</a> </p>
-<p>
-</p>
-      </div>
-      <div class="article-content span8">
-	<blockquote>
-<p>本文中的介绍相对粗浅，自己实现一遍这些算法可能会有更为深入的了解，理论部分也不是很充分，没有那种"边缘检测不过如此"的感觉，以后可能就这个问题进行更为深入的挖掘(如果时间允许的话).此外，本文中对Canny边缘的<strong>非极大值抑制</strong>也没有给出解释，有机会我们会详细讨论。</p>
-</blockquote>
-<h1 id="_1">边缘</h1>
-<p><strong>边缘(edge)</strong>是指图像局部强度变化最显著的部分。主要存在于目标与目标、目标与背景、区域与区域(包括不同色彩)之间，是图像分割、纹理特征和形状特征等图像分析的重要基础。</p>
-<p>图像强度的显著变化可分为：</p>
-<ul>
-<li>阶跃变化函数，即图像强度在不连续处的两边的像素灰度值有着显著的差异；</li>
-<li>线条（屋顶）变化函数，即图像强度突然从一个值变化到另一个值，保持一较小行程后又回到原来的值。</li>
-</ul>
-<p>图像的边缘有方向和幅度两个属性,沿边缘方向像素变化平缓,垂直于边缘方向像素变化剧烈.边缘上的这种变化可以用微分算子检测出来,通常用一阶或二阶导数来检测边缘。</p>
-<p><img alt="Edge_Detection_I" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_1_zps4e28524a.png" /></p>
-<p><strong>注:(a)(b)分别是阶跃函数和屋顶函数的二维图像；(c)(d)是阶跃和屋顶函数的函数图象；(e)(f)对应一阶导数；（g)(h)是二阶导数</strong>。</p>
-<h1 id="_2">一阶导数法：梯度算子</h1>
-<p>对于左图，左侧的边是正的（由暗到亮），右侧的边是负的（由亮到暗）。对于右图，结论相反。常数部分为零。用来检测边是否存在。</p>
-<p><img alt="Edge_Detection_II" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_2_zpsb552892a.png" /></p>
-<h2 id="gradient-operators">梯度算子 Gradient operators</h2>
-<p>函数$f(x,y)$在$(x,y)$处的梯度为一个向量：</p>
-<p>\begin{equation}
-\bigtriangledown f = [\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}]^T
-\end{equation}</p>
-<p>计算这个向量的大小为：</p>
-<p>\begin{equation}
-|\bigtriangledown f| = mag(\bigtriangledown f) = [(\frac{\partial f}{\partial x})^2+(\frac{\partial f}{\partial y})^2]^{1 \over 2}
-\end{equation}</p>
-<p>近似为:</p>
-<p>\begin{equation}
-|\bigtriangledown f| \thickapprox |G_x| + |G_y|
-\end{equation}</p>
-<p>梯度的方向角为：</p>
-<p>\begin{equation}
-a(x,y) = arctan(\frac{G_y}{G_x})
-\end{equation}</p>
-<h2 id="sobel">Sobel算子</h2>
-<p><strong>Sobel算子</strong>的表示：</p>
-<p>\begin{equation}
-\begin{split}
-G_x &amp;= (z_7+2z_8+z_9) - (z_1+2z_2+z_3) \\
-G_y &amp;= (z_3+2z_6+z_9) - (z_1+2z_4+z_7)
-\end{split}
-\end{equation}</p>
-<p>梯度幅值：</p>
-<p>\begin{equation}
-|\bigtriangledown f| \thickapprox |G_x| + |G_y|
-\end{equation}</p>
-<p>用卷积模板来实现：</p>
-<p><img alt="Conv Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_3_zps392719ee.png" /></p>
-<h1 id="_3">二阶微分法：拉普拉斯</h1>
-<p>二阶微分在亮的一边是负的，在暗的一边是正的。常数部分为零。可以用来确定边的准确位置，以及像素在亮的一侧还是暗的一侧。</p>
-<p><img alt="Edge Detection IV" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_4_zpsfcf520a3.png" /></p>
-<h2 id="laplace">LapLace 拉普拉斯算子</h2>
-<p>二维函数$f(x,y)$的拉普拉斯是一个二阶的微分，定义为：</p>
-<p>\begin{equation}
-\bigtriangledown^2 f = \frac{\partial^2 f}{\partial x^2}+\frac{\partial^2 f}{\partial y^2}
-\end{equation}</p>
-<p>其中：</p>
-<p>\begin{equation}
-\begin{split}
-\frac{\partial^2 f}{\partial x^2} &amp;= f[x+1,y]-2f[x,y]+f[x-1,y] \\
-\frac{\partial^2 f}{\partial y^2} &amp;= f[x,y+1]-2f[x,y]+f[x,y-1]
-\end{split}
-\end{equation}</p>
-<p>可以用多种方式将其表示为数字形式。对于一个3*3的区域，经验上被推荐最多的形式是：</p>
-<p>\begin{equation}
-\bigtriangledown^2 f = 4z_5 - (z_2+z_4+z_6+z_8)
-\end{equation}</p>
-<p>定义数字形式的拉普拉斯要求系数之和必为0</p>
-<p><img alt="Laplace" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/edge_detection_5_zps88cd3030.png" /></p>
-<p>以下给出两种边缘检测算子的代码示例:</p>
-<pre><code>#include &lt;iostream&gt;
-#include "opencv2/core/core.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-
-using namespace std;
-using namespace cv;
-
-int main()
-{
-    Mat src, src_gray;
-    Mat grad;
-
-    int scale = 1;
-    int delta = 0;
-    int ddepth = CV_16S;
-    int kernel_size = 3;
-
-    /// Load an image
-    src = imread("/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg");
-
-    if( !src.data )
-    { return -1; }
-
-    GaussianBlur( src, src, Size(3,3), 0, 0, BORDER_DEFAULT );
-    cvtColor( src, src_gray, CV_RGB2GRAY );
-
-
-    /////////////////////////// Sobe l////////////////////////////////////
-    /// Generate grad_x and grad_y
-    Mat grad_x, grad_y;
-    Mat abs_grad_x, abs_grad_y;
-    /// Gradient X
-    //Scharr( src_gray, grad_x, ddepth, 1, 0, scale, delta, BORDER_DEFAULT );
-    //Calculates the first, second, third, or mixed image derivatives using an extended Sobel operator.
-    Sobel( src_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
-    convertScaleAbs( grad_x, abs_grad_x );
-    /// Gradient Y
-    //Scharr( src_gray, grad_y, ddepth, 0, 1, scale, delta, BORDER_DEFAULT );
-    Sobel( src_gray, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
-    convertScaleAbs( grad_y, abs_grad_y );
-     /// Total Gradient (approximate)
-    addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
-
-    namedWindow("Sobel", CV_WINDOW_AUTOSIZE );
-    imshow("Sobel", grad );
-    imwrite("Sobel.png",grad);
-
-    /////////////////////////////////// Laplace ///////////////////////////////
-    Mat abs_dst,dst;
-    Laplacian( src_gray, dst, ddepth, kernel_size, scale, delta, BORDER_DEFAULT );
-    convertScaleAbs( dst, abs_dst );
-    namedWindow("Laplacian", CV_WINDOW_AUTOSIZE );
-    imshow("Laplacian", abs_dst );
-    imwrite("Laplace.png",grad);
-
-    waitKey(0);
-    return 0;
-}
-</code></pre>
-<p>源图我们采用海贼王路飞图像:</p>
-<p><img alt="Lufei" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/lufei_zps83311ff7.jpg" /></p>
-<p>Sobel算子处理后得到如下边缘:</p>
-<p><img alt="Sobel" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Sobel_zps3e362cbb.png" /></p>
-<p>Sobel算子可以直接计算$G_x$ 、$G_y$可以检测到边的存在，以及从暗到亮，从亮到暗的变化。仅计算$|G_x|$，产生最强的响应是正交于$x$轴的边；$|G_y|$则是正交于$y$轴的边。</p>
-<p>Laplacian算子则得到如下边缘:</p>
-<p><img alt="Laplacian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/Laplace_zps1b1cf9bb.png" /></p>
-<p>拉普拉斯对噪声敏感，会产生双边效果。不能检测出边的方向。<strong>通常不直接用于边的检测，只起辅助的角色</strong>，检测一个像素是在边的亮的一边还是暗的一边利用零跨越，确定边的位置。</p>
-<h1 id="canny">Canny边缘检测</h1>
-<hr />
-<p>在计算机视觉边缘检测算法实现时，实际上就是将图像与某边缘检测模板做卷积的过程。针对Canny而言，其卷积模板相对来说比较简单：</p>
-<p><img alt="Canny Template" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_template_zps34034b29.png" /></p>
-<p>我们将左上角视为$f[i,j]$,则其$x$,$y$方向的偏导数矩阵,梯度幅值以及方向的表达式分别为:</p>
-<p>\begin{equation}
-\begin{split}
-P[i,j] &amp;= (f[i,j+1]+f[i+1,j+1)-f[i][j]-f[i+1,j])/2 \\
-Q[i,j] &amp;= (f[i,j]+f[i][j+1]-f[i+1,j]-f[i+1,j+1])/2 \\
-M[i,j] &amp;= \sqrt{P]i,j]^2+Q[i,j]^2} \\
-\theta[i,j] &amp;= arctan(\frac{Q[i,j]}{P[i,j]})
-\end{split}
-\end{equation}</p>
-<h2 id="todo">对梯度幅值进行非极大值抑制[TODO]</h2>
-<h2 id="_4">用双阈值算法检测和连接边缘</h2>
-<p>Canny算法中减少假边缘数量的方法是采用双阈值法。选择两个阈值，根据高阈值得到一个边缘图像，这样一个图像含有很少的假边缘，但是由于阈值较高，产生的图像边缘可能不闭合，为解决这样一个问题采用了另外一个低阈值。</p>
-<p>在高阈值图像中把边缘链接成轮廓，当到达轮廓的端点时，该算法会在断点的8邻域点中寻找满足低阈值的点，再根据此点收集新的边缘，直到整个图像边缘闭合。</p>
-<p>以上即为Canny边缘检测算法的原理分析，接下来我们给出一个OpenCV代码示例。</p>
-<pre><code>#include &lt;iostream&gt;
-#include "opencv2/core/core.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
-#include "opencv2/highgui/highgui.hpp"
-
-using namespace std;
-using namespace cv;
-
-Mat src, src_gray;
-Mat dst, detected_edges;
-int edgeThresh = 1;
-int lowThreshold;
-int const max_lowThreshold = 100;
-int ratio = 3;
-int kernel_size = 3;
-char* window_name = "Canny";
-
-void CannyThreshold(int, void*)
-{
-    /// Reduce noise with a kernel 3x3
-    blur( src_gray, detected_edges, Size(3,3) );
-    /// Canny detector
-    Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
-    dst = Scalar::all(0);
-    src.copyTo( dst, detected_edges);
-    imshow( window_name, dst );
-    if(lowThreshold == 0){
-        imwrite("canny_0.png",dst);
-    }
-    if(lowThreshold==50){
-        imwrite("canny_50.png",dst);
-    }
-    if(lowThreshold==100){
-        imwrite("canny_100.png",dst);
-    }
-}
-
-int main( )
-{
-  src = imread( "/home/qingyuanxingsi/workspace/C++/contents/lufei.jpg" );
-  if( !src.data )
-    { return -1; }
-  dst.create( src.size(), src.type() );
-  cvtColor( src, src_gray, CV_BGR2GRAY );
-  namedWindow( window_name, CV_WINDOW_AUTOSIZE );
-  createTrackbar( "Min Threshold:", window_name, &amp;lowThreshold, max_lowThreshold, CannyThreshold );
-  CannyThreshold(0, 0);
-  waitKey(0);
-  return 0;
-}
-</code></pre>
-<p>通过设定不同的阈值，我们分别得到不同的边缘检测结果：</p>
-<p><img alt="threshold_0" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_0_zps09475230.png" /></p>
-<p>当我们把阈值均设置为0时,我们得到的是原图像的边缘阵列；</p>
-<p>以下分别当低阈值分别设置为50和100时的结果:</p>
-<p><img alt="threshold_50" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_50_zpsa24f5b6c.png" /></p>
-<p><img alt="threshold_100" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/canny_100_zps8dff2e1d.png" /></p>
-<blockquote>
-<p>TODO BOARD:</p>
-<ul>
-<li>Sobel算子$G_x$,$G_y$定义确认;</li>
-</ul>
-</blockquote>
-<h1 id="_5">参考文献</h1>
-<hr />
-<ul>
-<li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7829481">【OpenCV】边缘检测：Sobel、拉普拉斯算子</a></li>
-<li><a href="http://blog.csdn.net/likezhaobin/article/details/6892176">Canny边缘检测算法原理及其VC实现详解(一)</a></li>
-<li><a href="http://blog.csdn.net/xiaowei_cqu/article/details/7839140">【OpenCV】Canny 边缘检测</a></li>
-</ul><script type= "text/javascript">
-    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-        var mathjaxscript = document.createElement('script');
-        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-        mathjaxscript.type = 'text/javascript';
-        mathjaxscript.src = 'https:' == document.location.protocol
-                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
-                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
-        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
-            "MathJax.Hub.Config({" +
-            "    config: ['MMLorHTML.js']," +
-            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
-            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-            "    displayAlign: 'center'," +
-            "    displayIndent: '0em'," +
-            "    showMathMenu: true," +
-            "    tex2jax: { " +
-            "        inlineMath: [ ['$','$'] ], " +
-            "        displayMath: [ ['$$','$$'] ]," +
-            "        processEscapes: true," +
-            "        preview: 'TeX'," +
-            "    }, " +
-            "    'HTML-CSS': { " +
-            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
-            "    } " +
-            "}); ";
-        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-    }
-</script>
- 
-	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html">
-          <i class="icon-comment"></i> Comment </a>
-	<hr />
-      </div>
-      
-    </div>
-    
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html"><h1>计算机视觉(I):图像处理基础初步</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>六 24 五月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/tu-xiang-chu-li.html">图像处理</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要介绍一点关于图像处理的基本知识,以为进一步了解计算机视觉算法打下一定的基础。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="../tag/tu-xiang-chu-li.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
-</div>
- 
-  
-        </div>
-        
-        
-    </div>     </div> </div>
-
-<!--footer-->
-<div class="container">
-  <div class="well" style="background-color: #E9EFF6">
-    <div id="blog-footer">
-      <div class="row-fluid">
-	<div class="social span2" align="center" id="socialist">
-	  <ul class="nav nav-list">
-	    <li class="nav-header">
-	      Social
-	    </li>
-	    <li><a href="https://github.com/qingyuanxingsi"><i class="icon-Github" style="color: #1f334b"></i>Github</a></li>
-
-	  </ul>
+<div class="summarycontainer">
+	<div class="metabox">
+		<p class="metaday">147</p>
+		<p class="metayear">2014</p>
+		<p class="metacategory">Machine Learning</p>
 	</div>
-        <div class="links span2" align="center">
-          <ul class="nav nav-list">
-            <li class="nav-header"> 
-              Links
-            </li>
-            
-            <li><a href="http://freemind.pluskid.org">Pluskid</a></li>
-            <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July">结构之法 算法之道</a></li>
-            <li><a href="http://www.nosqlnotes.net/">NOSQL Notes</a></li>
-            <li><a href="http://diaorui.net/">数学之美</a></li>
-            <li><a href="http://licstar.net/">让博客飞(A BLOG WITH FUN)</a></li>
-            <li><a href="http://www.xperseverance.net/blogs/">持之以恒</a></li>
-            <li><a href="http://ibillxia.github.io/">Bill's Blog</a></li>
-            <li><a href="http://malagis.com/">麻辣GIS</a></li>
-            <li><a href="http://skyoung.github.io">Skyoung</a></li>
-          </ul>
-        </div>
-	<div class="site-nav span2" align="center">
-          <ul class="nav nav-list" id="site-links">
-            <li class="nav-header"> 
-              Site
-            </li>
-            <li><a href=".."><i class="icon-home" style="color: #1f334b">
-                </i>Home</a></li>
-            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
-                </i>Archives</a></li>
-	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
-                </i>Tags</a></li>
-	    
-            <li><a href="../" rel="alternate">
-                <i class="icon-rss-sign" style="color: #1f334b"></i>
-                Atom Feed</a></li>
-	  </ul>
+	<div class="summarybox">
+		<a class="summarytitle" href="/ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html " >计算机视觉(II):边缘检测</a>
+		<p>主要介绍一些常见的边缘检测算法并给出OpenCV代码示例。</p>
+		<a class="btnmore" href="/ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html">more ...</a>
+	</div>
+</div>
+<div class="summarycontainer">
+	<div class="metabox">
+		<p class="metaday">144</p>
+		<p class="metayear">2014</p>
+		<p class="metacategory">Machine Learning</p>
+	</div>
+	<div class="summarybox">
+		<a class="summarytitle" href="/ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html " >计算机视觉(I):图像处理基础初步</a>
+		<p>本文主要介绍一点关于图像处理的基本知识,以为进一步了解计算机视觉算法打下一定的基础。</p>
+		<a class="btnmore" href="/ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html">more ...</a>
+	</div>
+</div>
 
-        </div>
+<p class="paginator">
+    Page 1 / 1
+</p>
+		</div>
+		
+		<div class="sidebar">
+<div class="sidebarcategory">
+<h4>Categories</h4>
+	<li><a href="../category/distributed-system.html">Distributed System</a></li>
+	<li><a href="../category/life.html">Life</a></li>
+	<li><a href="../category/machine-learning.html">Machine Learning</a></li>
+	<li><a href="../category/notes.html">Notes</a></li>
+	<li><a href="../category/pearls.html">Pearls</a></li>
+	<li><a href="../category/viewpoint.html">Viewpoint</a></li>
+</div>
 
-      </div> <!--end of fluid row-->
-    </div> <!--end of blog-footer-->
-    <hr />
-    <p align="center"><a href="..">苹果的味道</a>
-      &copy; qingyuanxingsi
-    Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
-        <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
-        Icons by <a href="http://fortawesome.github.com/Font-Awesome">Font Awesome</a> and 
-        <a href="http://gregoryloucas.github.com/Font-Awesome-More">Font Awesome More</a></p>
+<div class="sidebarpages">
+	<h4>Pages</h4>
+		<li><a href="../pages/about.html">About</a></li>
+</div>
 
-  </div> <!--end of well -->
-</div> <!--end of container -->
+<div class="sidebarblogroll">
+<h4>Blogroll</h4>
+    <li><a href="http://freemind.pluskid.org" target="_blank">Pluskid</a></li>
+    <li><a href="https://github.com/julycoding/The-Art-Of-Programming-By-July" target="_blank">结构之法 算法之道</a></li>
+    <li><a href="http://www.nosqlnotes.net/" target="_blank">NOSQL Notes</a></li>
+    <li><a href="http://diaorui.net/" target="_blank">数学之美</a></li>
+    <li><a href="http://licstar.net/" target="_blank">让博客飞(A BLOG WITH FUN)</a></li>
+    <li><a href="http://www.xperseverance.net/blogs/" target="_blank">持之以恒</a></li>
+    <li><a href="http://ibillxia.github.io/" target="_blank">Bill's Blog</a></li>
+    <li><a href="http://malagis.com/" target="_blank">麻辣GIS</a></li>
+    <li><a href="http://skyoung.github.io" target="_blank">Skyoung</a></li>
+</div>
 
-<!--/footer-->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/js/bootstrap.min.js"></script>
-
-
-<script>var _gaq=[['_setAccount','UA-48582273-1'],['_trackPageview']];(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.src='//www.google-analytics.com/ga.js';s.parentNode.insertBefore(g,s)}(document,'script'))</script>
-
+<div class="sidebarsocial">
+<h4>Social</h4>
+    <li><a href="https://github.com/qingyuanxingsi">Github</a></li>
+</div>		</div>
+		
+		<footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>,
+                which takes great advantage of <a href="http://python.org">Python</a>,
+				Theme by <a href="http://frantic1048.com/">Frantic1048</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
 </body>
 </html>
