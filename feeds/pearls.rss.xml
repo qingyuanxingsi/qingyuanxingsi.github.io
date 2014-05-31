@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-28T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-28T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-28:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-05-31T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-05-31T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-31:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://zhuanlan.zhihu.com/wille/19759362"&gt;如果看了这篇文章你还不懂傅里叶变换，那就过来掐死我吧&lt;/a&gt;;关于傅立叶变换一个非常精彩的介绍，原来傅立叶背后就是人生啊，墙裂推荐，想看的猛戳左边给出的链接吧！&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://zhuanlan.zhihu.com/wille/19763231"&gt;如果看了这篇文章你还不懂傅里叶变换，那就过来掐死我吧（二）&lt;/a&gt;;和上面给出的同一个系列的第二篇，没有第一篇精彩，不过可以了解一下相位谱。&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAwMTI0MDgw.html"&gt;罗辑思维 2014：右派为什么这么横 10&lt;/a&gt;;视频主要介绍了保守主义的三个特征,同时分析了人们在面临选择的时候的不同思维方式,个人觉得这一点很有借鉴意义，建议一看!&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://v.youku.com/v_show/id_XNzAzMTkyNDky.html"&gt;罗辑思维 2014：迷茫时代的明白人 11&lt;/a&gt;;活在当下。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="computer-vision"&gt;Computer Vision&lt;/h1&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://pan.baidu.com/s/1kTFTpf5"&gt;特征检测与匹配&lt;/a&gt;;一个由浅入深、逐渐深入的介绍&lt;strong&gt;特征检测与匹配&lt;/strong&gt;方法的灰常好的一个Slides.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1 id="tools"&gt;TOOLS&lt;/h1&gt;
 &lt;hr&gt;
