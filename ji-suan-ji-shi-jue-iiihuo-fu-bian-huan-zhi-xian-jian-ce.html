@@ -8,14 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-    <script src="../theme/html5.js"></script>
+    <script src="./theme/html5.js"></script>
     <![endif]-->
 
     <!-- Le styles -->
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap.no-icons.min.css" rel="stylesheet">
-    <link href="../theme/local.css" rel="stylesheet">
-    <link href="../theme/pygments.css" rel="stylesheet">
-    <link href="../theme/font-awesome.css" rel="stylesheet">
+    <link href="./theme/local.css" rel="stylesheet">
+    <link href="./theme/pygments.css" rel="stylesheet">
+    <link href="./theme/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Gudea:400,400italic|Alegreya+SC' rel='stylesheet' type='text/css'>
 </head>
 
@@ -24,24 +24,24 @@
   <div class="container">
     <div class="row-fluid">
       <div class="span9">
-	<a href=".." class="brand">苹果的味道</a>
+	<a href="." class="brand">苹果的味道</a>
       </div>
 
       <div class="span3" id="blog-nav">
 	<ul class="nav nav-pills pull-right">
-            <li><a href="../pages/about.html">About</a></li>
+            <li><a href="./pages/about.html">About</a></li>
 	    <li >
-	      <a href="../category/distributed-system.html ">Distributed System</a>
+	      <a href="./category/distributed-system.html ">Distributed System</a>
 	    <li >
-	      <a href="../category/life.html ">Life</a>
+	      <a href="./category/life.html ">Life</a>
+	    <li  class="active" >
+	      <a href="./category/machine-learning.html ">Machine Learning</a>
 	    <li >
-	      <a href="../category/machine-learning.html ">Machine Learning</a>
+	      <a href="./category/notes.html ">Notes</a>
 	    <li >
-	      <a href="../category/notes.html ">Notes</a>
+	      <a href="./category/pearls.html ">Pearls</a>
 	    <li >
-	      <a href="../category/pearls.html ">Pearls</a>
-	    <li >
-	      <a href="../category/viewpoint.html ">Viewpoint</a>
+	      <a href="./category/viewpoint.html ">Viewpoint</a>
 	</ul>
       </div>
     </div> <!-- End of fluid row-->
@@ -53,29 +53,27 @@
     <div class="row-fluid">
 
         <div class="span10">
-        
-
-        
-
-    <div class='row-fluid''>
-        <div class="article-title span9">
-            <a href="../ji-suan-ji-shi-jue-iiihuo-fu-bian-huan-zhi-xian-jian-ce.html"><h1>计算机视觉(III):霍夫变换直线检测</h1></a>
-        </div>
-    </div>
+    <div class='article'>
+      <div class="row-fluid">
+           <div class="content-title span9">
+             <h1>计算机视觉(III):霍夫变换直线检测</h1b>
+           </div>
+      </div>
     <div class="row-fluid">
       <div class="span2">
 <p>六 31 五月 2014 </p>
 
 <p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
+Filed under <a href="./category/machine-learning.html">Machine Learning</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/zhi-xian-jian-ce.html">直线检测</a> </p>
+    Tags <a href="./tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="./tag/zhi-xian-jian-ce.html">直线检测</a> </p>
 <p>
 </p>
       </div>
-      <div class="article-content span8">
+      
+      <div class="span8">
 	<h1 id="_1">霍夫变换直线检测基本原理</h1>
 <hr />
 <p>Hough变换是图像处理中从图像中识别几何形状的基本方法之一，即它可以检测已知形状的目标，而且受噪声和曲线间断的影响小。
@@ -171,92 +169,26 @@ int main(int argc, char** argv)
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
- 
-	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-iiihuo-fu-bian-huan-zhi-xian-jian-ce.html">
-          <i class="icon-comment"></i> Comment </a>
+
 	<hr />
       </div>
-      
     </div>
+    <div class="span10">
+      <h3>Comments</h3>
     
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'qingyuanxingsi'; 
 
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html"><h1>计算机视觉(II):边缘检测</h1></a>
-      </div>
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>  
     </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>二 27 五月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/tu-xiang-chu-li.html">图像处理</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>主要介绍一些常见的边缘检测算法并给出OpenCV代码示例。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-iibian-yuan-jian-ce.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html"><h1>计算机视觉(I):图像处理基础初步</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>六 24 五月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="../category/machine-learning.html">Machine Learning</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="../tag/ji-suan-ji-shi-jue.html">计算机视觉</a> <a href="../tag/tu-xiang-chu-li.html">图像处理</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>本文主要介绍一点关于图像处理的基本知识,以为进一步了解计算机视觉算法打下一定的基础。</p> 
-	<a class="btn btn-mini xsmall" href="../ji-suan-ji-shi-jue-itu-xiang-chu-li-ji-chu-chu-bu.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
-<div class="pagination">
-<ul>
-    <li class="prev disabled"><a href="#">&larr; Previous</a></li>
-
-    <li class="active"><a href="../tag/ji-suan-ji-shi-jue.html">1</a></li>
-
-    <li class="next disabled"><a href="#">&rarr; Next</a></li>
-
-</ul>
-</div>
- 
-  
         </div>
         
         
@@ -298,14 +230,14 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
             <li class="nav-header"> 
               Site
             </li>
-            <li><a href=".."><i class="icon-home" style="color: #1f334b">
+            <li><a href="."><i class="icon-home" style="color: #1f334b">
                 </i>Home</a></li>
-            <li><a href="../archives.html"><i class="icon-list" style="color: #1f334b">
+            <li><a href="./archives.html"><i class="icon-list" style="color: #1f334b">
                 </i>Archives</a></li>
-	    <li><a href="../tags.html"><i class="icon-tags" style="color: #1f334b">
+	    <li><a href="./tags.html"><i class="icon-tags" style="color: #1f334b">
                 </i>Tags</a></li>
 	    
-            <li><a href="../" rel="alternate">
+            <li><a href="./" rel="alternate">
                 <i class="icon-rss-sign" style="color: #1f334b"></i>
                 Atom Feed</a></li>
 	  </ul>
@@ -315,7 +247,7 @@ Filed under <a href="../category/machine-learning.html">Machine Learning</a>
       </div> <!--end of fluid row-->
     </div> <!--end of blog-footer-->
     <hr />
-    <p align="center"><a href="..">苹果的味道</a>
+    <p align="center"><a href=".">苹果的味道</a>
       &copy; qingyuanxingsi
     Powered by <a href="github.com/getpelican/pelican">Pelican</a> and
         <a href="https://twitter.github.com/bootstrap">Twitter Bootstrap</a>. 
