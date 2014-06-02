@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-02T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-02:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅立叶变换及应用&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-02T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-02:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅立叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅里叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="Fourier Coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_coefficients_zpsc58ea97c.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -10,10 +10,28 @@
 &lt;/ul&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;strong&gt;Convergence in mean(Convergence in energy)&lt;/strong&gt;:&lt;/p&gt;
-&lt;p&gt;假定$f(t)$是周期函数，且$\int_0^1 |f(t)|^2 dt &amp;lt; \infty$,那么该函数可表示为傅立叶级数的形式，且有:
+&lt;p&gt;假定$f(t)$是周期函数，且$\int_0^1 |f(t)|^2 dt &amp;lt; \infty$,那么该函数可表示为傅里叶级数的形式，且有:
 当$n \to \infty$时，我们有:
 \begin{equation}
 \int_0^1 |\sum_{k=-n}^n c_ke^{2\pi ikt}-f(t)|^2 dt \to 0
+\end{equation}&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/E/B/M7Q4BLENR_M7QBQ1TEB.html"&gt;傅里叶级数&lt;/a&gt;;好吧,就不写简介了,我只想说这个老师真的很有趣，很幽默，不服去看(&lt;strong&gt;还有,数学真的很优美，不服就多学点数学吧&lt;/strong&gt;)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果函数$f$和$g$是平方可积的(它们均可以是复数函数),即$f,g \in L^2[0,1]$,那么函数之间的内积可定义为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+&lt;f,g&gt; = \int_0^1 f(t)\bar{g(t)}dt
+\end{equation}&lt;/f,g&gt;&lt;/p&gt;
+&lt;p&gt;若上式为0,我们则说$f,g$是正交的。
+另，我们定义函数的长度或模为:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+||f||^2 = &lt;f,f&gt; = \int_0^1 |f(t)|^2 dt
+\end{equation}&lt;/f,f&gt;&lt;/p&gt;
+&lt;p&gt;接下来,根据&lt;strong&gt;Rayleigh's Equality&lt;/strong&gt;,我们有:&lt;/p&gt;
+&lt;p&gt;\begin{equation}
+ \int_0^1 |f(t)|^2 dt = \sum_{k=-n}^n |c_k|^2
 \end{equation}&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;

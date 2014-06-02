@@ -76,10 +76,10 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 </p>
       </div>
       <div class="article-content span8">
-	<h1 id="_1">傅立叶变换及应用</h1>
+	<h1 id="_1">傅里叶变换及应用</h1>
 <hr>
 <ul>
-<li><a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html">周期性，三角函数表示复杂函数</a>;分析了<strong>一个周期，多个频率</strong>的经典概念，给出了傅立叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:</li>
+<li><a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html">周期性，三角函数表示复杂函数</a>;分析了<strong>一个周期，多个频率</strong>的经典概念，给出了傅里叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:</li>
 </ul>
 <p><img alt="Fourier Coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_coefficients_zpsc58ea97c.png"></p>
 <ul>
@@ -87,10 +87,28 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 </ul>
 <blockquote>
 <p><strong>Convergence in mean(Convergence in energy)</strong>:</p>
-<p>假定$f(t)$是周期函数，且$\int_0^1 |f(t)|^2 dt &lt; \infty$,那么该函数可表示为傅立叶级数的形式，且有:
+<p>假定$f(t)$是周期函数，且$\int_0^1 |f(t)|^2 dt &lt; \infty$,那么该函数可表示为傅里叶级数的形式，且有:
 当$n \to \infty$时，我们有:
 \begin{equation}
 \int_0^1 |\sum_{k=-n}^n c_ke^{2\pi ikt}-f(t)|^2 dt \to 0
+\end{equation}</p>
+</blockquote>
+<ul>
+<li><a href="http://v.163.com/movie/2008/2/E/B/M7Q4BLENR_M7QBQ1TEB.html">傅里叶级数</a>;好吧,就不写简介了,我只想说这个老师真的很有趣，很幽默，不服去看(<strong>还有,数学真的很优美，不服就多学点数学吧</strong>)。</li>
+</ul>
+<blockquote>
+<p>如果函数$f$和$g$是平方可积的(它们均可以是复数函数),即$f,g \in L^2[0,1]$,那么函数之间的内积可定义为:</p>
+<p>\begin{equation}
+<f,g> = \int_0^1 f(t)\bar{g(t)}dt
+\end{equation}</f,g></p>
+<p>若上式为0,我们则说$f,g$是正交的。
+另，我们定义函数的长度或模为:</p>
+<p>\begin{equation}
+||f||^2 = <f,f> = \int_0^1 |f(t)|^2 dt
+\end{equation}</f,f></p>
+<p>接下来,根据<strong>Rayleigh's Equality</strong>,我们有:</p>
+<p>\begin{equation}
+ \int_0^1 |f(t)|^2 dt = \sum_{k=-n}^n |c_k|^2
 \end{equation}</p>
 </blockquote>
 <h1 id="pocket">Pocket</h1>
