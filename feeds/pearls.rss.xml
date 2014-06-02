@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-01T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-01T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-01:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-02T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-02:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅立叶变换及应用&lt;/h1&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅立叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Fourier Coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_coefficients_zps498f5bbd.png"&gt;&lt;/p&gt;
+&lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://zhuanlan.zhihu.com/wille/19759362"&gt;如果看了这篇文章你还不懂傅里叶变换，那就过来掐死我吧&lt;/a&gt;;关于傅立叶变换一个非常精彩的介绍，原来傅立叶背后就是人生啊，墙裂推荐，想看的猛戳左边给出的链接吧！&lt;/li&gt;
@@ -56,7 +62,7 @@
 &lt;li&gt;&lt;strong&gt;受限Boltzmann机&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;a href="http://pan.baidu.com/s/1gdh3P1x"&gt;A Brief Introduction to Restricted Boltzmann Machine&lt;/a&gt;&lt;/p&gt;
-&lt;h1 id="_1"&gt;算法&lt;/h1&gt;
+&lt;h1 id="_2"&gt;算法&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;今天看了一下网上流传的传说中的高大上的所谓的&lt;code&gt;十大海量数据处理算法&lt;/code&gt;,看了一下,实际上没有什么东西,唯独&lt;strong&gt;Bloom Filter&lt;/strong&gt;看着还挺好玩的,所以以下给出一个通俗易懂的链接。&lt;/li&gt;
