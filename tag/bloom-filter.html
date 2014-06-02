@@ -82,6 +82,17 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <li><a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html">周期性，三角函数表示复杂函数</a>;分析了<strong>一个周期，多个频率</strong>的经典概念，给出了傅立叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:</li>
 </ul>
 <p><img alt="Fourier Coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_coefficients_zpsc58ea97c.png"></p>
+<ul>
+<li><a href="http://v.163.com/movie/2008/2/T/O/M7Q4BLENR_M7QBPVCTO.html">将一般周期函数表示为简单周期函数和</a>;<em>It takes high frequencies to make sharp corners or any corners for that matter</em>.</li>
+</ul>
+<blockquote>
+<p><strong>Convergence in mean(Convergence in energy)</strong>:</p>
+<p>假定$f(t)$是周期函数，且$\int_0^1 |f(t)|^2 dt &lt; \infty$,那么该函数可表示为傅立叶级数的形式，且有:
+当$n \to \infty$时，我们有:
+\begin{equation}
+\int_0^1 |\sum_{k=-n}^n c_ke^{2\pi ikt}-f(t)|^2 dt \to 0
+\end{equation}</p>
+</blockquote>
 <h1 id="pocket">Pocket</h1>
 <hr>
 <ul>
@@ -104,7 +115,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <h1 id="nlprefnatural-language-processingref">NLP<sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"><a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing">1</a></sup></h1>
 <hr>
 <ul>
-<li>Relation Extration<ul>
+<li>Relation Extraction<ul>
 <li>Hand-written approach more suitable for structured data,such as a telephone book,Facebook or eBay;</li>
 <li>Supervised Method;得到所有的命名实体组,使用一个分类器(<em>features</em>)判断它们是否是关联的,如果是,则使用第二个分类器判断它们之间的关联关系具体是什么; </li>
 <li>Semi-Supervised(Relation Bootstrapping/Distant Supervised Learning) and unsupervised methods(Open Information Extraction);Strapping方法感觉很巧妙,个人很喜欢;</li>

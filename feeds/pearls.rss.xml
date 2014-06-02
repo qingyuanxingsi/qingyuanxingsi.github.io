@@ -5,6 +5,17 @@
 &lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅立叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="Fourier Coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_coefficients_zpsc58ea97c.png"&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/T/O/M7Q4BLENR_M7QBPVCTO.html"&gt;将一般周期函数表示为简单周期函数和&lt;/a&gt;;&lt;em&gt;It takes high frequencies to make sharp corners or any corners for that matter&lt;/em&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Convergence in mean(Convergence in energy)&lt;/strong&gt;:&lt;/p&gt;
+&lt;p&gt;假定$f(t)$是周期函数，且$\int_0^1 |f(t)|^2 dt &amp;lt; \infty$,那么该函数可表示为傅立叶级数的形式，且有:
+当$n \to \infty$时，我们有:
+\begin{equation}
+\int_0^1 |\sum_{k=-n}^n c_ke^{2\pi ikt}-f(t)|^2 dt \to 0
+\end{equation}&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
@@ -27,7 +38,7 @@
 &lt;h1 id="nlprefnatural-language-processingref"&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
-&lt;li&gt;Relation Extration&lt;ul&gt;
+&lt;li&gt;Relation Extraction&lt;ul&gt;
 &lt;li&gt;Hand-written approach more suitable for structured data,such as a telephone book,Facebook or eBay;&lt;/li&gt;
 &lt;li&gt;Supervised Method;得到所有的命名实体组,使用一个分类器(&lt;em&gt;features&lt;/em&gt;)判断它们是否是关联的,如果是,则使用第二个分类器判断它们之间的关联关系具体是什么; &lt;/li&gt;
 &lt;li&gt;Semi-Supervised(Relation Bootstrapping/Distant Supervised Learning) and unsupervised methods(Open Information Extraction);Strapping方法感觉很巧妙,个人很喜欢;&lt;/li&gt;
