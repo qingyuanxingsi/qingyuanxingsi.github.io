@@ -44,7 +44,8 @@ h1,h2,h3,h4,h5,h6 { color: #000001; margin-bottom: 0px}
 .content-title { margin-bottom: 30px; }
 .article a:hover { text-decoration: none; } 
 
-
+/* Settings for code areas */
+code {font-family:"Courier New",微软雅黑}
 
 /* Styling for the "other entries" section */
 /* Metadata */
