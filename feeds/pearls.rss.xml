@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-02T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-02T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-02:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-04T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅里叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
@@ -34,6 +34,11 @@
  \int_0^1 |f(t)|^2 dt = \sum_{k=-n}^n |c_k|^2
 \end{equation}&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/T/Q/M7Q4BLENR_M7QBQUOTQ.html"&gt;傅里叶级数连续性讨论，热方程&lt;/a&gt;;本集通过对于热方程的推导引出了卷积的概念；另，教授试图通过使周期趋近于无穷的方法使得原来适用于周期函数的内容可以拓展到非周期函数上，可是这种情况下会出现傅里叶系数趋近于0的情况，怎么办呢?请看下集。小小地总结一下:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="intro_convolution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/intro_convolution_zpsb6b1d802.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="non_periodic_fourier_coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/non_periodic_fourier_coefficient_zps542f529b.png"&gt;&lt;/p&gt;
 &lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
