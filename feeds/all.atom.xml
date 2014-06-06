@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-04T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-04T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-04:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-06T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-06T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-06:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅里叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
@@ -39,6 +39,11 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="intro_convolution" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/intro_convolution_zpsb6b1d802.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="non_periodic_fourier_coefficients" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/non_periodic_fourier_coefficient_zps542f529b.png"&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/S/H/M7Q4BLENR_M7QBQVQSH.html"&gt;热方程讨论&lt;/a&gt;;本视频中我们成功从傅立叶级数扩展到了傅立叶变换。视频中给出了矩形函数以及三角函数的傅立叶展开式,it's quite amazing.同样，还是总结一下:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img alt="Fourier Transform" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_zps7ab248ff.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fourier_Transform_Inverse" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_inverse_zpsfa3c77ef.png"&gt;&lt;/p&gt;
 &lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
