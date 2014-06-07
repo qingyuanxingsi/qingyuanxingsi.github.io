@@ -59,12 +59,12 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="../xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html"><h1>小小收藏夹[持续更新中]</h1></a>
+            <a href="../xiao-xiao-shou-cang-jia-i.html"><h1>小小收藏夹(I)</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>五 06 六月 2014 </p>
+<p>六 07 六月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="../category/pearls.html">Pearls</a>
@@ -76,8 +76,11 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 </p>
       </div>
       <div class="article-content span8">
-	<h1 id="_1">傅里叶变换及应用</h1>
+	<h1 id="_1">傅里叶变换及应用(上)</h1>
 <hr>
+<blockquote>
+<p>本部分为傅里叶变换及应用(上),由于本文篇幅已经比较长了,所以将傅立叶变换及应用(下)及以后收藏的内容搬至小小收藏夹(II),特此说明。</p>
+</blockquote>
 <ul>
 <li><a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html">周期性，三角函数表示复杂函数</a>;分析了<strong>一个周期，多个频率</strong>的经典概念，给出了傅里叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:</li>
 </ul>
@@ -121,6 +124,42 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 </ul>
 <p><img alt="Fourier Transform" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_zps7ab248ff.png"></p>
 <p><img alt="Fourier_Transform_Inverse" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_inverse_zpsfa3c77ef.png"></p>
+<ul>
+<li>
+<p><a href="http://v.163.com/movie/2008/2/3/1/M7Q4BLENR_M7QBS9131.html">傅里叶正（反）变换复习</a>;</p>
+<ul>
+<li>对于形如$f(t)=e^{-\pi t^2}$的归一化后的高斯函数而言，我们有:</li>
+</ul>
+<p>\begin{equation}
+\int_{-\infty}^{\infty} f(t)dt =1 
+\end{equation}</p>
+<ul>
+<li>高斯函数的傅立叶变化是其自身。</li>
+</ul>
+<p>\begin{equation}
+\begin{split}
+F(s) &amp;= \int_{-\infty}^{\infty} e^{-2\pi ist}e^{-\pi t^2}dt \\
+F\prime(s)&amp;= \int_{-\infty}^{\infty} (-2\pi it) e^{-2\pi ist}e^{-\pi t^2}dt \\
+&amp;= i\int_{-\infty}^{\infty} e^{-2\pi ist} d e^{-\pi t^2} \\
+&amp;= i([e^{-2\pi ist}e^{-\pi t^2}]<em>{-\infty}^{\infty} - \int</em>{-\infty}^{\infty}e^{-\pi t^2}(-2\pi is)e^{-2\pi ist}dt) \\
+&amp;=-(2\pi s)\int_{-\infty}^{\infty} e^{-\pi t^2}e^{-2\pi ist}dt \\
+&amp;= -2\pi s F(s) \\
+F(s) &amp;= e^{-\pi s^2}
+\end{split}
+\end{equation}</p>
+<ul>
+<li>对偶性Duality;</li>
+</ul>
+<p>\begin{equation}
+\begin{split}
+\mathscr{F} f(-s) &amp;= \int_{-\infty}^{\infty} e^{-2\pi i(-s)t} f(t)dt \
+&amp;= \int_{-\infty}^{\infty} e^{2\pi ist}f(t)dt \
+&amp;= \mathscr{F}^{-1} f(s) \
+\mathscr{F}(f^-) &amp;= \mathscr{F}^{-1} f = (\mathscr{F}f)^-
+\end{split}
+\end{equation}</p>
+</li>
+</ul>
 <h1 id="pocket">Pocket</h1>
 <hr>
 <ul>
@@ -140,7 +179,7 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <ul>
 <li><a href="http://blog.csdn.net/poem_qianmo/article/details/19925819">【OpenCV入门教程之二】 一览众山小：OpenCV 2.4.8组件结构全解析</a>;关于OpenCV 2.4.8功能模块的一个粗略的介绍,读毕可大概知道OpenCV每个模块大概是干啥的。</li>
 </ul>
-<h1 id="nlprefnatural-language-processingref">NLP<sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"><a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing">1</a></sup></h1>
+<h1 id="nlprefnatural-language-processingref">NLP<sup id="sf-xiao-xiao-shou-cang-jia-i-1-back"><a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-i-1" title="Natural Language Processing">1</a></sup></h1>
 <hr>
 <ul>
 <li>Relation Extraction<ul>
@@ -382,8 +421,8 @@ x_{ZCAwhite} = Ux_{PCAwhite}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 </script>
-<ol class="simple-footnotes"><li id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1"><a href="https://class.coursera.org/nlp/lecture">Natural Language Processing</a> <a class="simple-footnote-back" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back">↩</a></li></ol> 
-	<a class="btn btn-mini xsmall" href="../xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html">
+<ol class="simple-footnotes"><li id="sf-xiao-xiao-shou-cang-jia-i-1"><a href="https://class.coursera.org/nlp/lecture">Natural Language Processing</a> <a class="simple-footnote-back" href="#sf-xiao-xiao-shou-cang-jia-i-1-back">↩</a></li></ol> 
+	<a class="btn btn-mini xsmall" href="../xiao-xiao-shou-cang-jia-i.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-06T00:00:00+08:00</updated><entry><title>小小收藏夹[持续更新中]</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html" rel="alternate"></link><updated>2014-06-06T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-06:xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-07T00:00:00+08:00</updated><entry><title>小小收藏夹(I)</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html" rel="alternate"></link><updated>2014-06-07T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-07:xiao-xiao-shou-cang-jia-i.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用(上)&lt;/h1&gt;
 &lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本部分为傅里叶变换及应用(上),由于本文篇幅已经比较长了,所以将傅立叶变换及应用(下)及以后收藏的内容搬至小小收藏夹(II),特此说明。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://v.163.com/movie/2008/2/C/G/M7Q4BLENR_M7QBP61CG.html"&gt;周期性，三角函数表示复杂函数&lt;/a&gt;;分析了&lt;strong&gt;一个周期，多个频率&lt;/strong&gt;的经典概念，给出了傅里叶级数的指数表示形式,本视频中假定该等式成立，推导出每一分量需要满足的数学形式。本视频的内容个人总结为以下图片:&lt;/li&gt;
 &lt;/ul&gt;
@@ -44,6 +47,42 @@
 &lt;/ul&gt;
 &lt;p&gt;&lt;img alt="Fourier Transform" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_zps7ab248ff.png"&gt;&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Fourier_Transform_Inverse" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_inverse_zpsfa3c77ef.png"&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://v.163.com/movie/2008/2/3/1/M7Q4BLENR_M7QBS9131.html"&gt;傅里叶正（反）变换复习&lt;/a&gt;;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对于形如$f(t)=e^{-\pi t^2}$的归一化后的高斯函数而言，我们有:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;\begin{equation}
+\int_{-\infty}^{\infty} f(t)dt =1 
+\end{equation}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;高斯函数的傅立叶变化是其自身。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+F(s) &amp;amp;= \int_{-\infty}^{\infty} e^{-2\pi ist}e^{-\pi t^2}dt \\
+F\prime(s)&amp;amp;= \int_{-\infty}^{\infty} (-2\pi it) e^{-2\pi ist}e^{-\pi t^2}dt \\
+&amp;amp;= i\int_{-\infty}^{\infty} e^{-2\pi ist} d e^{-\pi t^2} \\
+&amp;amp;= i([e^{-2\pi ist}e^{-\pi t^2}]&lt;em&gt;{-\infty}^{\infty} - \int&lt;/em&gt;{-\infty}^{\infty}e^{-\pi t^2}(-2\pi is)e^{-2\pi ist}dt) \\
+&amp;amp;=-(2\pi s)\int_{-\infty}^{\infty} e^{-\pi t^2}e^{-2\pi ist}dt \\
+&amp;amp;= -2\pi s F(s) \\
+F(s) &amp;amp;= e^{-\pi s^2}
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;对偶性Duality;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\mathscr{F} f(-s) &amp;amp;= \int_{-\infty}^{\infty} e^{-2\pi i(-s)t} f(t)dt \
+&amp;amp;= \int_{-\infty}^{\infty} e^{2\pi ist}f(t)dt \
+&amp;amp;= \mathscr{F}^{-1} f(s) \
+\mathscr{F}(f^-) &amp;amp;= \mathscr{F}^{-1} f = (\mathscr{F}f)^-
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h1 id="pocket"&gt;Pocket&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
@@ -63,7 +102,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://blog.csdn.net/poem_qianmo/article/details/19925819"&gt;【OpenCV入门教程之二】 一览众山小：OpenCV 2.4.8组件结构全解析&lt;/a&gt;;关于OpenCV 2.4.8功能模块的一个粗略的介绍,读毕可大概知道OpenCV每个模块大概是干啥的。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id="nlprefnatural-language-processingref"&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
+&lt;h1 id="nlprefnatural-language-processingref"&gt;NLP&lt;sup id="sf-xiao-xiao-shou-cang-jia-i-1-back"&gt;&lt;a class="simple-footnote" href="#sf-xiao-xiao-shou-cang-jia-i-1" title="Natural Language Processing"&gt;1&lt;/a&gt;&lt;/sup&gt;&lt;/h1&gt;
 &lt;hr&gt;
 &lt;ul&gt;
 &lt;li&gt;Relation Extraction&lt;ul&gt;
@@ -305,7 +344,7 @@ x_{ZCAwhite} = Ux_{PCAwhite}
         (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
     }
 &lt;/script&gt;
-&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1"&gt;&lt;a href="https://class.coursera.org/nlp/lecture"&gt;Natural Language Processing&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-xiao-xiao-shou-cang-jia-chi-xu-geng-xin-zhong-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>机器学习外传之Deep Learning(II):当Deep Learning遇上NLP</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-wai-chuan-zhi-deep-learningiidang-deep-learningyu-shang-nlp.html" rel="alternate"></link><updated>2014-05-10T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-10:ji-qi-xue-xi-wai-chuan-zhi-deep-learningiidang-deep-learningyu-shang-nlp.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Original Link&lt;/strong&gt;:&lt;a href="http://licstar.net/archives/328"&gt;Deep Learning in NLP （一）词向量和语言模型&lt;/a&gt;&lt;/p&gt;
+&lt;ol class="simple-footnotes"&gt;&lt;li id="sf-xiao-xiao-shou-cang-jia-i-1"&gt;&lt;a href="https://class.coursera.org/nlp/lecture"&gt;Natural Language Processing&lt;/a&gt; &lt;a class="simple-footnote-back" href="#sf-xiao-xiao-shou-cang-jia-i-1-back"&gt;↩&lt;/a&gt;&lt;/li&gt;&lt;/ol&gt;</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Bloom Filter"></category><category term="B Trees"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>机器学习外传之Deep Learning(II):当Deep Learning遇上NLP</title><link href="http://www.qingyuanxingsi.com/ji-qi-xue-xi-wai-chuan-zhi-deep-learningiidang-deep-learningyu-shang-nlp.html" rel="alternate"></link><updated>2014-05-10T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-05-10:ji-qi-xue-xi-wai-chuan-zhi-deep-learningiidang-deep-learningyu-shang-nlp.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Original Link&lt;/strong&gt;:&lt;a href="http://licstar.net/archives/328"&gt;Deep Learning in NLP （一）词向量和语言模型&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Deep Learning算法已经在图像和音频领域取得了惊人的成果，但是在NLP领域中尚未见到如此激动人心的结果。关于这个原因，引一条我比较赞同的微博。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&lt;a href="http://weibo.com/u/1657470871"&gt;@王威廉&lt;/a&gt;：Steve Renals算了一下icassp录取文章题目中包含Deep learning的数量，发现有44篇，而naacl则有0篇。有一种说法是，语言（词、句子、篇章等）属于人类认知过程中产生的高层认知抽象实体，而语音和图像属于较为底层的原始输入信号，所以后两者更适合做deep learning来学习特征。&lt;/p&gt;
