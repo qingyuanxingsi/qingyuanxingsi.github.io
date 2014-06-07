@@ -3,7 +3,61 @@
 &lt;hr /&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本部分为傅里叶变换及应用(下),我们接着&lt;a href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html"&gt;小小收藏夹(I)&lt;/a&gt;一文中&lt;strong&gt;傅里叶变换及应用(上)&lt;/strong&gt;部分继续我们关于傅里叶变换及其应用的学习。&lt;/p&gt;
-&lt;/blockquote&gt;</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>小小收藏夹(I)</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html" rel="alternate"></link><updated>2014-06-06T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-06:xiao-xiao-shou-cang-jia-i.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用(上)&lt;/h1&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="http://v.163.com/movie/2008/2/3/6/M7Q4BLENR_M7QBSAA36.html"&gt;时延性，尺度变化，卷积&lt;/a&gt;;主要介绍傅里叶变换的若干性质。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Delay;&lt;em&gt;A shift in time corresponds to a phase shift in frequency.&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\mathscr{F} f(t-b) &amp;amp;=\int_{-\infty}^{\infty} e^{-2 \pi ist} f(t-b)dt \\
+&amp;amp;= \int_{-\infty}^{\infty} e^{-2\pi is(u+b)}f(u)du \\
+&amp;amp;= e^{-2\pi isb} \int_{-\infty}^{\infty} e^{-2\pi isu}f(u)du \\
+&amp;amp;= e^{-2\pi isb} \mathscr{F} f(t)
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Stretch;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Convolution;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary><category term="算法"></category><category term="Fun"></category><category term="Staff"></category><category term="收藏夹"></category><category term="Data Structure"></category><category term="Algorithm"></category><category term="PGM"></category></entry><entry><title>小小收藏夹(I)</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html" rel="alternate"></link><updated>2014-06-06T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-06:xiao-xiao-shou-cang-jia-i.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用(上)&lt;/h1&gt;
 &lt;hr&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本部分为傅里叶变换及应用(上),由于本文篇幅已经比较长了,所以将傅立叶变换及应用(下)及以后收藏的内容搬至&lt;a href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-ii.html"&gt;小小收藏夹(II)&lt;/a&gt;,特此说明。&lt;/p&gt;

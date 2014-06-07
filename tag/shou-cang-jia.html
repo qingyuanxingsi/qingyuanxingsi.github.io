@@ -80,7 +80,61 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 <hr />
 <blockquote>
 <p>本部分为傅里叶变换及应用(下),我们接着<a href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html">小小收藏夹(I)</a>一文中<strong>傅里叶变换及应用(上)</strong>部分继续我们关于傅里叶变换及其应用的学习。</p>
-</blockquote> 
+</blockquote>
+<ul>
+<li>
+<p><a href="http://v.163.com/movie/2008/2/3/6/M7Q4BLENR_M7QBSAA36.html">时延性，尺度变化，卷积</a>;主要介绍傅里叶变换的若干性质。</p>
+<ul>
+<li>Delay;<em>A shift in time corresponds to a phase shift in frequency.</em></li>
+</ul>
+<p>\begin{equation}
+\begin{split}
+\mathscr{F} f(t-b) &amp;=\int_{-\infty}^{\infty} e^{-2 \pi ist} f(t-b)dt \\
+&amp;= \int_{-\infty}^{\infty} e^{-2\pi is(u+b)}f(u)du \\
+&amp;= e^{-2\pi isb} \int_{-\infty}^{\infty} e^{-2\pi isu}f(u)du \\
+&amp;= e^{-2\pi isb} \mathscr{F} f(t)
+\end{split}
+\end{equation}</p>
+<ul>
+<li>
+<p>Stretch;</p>
+</li>
+<li>
+<p>Convolution;</p>
+</li>
+</ul>
+</li>
+</ul><script type= "text/javascript">
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+</script>
+ 
 	<a class="btn btn-mini xsmall" href="../xiao-xiao-shou-cang-jia-ii.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
