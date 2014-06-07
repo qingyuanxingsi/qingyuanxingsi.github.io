@@ -136,25 +136,15 @@ Filed under <a href="./category/pearls.html">Pearls</a>
 <ul>
 <li>高斯函数的傅立叶变化是其自身。</li>
 </ul>
-<p>\begin{equation}
-\begin{split}
-F(s) &amp;= \int_{-\infty}^{\infty} e^{-2\pi ist}e^{-\pi t^2}dt \\
-F\prime(s)&amp;= \int_{-\infty}^{\infty} (-2\pi it) e^{-2\pi ist}e^{-\pi t^2}dt \\
-&amp;= i\int_{-\infty}^{\infty} e^{-2\pi ist} d e^{-\pi t^2} \\
-&amp;= i([e^{-2\pi ist}e^{-\pi t^2}]<em>{-\infty}^{\infty} - \int</em>{-\infty}^{\infty}e^{-\pi t^2}(-2\pi is)e^{-2\pi ist}dt) \\
-&amp;=-(2\pi s)\int_{-\infty}^{\infty} e^{-\pi t^2}e^{-2\pi ist}dt \\
-&amp;= -2\pi s F(s) \\
-F(s) &amp;= e^{-\pi s^2}
-\end{split}
-\end{equation}</p>
+<p><img alt="Fourier_Transform_Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_gaussian_zps3b081a75.png"></p>
 <ul>
 <li>对偶性Duality;</li>
 </ul>
 <p>\begin{equation}
 \begin{split}
-\mathscr{F} f(-s) &amp;= \int_{-\infty}^{\infty} e^{-2\pi i(-s)t} f(t)dt \
-&amp;= \int_{-\infty}^{\infty} e^{2\pi ist}f(t)dt \
-&amp;= \mathscr{F}^{-1} f(s) \
+\mathscr{F} f(-s) &amp;= \int_{-\infty}^{\infty} e^{-2\pi i(-s)t} f(t)dt \\
+&amp;= \int_{-\infty}^{\infty} e^{2\pi ist}f(t)dt \\
+&amp;= \mathscr{F}^{-1} f(s) \\
 \mathscr{F}(f^-) &amp;= \mathscr{F}^{-1} f = (\mathscr{F}f)^-
 \end{split}
 \end{equation}</p>

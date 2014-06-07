@@ -59,25 +59,15 @@
 &lt;ul&gt;
 &lt;li&gt;高斯函数的傅立叶变化是其自身。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;\begin{equation}
-\begin{split}
-F(s) &amp;amp;= \int_{-\infty}^{\infty} e^{-2\pi ist}e^{-\pi t^2}dt \\
-F\prime(s)&amp;amp;= \int_{-\infty}^{\infty} (-2\pi it) e^{-2\pi ist}e^{-\pi t^2}dt \\
-&amp;amp;= i\int_{-\infty}^{\infty} e^{-2\pi ist} d e^{-\pi t^2} \\
-&amp;amp;= i([e^{-2\pi ist}e^{-\pi t^2}]&lt;em&gt;{-\infty}^{\infty} - \int&lt;/em&gt;{-\infty}^{\infty}e^{-\pi t^2}(-2\pi is)e^{-2\pi ist}dt) \\
-&amp;amp;=-(2\pi s)\int_{-\infty}^{\infty} e^{-\pi t^2}e^{-2\pi ist}dt \\
-&amp;amp;= -2\pi s F(s) \\
-F(s) &amp;amp;= e^{-\pi s^2}
-\end{split}
-\end{equation}&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Fourier_Transform_Gaussian" src="http://i1302.photobucket.com/albums/ag136/qingyuanxingsi/blog/fourier_transform_gaussian_zps3b081a75.png"&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;对偶性Duality;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;\begin{equation}
 \begin{split}
-\mathscr{F} f(-s) &amp;amp;= \int_{-\infty}^{\infty} e^{-2\pi i(-s)t} f(t)dt \
-&amp;amp;= \int_{-\infty}^{\infty} e^{2\pi ist}f(t)dt \
-&amp;amp;= \mathscr{F}^{-1} f(s) \
+\mathscr{F} f(-s) &amp;amp;= \int_{-\infty}^{\infty} e^{-2\pi i(-s)t} f(t)dt \\
+&amp;amp;= \int_{-\infty}^{\infty} e^{2\pi ist}f(t)dt \\
+&amp;amp;= \mathscr{F}^{-1} f(s) \\
 \mathscr{F}(f^-) &amp;amp;= \mathscr{F}^{-1} f = (\mathscr{F}f)^-
 \end{split}
 \end{equation}&lt;/p&gt;
