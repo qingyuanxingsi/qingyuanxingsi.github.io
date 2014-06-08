@@ -96,12 +96,28 @@ Filed under <a href="../category/pearls.html">Pearls</a>
 \end{split}
 \end{equation}</p>
 <ul>
-<li>
-<p>Stretch;</p>
-</li>
-<li>
-<p>Convolution;</p>
-</li>
+<li>Stretch;(以下仅给出当$a&gt;0$时的情形,$a$的正负会影响积分上下限)</li>
+</ul>
+<p>\begin{equation}
+\begin{split}
+\mathscr{F} f(at) &amp;= \int_{-\infty}^{\infty} e^{-2 \pi ist} f(at)dt\\
+&amp;= \frac{1}{a} \int_{-\infty}^{\infty} e^{-2 \pi i(s/a)u} f(u)du \\
+&amp;= \frac{1}{a} \mathscr{F} f(\frac{s}{a})
+\end{split}
+\end{equation}</p>
+<ul>
+<li>Convolution;
+\begin{equation}
+\begin{split}
+\mathscr{F} f(t) \mathscr{F} g(x) &amp;= (\int_{-\infty}^{\infty} e^{-2 \pi ist} f(t)dt)(\int_{-\infty}^{\infty} e^{-2 \pi isx} g(x)dx) \\
+&amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-2 \pi ist} e^{-2 \pi isx} f(t)g(x)dtdx \\
+&amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} e^{-2 \pi is(t+x)}f(t)dt)g(x)dx \\
+&amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} e^{-2 \pi isu}f(u-x)du)g(x)dx \\
+&amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} f(u-x)g(x)dx)e^{-2 \pi isu}du \\
+&amp;= \mathscr{F} h(u) \\
+&amp;= \mathscr{F}(\int_{-\infty}^{\infty} f(u-x)g(x)dx)
+\end{split}
+\end{equation}</li>
 </ul>
 </li>
 </ul><script type= "text/javascript">

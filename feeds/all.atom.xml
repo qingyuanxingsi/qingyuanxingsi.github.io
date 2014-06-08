@@ -19,12 +19,28 @@
 \end{split}
 \end{equation}&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;Stretch;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Convolution;&lt;/p&gt;
-&lt;/li&gt;
+&lt;li&gt;Stretch;(以下仅给出当$a&amp;gt;0$时的情形,$a$的正负会影响积分上下限)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;\begin{equation}
+\begin{split}
+\mathscr{F} f(at) &amp;amp;= \int_{-\infty}^{\infty} e^{-2 \pi ist} f(at)dt\\
+&amp;amp;= \frac{1}{a} \int_{-\infty}^{\infty} e^{-2 \pi i(s/a)u} f(u)du \\
+&amp;amp;= \frac{1}{a} \mathscr{F} f(\frac{s}{a})
+\end{split}
+\end{equation}&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Convolution;
+\begin{equation}
+\begin{split}
+\mathscr{F} f(t) \mathscr{F} g(x) &amp;amp;= (\int_{-\infty}^{\infty} e^{-2 \pi ist} f(t)dt)(\int_{-\infty}^{\infty} e^{-2 \pi isx} g(x)dx) \\
+&amp;amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-2 \pi ist} e^{-2 \pi isx} f(t)g(x)dtdx \\
+&amp;amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} e^{-2 \pi is(t+x)}f(t)dt)g(x)dx \\
+&amp;amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} e^{-2 \pi isu}f(u-x)du)g(x)dx \\
+&amp;amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} f(u-x)g(x)dx)e^{-2 \pi isu}du \\
+&amp;amp;= \mathscr{F} h(u) \\
+&amp;amp;= \mathscr{F}(\int_{-\infty}^{\infty} f(u-x)g(x)dx)
+\end{split}
+\end{equation}&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;&lt;script type= "text/javascript"&gt;
