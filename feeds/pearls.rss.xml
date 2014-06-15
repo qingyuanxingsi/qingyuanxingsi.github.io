@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-07T00:00:00+08:00</updated><entry><title>小小收藏夹(II)</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-ii.html" rel="alternate"></link><updated>2014-06-07T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-07:xiao-xiao-shou-cang-jia-ii.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用(下)&lt;/h1&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/pearls.rss.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-06-15T00:00:00+08:00</updated><entry><title>小小收藏夹(II)</title><link href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-ii.html" rel="alternate"></link><updated>2014-06-15T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-06-15:xiao-xiao-shou-cang-jia-ii.html</id><summary type="html">&lt;h1 id="_1"&gt;傅里叶变换及应用(下)&lt;/h1&gt;
 &lt;hr /&gt;
 &lt;blockquote&gt;
 &lt;p&gt;本部分为傅里叶变换及应用(下),我们接着&lt;a href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html"&gt;小小收藏夹(I)&lt;/a&gt;一文中&lt;strong&gt;傅里叶变换及应用(上)&lt;/strong&gt;部分继续我们关于傅里叶变换及其应用的学习。&lt;/p&gt;
@@ -45,8 +45,14 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h1 id="_2"&gt;访谈&lt;/h1&gt;
+&lt;hr /&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="http://www.52ml.net/14374.html"&gt;LinkedIn高级分析师王益：大数据时代的理想主义和现实主义(图灵访谈)&lt;/a&gt;;个人觉得读过之后觉得很受用的一篇文章,从事机器学习相关学习和工作的朋友可以看看。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id="_3"&gt;算法&lt;/h1&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://nlp.stanford.edu/IR-book/html/htmledition/rocchio-classification-1.html"&gt;Rocchio_classification&lt;/a&gt;;一种非常经典的文本分类算法，能够在用户查询时根据用户相关度反馈对Query向量进行调整,以使得搜索引擎返回的文档与搜索词间相关度更强。(&lt;em&gt;Relevance Feedback&lt;/em&gt;)&lt;/li&gt;
 &lt;/ul&gt;&lt;script type= "text/javascript"&gt;
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
         var mathjaxscript = document.createElement('script');
