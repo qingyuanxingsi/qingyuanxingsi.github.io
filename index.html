@@ -59,61 +59,99 @@
 
     <div class='row-fluid''>
         <div class="article-title span9">
-            <a href="./learning-notes-for-estimation-and-filtering.html"><h1>Learning Notes for Estimation and Filtering</h1></a>
+            <a href="./xiao-xiao-shou-cang-jia-ii.html"><h1>小小收藏夹(II)</h1></a>
         </div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-<p>一 13 十月 2014 </p>
+<p>日 15 六月 2014 </p>
 
 <p style="text-align: left;">
 Filed under <a href="./category/pearls.html">Pearls</a>
 </p>
 <p style="text-align: left;">
  
-    Tags <a href="./tag/notes.html">Notes</a> <a href="./tag/estimation.html">Estimation</a> <a href="./tag/filtering.html">Filtering</a> </p>
+    Tags <a href="./tag/suan-fa.html">算法</a> <a href="./tag/fun.html">Fun</a> <a href="./tag/staff.html">Staff</a> <a href="./tag/shou-cang-jia.html">收藏夹</a> <a href="./tag/data-structure.html">Data Structure</a> <a href="./tag/algorithm.html">Algorithm</a> <a href="./tag/pgm.html">PGM</a> </p>
 <p>
 </p>
       </div>
       <div class="article-content span8">
-	<p>以下给出一些常用公式及概念的证明:</p>
-<h1 id="_1">混合高斯均值方差证明</h1>
-<p>令$p(x)=\sum_{j=1}^n p_jN(x;\bar{x}_j,C_j)$,则有:</p>
-<h2 id="mean-of-the-mixture">Mean of the mixture</h2>
+	<h1 id="_1">傅里叶变换及应用(下)</h1>
+<hr />
+<blockquote>
+<p>本部分为傅里叶变换及应用(下),我们接着<a href="http://www.qingyuanxingsi.com/xiao-xiao-shou-cang-jia-i.html">小小收藏夹(I)</a>一文中<strong>傅里叶变换及应用(上)</strong>部分继续我们关于傅里叶变换及其应用的学习。</p>
+</blockquote>
+<ul>
+<li>
+<p><a href="http://v.163.com/movie/2008/2/3/6/M7Q4BLENR_M7QBSAA36.html">时延性，尺度变化，卷积</a>;主要介绍傅里叶变换的若干性质。</p>
+<ul>
+<li>Delay;<em>A shift in time corresponds to a phase shift in frequency.</em></li>
+</ul>
 <p>\begin{equation}
 \begin{split}
-E[x] &amp; = \bar{x} \\
-&amp;=\int_{-\infty}^{\infty}xp(x)dx\\
-&amp;=\int_{-\infty}{-\infty}^{\infty} x\sum_{j=1}^n p_jN(x;\bar{x}<em>j,C_j) dx \\
-&amp;=\sum</em>{j=1}^n p_j\int_{-\infty}^{\infty} x N(x;\bar{x}<em>j,C_j) dx \\
-&amp;= \sum</em>{j=1}^n p_j \bar{x}_j
+\mathscr{F} f(t-b) &amp;=\int_{-\infty}^{\infty} e^{-2 \pi ist} f(t-b)dt \\
+&amp;= \int_{-\infty}^{\infty} e^{-2\pi is(u+b)}f(u)du \\
+&amp;= e^{-2\pi isb} \int_{-\infty}^{\infty} e^{-2\pi isu}f(u)du \\
+&amp;= e^{-2\pi isb} \mathscr{F} f(t)
 \end{split}
 \end{equation}</p>
-<h2 id="co-variance-of-the-mixture">Co-variance of the mixture</h2>
-<p>根据$Cov(x) = E[xx^T]-E[x]E[x^T]$,我们有:</p>
+<ul>
+<li>Stretch;(以下仅给出当$a&gt;0$时的情形,$a$的正负会影响积分上下限)</li>
+</ul>
 <p>\begin{equation}
 \begin{split}
-E[xx^T] &amp;= \int_{-\infty}^{\infty} xx^Tp(x) dx \\
-&amp;= \int_{-\infty}^{\infty} xx^T\sum_{j=1}^n p_jN(x;\bar{x}<em>j,C_j) dx \\
-&amp;= \sum</em>{j=1}^n p_j \int_{-\infty}^{\infty} xx^T N(x;\bar{x}<em>j,C_j) dx \\
-&amp;= \sum</em>{j=1}^n p_j (\bar{x}_j\bar{x}_j^T + C_j)
+\mathscr{F} f(at) &amp;= \int_{-\infty}^{\infty} e^{-2 \pi ist} f(at)dt\\
+&amp;= \frac{1}{a} \int_{-\infty}^{\infty} e^{-2 \pi i(s/a)u} f(u)du \\
+&amp;= \frac{1}{a} \mathscr{F} f(\frac{s}{a})
 \end{split}
 \end{equation}</p>
-<p>故有:
+<ul>
+<li>Convolution;
 \begin{equation}
 \begin{split}
-cov(x) &amp;= E[xx^T] - E[x]E[x^T] \\
-&amp; =  \sum_{j=1}^n p_j (\bar{x}<em>j\bar{x}_j^T + C_j) - [\sum</em>{j=1}^n p_j \bar{x}<em>j]^2 \\
-&amp;= \sum</em>{j=1}^n p_jC_j + \tilde{C}
+\mathscr{F} f(t) \mathscr{F} g(x) &amp;= (\int_{-\infty}^{\infty} e^{-2 \pi ist} f(t)dt)(\int_{-\infty}^{\infty} e^{-2 \pi isx} g(x)dx) \\
+&amp;= \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} e^{-2 \pi ist} e^{-2 \pi isx} f(t)g(x)dtdx \\
+&amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} e^{-2 \pi is(t+x)}f(t)dt)g(x)dx \\
+&amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} e^{-2 \pi isu}f(u-x)du)g(x)dx \\
+&amp;= \int_{-\infty}^{\infty}(\int_{-\infty}^{\infty} f(u-x)g(x)dx)e^{-2 \pi isu}du \\
+&amp;= \mathscr{F} h(u) \\
+&amp;= \mathscr{F}(\int_{-\infty}^{\infty} f(u-x)g(x)dx)
 \end{split}
-\end{equation}</p>
-<p>其中:</p>
+\end{equation}</li>
+</ul>
+</li>
+</ul>
+<h1 id="_2">访谈</h1>
+<hr />
+<ul>
+<li><a href="http://www.52ml.net/14374.html">LinkedIn高级分析师王益：大数据时代的理想主义和现实主义(图灵访谈)</a>;个人觉得读过之后觉得很受用的一篇文章,从事机器学习相关学习和工作的朋友可以看看。</li>
+</ul>
+<h1 id="_3">算法</h1>
+<hr />
+<ul>
+<li><a href="http://nlp.stanford.edu/IR-book/html/htmledition/rocchio-classification-1.html">Rocchio_classification</a>;一种非常经典的文本分类算法，能够在用户查询时根据用户相关度反馈对Query向量进行调整,以使得搜索引擎返回的文档与搜索词间相关度更强。(<em>Relevance Feedback</em>)</li>
+</ul>
+<h1 id="_4">深入了解机器学习</h1>
+<hr />
+<p>硕士生涯马上就要开始了,在硕士阶段开始之前,想对机器学习相关知识有一个更为深入的了解。</p>
+<ul>
+<li>
+<p>Beta/Dirichlet分布。贝叶斯方法为了简化计算量，在计算Posterier时均采用了Conjugate Prior,而Beta/Dirichlet分布则是最为常见的Conjugate Prior.以下几个文章都灰常不错,建议阅读;</p>
+<ul>
+<li><a href="http://www.52nlp.cn/lda-math-%E8%AE%A4%E8%AF%86betadirichlet%E5%88%86%E5%B8%831">LDA-math-认识Beta/Dirichlet分布(1)</a></li>
+<li><a href="http://www.52nlp.cn/lda-math-%E8%AE%A4%E8%AF%86betadirichlet%E5%88%86%E5%B8%833">LDA-math-认识Beta/Dirichlet分布(3)</a></li>
+</ul>
+</li>
+<li>
+<p>Gamma函数递归性质的证明;</p>
+</li>
+</ul>
 <p>\begin{equation}
 \begin{split}
-\tilde{C} &amp;= \sum_{j=1}^n p_j \bar{x}<em>j\bar{x}_j^T -  [\sum</em>{j=1}^n p_j \bar{x}<em>j]^2 \\
-&amp;= \sum</em>{j=1}^n p_j\bar{x}<em>j\bar{x}_j^T - \bar{x}\bar{x}^T \\
-&amp;= \sum</em>{j=1}^n p_j\bar{x}<em>j\bar{x}_j^T - 2\sum</em>{j=1}^n p_j \bar{x}\bar{x}<em>j^T + \sum</em>{j=1}^n p_j\bar{x}\bar{x}^T \\
-&amp;= \sum_{j=1}^n (\bar{x}_j-\bar{x})(\bar{x}_j-\bar{x})^T p_j
+\Gamma(x+1) &amp;= \int_{0}^{\infty} t^x e^{-t} dt \\
+&amp;= -\int_{0}^{\infty} t^x d e^{-t} \\
+&amp;= [-t^x e^{-t}]_0^{\infty} + \int_0^{\infty} e^{-t} x t^{x-1} dt \\
+&amp;= x \Gamma(x)
 \end{split}
 \end{equation}</p><script type= "text/javascript">
     if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -146,46 +184,13 @@ cov(x) &amp;= E[xx^T] - E[x]E[x^T] \\
     }
 </script>
  
-	<a class="btn btn-mini xsmall" href="./learning-notes-for-estimation-and-filtering.html">
+	<a class="btn btn-mini xsmall" href="./xiao-xiao-shou-cang-jia-ii.html">
           <i class="icon-comment"></i> Comment </a>
 	<hr />
       </div>
       
     </div>
     
-
- 
-        
-
-
-
-    <div class='row-fluid'>
-      <div class='article-title span9'> 
-        <a href="./xiao-xiao-shou-cang-jia-ii.html"><h1>小小收藏夹(II)</h1></a>
-      </div>
-    </div>
-    <div class="row-fluid">
-      <div class="span2">
-<p>日 15 六月 2014 </p>
-
-<p style="text-align: left;">
-Filed under <a href="./category/pearls.html">Pearls</a>
-</p>
-<p style="text-align: left;">
- 
-    Tags <a href="./tag/suan-fa.html">算法</a> <a href="./tag/fun.html">Fun</a> <a href="./tag/staff.html">Staff</a> <a href="./tag/shou-cang-jia.html">收藏夹</a> <a href="./tag/data-structure.html">Data Structure</a> <a href="./tag/algorithm.html">Algorithm</a> <a href="./tag/pgm.html">PGM</a> </p>
-<p>
-</p>
-      </div>
-      <div class="summary span8">
-	<p>主要收集一些还不错的东东(持续更新)。</p> 
-	<a class="btn btn-mini xsmall" href="./xiao-xiao-shou-cang-jia-ii.html">
-          <i class="icon-plus-sign"></i> Read More </a>
-	<hr />
-      </div>
-      
-    </div>
-      
 
  
         
@@ -318,6 +323,39 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
       
     </div>
       
+
+ 
+        
+
+
+
+    <div class='row-fluid'>
+      <div class='article-title span9'> 
+        <a href="./wei-yu-lu-chi-xu-geng-xin-zhong.html"><h1>微语录[持续更新中]</h1></a>
+      </div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+<p>三 21 五月 2014 </p>
+
+<p style="text-align: left;">
+Filed under <a href="./category/life.html">Life</a>
+</p>
+<p style="text-align: left;">
+ 
+    Tags <a href="./tag/wei-yu-lu.html">微语录</a> </p>
+<p>
+</p>
+      </div>
+      <div class="summary span8">
+	<p>摘录一些生活中遇到的小小的灵感和有意思的句子。</p> 
+	<a class="btn btn-mini xsmall" href="./wei-yu-lu-chi-xu-geng-xin-zhong.html">
+          <i class="icon-plus-sign"></i> Read More </a>
+	<hr />
+      </div>
+      
+    </div>
+      
 <div class="pagination">
 <ul>
     <li class="prev disabled"><a href="#">&larr; Previous</a></li>
@@ -327,7 +365,6 @@ Filed under <a href="./category/machine-learning.html">Machine Learning</a>
     <li class=""><a href="./index3.html">3</a></li>
     <li class=""><a href="./index4.html">4</a></li>
     <li class=""><a href="./index5.html">5</a></li>
-    <li class=""><a href="./index6.html">6</a></li>
 
     <li class="next"><a href="./index2.html">Next &rarr;</a></li>
 
