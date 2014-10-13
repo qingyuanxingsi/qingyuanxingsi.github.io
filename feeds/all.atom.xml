@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>苹果的味道</title><link href="http://www.qingyuanxingsi.com/" rel="alternate"></link><link href="http://www.qingyuanxingsi.com/feeds/all.atom.xml" rel="self"></link><id>http://www.qingyuanxingsi.com/</id><updated>2014-10-13T00:00:00+08:00</updated><entry><title>Learning Notes for Estimation and Filtering</title><link href="http://www.qingyuanxingsi.com/learning-notes-for-estimation-and-filtering.html" rel="alternate"></link><updated>2014-10-13T00:00:00+08:00</updated><author><name>qingyuanxingsi</name></author><id>tag:www.qingyuanxingsi.com,2014-10-13:learning-notes-for-estimation-and-filtering.html</id><summary type="html">&lt;p&gt;以下给出一些常用公式及概念的证明:&lt;/p&gt;
 &lt;h1 id="_1"&gt;混合高斯均值方差证明&lt;/h1&gt;
-&lt;p&gt;令$p(x)=\sum_{j=1}^n p_jN(x;\bar{x}_j,C_j)$,则有:
-则有:&lt;/p&gt;
+&lt;p&gt;令$p(x)=\sum_{j=1}^n p_jN(x;\bar{x}_j,C_j)$,则有:&lt;/p&gt;
 &lt;h2 id="mean-of-the-mixture"&gt;Mean of the mixture&lt;/h2&gt;
 &lt;p&gt;\begin{equation}
 \begin{split}
 E[x] &amp;amp; = \bar{x} \\
-&amp;amp;= \int_{-\infty}^{\infty} xp(x) dx \\
-&amp;amp;= \int_{-\infty}{-\infty}^{\infty} x\sum_{j=1}^n p_jN(x;\bar{x}&lt;em&gt;j,C_j) dx \\
-&amp;amp;= \sum&lt;/em&gt;{j=1}^n p_j \int_{-\infty}^{\infty} x N(x;\bar{x}&lt;em&gt;j,C_j) dx \\
+&amp;amp;=\int_{-\infty}^{\infty}xp(x)dx\\
+&amp;amp;=\int_{-\infty}{-\infty}^{\infty} x\sum_{j=1}^n p_jN(x;\bar{x}&lt;em&gt;j,C_j) dx \\
+&amp;amp;=\sum&lt;/em&gt;{j=1}^n p_j\int_{-\infty}^{\infty} x N(x;\bar{x}&lt;em&gt;j,C_j) dx \\
 &amp;amp;= \sum&lt;/em&gt;{j=1}^n p_j \bar{x}_j
 \end{split}
 \end{equation}&lt;/p&gt;
